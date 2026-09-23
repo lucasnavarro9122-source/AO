@@ -1,0 +1,12 @@
+using System;
+using System.IO;
+using UnityEditor;
+using UnityEngine;
+
+public static class AOMagicV120Verifier
+{
+    const string Diagnostic="Assets/AOMigrator/magic_v120_diagnostic.json";
+    [Serializable] class Report{public string version="0.12.0-alpha";public string unity;public bool success;public string message;public bool playerFound;public bool rpgFound;public bool combatFound;public bool magicFound;public bool statusFound;public int definedSpells;public int declaredSpellSlots;public int testSupported;public int textures;public int audioFiles;}
+    [MenuItem("AO Migrador/Verificar magia v0.12")]
+    public static void Verify(){Report r=new Report();try{r.unity=Application.unityVersion;AOTestPlayer p=UnityEngine.Object.FindFirstObjectByType<AOTestPlayer>();r.playerFound=p!=null;r.rpgFound=p!=null&&p.GetComponent<AOPlayerRPGV11>()!=null;r.combatFound=p!=null&&p.GetComponent<AOPlayerCombatV09>()!=null;r.magicFound=p!=null&&p.GetComponent<AOPlayerMagicV120>()!=null;r.statusFound=p!=null&&p.GetComponent<AOPlayerMagicStatusV120>()!=null;r.definedSpells=AOSpellDatabaseV120.Count;r.declaredSpellSlots=AOSpellDatabaseV120.DeclaredSlots;int[] tests={1,6,12,21,22,24,25,26,27,42,208};foreach(int id in tests){var s=AOSpellDatabaseV120.Get(id);if(s!=null&&s.supportedLocal)r.testSupported++;}string tp="Assets/Resources/AOMigrator/MagicV120/Textures";r.textures=Directory.Exists(tp)?Directory.GetFiles(tp,"tex_*.png",SearchOption.TopDirectoryOnly).Length:0;string ap="Assets/Resources/AOMigrator/MagicV120/Audio";r.audioFiles=Directory.Exists(ap)?Directory.GetFiles(ap,"wav_*.wav",SearchOption.TopDirectoryOnly).Length:0;r.success=r.playerFound&&r.rpgFound&&r.combatFound&&r.magicFound&&r.statusFound&&r.definedSpells>100&&r.testSupported>=10&&r.textures>0;r.message="Player="+r.playerFound+" RPG="+r.rpgFound+" Combat="+r.combatFound+" Magic="+r.magicFound+" Status="+r.statusFound+"\nSpells="+r.definedSpells+"/"+r.declaredSpellSlots+" TestOK="+r.testSupported+" Texturas="+r.textures+" Audio="+r.audioFiles;File.WriteAllText(Diagnostic,JsonUtility.ToJson(r,true));AssetDatabase.Refresh();EditorUtility.DisplayDialog("AO Magic v0.12",(r.success?"OK\n\n":"Hay algo para revisar\n\n")+r.message+"\n\nEn Play: F12, HECHIZOS, Dardo Mágico y click NPC.","OK");}catch(Exception e){r.success=false;r.message=e.ToString();File.WriteAllText(Diagnostic,JsonUtility.ToJson(r,true));AssetDatabase.Refresh();Debug.LogError("AO v0.12 verifier: "+e);}}
+}

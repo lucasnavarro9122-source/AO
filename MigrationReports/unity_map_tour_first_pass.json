@@ -1,0 +1,6746 @@
+{
+    "utc": "2026-09-23T18:24:51.7221927Z",
+    "scene": "AO_Ciudad_de_Ullathorpe_Playable",
+    "expected": 842,
+    "visited": 842,
+    "failed": 12,
+    "fatalError": "",
+    "maps": [
+        {
+            "map": 1,
+            "name": "Ciudad de Ullathorpe",
+            "loadMs": 119.61000000000002,
+            "error": "Exception: Camera.main missing",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 2,
+            "name": "Bosque sur de Ullathorpe",
+            "loadMs": 176.02570000000004,
+            "error": "Exception: Camera.main missing",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 3,
+            "name": "Bosque",
+            "loadMs": 228.95040000000004,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 4,
+            "name": "Cementerio de Nix",
+            "loadMs": 249.77620000000003,
+            "error": "Exception: Camera.main missing",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 5,
+            "name": "Bosque norte de Ullathorpe",
+            "loadMs": 116.95299999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 6,
+            "name": "Bosque",
+            "loadMs": 135.2574,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 7,
+            "name": "Bosque norte de Ullathorpe",
+            "loadMs": 104.43769999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 8,
+            "name": "Bosque oeste de Ullathorpe",
+            "loadMs": 118.2181,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 9,
+            "name": "Bosque oeste de Ullathorpe",
+            "loadMs": 118.7963,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 10,
+            "name": "Costas Oeste",
+            "loadMs": 101.8508,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 11,
+            "name": "Este de Ullathorpe",
+            "loadMs": 187.69629999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 12,
+            "name": "Bosque Este de Ullathorpe",
+            "loadMs": 141.688,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 13,
+            "name": "Bosque Este de Ullathorpe",
+            "loadMs": 240.7597,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 14,
+            "name": "Bosque sureste de Ullathorpe",
+            "loadMs": 124.99449999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 15,
+            "name": "Desierto",
+            "loadMs": 185.2053,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 16,
+            "name": "Desierto",
+            "loadMs": 154.72869999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 17,
+            "name": "Aldea de Kamal",
+            "loadMs": 199.39549999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 18,
+            "name": "Bosque sureste de Ullathorpe",
+            "loadMs": 112.5078,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 19,
+            "name": "Bosque sureste de Ullathorpe",
+            "loadMs": 105.48769999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 20,
+            "name": "Desierto",
+            "loadMs": 136.5656,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 21,
+            "name": "Desierto",
+            "loadMs": 147.34579999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 22,
+            "name": "Bosque",
+            "loadMs": 150.3617,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 23,
+            "name": "Bosque",
+            "loadMs": 109.65740000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 24,
+            "name": "Camino Peligroso",
+            "loadMs": 125.1014,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 25,
+            "name": "Cienaga de las Cobras",
+            "loadMs": 151.9837,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 26,
+            "name": "Bosque Cienaga de las cobras",
+            "loadMs": 110.3315,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 27,
+            "name": "Bosque",
+            "loadMs": 107.76029999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 28,
+            "name": "Bosque",
+            "loadMs": 115.1348,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 29,
+            "name": "Bosque",
+            "loadMs": 123.2349,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 30,
+            "name": "Bosque al sureste de Nix",
+            "loadMs": 205.11280000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 31,
+            "name": "Bahia sureste de Nix",
+            "loadMs": 130.18470000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 32,
+            "name": "Terrenos de Nix",
+            "loadMs": 152.3768,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 33,
+            "name": "Minas de Hierro",
+            "loadMs": 124.632,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 34,
+            "name": "Ciudad de Nix",
+            "loadMs": 298.43620000000006,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 35,
+            "name": "Bosque al norte de Nix",
+            "loadMs": 160.32330000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 36,
+            "name": "Fuerte de Dorck",
+            "loadMs": 172.4654,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 37,
+            "name": "Newbie Dungeon",
+            "loadMs": 160.7796,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 38,
+            "name": "Bosque Dorck",
+            "loadMs": 140.7187,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 39,
+            "name": "Bosque Dorck",
+            "loadMs": 138.89350000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 40,
+            "name": "Catacumbas Ullathorpe",
+            "loadMs": 70.18579999999999,
+            "error": "Exception: Camera.main missing",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 41,
+            "name": "Interconexion Catacumbas",
+            "loadMs": 30.4239,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 42,
+            "name": "Interconexion Catacumbas",
+            "loadMs": 35.2932,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 43,
+            "name": "Interconexion catacumbas",
+            "loadMs": 32.783100000000008,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 44,
+            "name": "Interconexion Catacumbas",
+            "loadMs": 31.330899999999997,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 45,
+            "name": "Catacumbas Nix",
+            "loadMs": 36.2948,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 46,
+            "name": "Bosque de Dorck",
+            "loadMs": 95.0874,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 47,
+            "name": "Mar del Norte",
+            "loadMs": 92.5016,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 48,
+            "name": "Deadly Room",
+            "loadMs": 110.46459999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 49,
+            "name": "Mapa de GMs.",
+            "loadMs": 102.94200000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 50,
+            "name": "Minas de Plata",
+            "loadMs": 71.8389,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 51,
+            "name": "Paso hacia las profundidades",
+            "loadMs": 85.5068,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 52,
+            "name": "Profundidades de las Minas",
+            "loadMs": 59.355,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 53,
+            "name": "Bosque al norte de Ullathorpe",
+            "loadMs": 92.1074,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 54,
+            "name": "Bosque al sur de Banderbill",
+            "loadMs": 100.82589999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 55,
+            "name": "Bosque al sur de Banderbill",
+            "loadMs": 135.3099,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 56,
+            "name": "Bosque al sur de Banderbill",
+            "loadMs": 108.39880000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 57,
+            "name": "Bosque al sur de Banderbill.",
+            "loadMs": 101.2472,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 58,
+            "name": "Suburbios de Banderbill",
+            "loadMs": 272.02500000000005,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 59,
+            "name": "Ciudad de Banderbill",
+            "loadMs": 422.62809999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 60,
+            "name": "Ciudad de Banderbill",
+            "loadMs": 225.90150000000004,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 61,
+            "name": "Muelle de Banderbill",
+            "loadMs": 237.44809999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 62,
+            "name": "Ciudad de Lindos",
+            "loadMs": 345.24549999999995,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 63,
+            "name": "Bahia de Lindos",
+            "loadMs": 139.0185,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 64,
+            "name": "Ciudad de Lindos",
+            "loadMs": 190.69859999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 65,
+            "name": "Suburbios de Banderbill",
+            "loadMs": 146.3102,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 66,
+            "name": "Carcel de Banderbill",
+            "loadMs": 161.95580000000005,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 67,
+            "name": "Bosque al sur Banderbill",
+            "loadMs": 109.83259999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 68,
+            "name": "Bosque al sur Banderbill.",
+            "loadMs": 142.0243,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 69,
+            "name": "Bosque al sur Banderbill",
+            "loadMs": 96.07970000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 70,
+            "name": "Bosque Central",
+            "loadMs": 131.2522,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 71,
+            "name": "Bosques centrales",
+            "loadMs": 169.7315,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 72,
+            "name": "Bosque",
+            "loadMs": 110.40499999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 73,
+            "name": "Bosque",
+            "loadMs": 143.9241,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 74,
+            "name": "Bosque noroeste de Ullathorpe",
+            "loadMs": 127.1792,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 75,
+            "name": "Cercanías de Pantano",
+            "loadMs": 234.55530000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 76,
+            "name": "Entrada Dungeon Marabel",
+            "loadMs": 238.29279999999995,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 77,
+            "name": "Bosque",
+            "loadMs": 93.2911,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 78,
+            "name": "Costas de nix",
+            "loadMs": 131.65259999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 79,
+            "name": "Mar al suroeste de Nix",
+            "loadMs": 126.2056,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 80,
+            "name": "Mar al noroeste de Nix",
+            "loadMs": 92.98830000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 81,
+            "name": "Bosque noreste de Ullathorpe",
+            "loadMs": 165.1079,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 82,
+            "name": "Bosque",
+            "loadMs": 154.42319999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 83,
+            "name": "Bosque",
+            "loadMs": 133.02550000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 84,
+            "name": "Playas del Golfo",
+            "loadMs": 126.6515,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 85,
+            "name": "Playas del Golfo",
+            "loadMs": 112.31790000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 86,
+            "name": "Bosque Central",
+            "loadMs": 139.80349999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 87,
+            "name": "Mar sur de Nix",
+            "loadMs": 98.85919999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 88,
+            "name": "Mar sur de Nix",
+            "loadMs": 90.5179,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 89,
+            "name": "Mar sur de Nix",
+            "loadMs": 101.091,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 90,
+            "name": "Oeste de Arkhein",
+            "loadMs": 164.5087,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 91,
+            "name": "Bosque",
+            "loadMs": 209.1335,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 92,
+            "name": "Costas de Arkhein",
+            "loadMs": 182.35760000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 93,
+            "name": "Zona Norte de Arkhein",
+            "loadMs": 165.7153,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 94,
+            "name": "Bosque",
+            "loadMs": 114.4729,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 95,
+            "name": "Mar sureño",
+            "loadMs": 94.35780000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 96,
+            "name": "Alta Mar",
+            "loadMs": 109.03300000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 97,
+            "name": "Costas Deserticas",
+            "loadMs": 102.38789999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 98,
+            "name": "Desierto",
+            "loadMs": 123.74619999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 99,
+            "name": "Mar al sur del desierto.",
+            "loadMs": 103.73679999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 100,
+            "name": "Isla Usurpada",
+            "loadMs": 158.76649999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 101,
+            "name": "Desierto",
+            "loadMs": 115.11399999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 102,
+            "name": "Mar sureste del desierto",
+            "loadMs": 88.8245,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 103,
+            "name": "Mar este del desierto.",
+            "loadMs": 106.5602,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 104,
+            "name": "Mar oeste de Lindos.",
+            "loadMs": 124.49419999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 105,
+            "name": "Mar oeste de Lindos.",
+            "loadMs": 101.6616,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 106,
+            "name": "Alta Mar",
+            "loadMs": 90.50450000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 107,
+            "name": "Alta Mar",
+            "loadMs": 93.5271,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 108,
+            "name": "Costas Heladas",
+            "loadMs": 166.3393,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 109,
+            "name": "Alta Mar",
+            "loadMs": 86.72429999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 110,
+            "name": "Isla Morgolock",
+            "loadMs": 271.98019999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 111,
+            "name": "Nueva Esperanza",
+            "loadMs": 324.19960000000005,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 112,
+            "name": "Pueblo de Nueva Esperanza",
+            "loadMs": 223.28209999999997,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 113,
+            "name": "Nueva Esperanza",
+            "loadMs": 150.5456,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 114,
+            "name": " Isla Nueva Esperanza",
+            "loadMs": 128.1194,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 115,
+            "name": "Dungeon Marabel.",
+            "loadMs": 101.9001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 116,
+            "name": "Dungeon Marabel.",
+            "loadMs": 84.2783,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 117,
+            "name": "Mar al oeste de Lindos.",
+            "loadMs": 80.0174,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 118,
+            "name": "Mar al oeste de Lindos",
+            "loadMs": 79.28779999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 119,
+            "name": "Laderas Heladas",
+            "loadMs": 133.68030000000003,
+            "error": "Exception: Camera.main missing",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 120,
+            "name": "Archipielagos ",
+            "loadMs": 92.7341,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 121,
+            "name": "Alta Mar",
+            "loadMs": 83.4753,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 122,
+            "name": "Mar del Norte",
+            "loadMs": 81.1759,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 123,
+            "name": "Alta Mar",
+            "loadMs": 108.81519999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 124,
+            "name": "Mar al este de Arghal",
+            "loadMs": 86.85839999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 125,
+            "name": "Mar Oriental.",
+            "loadMs": 91.2209,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 126,
+            "name": "Mar Oriental.",
+            "loadMs": 86.04930000000002,
+            "error": "Exception: Camera.main missing",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 127,
+            "name": "Mar Oriental.",
+            "loadMs": 82.19940000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 128,
+            "name": "Golfo Polar",
+            "loadMs": 104.82600000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 129,
+            "name": "Laderas Heladas",
+            "loadMs": 115.59789999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 130,
+            "name": "Mar del Norte",
+            "loadMs": 81.79999999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 131,
+            "name": "Mar del Norte",
+            "loadMs": 86.09349999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 132,
+            "name": "Mar del Norte",
+            "loadMs": 141.20190000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 133,
+            "name": "Isla del Averno",
+            "loadMs": 136.6227,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 134,
+            "name": "Mar del Norte",
+            "loadMs": 85.18469999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 135,
+            "name": "Mar del Norte",
+            "loadMs": 98.9255,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 136,
+            "name": "Mar del Norte",
+            "loadMs": 82.7022,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 137,
+            "name": "Mar del Norte",
+            "loadMs": 94.69550000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 138,
+            "name": "Aguas Heladas",
+            "loadMs": 98.06169999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 139,
+            "name": "Alta Mar",
+            "loadMs": 117.19309999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 140,
+            "name": " Entrada Dungeon Veriil",
+            "loadMs": 65.4012,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 141,
+            "name": " Dungeon Veriil",
+            "loadMs": 62.9505,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 142,
+            "name": " Dungeon Veriil.",
+            "loadMs": 67.9314,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 143,
+            "name": " Dungeon Veriil.",
+            "loadMs": 54.7999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 144,
+            "name": "Cercanías Minas de Oro",
+            "loadMs": 62.4246,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 145,
+            "name": " Minas Dungeon Veriil",
+            "loadMs": 54.3145,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 146,
+            "name": "Fuerte",
+            "loadMs": 39.450100000000009,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 147,
+            "name": "Mar este de Arghal",
+            "loadMs": 78.2776,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 148,
+            "name": "Mar este de Arghal",
+            "loadMs": 82.9605,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 149,
+            "name": "Mar Este de Arghal",
+            "loadMs": 130.99450000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 150,
+            "name": "Muelle de Arghal",
+            "loadMs": 139.03770000000004,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 151,
+            "name": "Ciudad de Arghal",
+            "loadMs": 237.6362,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 152,
+            "name": "Alta Mar",
+            "loadMs": 132.9447,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 153,
+            "name": "Alta Mar",
+            "loadMs": 88.02790000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 154,
+            "name": "Mar del Sur",
+            "loadMs": 94.58309999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 155,
+            "name": "Aguas profundas",
+            "loadMs": 86.5198,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 156,
+            "name": "Entrada de Arghal",
+            "loadMs": 156.833,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 157,
+            "name": "Casa del Árbol",
+            "loadMs": 213.98989999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 158,
+            "name": "Bosques este de Banderbill",
+            "loadMs": 153.5239,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 159,
+            "name": "Este de Banderbill",
+            "loadMs": 209.28360000000004,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 160,
+            "name": "Bosque este de Banderbill.",
+            "loadMs": 197.19899999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 161,
+            "name": "Entrada de Arghal",
+            "loadMs": 180.2022,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 162,
+            "name": "Guarida Abandonada",
+            "loadMs": 169.201,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 163,
+            "name": "Guarida Abandonada",
+            "loadMs": 108.78210000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 164,
+            "name": "Camino del Tesoro",
+            "loadMs": 118.0998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 165,
+            "name": "Camino del Tesoro",
+            "loadMs": 105.79170000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 166,
+            "name": "Mapa eventos",
+            "loadMs": 100.4661,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 167,
+            "name": "Dungeon Newbie Sur",
+            "loadMs": 96.94770000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 168,
+            "name": "Dungeon Newbie Central.",
+            "loadMs": 96.81149999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 169,
+            "name": "Minas de Plata",
+            "loadMs": 56.140699999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 170,
+            "name": "Mesón Hostigado",
+            "loadMs": 112.7156,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 171,
+            "name": "Ciudad Abandonada",
+            "loadMs": 199.01919999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 172,
+            "name": "Zona de Comercio",
+            "loadMs": 101.2291,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 173,
+            "name": "Guarida del Pantano",
+            "loadMs": 139.27479999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 174,
+            "name": "Drenaje",
+            "loadMs": 181.33689999999997,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 175,
+            "name": "Ducto de escape.",
+            "loadMs": 107.8167,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 176,
+            "name": "Ducto de escape.",
+            "loadMs": 117.1764,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 177,
+            "name": "Ducto de escape.",
+            "loadMs": 111.0841,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 178,
+            "name": "Ducto de escape.",
+            "loadMs": 87.04149999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 179,
+            "name": "Minas de Oro",
+            "loadMs": 78.19930000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 180,
+            "name": "Entrada Monte perdido",
+            "loadMs": 99.25120000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 181,
+            "name": "Mar del Sur",
+            "loadMs": 93.6362,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 182,
+            "name": "Mar del Sur",
+            "loadMs": 79.7238,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 183,
+            "name": "Mar del Sur",
+            "loadMs": 79.4008,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 184,
+            "name": "Peninsula del desembarco",
+            "loadMs": 595.8895000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 185,
+            "name": "Bosque Central",
+            "loadMs": 145.2267,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 186,
+            "name": "Bosque",
+            "loadMs": 110.24859999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 187,
+            "name": "Costas",
+            "loadMs": 96.3769,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 188,
+            "name": "Granja De Penthar",
+            "loadMs": 269.9448,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 189,
+            "name": "Entrada a Penthar",
+            "loadMs": 148.4568,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 190,
+            "name": "Costas",
+            "loadMs": 123.9907,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 191,
+            "name": "Bosque",
+            "loadMs": 117.60620000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 192,
+            "name": "Bosque de Tigres",
+            "loadMs": 123.15189999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 193,
+            "name": "Bosque de Huargos",
+            "loadMs": 87.45719999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 194,
+            "name": "Bosque de Tigres",
+            "loadMs": 136.2569,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 195,
+            "name": "Ciudad de Arkhein",
+            "loadMs": 181.0245,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 196,
+            "name": "Ciudad de Arkhein",
+            "loadMs": 189.4918,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 197,
+            "name": "Puerto de Arkhein",
+            "loadMs": 139.23270000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 198,
+            "name": "Barco intercontinental",
+            "loadMs": 112.6993,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 199,
+            "name": "Bosque Elfico",
+            "loadMs": 166.9034,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 200,
+            "name": "Laberinto escondido",
+            "loadMs": 138.3527,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 201,
+            "name": "Isla Pirata",
+            "loadMs": 142.3537,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 202,
+            "name": "Desierto",
+            "loadMs": 104.5508,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 203,
+            "name": "Desierto",
+            "loadMs": 100.3346,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 204,
+            "name": "Alta Mar",
+            "loadMs": 93.4966,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 205,
+            "name": "Alta Mar",
+            "loadMs": 92.548,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 206,
+            "name": "Isla Perdida",
+            "loadMs": 85.65069999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 207,
+            "name": "Alta Mar",
+            "loadMs": 81.4532,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 208,
+            "name": "Cueva de las Nagas",
+            "loadMs": 106.8878,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 209,
+            "name": "Mar del Sur",
+            "loadMs": 80.24239999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 210,
+            "name": "Archipielago de Nix",
+            "loadMs": 83.51219999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 211,
+            "name": "Archipielago de Nix",
+            "loadMs": 94.2597,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 212,
+            "name": "Archipielago de Nix",
+            "loadMs": 124.4785,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 213,
+            "name": "Archipielago de Nix",
+            "loadMs": 98.7727,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 214,
+            "name": "Archipielago de Nix",
+            "loadMs": 82.8722,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 215,
+            "name": "Archipielago de Nix",
+            "loadMs": 82.52439999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 216,
+            "name": "Mar del Sur",
+            "loadMs": 565.2616999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 217,
+            "name": "Mar del Sur",
+            "loadMs": 280.0041,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 218,
+            "name": "Costas de Arkhein",
+            "loadMs": 112.7177,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 219,
+            "name": "Costas de Arkhein",
+            "loadMs": 128.7918,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 220,
+            "name": "Costas de Arkhein",
+            "loadMs": 123.8131,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 221,
+            "name": "Costas de Arkhein",
+            "loadMs": 95.77910000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 222,
+            "name": "Mar del Sur",
+            "loadMs": 81.47269999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 223,
+            "name": "Costas de Arkhein",
+            "loadMs": 110.7436,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 224,
+            "name": "Isla Solitaria",
+            "loadMs": 158.7212,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 225,
+            "name": "Mar oeste de Nix",
+            "loadMs": 98.4903,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 226,
+            "name": "Mar oeste",
+            "loadMs": 109.2348,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 227,
+            "name": "Aguas poco Profundas",
+            "loadMs": 86.27720000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 228,
+            "name": "Pantano",
+            "loadMs": 95.43820000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 229,
+            "name": "Pantano",
+            "loadMs": 96.9508,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 230,
+            "name": "Pantano",
+            "loadMs": 82.76289999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 231,
+            "name": "Alta Mar",
+            "loadMs": 81.0957,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 232,
+            "name": "Pantano",
+            "loadMs": 90.35840000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 233,
+            "name": "Pantano",
+            "loadMs": 95.2638,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 234,
+            "name": "Pantano",
+            "loadMs": 83.26150000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 235,
+            "name": "Mar Occidental",
+            "loadMs": 77.65250000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 236,
+            "name": "Bosque Elfico",
+            "loadMs": 111.42,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 237,
+            "name": "Bosque Elfico",
+            "loadMs": 108.5876,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 238,
+            "name": "Bosque Elfico",
+            "loadMs": 98.20940000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 239,
+            "name": "Bosque Elfico",
+            "loadMs": 149.38469999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 240,
+            "name": "Mar Del Sur",
+            "loadMs": 118.08919999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 241,
+            "name": "Mar del Sur",
+            "loadMs": 80.0665,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 242,
+            "name": "Mar del Sur",
+            "loadMs": 80.97,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 243,
+            "name": "Costas al sur Banderbill",
+            "loadMs": 83.14599999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 244,
+            "name": "Peninsula de Arghal",
+            "loadMs": 102.9269,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 245,
+            "name": "Bosque de Tigres",
+            "loadMs": 88.589,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 246,
+            "name": "Cuidad de Arghal",
+            "loadMs": 89.60109999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 247,
+            "name": "Mar sur de Arghal",
+            "loadMs": 84.91800000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 248,
+            "name": "Mar Central",
+            "loadMs": 82.2349,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 249,
+            "name": "Mar Central",
+            "loadMs": 85.9838,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 250,
+            "name": "Mar Central",
+            "loadMs": 89.21719999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 251,
+            "name": "Mar Central",
+            "loadMs": 96.13650000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 252,
+            "name": "Mar Central",
+            "loadMs": 87.6046,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 253,
+            "name": "Mar Central",
+            "loadMs": 88.37310000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 254,
+            "name": "Puerto de Pescadores",
+            "loadMs": 114.3857,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 255,
+            "name": "Sendero del Puerto",
+            "loadMs": 102.2936,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 256,
+            "name": "Golfo",
+            "loadMs": 88.956,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 257,
+            "name": "Peninsula de Arghal",
+            "loadMs": 85.4945,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 258,
+            "name": "Mar de Leviatanes",
+            "loadMs": 100.73039999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 259,
+            "name": "Alta Mar",
+            "loadMs": 122.82629999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 260,
+            "name": "Mar sur",
+            "loadMs": 91.26000000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 261,
+            "name": "Alta Mar",
+            "loadMs": 90.56230000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 262,
+            "name": "Alta Mar",
+            "loadMs": 95.2956,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 263,
+            "name": "Alta Mar",
+            "loadMs": 94.5334,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 264,
+            "name": "Dungeon Newbie",
+            "loadMs": 122.0473,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 265,
+            "name": "Bosque de los Espiritus",
+            "loadMs": 163.74660000000004,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 266,
+            "name": "Ciudad de Ullathorpe",
+            "loadMs": 115.08659999999999,
+            "error": "Exception: Camera.main missing",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 267,
+            "name": "Bosque de Tigres",
+            "loadMs": 96.2555,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 268,
+            "name": "Alta Mar",
+            "loadMs": 92.05310000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 269,
+            "name": "Bosque Elfico",
+            "loadMs": 119.82610000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 270,
+            "name": "Ciudad de Eldoria",
+            "loadMs": 189.31199999999996,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 271,
+            "name": "Ciudad de Eldoria",
+            "loadMs": 89.96959999999997,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 272,
+            "name": "Arena de Clanes",
+            "loadMs": 98.94489999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 273,
+            "name": "Arena de Clanes",
+            "loadMs": 100.2322,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 274,
+            "name": "Bosque Elfico",
+            "loadMs": 101.78120000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 275,
+            "name": "Bosque",
+            "loadMs": 136.19590000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 276,
+            "name": "Bosque de Tigres",
+            "loadMs": 132.48760000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 277,
+            "name": "Bosque de Tigres",
+            "loadMs": 118.31870000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 278,
+            "name": "Bosque de Tigres",
+            "loadMs": 92.1425,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 279,
+            "name": "Conquista Pirata",
+            "loadMs": 148.1612,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 280,
+            "name": "Bodega Pirata",
+            "loadMs": 148.81150000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 281,
+            "name": "Caverna del Dragón",
+            "loadMs": 101.0739,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 282,
+            "name": "Isla Otto",
+            "loadMs": 82.85569999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 283,
+            "name": "Entrada Ruinas de Earost",
+            "loadMs": 82.363,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 284,
+            "name": "Escondrijo Ruinas de Earost",
+            "loadMs": 92.9792,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 285,
+            "name": "Kraken Ruinas de Earost",
+            "loadMs": 93.8041,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 286,
+            "name": "Templo Oscuro",
+            "loadMs": 97.1536,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 287,
+            "name": "Bosque Elfico",
+            "loadMs": 84.3648,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 288,
+            "name": "Mar Del Sur",
+            "loadMs": 78.2603,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 289,
+            "name": "Mar del Sur",
+            "loadMs": 75.64800000000003,
+            "error": "Exception: Camera.main missing",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 290,
+            "name": "Mar Nordico",
+            "loadMs": 83.82230000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 291,
+            "name": "Catacumbas Lvl2",
+            "loadMs": 134.5873,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 292,
+            "name": "Catacumbas Lvl2",
+            "loadMs": 134.1182,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 293,
+            "name": "Catacumbas Lvl2",
+            "loadMs": 101.47260000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 294,
+            "name": "Palacio",
+            "loadMs": 120.6322,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 295,
+            "name": "Palacio",
+            "loadMs": 107.85779999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 296,
+            "name": "2do Piso",
+            "loadMs": 125.71040000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 297,
+            "name": "Isla del Oraculo",
+            "loadMs": 111.04520000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 298,
+            "name": "Mar del Norte",
+            "loadMs": 81.34909999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 299,
+            "name": "Costas de Esperanza",
+            "loadMs": 112.9892,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 300,
+            "name": "Sin Datos",
+            "loadMs": 143.3431,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 301,
+            "name": "Camino al Averno",
+            "loadMs": 147.4372,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 302,
+            "name": "Averno Ancestral",
+            "loadMs": 110.55639999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 303,
+            "name": "Cueva de las Nagas",
+            "loadMs": 124.00249999999997,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 304,
+            "name": "Cueva de las Nagas",
+            "loadMs": 101.37799999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 305,
+            "name": "Cueva de las Nagas",
+            "loadMs": 108.4195,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 306,
+            "name": "Gruta del Yeti",
+            "loadMs": 240.32789999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 307,
+            "name": "Refugio de Eztbron Vientogélido",
+            "loadMs": 220.85129999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 308,
+            "name": "Paso del Digno",
+            "loadMs": 277.07020000000008,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 309,
+            "name": "Interior de la cueva",
+            "loadMs": 276.58020000000007,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 310,
+            "name": "Caverna Helada",
+            "loadMs": 197.44599999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 311,
+            "name": "Cueva de las Gorgonas",
+            "loadMs": 113.9007,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 312,
+            "name": "Ala Derecha",
+            "loadMs": 92.3363,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 313,
+            "name": "Ala Izquierda",
+            "loadMs": 84.65310000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 314,
+            "name": "Limbo de los Justos",
+            "loadMs": 105.10350000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 315,
+            "name": "Fortaleza Medusa Reina",
+            "loadMs": 142.8998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 316,
+            "name": "Sotano",
+            "loadMs": 196.06099999999996,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 317,
+            "name": "Camino a Nivel Tres",
+            "loadMs": 118.64220000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 318,
+            "name": "Sótano DEMO",
+            "loadMs": 128.6145,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 319,
+            "name": "Iglesia de Banderbill",
+            "loadMs": 171.84939999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 320,
+            "name": "Jardin de Hildorien",
+            "loadMs": 378.37230000000007,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 321,
+            "name": "Drenaje",
+            "loadMs": 139.8969,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 322,
+            "name": " Teatro \"El Juglar\"",
+            "loadMs": 140.6111,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 323,
+            "name": "Nido Aracnido Boss",
+            "loadMs": 107.17349999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 324,
+            "name": "Zona de Ring",
+            "loadMs": 124.83000000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 325,
+            "name": "Drenaje",
+            "loadMs": 101.42049999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 326,
+            "name": "Laberinto escondido",
+            "loadMs": 99.911,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 327,
+            "name": "Drenaje",
+            "loadMs": 89.0792,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 328,
+            "name": "Drenaje",
+            "loadMs": 100.88770000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 329,
+            "name": "Drenaje",
+            "loadMs": 110.11940000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 330,
+            "name": "Ciudad de Eldoria",
+            "loadMs": 112.20409999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 331,
+            "name": "Drenaje",
+            "loadMs": 84.4954,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 332,
+            "name": "Drenaje",
+            "loadMs": 111.078,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 333,
+            "name": "Drenaje",
+            "loadMs": 95.69910000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 334,
+            "name": "Drenaje",
+            "loadMs": 107.53680000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 335,
+            "name": "Drenaje",
+            "loadMs": 99.3291,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 336,
+            "name": "Drenaje",
+            "loadMs": 91.0249,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 337,
+            "name": "Drenaje",
+            "loadMs": 81.28269999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 338,
+            "name": "Costas del Norte",
+            "loadMs": 151.31580000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 339,
+            "name": "Costas del Norte",
+            "loadMs": 164.80559999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 340,
+            "name": "Mar del Norte",
+            "loadMs": 134.99859999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 341,
+            "name": "Oeste Banderbill",
+            "loadMs": 128.19760000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 342,
+            "name": "Oeste de Banderbill",
+            "loadMs": 144.4497,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 343,
+            "name": "Costas Elficas",
+            "loadMs": 150.8727,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 344,
+            "name": "Bosque Elfico",
+            "loadMs": 150.34810000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 345,
+            "name": "Costas Del Norte",
+            "loadMs": 166.7673,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 346,
+            "name": "Bosque Este de la ciudad",
+            "loadMs": 133.93470000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 347,
+            "name": "Bosque al sur Banderbill.",
+            "loadMs": 89.68129999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 348,
+            "name": "Costas heladas",
+            "loadMs": 96.26180000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 349,
+            "name": "Laderas Heladas",
+            "loadMs": 130.2454,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 350,
+            "name": "Costas heladas",
+            "loadMs": 94.1247,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 351,
+            "name": "Laderas Heladas",
+            "loadMs": 124.8669,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 352,
+            "name": "Costas Heladas",
+            "loadMs": 105.00389999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 353,
+            "name": "Costas Heladas",
+            "loadMs": 141.2444,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 354,
+            "name": "Eleusis",
+            "loadMs": 215.1503,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 355,
+            "name": "Laderas Heladas",
+            "loadMs": 119.67899999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 356,
+            "name": "Laderas Heladas ",
+            "loadMs": 90.9729,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 357,
+            "name": "Costas Heladas",
+            "loadMs": 83.18249999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 358,
+            "name": "Costas Heladas",
+            "loadMs": 84.49380000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 359,
+            "name": "Costas Heladas",
+            "loadMs": 99.84619999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 360,
+            "name": "Costas Heladas",
+            "loadMs": 91.37370000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 361,
+            "name": "Caminos helados",
+            "loadMs": 114.9295,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 362,
+            "name": "Mar del Norte",
+            "loadMs": 101.7573,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 363,
+            "name": "Aguas Profundas",
+            "loadMs": 89.51760000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 364,
+            "name": "Mar del Sur",
+            "loadMs": 92.05850000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 365,
+            "name": "Magma Dugeon",
+            "loadMs": 90.8191,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 366,
+            "name": "Magma Dungeon",
+            "loadMs": 116.6387,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 367,
+            "name": "Magma Dungeon",
+            "loadMs": 100.9729,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 368,
+            "name": "Magma Dungeon",
+            "loadMs": 119.35510000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 369,
+            "name": "Montaña Enana",
+            "loadMs": 117.4567,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 370,
+            "name": "Montaña Enana",
+            "loadMs": 104.8019,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 371,
+            "name": "Montaña Enana",
+            "loadMs": 108.2058,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 372,
+            "name": "Zona de Ring",
+            "loadMs": 86.76910000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 373,
+            "name": "Mar del Sur",
+            "loadMs": 82.93639999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 374,
+            "name": "Mar del Sur",
+            "loadMs": 86.59019999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 375,
+            "name": "Mar del Sur",
+            "loadMs": 78.9592,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 376,
+            "name": "Drenaje",
+            "loadMs": 93.31169999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 377,
+            "name": "Dungeon Dragon",
+            "loadMs": 188.5913,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 378,
+            "name": "Mar del Sur",
+            "loadMs": 84.4656,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 379,
+            "name": "Mar del Sur",
+            "loadMs": 80.41739999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 380,
+            "name": "Mar del Sur",
+            "loadMs": 85.86840000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 381,
+            "name": "Mar del Sur",
+            "loadMs": 83.35789999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 382,
+            "name": "Drenaje",
+            "loadMs": 70.30810000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 383,
+            "name": "Profundidad de la Montaña",
+            "loadMs": 146.2431,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 384,
+            "name": "Drenaje",
+            "loadMs": 135.6239,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 385,
+            "name": "Oceano corrupto",
+            "loadMs": 118.31860000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 386,
+            "name": "Oceano Abierto",
+            "loadMs": 96.26719999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 387,
+            "name": "Oceano Abierto",
+            "loadMs": 83.87249999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 388,
+            "name": "Drenaje",
+            "loadMs": 86.26769999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 389,
+            "name": "Zona de Ring",
+            "loadMs": 82.597,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 390,
+            "name": "Zona de Ring",
+            "loadMs": 83.86470000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 391,
+            "name": "Dungeon Dragon",
+            "loadMs": 168.5385,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 392,
+            "name": "Mausoleo",
+            "loadMs": 160.66109999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 393,
+            "name": "Sotano Iglesia",
+            "loadMs": 76.2956,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 394,
+            "name": "Cueva Frogiana",
+            "loadMs": 195.53299999999997,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 395,
+            "name": "Catacumba Residencial I",
+            "loadMs": 139.80560000000004,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 396,
+            "name": "Catacumba Residencial II",
+            "loadMs": 109.4679,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 397,
+            "name": "Catacumba Residencial III",
+            "loadMs": 113.59209999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 398,
+            "name": "Catacumba Residencial IV",
+            "loadMs": 110.93169999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 399,
+            "name": "Isla de la Fortuna",
+            "loadMs": 112.76310000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 400,
+            "name": "Mar Nordico",
+            "loadMs": 115.2498,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 401,
+            "name": "Isla Veleta",
+            "loadMs": 86.6312,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 402,
+            "name": "Mar del Norte",
+            "loadMs": 78.633,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 403,
+            "name": "Mar del Norte",
+            "loadMs": 78.37570000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 404,
+            "name": "Mar del Norte",
+            "loadMs": 78.4849,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 405,
+            "name": "Mar del Norte",
+            "loadMs": 1173.5641999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 406,
+            "name": "Mar del Norte",
+            "loadMs": 576.8565000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 407,
+            "name": "Mar del Norte",
+            "loadMs": 393.72689999999996,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 408,
+            "name": "Mar del Norte",
+            "loadMs": 446.48130000000005,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 409,
+            "name": "Mar del Norte",
+            "loadMs": 330.9924,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 410,
+            "name": "Mar del Norte",
+            "loadMs": 291.63489999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 411,
+            "name": "Mar del Norte",
+            "loadMs": 97.88299999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 412,
+            "name": "Mar del Norte",
+            "loadMs": 105.3176,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 413,
+            "name": "Mar del Norte",
+            "loadMs": 106.39829999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 414,
+            "name": "Mar del Norte",
+            "loadMs": 86.5195,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 415,
+            "name": "Mar del Norte",
+            "loadMs": 109.87769999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 416,
+            "name": "Mar del Norte",
+            "loadMs": 91.90610000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 417,
+            "name": "Mar del Norte",
+            "loadMs": 104.47370000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 418,
+            "name": "Mar del Norte",
+            "loadMs": 99.7377,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 419,
+            "name": "Mar del Norte",
+            "loadMs": 126.42509999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 420,
+            "name": "Mar del Norte",
+            "loadMs": 122.5864,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 421,
+            "name": "Mar del Norte",
+            "loadMs": 133.25520000000007,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 422,
+            "name": "Mar del Norte",
+            "loadMs": 181.83550000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 423,
+            "name": "Mar del Norte",
+            "loadMs": 82.53710000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 424,
+            "name": "Mar del Norte",
+            "loadMs": 89.14389999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 425,
+            "name": "Mar del Norte",
+            "loadMs": 98.0087,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 426,
+            "name": "Ciudad de Arghal",
+            "loadMs": 101.26650000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 427,
+            "name": "Peninsula de Arghal",
+            "loadMs": 89.95570000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 428,
+            "name": "Mar del Norte",
+            "loadMs": 115.708,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 429,
+            "name": "Mar del Norte",
+            "loadMs": 108.8122,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 430,
+            "name": "Mar del Norte",
+            "loadMs": 82.94959999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 431,
+            "name": "Mar del Norte",
+            "loadMs": 91.4838,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 432,
+            "name": "Mar del Norte",
+            "loadMs": 96.47109999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 433,
+            "name": "Mar del Norte",
+            "loadMs": 100.6692,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 434,
+            "name": "Isla Pitonisa",
+            "loadMs": 92.60569999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 435,
+            "name": "Mar del Norte",
+            "loadMs": 89.39490000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 436,
+            "name": "Mar del Norte",
+            "loadMs": 78.76689999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 437,
+            "name": "Bosque Elfico",
+            "loadMs": 104.0552,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 438,
+            "name": "Mar del Norte",
+            "loadMs": 90.6514,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 439,
+            "name": "Mar del Norte",
+            "loadMs": 87.6511,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 440,
+            "name": "Mar del Norte",
+            "loadMs": 93.4518,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 441,
+            "name": "Mar del Norte",
+            "loadMs": 89.0734,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 442,
+            "name": "Mar del Norte",
+            "loadMs": 85.16349999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 443,
+            "name": "Mar del Norte",
+            "loadMs": 85.8566,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 444,
+            "name": "Bosque Elfico",
+            "loadMs": 86.1731,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 445,
+            "name": "Mar del Norte",
+            "loadMs": 84.82100000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 446,
+            "name": "Mar del Norte",
+            "loadMs": 83.01200000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 447,
+            "name": "Mar del Norte",
+            "loadMs": 88.7946,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 448,
+            "name": "Mar del Norte",
+            "loadMs": 89.31899999999999,
+            "error": "Exception: Camera.main missing",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 449,
+            "name": "Alta Mar",
+            "loadMs": 122.6941,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 450,
+            "name": "Mar Abierto",
+            "loadMs": 101.1453,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 451,
+            "name": "Mar del Norte",
+            "loadMs": 101.13859999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 452,
+            "name": "Mardel Norte",
+            "loadMs": 113.57449999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 453,
+            "name": "Isla de Dungeon Veril",
+            "loadMs": 121.6512,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 454,
+            "name": "Mar del Norte",
+            "loadMs": 95.91940000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 455,
+            "name": "Mar del Norte",
+            "loadMs": 98.96489999999997,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 456,
+            "name": "Alta Mar",
+            "loadMs": 84.50760000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 457,
+            "name": "Isla Nagas",
+            "loadMs": 96.2638,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 458,
+            "name": "Alta Mar",
+            "loadMs": 105.1914,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 459,
+            "name": "Alta Mar",
+            "loadMs": 89.3418,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 460,
+            "name": "Mar del Norte",
+            "loadMs": 84.58970000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 461,
+            "name": "Alta Mar",
+            "loadMs": 84.6191,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 462,
+            "name": "Mar del Norte",
+            "loadMs": 86.5358,
+            "error": "Exception: Camera.main missing",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 463,
+            "name": "Alta Mar",
+            "loadMs": 83.3572,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 464,
+            "name": "Alta Mar",
+            "loadMs": 84.9736,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 465,
+            "name": "Alta Mar",
+            "loadMs": 90.4136,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 466,
+            "name": "Alta Mar",
+            "loadMs": 81.30350000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 467,
+            "name": "Alta Mar",
+            "loadMs": 89.80130000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 468,
+            "name": "Alta Mar",
+            "loadMs": 91.6185,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 469,
+            "name": "Mar central",
+            "loadMs": 96.54629999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 470,
+            "name": "Alta Mar",
+            "loadMs": 86.8818,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 471,
+            "name": "Alta Mar",
+            "loadMs": 82.07440000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 472,
+            "name": "Alta Mar",
+            "loadMs": 84.75840000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 473,
+            "name": "Alta Mar",
+            "loadMs": 83.6005,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 474,
+            "name": "Alta Mar",
+            "loadMs": 88.0993,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 475,
+            "name": "Alta Mar",
+            "loadMs": 92.9342,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 476,
+            "name": "Mar del Oeste",
+            "loadMs": 104.07199999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 477,
+            "name": "Alta Mar",
+            "loadMs": 125.1912,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 478,
+            "name": "Alta Mar",
+            "loadMs": 107.96549999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 479,
+            "name": "Alta Mar",
+            "loadMs": 102.3527,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 480,
+            "name": "Alta Mar",
+            "loadMs": 104.7674,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 481,
+            "name": "Alta Mar",
+            "loadMs": 108.84169999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 482,
+            "name": "Alta Mar",
+            "loadMs": 102.146,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 483,
+            "name": "Alta Mar",
+            "loadMs": 109.0731,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 484,
+            "name": "Alta Mar",
+            "loadMs": 107.66749999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 485,
+            "name": "Alta Mar",
+            "loadMs": 118.97759999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 486,
+            "name": "Alta Mar",
+            "loadMs": 114.8649,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 487,
+            "name": "Alta Mar",
+            "loadMs": 122.04169999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 488,
+            "name": "Alta Mar",
+            "loadMs": 122.31389999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 489,
+            "name": "Alta Mar",
+            "loadMs": 130.21130000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 490,
+            "name": "Alta Mar",
+            "loadMs": 116.51150000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 491,
+            "name": "Alta Mar",
+            "loadMs": 121.30149999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 492,
+            "name": "Alta Mar",
+            "loadMs": 98.4491,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 493,
+            "name": "Alta Mar",
+            "loadMs": 99.1149,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 494,
+            "name": "Mar Nordico",
+            "loadMs": 88.27399999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 495,
+            "name": "Alta Mar",
+            "loadMs": 94.3012,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 496,
+            "name": "Mar del Norte",
+            "loadMs": 112.80840000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 497,
+            "name": "Alta Mar",
+            "loadMs": 103.76050000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 498,
+            "name": "Mar Nordico",
+            "loadMs": 93.61459999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 499,
+            "name": "Alta Mar",
+            "loadMs": 126.81520000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 500,
+            "name": "Mares del Norte",
+            "loadMs": 96.312,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 501,
+            "name": "Alta Mar",
+            "loadMs": 88.4071,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 502,
+            "name": "Alta Mar",
+            "loadMs": 86.79439999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 503,
+            "name": "Alta Mar",
+            "loadMs": 92.97200000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 504,
+            "name": "alta Mar",
+            "loadMs": 90.07789999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 505,
+            "name": "Alta Mar",
+            "loadMs": 90.34409999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 506,
+            "name": "Alta Mar",
+            "loadMs": 86.9479,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 507,
+            "name": "Alta Mar",
+            "loadMs": 105.17509999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 508,
+            "name": "Alta Mar",
+            "loadMs": 102.57869999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 509,
+            "name": "Alta Mar",
+            "loadMs": 92.8647,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 510,
+            "name": "Alta Mar",
+            "loadMs": 92.23329999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 511,
+            "name": "Embarque",
+            "loadMs": 156.26790000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 512,
+            "name": "Alta Mar",
+            "loadMs": 87.2711,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 513,
+            "name": "Alta Mar",
+            "loadMs": 88.1476,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 514,
+            "name": "Alta Mar",
+            "loadMs": 85.90079999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 515,
+            "name": "Alta Mar",
+            "loadMs": 84.55829999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 516,
+            "name": "Alta Mar",
+            "loadMs": 79.45779999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 517,
+            "name": "Alta Mar",
+            "loadMs": 81.9811,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 518,
+            "name": "Alta Mar",
+            "loadMs": 87.93150000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 519,
+            "name": "Alta Mar",
+            "loadMs": 81.2637,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 520,
+            "name": "Mar del Sur",
+            "loadMs": 80.9933,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 521,
+            "name": "costas del sur",
+            "loadMs": 100.40300000000004,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 522,
+            "name": "Mar sureño",
+            "loadMs": 96.52190000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 523,
+            "name": "Mar del sur",
+            "loadMs": 83.15230000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 524,
+            "name": "Mar del Sur",
+            "loadMs": 89.3868,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 525,
+            "name": "Mar del Sur",
+            "loadMs": 84.2053,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 526,
+            "name": "Mar de Sur",
+            "loadMs": 81.21039999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 527,
+            "name": "Mar del Sur",
+            "loadMs": 83.5199,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 528,
+            "name": "Mar del Sur",
+            "loadMs": 89.1944,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 529,
+            "name": "Mar Nordico",
+            "loadMs": 86.93159999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 530,
+            "name": "Mar del Sur",
+            "loadMs": 90.54070000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 531,
+            "name": "Mar del Sur",
+            "loadMs": 87.73089999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 532,
+            "name": "Mar del Sur",
+            "loadMs": 88.70500000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 533,
+            "name": "Mar del Sur",
+            "loadMs": 82.984,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 534,
+            "name": "Mar Nordico",
+            "loadMs": 83.3587,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 535,
+            "name": "Mar Nordico",
+            "loadMs": 82.93280000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 536,
+            "name": "Mar del Sur",
+            "loadMs": 86.2908,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 537,
+            "name": "Mar del Sur",
+            "loadMs": 99.95410000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 538,
+            "name": "Mar del Sur",
+            "loadMs": 86.3888,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 539,
+            "name": "Mar Del Sur",
+            "loadMs": 79.18249999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 540,
+            "name": "Mar del Sur",
+            "loadMs": 84.29780000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 541,
+            "name": "Mar del Sur",
+            "loadMs": 85.8108,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 542,
+            "name": "Mar del Sur",
+            "loadMs": 90.4267,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 543,
+            "name": "Mar del Sur",
+            "loadMs": 84.2195,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 544,
+            "name": "Mar del Sur",
+            "loadMs": 112.33840000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 545,
+            "name": "Mar del Sur",
+            "loadMs": 80.70950000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 546,
+            "name": "Mar del Sur",
+            "loadMs": 78.8469,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 547,
+            "name": "Mar del Sur",
+            "loadMs": 77.74829999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 548,
+            "name": "Mar del Sur",
+            "loadMs": 76.88220000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 549,
+            "name": "Mar del Sur",
+            "loadMs": 77.77919999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 550,
+            "name": "Mar del Sur",
+            "loadMs": 79.31679999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 551,
+            "name": "Mar del Sur",
+            "loadMs": 76.60879999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 552,
+            "name": "Mar del Sur",
+            "loadMs": 79.36339999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 553,
+            "name": "Mar del Sur",
+            "loadMs": 77.9341,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 554,
+            "name": "Mar del Sur",
+            "loadMs": 78.20299999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 555,
+            "name": "Mar del Norte",
+            "loadMs": 81.637,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 556,
+            "name": "Mar del Norte",
+            "loadMs": 81.48799999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 557,
+            "name": "Mar del Norte",
+            "loadMs": 89.44719999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 558,
+            "name": "Penthar",
+            "loadMs": 145.26080000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 559,
+            "name": "Penthar",
+            "loadMs": 108.25780000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 560,
+            "name": "Penthar",
+            "loadMs": 111.11390000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 561,
+            "name": "Penthar",
+            "loadMs": 130.2469,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 562,
+            "name": "Entrada a Penthar",
+            "loadMs": 176.2916,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 563,
+            "name": "Pirámide",
+            "loadMs": 98.6716,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 564,
+            "name": "Pirámide",
+            "loadMs": 160.8763,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 565,
+            "name": "Pirámide",
+            "loadMs": 93.8514,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 566,
+            "name": "Pirámide",
+            "loadMs": 90.86880000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 567,
+            "name": "Pirámide",
+            "loadMs": 99.52289999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 568,
+            "name": "Pirámide",
+            "loadMs": 93.153,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 569,
+            "name": "Ciudad de Eldoria",
+            "loadMs": 99.19380000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 570,
+            "name": "Portal de Eldoria",
+            "loadMs": 145.84620000000005,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 571,
+            "name": "Prisión Gúl Belthor",
+            "loadMs": 147.29209999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 572,
+            "name": "Penthar",
+            "loadMs": 98.39370000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 573,
+            "name": "Bosque Elfico",
+            "loadMs": 112.2737,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 574,
+            "name": "Libre",
+            "loadMs": 136.56,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 575,
+            "name": "Libre",
+            "loadMs": 102.94470000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 576,
+            "name": "Cámara de Anubis",
+            "loadMs": 128.0134,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 577,
+            "name": "Minas de la Perdicion",
+            "loadMs": 129.19760000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 578,
+            "name": "Minas de la Perdición",
+            "loadMs": 106.70999999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 579,
+            "name": "Libre",
+            "loadMs": 91.76900000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 580,
+            "name": "Mar del Norte",
+            "loadMs": 115.1765,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 581,
+            "name": "Mar Nordico",
+            "loadMs": 84.5207,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 582,
+            "name": "Mar Nordico",
+            "loadMs": 84.67329999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 583,
+            "name": "Mar Nordico",
+            "loadMs": 126.64169999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 584,
+            "name": "Mar Nordico",
+            "loadMs": 113.32690000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 585,
+            "name": "Mar Nordico",
+            "loadMs": 93.26379999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 586,
+            "name": "Libre",
+            "loadMs": 89.7783,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 587,
+            "name": "Libre",
+            "loadMs": 85.70149999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 588,
+            "name": "Libre",
+            "loadMs": 84.6665,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 589,
+            "name": "Bosque de Tigres",
+            "loadMs": 84.0564,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 590,
+            "name": "Ciudad de Eldoria",
+            "loadMs": 131.6574,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 591,
+            "name": "Ciudad de Eldoria",
+            "loadMs": 180.83880000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 592,
+            "name": "Ciudad de Eldoria",
+            "loadMs": 140.0523,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 593,
+            "name": "Bosque de Tigres",
+            "loadMs": 92.17180000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 594,
+            "name": "Bosque de los Espiritus",
+            "loadMs": 102.49160000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 595,
+            "name": "Bosque de los Espiritus",
+            "loadMs": 87.71849999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 596,
+            "name": "Bosque de Tigres",
+            "loadMs": 105.7,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 597,
+            "name": "Alta Mar",
+            "loadMs": 95.62289999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 598,
+            "name": "Alta Mar",
+            "loadMs": 112.9233,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 599,
+            "name": "Libre",
+            "loadMs": 112.7018,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 600,
+            "name": "Libre",
+            "loadMs": 107.4353,
+            "error": "Exception: Camera.main missing",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 601,
+            "name": "Libre",
+            "loadMs": 100.7984,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 602,
+            "name": "Libre",
+            "loadMs": 96.7855,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 603,
+            "name": "Libre",
+            "loadMs": 104.1126,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 604,
+            "name": "Libre",
+            "loadMs": 100.33490000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 605,
+            "name": "Libre",
+            "loadMs": 137.11939999999997,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 606,
+            "name": "Libre",
+            "loadMs": 100.8885,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 607,
+            "name": "Libre",
+            "loadMs": 112.4976,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 608,
+            "name": "Libre",
+            "loadMs": 96.71399999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 609,
+            "name": "Libre",
+            "loadMs": 104.72099999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 610,
+            "name": "Libre",
+            "loadMs": 113.0806,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 611,
+            "name": "Libre",
+            "loadMs": 104.48259999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 612,
+            "name": "Libre",
+            "loadMs": 96.4401,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 613,
+            "name": "Libre",
+            "loadMs": 98.32480000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 614,
+            "name": "Libre",
+            "loadMs": 95.6276,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 615,
+            "name": "Libre",
+            "loadMs": 118.6582,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 616,
+            "name": "Libre",
+            "loadMs": 99.4836,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 617,
+            "name": "Libre",
+            "loadMs": 102.79719999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 618,
+            "name": "Libre",
+            "loadMs": 104.33709999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 619,
+            "name": "Libre",
+            "loadMs": 101.96479999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 620,
+            "name": "Libre",
+            "loadMs": 99.0044,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 621,
+            "name": "Libre",
+            "loadMs": 104.54240000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 622,
+            "name": "Libre",
+            "loadMs": 108.5998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 623,
+            "name": "Libre",
+            "loadMs": 135.69600000000004,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 624,
+            "name": "Libre",
+            "loadMs": 119.76889999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 625,
+            "name": "Libre",
+            "loadMs": 105.31099999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 626,
+            "name": "Libre",
+            "loadMs": 103.73119999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 627,
+            "name": "Libre",
+            "loadMs": 109.33540000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 628,
+            "name": "Libre",
+            "loadMs": 95.56749999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 629,
+            "name": "Libre",
+            "loadMs": 100.32190000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 630,
+            "name": "Libre",
+            "loadMs": 96.46380000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 631,
+            "name": "Libre",
+            "loadMs": 95.6036,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 632,
+            "name": "Libre",
+            "loadMs": 92.8513,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 633,
+            "name": "Libre",
+            "loadMs": 100.43930000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 634,
+            "name": "Libre",
+            "loadMs": 90.8494,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 635,
+            "name": "Libre",
+            "loadMs": 93.78200000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 636,
+            "name": "Libre",
+            "loadMs": 93.3013,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 637,
+            "name": "Libre",
+            "loadMs": 94.94299999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 638,
+            "name": "Libre",
+            "loadMs": 97.17730000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 639,
+            "name": "Libre",
+            "loadMs": 91.45749999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 640,
+            "name": "Libre",
+            "loadMs": 94.48479999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 641,
+            "name": "Libre",
+            "loadMs": 93.54369999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 642,
+            "name": "Libre",
+            "loadMs": 132.6755,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 643,
+            "name": "Libre",
+            "loadMs": 93.31689999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 644,
+            "name": "Libre",
+            "loadMs": 99.6203,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 645,
+            "name": "Libre",
+            "loadMs": 95.42540000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 646,
+            "name": "Libre",
+            "loadMs": 97.34720000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 647,
+            "name": "Libre",
+            "loadMs": 101.6739,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 648,
+            "name": "Libre",
+            "loadMs": 96.94600000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 649,
+            "name": "Libre",
+            "loadMs": 102.5278,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 650,
+            "name": "Libre",
+            "loadMs": 104.07060000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 651,
+            "name": "Libre",
+            "loadMs": 102.52080000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 652,
+            "name": "Libre",
+            "loadMs": 95.31230000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 653,
+            "name": "Libre",
+            "loadMs": 94.89959999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 654,
+            "name": "Libre",
+            "loadMs": 120.6182,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 655,
+            "name": "Libre",
+            "loadMs": 96.28540000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 656,
+            "name": "Libre",
+            "loadMs": 94.55449999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 657,
+            "name": "Libre",
+            "loadMs": 91.6052,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 658,
+            "name": "Libre",
+            "loadMs": 92.1646,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 659,
+            "name": "Libre",
+            "loadMs": 91.41560000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 660,
+            "name": "Libre",
+            "loadMs": 91.63600000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 661,
+            "name": "Libre",
+            "loadMs": 134.324,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 662,
+            "name": "Libre",
+            "loadMs": 122.9141,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 663,
+            "name": "Libre",
+            "loadMs": 118.89659999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 664,
+            "name": "Libre",
+            "loadMs": 126.61630000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 665,
+            "name": "Libre",
+            "loadMs": 123.77760000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 666,
+            "name": "Libre",
+            "loadMs": 119.3649,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 667,
+            "name": "Libre",
+            "loadMs": 103.50250000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 668,
+            "name": "Libre",
+            "loadMs": 100.809,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 669,
+            "name": "Libre",
+            "loadMs": 116.82939999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 670,
+            "name": "Libre",
+            "loadMs": 121.55029999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 671,
+            "name": "Libre",
+            "loadMs": 127.58209999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 672,
+            "name": "Libre",
+            "loadMs": 122.5824,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 673,
+            "name": "Libre",
+            "loadMs": 112.22070000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 674,
+            "name": "Libre",
+            "loadMs": 95.1327,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 675,
+            "name": "Libre",
+            "loadMs": 94.6537,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 676,
+            "name": "Libre",
+            "loadMs": 93.9281,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 677,
+            "name": "Libre",
+            "loadMs": 100.1453,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 678,
+            "name": "Libre",
+            "loadMs": 98.4866,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 679,
+            "name": "Libre",
+            "loadMs": 114.62400000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 680,
+            "name": "Libre",
+            "loadMs": 141.9008,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 681,
+            "name": "Libre",
+            "loadMs": 98.6333,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 682,
+            "name": "Libre",
+            "loadMs": 97.84939999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 683,
+            "name": "Libre",
+            "loadMs": 100.2866,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 684,
+            "name": "Libre",
+            "loadMs": 99.0872,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 685,
+            "name": "Libre",
+            "loadMs": 102.88789999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 686,
+            "name": "Libre",
+            "loadMs": 102.0329,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 687,
+            "name": "Libre",
+            "loadMs": 96.69680000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 688,
+            "name": "Libre",
+            "loadMs": 98.9082,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 689,
+            "name": "Libre",
+            "loadMs": 102.56590000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 690,
+            "name": "Libre",
+            "loadMs": 97.8939,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 691,
+            "name": "Libre",
+            "loadMs": 111.38569999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 692,
+            "name": "Libre",
+            "loadMs": 120.35840000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 693,
+            "name": "Libre",
+            "loadMs": 94.32990000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 694,
+            "name": "Libre",
+            "loadMs": 96.6267,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 695,
+            "name": "Libre",
+            "loadMs": 99.1848,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 696,
+            "name": "Libre",
+            "loadMs": 96.87510000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 697,
+            "name": "Libre",
+            "loadMs": 99.55969999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 698,
+            "name": "Libre",
+            "loadMs": 95.7049,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 699,
+            "name": "Libre",
+            "loadMs": 133.31550000000005,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 700,
+            "name": "Libre",
+            "loadMs": 98.9774,
+            "error": "Exception: Camera.main missing",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 701,
+            "name": "Libre",
+            "loadMs": 102.50030000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 702,
+            "name": "Libre",
+            "loadMs": 95.35980000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 703,
+            "name": "Libre",
+            "loadMs": 104.99600000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 704,
+            "name": "Libre",
+            "loadMs": 109.88229999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 705,
+            "name": "Libre",
+            "loadMs": 114.33990000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 706,
+            "name": "Libre",
+            "loadMs": 96.72830000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 707,
+            "name": "Libre",
+            "loadMs": 97.7402,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 708,
+            "name": "Libre",
+            "loadMs": 95.9276,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 709,
+            "name": "Libre",
+            "loadMs": 93.38999999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 710,
+            "name": "Libre",
+            "loadMs": 99.7848,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 711,
+            "name": "Libre",
+            "loadMs": 96.1085,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 712,
+            "name": "Libre",
+            "loadMs": 94.24440000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 713,
+            "name": "Libre",
+            "loadMs": 94.6679,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 714,
+            "name": "Libre",
+            "loadMs": 104.46060000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 715,
+            "name": "Libre",
+            "loadMs": 95.23969999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 716,
+            "name": "Libre",
+            "loadMs": 95.97779999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 717,
+            "name": "Libre",
+            "loadMs": 103.18279999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 718,
+            "name": "Libre",
+            "loadMs": 112.35739999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 719,
+            "name": "Libre",
+            "loadMs": 102.41180000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 720,
+            "name": "Libre",
+            "loadMs": 97.1299,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 721,
+            "name": "Libre",
+            "loadMs": 98.66980000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 722,
+            "name": "Libre",
+            "loadMs": 96.04459999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 723,
+            "name": "Libre",
+            "loadMs": 102.1121,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 724,
+            "name": "Libre",
+            "loadMs": 93.89620000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 725,
+            "name": "Libre",
+            "loadMs": 93.1392,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 726,
+            "name": "Libre",
+            "loadMs": 92.17849999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 727,
+            "name": "Libre",
+            "loadMs": 89.84189999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 728,
+            "name": "Libre",
+            "loadMs": 93.7146,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 729,
+            "name": "Libre",
+            "loadMs": 93.14419999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 730,
+            "name": "Libre",
+            "loadMs": 92.0276,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 731,
+            "name": "Libre",
+            "loadMs": 102.5704,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 732,
+            "name": "Libre",
+            "loadMs": 102.67949999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 733,
+            "name": "Libre",
+            "loadMs": 105.8904,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 734,
+            "name": "Libre",
+            "loadMs": 96.2074,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 735,
+            "name": "Libre",
+            "loadMs": 92.9133,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 736,
+            "name": "Libre",
+            "loadMs": 96.05400000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 737,
+            "name": "Libre",
+            "loadMs": 99.344,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 738,
+            "name": "Libre",
+            "loadMs": 108.9817,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 739,
+            "name": "Libre",
+            "loadMs": 91.4833,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 740,
+            "name": "Libre",
+            "loadMs": 94.8344,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 741,
+            "name": "Libre",
+            "loadMs": 95.5647,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 742,
+            "name": "Libre",
+            "loadMs": 95.9739,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 743,
+            "name": "Libre",
+            "loadMs": 92.142,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 744,
+            "name": "Libre",
+            "loadMs": 138.8228,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 745,
+            "name": "Libre",
+            "loadMs": 156.11679999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 746,
+            "name": "Libre",
+            "loadMs": 138.84480000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 747,
+            "name": "Libre",
+            "loadMs": 100.0745,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 748,
+            "name": "Libre",
+            "loadMs": 93.21759999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 749,
+            "name": "Libre",
+            "loadMs": 91.9493,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 750,
+            "name": "Puerto de Forgat",
+            "loadMs": 243.30490000000004,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 751,
+            "name": "Ciudad de Forgat",
+            "loadMs": 161.86510000000005,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 752,
+            "name": "Ciudad de Forgat",
+            "loadMs": 132.63969999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 753,
+            "name": "Ciudad de Forgat",
+            "loadMs": 123.6881,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 754,
+            "name": "Ciudad de Forgat",
+            "loadMs": 112.94709999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 755,
+            "name": "Costas de Forgat",
+            "loadMs": 93.9735,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 756,
+            "name": "Cuidad de Forgat",
+            "loadMs": 116.27439999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 757,
+            "name": "Ciudad de Forgat",
+            "loadMs": 100.53159999999997,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 758,
+            "name": "Bosque de Forgat",
+            "loadMs": 89.33000000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 759,
+            "name": "Bosque de Forgat",
+            "loadMs": 99.1374,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 760,
+            "name": "Bosque de Forgat",
+            "loadMs": 87.36160000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 761,
+            "name": "Bosque de Forgat",
+            "loadMs": 85.77709999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 762,
+            "name": "Valle de la muerte",
+            "loadMs": 88.7897,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 763,
+            "name": "Isla de las Esporas",
+            "loadMs": 100.3085,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 764,
+            "name": "Costa de las Esporas",
+            "loadMs": 97.45119999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 765,
+            "name": "La Gran Excavacion",
+            "loadMs": 134.48190000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 766,
+            "name": "Playa Este",
+            "loadMs": 100.08250000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 767,
+            "name": "Bosque",
+            "loadMs": 86.4221,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 768,
+            "name": "Camino de los Valientes",
+            "loadMs": 115.97410000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 769,
+            "name": "Valle de la muerte",
+            "loadMs": 117.02289999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 770,
+            "name": "Mar del Norte",
+            "loadMs": 136.54410000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 771,
+            "name": "El Viejo Molino",
+            "loadMs": 268.4579,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 772,
+            "name": "Bosque",
+            "loadMs": 115.3494,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 773,
+            "name": "Guarida Scramer",
+            "loadMs": 104.9176,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 774,
+            "name": "Altar Sagrado",
+            "loadMs": 100.217,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 775,
+            "name": "Bosque",
+            "loadMs": 99.40820000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 776,
+            "name": "La Granja de Sigmud",
+            "loadMs": 118.35889999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 777,
+            "name": "Litoral Costero",
+            "loadMs": 134.77769999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 778,
+            "name": "Bosque",
+            "loadMs": 114.2745,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 779,
+            "name": "Costa de los Scramer ",
+            "loadMs": 88.81079999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 780,
+            "name": "Isla Siniestra",
+            "loadMs": 104.754,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 781,
+            "name": "Isla Siniestra",
+            "loadMs": 122.4451,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 782,
+            "name": "Costa Esperanza",
+            "loadMs": 117.83049999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 783,
+            "name": "Valle de la muerte",
+            "loadMs": 90.5754,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 784,
+            "name": "Valle de la muerte",
+            "loadMs": 86.09270000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 785,
+            "name": "Isla de las Esporas",
+            "loadMs": 90.87479999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 786,
+            "name": "Isla de las Esporas",
+            "loadMs": 96.0485,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 787,
+            "name": "Costa de las Esporas",
+            "loadMs": 123.7639,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 788,
+            "name": "Mar del Norte",
+            "loadMs": 98.33609999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 789,
+            "name": "Costas de Forgat",
+            "loadMs": 131.19730000000005,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 790,
+            "name": "Peninsula del desembarco",
+            "loadMs": 129.05140000000004,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 791,
+            "name": "Mar del Norte",
+            "loadMs": 92.7322,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 792,
+            "name": "Mar del Norte",
+            "loadMs": 89.4043,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 793,
+            "name": "Mar del Norte",
+            "loadMs": 89.4901,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 794,
+            "name": "Mar del Norte",
+            "loadMs": 90.0532,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 795,
+            "name": "Península Serpiente",
+            "loadMs": 90.83820000000002,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 796,
+            "name": "Costas de Forgat",
+            "loadMs": 96.7023,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 797,
+            "name": "Costas de Forgat",
+            "loadMs": 102.0573,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 798,
+            "name": "Costa de Forgat",
+            "loadMs": 105.81909999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 799,
+            "name": "Mar del Norte",
+            "loadMs": 104.80229999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 800,
+            "name": "Bosque de la Desolación",
+            "loadMs": 167.8174,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 801,
+            "name": "Bosque de la Desolación",
+            "loadMs": 115.6354,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 802,
+            "name": "Bosque de la Desolación",
+            "loadMs": 129.2624,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 803,
+            "name": "El Gigante Caido",
+            "loadMs": 173.55939999999996,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 804,
+            "name": "Isla Siniestra",
+            "loadMs": 123.51159999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 805,
+            "name": "Isla Siniestra",
+            "loadMs": 97.07769999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 806,
+            "name": "Isla Siniestra",
+            "loadMs": 96.6822,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 807,
+            "name": "Mar del Norte",
+            "loadMs": 103.73830000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 808,
+            "name": "Mar del Norte",
+            "loadMs": 83.98279999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 809,
+            "name": "El Naufragio",
+            "loadMs": 107.3102,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 810,
+            "name": "Mar del Norte",
+            "loadMs": 92.27999999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 811,
+            "name": "Isla de las Esporas",
+            "loadMs": 88.87819999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 812,
+            "name": "Isla de las Esporas",
+            "loadMs": 85.8252,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 813,
+            "name": "Mar del Norte",
+            "loadMs": 88.3762,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 814,
+            "name": "Mar del Norte",
+            "loadMs": 83.0928,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 815,
+            "name": "Isla Siniestra",
+            "loadMs": 90.7944,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 816,
+            "name": "Isla Siniestra",
+            "loadMs": 86.82629999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 817,
+            "name": "Isla Siniestra",
+            "loadMs": 539.1074,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 818,
+            "name": "Cueva de la Desolación",
+            "loadMs": 565.2669000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 819,
+            "name": "Cueva de la Desolación",
+            "loadMs": 432.8407,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 820,
+            "name": "Mar del Norte",
+            "loadMs": 348.04169999999995,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 821,
+            "name": "Mar del Norte",
+            "loadMs": 514.4894999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 822,
+            "name": "Mar del Norte",
+            "loadMs": 417.3013000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 823,
+            "name": "Mar del Norte",
+            "loadMs": 84.48769999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 824,
+            "name": "Costas de Eleuria",
+            "loadMs": 151.988,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 825,
+            "name": "Aldea Eleuria",
+            "loadMs": 103.04820000000001,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 826,
+            "name": "Cueva de Eleuria",
+            "loadMs": 92.73519999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 827,
+            "name": "Costa de Eleuria",
+            "loadMs": 112.8591,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 828,
+            "name": "Costas de Eleuria",
+            "loadMs": 83.92659999999998,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 829,
+            "name": "Muelle de Eleuria",
+            "loadMs": 107.1629,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 830,
+            "name": "Costas de Eleuria",
+            "loadMs": 111.7103,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 831,
+            "name": "Costa de Eleuria",
+            "loadMs": 88.6347,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 832,
+            "name": "Mar del Norte",
+            "loadMs": 87.4336,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 833,
+            "name": "Mar del Norte",
+            "loadMs": 85.2261,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 834,
+            "name": "Peninsula de Eleuria",
+            "loadMs": 133.60330000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 835,
+            "name": "Peninsula de Eleuria",
+            "loadMs": 152.99420000000004,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 836,
+            "name": "Cueva Graciar",
+            "loadMs": 225.75789999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 837,
+            "name": "Cueva Glaciar",
+            "loadMs": 254.72549999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 838,
+            "name": "Cueva Glaciar",
+            "loadMs": 126.69659999999999,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 839,
+            "name": "Cueva Glaciar",
+            "loadMs": 129.56070000000003,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 840,
+            "name": "Cueva Glaciar",
+            "loadMs": 122.0455,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 841,
+            "name": "Penthar",
+            "loadMs": 239.7004,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        },
+        {
+            "map": 842,
+            "name": "Mar Nordico",
+            "loadMs": 154.976,
+            "error": "",
+            "screenshot": "",
+            "sampledColors": 0
+        }
+    ]
+}

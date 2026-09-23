@@ -1,0 +1,21 @@
+AO Migrador 0.2.0-alpha - mapa visual real
+
+Mapa: Ciudad de Ullathorpe
+Archivo: mapa1.csm
+
+USO EN UNITY
+1. Creá o abrí un proyecto 2D de prueba en Unity.
+2. Copiá la carpeta Assets/AOMigrator de este paquete dentro de Assets de tu proyecto.
+3. Esperá a que Unity termine de importar y compilar.
+4. Abrí el menú: AO Migrador > Importar mapa AO.
+5. Pulsá: Construir mapa en una escena nueva.
+6. Esperá. Este mapa puede crear miles de GameObjects.
+7. Si termina, revisá la escena y luego subí Assets/AOMigrator/unity_diagnostic.json al chat.
+8. Si falla, subí ese JSON y el error de la consola de Unity.
+
+ESTADO DE ESTA ALFA
+- Reconstruye las cuatro capas gráficas del mapa CSM.
+- Resuelve GRH desde Graficos.ini y copia solo los PNG necesarios.
+- Usa el primer frame de cada animación.
+- Aún no convierte NPC, objetos, partículas, luces, movimiento ni colisiones jugables.
+- No modifica los repositorios originales.

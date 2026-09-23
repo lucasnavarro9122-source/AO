@@ -1,0 +1,16 @@
+AO Terrain HD v0.2.9 - Higgsfield Prep
+
+Objetivo: remasterizar cada tile manteniendo exactamente la forma, encuadre, función y bordes compatibles con sus vecinos.
+
+REGLAS GENERALES
+- No cambiar la geometría funcional del tile.
+- No agregar objetos nuevos.
+- Mantener el patrón tileable y continuidad de bordes.
+- Mantener la paleta y lectura del original, pero con más detalle y limpieza.
+- No introducir texto, UI, personajes ni iluminación direccional fuerte.
+- Para transiciones, conservar exactamente la máscara/contorno original.
+
+PROMPT BASE
+Enhance this top-down fantasy RPG terrain tile while preserving its exact layout, edge continuity, material identity and gameplay readability. Keep it seamless/tileable, faithful to the original colors and silhouette, with cleaner high-detail texture, subtle natural variation and no new objects.
+
+Categorías exportadas: Grass, Dirt, Road, Floor, Water, Transition.

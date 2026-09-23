@@ -1,0 +1,16 @@
+{
+    "version": "0.12.0-alpha",
+    "unity": "6000.3.17f1",
+    "success": false,
+    "message": "Player=True RPG=True Combat=True Magic=False Status=False\nSpells=141/293 TestOK=11 Texturas=13 Audio=24",
+    "playerFound": true,
+    "rpgFound": true,
+    "combatFound": true,
+    "magicFound": false,
+    "statusFound": false,
+    "definedSpells": 141,
+    "declaredSpellSlots": 293,
+    "testSupported": 11,
+    "textures": 13,
+    "audioFiles": 24
+}

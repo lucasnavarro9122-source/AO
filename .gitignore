@@ -1,0 +1,38 @@
+# Unity generated data
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Pp]rofilerCaptures/
+
+# IDE generated data
+.vs/
+.vscode/
+.idea/
+*.csproj
+*.sln
+*.slnx
+*.user
+*.userprefs
+__pycache__/
+*.pyc
+
+# Downloaded source archives and local backups
+Archivos Originales/
+AO_Migrator_Backup_*/
+SpellTextureAI/
+SpellTextureAI*.zip
+AO_Migrador_*_install_report.txt
+MigrationReports/backup_*/
+MigrationReports/*.zip
+MigrationReports/*.pdb
+
+# Local machine files
+*.log
+*.tmp
+Thumbs.db
+.DS_Store

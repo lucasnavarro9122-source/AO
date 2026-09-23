@@ -1,0 +1,34 @@
+{
+  "version": "0.18.0-alpha",
+  "sourceTexture": 128,
+  "states": [
+    {
+      "state": 1,
+      "grh": 5258,
+      "label": "available_exclamation",
+      "width": 21,
+      "height": 24
+    },
+    {
+      "state": 2,
+      "grh": 5259,
+      "label": "unavailable_exclamation",
+      "width": 21,
+      "height": 24
+    },
+    {
+      "state": 3,
+      "grh": 5260,
+      "label": "ready_question",
+      "width": 21,
+      "height": 24
+    },
+    {
+      "state": 4,
+      "grh": 5261,
+      "label": "pending_question",
+      "width": 21,
+      "height": 24
+    }
+  ]
+}

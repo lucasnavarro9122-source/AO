@@ -1,0 +1,265 @@
+using UnityEngine;
+
+[DisallowMultipleComponent]
+public class AOMainMenuV140 : MonoBehaviour
+{
+    static AOMainMenuV140 instance;
+
+    public static bool SessionActive
+    {
+        get;
+        private set;
+    }
+
+    public static bool ModalOpen =>
+        instance != null &&
+        instance.visible;
+
+#if UNITY_EDITOR
+    public void HideForVisualQA()
+    {
+        openCreatorNextFrame = false;
+        visible = false;
+        SessionActive = false;
+        enabled = false;
+    }
+#endif
+
+    bool visible = true;
+
+    AOSaveGameV140 save;
+    AOCharacterCreationV170 creator;
+
+    string status = "";
+
+    bool openCreatorNextFrame;
+
+    Rect window =
+        new Rect(
+            0,
+            0,
+            460,
+            410);
+
+    [RuntimeInitializeOnLoadMethod(
+        RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetStatic()
+    {
+        instance = null;
+        SessionActive = false;
+    }
+
+    void Awake()
+    {
+        instance = this;
+
+        FindReferences();
+
+        visible = true;
+        SessionActive = false;
+
+        Time.timeScale = 0f;
+    }
+
+    void Update()
+    {
+        if (!openCreatorNextFrame)
+            return;
+
+        openCreatorNextFrame = false;
+
+        FindReferences();
+
+        if (creator == null)
+        {
+            visible = true;
+            status =
+                "No encuentro AOCharacterCreationV170.";
+            return;
+        }
+
+        creator.Open(
+            save != null &&
+            save.HasSave);
+    }
+
+    void FindReferences()
+    {
+        if (save == null)
+            save =
+                GetComponent
+                    <AOSaveGameV140>();
+
+        if (creator == null)
+            creator =
+                GetComponent
+                    <AOCharacterCreationV170>();
+    }
+
+    void OnGUI()
+    {
+        if (!visible)
+            return;
+
+        FindReferences();
+
+        window.x =
+            (Screen.width -
+             window.width) *
+            0.5f;
+
+        window.y =
+            (Screen.height -
+             window.height) *
+            0.5f;
+
+        GUI.ModalWindow(
+            140140,
+            window,
+            Draw,
+            "Argentum Unity — Demo 1 jugador");
+    }
+
+    void Draw(
+        int id)
+    {
+        GUILayout.Space(
+            12);
+
+        GUILayout.Label(
+            "AO Demo",
+            GUI.skin
+                .GetStyle(
+                    "box"),
+            GUILayout.Height(
+                42));
+
+        GUILayout.Space(
+            8);
+
+        if (save != null &&
+            save.HasSave)
+        {
+            GUILayout.Box(
+                "Última partida\n" +
+                save.GetSummary(),
+                GUILayout.Height(
+                    82));
+        }
+        else
+        {
+            GUILayout.Box(
+                "No hay partida guardada.",
+                GUILayout.Height(
+                    55));
+        }
+
+        GUILayout.Space(
+            12);
+
+        GUI.enabled =
+            save != null &&
+            save.HasSave;
+
+        if (GUILayout.Button(
+                "Continuar",
+                GUILayout.Height(
+                    44)))
+        {
+            if (save.LoadGame(
+                    false))
+            {
+                StartSession();
+            }
+            else
+            {
+                status =
+                    "No pude cargar la partida.";
+            }
+        }
+
+        GUI.enabled = true;
+
+        if (GUILayout.Button(
+                "Nueva partida",
+                GUILayout.Height(
+                    44)))
+        {
+            // IMGUI no permite activar otro ModalWindow dentro
+            // del mismo evento que está dibujando este modal.
+            // Lo diferimos a Update para el siguiente frame.
+            visible = false;
+            openCreatorNextFrame = true;
+        }
+
+        GUILayout.Space(
+            10);
+
+        GUILayout.Label(
+            "Durante la partida:\n" +
+            "F1 = Guardado rápido\n" +
+            "F3 = Carga rápida\n" +
+            "Q = Diario de quests\n" +
+            "Autoguardado cada 60 segundos.");
+
+        if (!string.IsNullOrEmpty(
+                status))
+        {
+            GUILayout.Box(
+                status);
+        }
+
+        GUILayout.FlexibleSpace();
+
+        if (GUILayout.Button(
+                "Salir",
+                GUILayout.Height(
+                    32)))
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication
+                .isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+    }
+
+    public static void ShowFromCreator()
+    {
+        if (instance == null)
+            return;
+
+        instance.openCreatorNextFrame = false;
+        instance.visible = true;
+        SessionActive = false;
+
+        Time.timeScale = 0f;
+    }
+
+    public static void StartSessionFromCreator()
+    {
+        if (instance == null)
+            return;
+
+        instance.StartSession();
+    }
+
+    void StartSession()
+    {
+        openCreatorNextFrame = false;
+        visible = false;
+        SessionActive = true;
+
+        Time.timeScale = 1f;
+
+        AOInterfaceV0101.PushMessage(
+            "Bienvenido. F1 guardar | F3 cargar | Q misiones");
+    }
+
+    void OnDisable()
+    {
+        if (Time.timeScale == 0f)
+            Time.timeScale = 1f;
+    }
+}

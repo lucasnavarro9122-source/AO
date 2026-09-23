@@ -1,0 +1,715 @@
+fileFormatVersion: 2
+guid: 468d9e4868e1bf74892bdbb190cfb9e0
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -6197140494766022418
+    second: tex_2089_0
+  - first:
+      213: 8502480615436920287
+    second: tex_2089_1
+  - first:
+      213: 4862510598140360558
+    second: tex_2089_2
+  - first:
+      213: 4924795100336453818
+    second: tex_2089_3
+  - first:
+      213: 762190302106365987
+    second: tex_2089_4
+  - first:
+      213: -7169381098292093506
+    second: tex_2089_5
+  - first:
+      213: 3735717682949627185
+    second: tex_2089_6
+  - first:
+      213: -3816235635568450286
+    second: tex_2089_7
+  - first:
+      213: 2691851687921726117
+    second: tex_2089_8
+  - first:
+      213: 8863140303766709104
+    second: tex_2089_9
+  - first:
+      213: -8784923881413673949
+    second: tex_2089_10
+  - first:
+      213: 7708691689989255773
+    second: tex_2089_11
+  - first:
+      213: -6589388689054141035
+    second: tex_2089_12
+  - first:
+      213: -3357400958853397845
+    second: tex_2089_13
+  - first:
+      213: -4722336312878189409
+    second: tex_2089_14
+  - first:
+      213: -5335294070024274820
+    second: tex_2089_15
+  - first:
+      213: -5332879252196885122
+    second: tex_2089_16
+  - first:
+      213: -4994171235655682632
+    second: tex_2089_17
+  - first:
+      213: -3505574362418213923
+    second: tex_2089_18
+  - first:
+      213: 5461894667039770301
+    second: tex_2089_19
+  - first:
+      213: -3279537500772687157
+    second: tex_2089_20
+  - first:
+      213: -5852786445478308509
+    second: tex_2089_21
+  - first:
+      213: 8159668310864283060
+    second: tex_2089_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 0
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tex_2089_0
+      rect:
+        serializedVersion: 2
+        x: 1
+        y: 217
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ee0684acd855ff9a0800000000000000
+      internalID: -6197140494766022418
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_1
+      rect:
+        serializedVersion: 2
+        x: 34
+        y: 219
+        width: 9
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: fd523c85211eef570800000000000000
+      internalID: 8502480615436920287
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_2
+      rect:
+        serializedVersion: 2
+        x: 61
+        y: 222
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e677ab650ab1b7340800000000000000
+      internalID: 4862510598140360558
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_3
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 217
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ab873231d03685440800000000000000
+      internalID: 4924795100336453818
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_4
+      rect:
+        serializedVersion: 2
+        x: 111
+        y: 221
+        width: 8
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3203c40aa08d39a00800000000000000
+      internalID: 762190302106365987
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_5
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 225
+        width: 9
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ebd56e840ed318c90800000000000000
+      internalID: -7169381098292093506
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_6
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 170
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 13d9b51a07fe7d330800000000000000
+      internalID: 3735717682949627185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_7
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 172
+        width: 9
+        height: 27
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 21561c2a8e10a0bc0800000000000000
+      internalID: -3816235635568450286
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_8
+      rect:
+        serializedVersion: 2
+        x: 62
+        y: 175
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5a23c9e19d06b5520800000000000000
+      internalID: 2691851687921726117
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_9
+      rect:
+        serializedVersion: 2
+        x: 95
+        y: 170
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0736678b523300b70800000000000000
+      internalID: 8863140303766709104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_10
+      rect:
+        serializedVersion: 2
+        x: 124
+        y: 174
+        width: 8
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 32cfd7d364ea51680800000000000000
+      internalID: -8784923881413673949
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_11
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 178
+        width: 9
+        height: 21
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d52b0d8ef36cafa60800000000000000
+      internalID: 7708691689989255773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_12
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 122
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 59573fd36e9cd84a0800000000000000
+      internalID: -6589388689054141035
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_13
+      rect:
+        serializedVersion: 2
+        x: 31
+        y: 126
+        width: 17
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ba2ccfebd9d1861d0800000000000000
+      internalID: -3357400958853397845
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_14
+      rect:
+        serializedVersion: 2
+        x: 55
+        y: 131
+        width: 22
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f94b7f8b424e67eb0800000000000000
+      internalID: -4722336312878189409
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_15
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 132
+        width: 24
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7c74f79f4a35f5b0800000000000000
+      internalID: -5335294070024274820
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_16
+      rect:
+        serializedVersion: 2
+        x: 109
+        y: 128
+        width: 17
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7df0ce239ecdf5b0800000000000000
+      internalID: -5332879252196885122
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_17
+      rect:
+        serializedVersion: 2
+        x: 9
+        y: 75
+        width: 12
+        height: 26
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8b5f44fa8b321bab0800000000000000
+      internalID: -4994171235655682632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_18
+      rect:
+        serializedVersion: 2
+        x: 33
+        y: 79
+        width: 17
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ddb8852d0b2b95fc0800000000000000
+      internalID: -3505574362418213923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_19
+      rect:
+        serializedVersion: 2
+        x: 58
+        y: 84
+        width: 22
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: db68185e24c8ccb40800000000000000
+      internalID: 5461894667039770301
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_20
+      rect:
+        serializedVersion: 2
+        x: 84
+        y: 85
+        width: 24
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: bc22fdec40ebc72d0800000000000000
+      internalID: -3279537500772687157
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_21
+      rect:
+        serializedVersion: 2
+        x: 117
+        y: 81
+        width: 17
+        height: 22
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3655b0bbcb9b6cea0800000000000000
+      internalID: -5852786445478308509
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: tex_2089_22
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 31
+        height: 31
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4b5c312d817fc3170800000000000000
+      internalID: 8159668310864283060
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      tex_2089_0: -6197140494766022418
+      tex_2089_1: 8502480615436920287
+      tex_2089_10: -8784923881413673949
+      tex_2089_11: 7708691689989255773
+      tex_2089_12: -6589388689054141035
+      tex_2089_13: -3357400958853397845
+      tex_2089_14: -4722336312878189409
+      tex_2089_15: -5335294070024274820
+      tex_2089_16: -5332879252196885122
+      tex_2089_17: -4994171235655682632
+      tex_2089_18: -3505574362418213923
+      tex_2089_19: 5461894667039770301
+      tex_2089_2: 4862510598140360558
+      tex_2089_20: -3279537500772687157
+      tex_2089_21: -5852786445478308509
+      tex_2089_22: 8159668310864283060
+      tex_2089_3: 4924795100336453818
+      tex_2089_4: 762190302106365987
+      tex_2089_5: -7169381098292093506
+      tex_2089_6: 3735717682949627185
+      tex_2089_7: -3816235635568450286
+      tex_2089_8: 2691851687921726117
+      tex_2089_9: 8863140303766709104
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

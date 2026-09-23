@@ -1,0 +1,149 @@
+{
+    "version": "0.2.3",
+    "createdUtc": "2026-09-20T15:48:32.8112501Z",
+    "validJsonFiles": 24,
+    "uniqueMaps": 23,
+    "duplicateFilesSkipped": 1,
+    "maps": [
+        {
+            "mapNumber": 1,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_1.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 2,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_2.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 3,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_3.json",
+            "duplicateCount": 1,
+            "skipped": [
+                "Assets/AOMigrator/WorldV06/Data/map_v03.json"
+            ]
+        },
+        {
+            "mapNumber": 5,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_5.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 6,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_6.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 8,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_8.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 9,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_9.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 11,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_11.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 12,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_12.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 14,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_14.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 39,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_39.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 40,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_40.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 63,
+            "selected": "Assets/AOMigrator/MapVisualV063/Data/map.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 74,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_74.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 77,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_77.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 168,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_168.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 281,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_281.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 395,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_395.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 600,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_600.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 601,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_601.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 602,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_602.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 603,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_603.json",
+            "duplicateCount": 0,
+            "skipped": []
+        },
+        {
+            "mapNumber": 748,
+            "selected": "Assets/Resources/AOMigrator/WorldV07/Maps/map_748.json",
+            "duplicateCount": 0,
+            "skipped": []
+        }
+    ]
+}

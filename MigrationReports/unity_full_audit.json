@@ -1,0 +1,7647 @@
+{
+    "utc": "2026-09-23T17:48:43.7520516Z",
+    "expectedMaps": 842,
+    "checkedMaps": 842,
+    "cells": 8684642,
+    "checkedFrames": 456662,
+    "loadedTextures": 673,
+    "exits": 158549,
+    "validExits": 157353,
+    "missingDestinationExits": 10,
+    "specialExits": 1186,
+    "invalidDestinationCoordinates": 0,
+    "issuesTotal": 10,
+    "elapsedSeconds": 31.710559,
+    "maps": [
+        {
+            "number": 1,
+            "name": "Ciudad de Ullathorpe",
+            "cells": 11025,
+            "npcs": 27,
+            "objects": 131,
+            "exits": 324,
+            "parseMs": 52.8826
+        },
+        {
+            "number": 2,
+            "name": "Bosque sur de Ullathorpe",
+            "cells": 10236,
+            "npcs": 19,
+            "objects": 178,
+            "exits": 295,
+            "parseMs": 27.3527
+        },
+        {
+            "number": 3,
+            "name": "Bosque",
+            "cells": 10121,
+            "npcs": 19,
+            "objects": 163,
+            "exits": 295,
+            "parseMs": 28.6848
+        },
+        {
+            "number": 4,
+            "name": "Cementerio de Nix",
+            "cells": 10528,
+            "npcs": 22,
+            "objects": 114,
+            "exits": 304,
+            "parseMs": 25.9949
+        },
+        {
+            "number": 5,
+            "name": "Bosque norte de Ullathorpe",
+            "cells": 10232,
+            "npcs": 20,
+            "objects": 144,
+            "exits": 299,
+            "parseMs": 22.2342
+        },
+        {
+            "number": 6,
+            "name": "Bosque",
+            "cells": 10087,
+            "npcs": 9,
+            "objects": 180,
+            "exits": 301,
+            "parseMs": 19.9686
+        },
+        {
+            "number": 7,
+            "name": "Bosque norte de Ullathorpe",
+            "cells": 10087,
+            "npcs": 14,
+            "objects": 164,
+            "exits": 297,
+            "parseMs": 19.765
+        },
+        {
+            "number": 8,
+            "name": "Bosque oeste de Ullathorpe",
+            "cells": 10234,
+            "npcs": 26,
+            "objects": 178,
+            "exits": 301,
+            "parseMs": 22.4645
+        },
+        {
+            "number": 9,
+            "name": "Bosque oeste de Ullathorpe",
+            "cells": 10196,
+            "npcs": 13,
+            "objects": 149,
+            "exits": 299,
+            "parseMs": 22.1431
+        },
+        {
+            "number": 10,
+            "name": "Costas Oeste",
+            "cells": 10238,
+            "npcs": 12,
+            "objects": 74,
+            "exits": 306,
+            "parseMs": 17.7325
+        },
+        {
+            "number": 11,
+            "name": "Este de Ullathorpe",
+            "cells": 10971,
+            "npcs": 0,
+            "objects": 92,
+            "exits": 356,
+            "parseMs": 19.5055
+        },
+        {
+            "number": 12,
+            "name": "Bosque Este de Ullathorpe",
+            "cells": 10228,
+            "npcs": 34,
+            "objects": 169,
+            "exits": 304,
+            "parseMs": 18.8142
+        },
+        {
+            "number": 13,
+            "name": "Bosque Este de Ullathorpe",
+            "cells": 10484,
+            "npcs": 10,
+            "objects": 106,
+            "exits": 309,
+            "parseMs": 19.5473
+        },
+        {
+            "number": 14,
+            "name": "Bosque sureste de Ullathorpe",
+            "cells": 10202,
+            "npcs": 24,
+            "objects": 125,
+            "exits": 303,
+            "parseMs": 19.5426
+        },
+        {
+            "number": 15,
+            "name": "Desierto",
+            "cells": 11116,
+            "npcs": 16,
+            "objects": 32,
+            "exits": 308,
+            "parseMs": 17.9423
+        },
+        {
+            "number": 16,
+            "name": "Desierto",
+            "cells": 11444,
+            "npcs": 17,
+            "objects": 31,
+            "exits": 308,
+            "parseMs": 19.8362
+        },
+        {
+            "number": 17,
+            "name": "Aldea de Kamal",
+            "cells": 12032,
+            "npcs": 21,
+            "objects": 15,
+            "exits": 307,
+            "parseMs": 33.9654
+        },
+        {
+            "number": 18,
+            "name": "Bosque sureste de Ullathorpe",
+            "cells": 10080,
+            "npcs": 28,
+            "objects": 147,
+            "exits": 304,
+            "parseMs": 60.8896
+        },
+        {
+            "number": 19,
+            "name": "Bosque sureste de Ullathorpe",
+            "cells": 10311,
+            "npcs": 19,
+            "objects": 117,
+            "exits": 306,
+            "parseMs": 68.47
+        },
+        {
+            "number": 20,
+            "name": "Desierto",
+            "cells": 11559,
+            "npcs": 13,
+            "objects": 20,
+            "exits": 307,
+            "parseMs": 18.9451
+        },
+        {
+            "number": 21,
+            "name": "Desierto",
+            "cells": 12217,
+            "npcs": 13,
+            "objects": 4,
+            "exits": 294,
+            "parseMs": 18.8368
+        },
+        {
+            "number": 22,
+            "name": "Bosque",
+            "cells": 10296,
+            "npcs": 21,
+            "objects": 123,
+            "exits": 307,
+            "parseMs": 16.8225
+        },
+        {
+            "number": 23,
+            "name": "Bosque",
+            "cells": 10110,
+            "npcs": 24,
+            "objects": 132,
+            "exits": 304,
+            "parseMs": 18.2304
+        },
+        {
+            "number": 24,
+            "name": "Camino Peligroso",
+            "cells": 10207,
+            "npcs": 27,
+            "objects": 109,
+            "exits": 307,
+            "parseMs": 17.0173
+        },
+        {
+            "number": 25,
+            "name": "Cienaga de las Cobras",
+            "cells": 10261,
+            "npcs": 31,
+            "objects": 115,
+            "exits": 298,
+            "parseMs": 18.1641
+        },
+        {
+            "number": 26,
+            "name": "Bosque Cienaga de las cobras",
+            "cells": 10060,
+            "npcs": 26,
+            "objects": 137,
+            "exits": 302,
+            "parseMs": 15.5387
+        },
+        {
+            "number": 27,
+            "name": "Bosque",
+            "cells": 10340,
+            "npcs": 16,
+            "objects": 109,
+            "exits": 307,
+            "parseMs": 14.6084
+        },
+        {
+            "number": 28,
+            "name": "Bosque",
+            "cells": 10193,
+            "npcs": 15,
+            "objects": 119,
+            "exits": 308,
+            "parseMs": 14.8763
+        },
+        {
+            "number": 29,
+            "name": "Bosque",
+            "cells": 10263,
+            "npcs": 19,
+            "objects": 102,
+            "exits": 239,
+            "parseMs": 15.0637
+        },
+        {
+            "number": 30,
+            "name": "Bosque al sureste de Nix",
+            "cells": 11769,
+            "npcs": 8,
+            "objects": 100,
+            "exits": 262,
+            "parseMs": 14.6235
+        },
+        {
+            "number": 31,
+            "name": "Bahia sureste de Nix",
+            "cells": 10991,
+            "npcs": 16,
+            "objects": 77,
+            "exits": 293,
+            "parseMs": 15.7497
+        },
+        {
+            "number": 32,
+            "name": "Terrenos de Nix",
+            "cells": 11166,
+            "npcs": 0,
+            "objects": 60,
+            "exits": 267,
+            "parseMs": 14.9601
+        },
+        {
+            "number": 33,
+            "name": "Minas de Hierro",
+            "cells": 4467,
+            "npcs": 7,
+            "objects": 119,
+            "exits": 7,
+            "parseMs": 12.3727
+        },
+        {
+            "number": 34,
+            "name": "Ciudad de Nix",
+            "cells": 11646,
+            "npcs": 24,
+            "objects": 105,
+            "exits": 269,
+            "parseMs": 21.251
+        },
+        {
+            "number": 35,
+            "name": "Bosque al norte de Nix",
+            "cells": 10736,
+            "npcs": 21,
+            "objects": 112,
+            "exits": 304,
+            "parseMs": 20.1002
+        },
+        {
+            "number": 36,
+            "name": "Fuerte de Dorck",
+            "cells": 10452,
+            "npcs": 21,
+            "objects": 196,
+            "exits": 304,
+            "parseMs": 14.8742
+        },
+        {
+            "number": 37,
+            "name": "Newbie Dungeon",
+            "cells": 8392,
+            "npcs": 67,
+            "objects": 1,
+            "exits": 74,
+            "parseMs": 17.5365
+        },
+        {
+            "number": 38,
+            "name": "Bosque Dorck",
+            "cells": 10345,
+            "npcs": 19,
+            "objects": 190,
+            "exits": 301,
+            "parseMs": 14.9059
+        },
+        {
+            "number": 39,
+            "name": "Bosque Dorck",
+            "cells": 10240,
+            "npcs": 19,
+            "objects": 313,
+            "exits": 297,
+            "parseMs": 13.9839
+        },
+        {
+            "number": 40,
+            "name": "Catacumbas Ullathorpe",
+            "cells": 2453,
+            "npcs": 13,
+            "objects": 1,
+            "exits": 11,
+            "parseMs": 12.0083
+        },
+        {
+            "number": 41,
+            "name": "Interconexion Catacumbas",
+            "cells": 1267,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 10,
+            "parseMs": 10.5337
+        },
+        {
+            "number": 42,
+            "name": "Interconexion Catacumbas",
+            "cells": 1759,
+            "npcs": 4,
+            "objects": 0,
+            "exits": 13,
+            "parseMs": 9.4663
+        },
+        {
+            "number": 43,
+            "name": "Interconexion catacumbas",
+            "cells": 1660,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 16,
+            "parseMs": 9.5462
+        },
+        {
+            "number": 44,
+            "name": "Interconexion Catacumbas",
+            "cells": 1360,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 11,
+            "parseMs": 9.9094
+        },
+        {
+            "number": 45,
+            "name": "Catacumbas Nix",
+            "cells": 1989,
+            "npcs": 10,
+            "objects": 0,
+            "exits": 8,
+            "parseMs": 9.5323
+        },
+        {
+            "number": 46,
+            "name": "Bosque de Dorck",
+            "cells": 10282,
+            "npcs": 23,
+            "objects": 164,
+            "exits": 305,
+            "parseMs": 15.3093
+        },
+        {
+            "number": 47,
+            "name": "Mar del Norte",
+            "cells": 10023,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 308,
+            "parseMs": 14.6049
+        },
+        {
+            "number": 48,
+            "name": "Deadly Room",
+            "cells": 9873,
+            "npcs": 3,
+            "objects": 4,
+            "exits": 4,
+            "parseMs": 15.8076
+        },
+        {
+            "number": 49,
+            "name": "Mapa de GMs.",
+            "cells": 10089,
+            "npcs": 0,
+            "objects": 104,
+            "exits": 0,
+            "parseMs": 12.288
+        },
+        {
+            "number": 50,
+            "name": "Minas de Plata",
+            "cells": 4234,
+            "npcs": 0,
+            "objects": 25,
+            "exits": 12,
+            "parseMs": 9.0794
+        },
+        {
+            "number": 51,
+            "name": "Paso hacia las profundidades",
+            "cells": 5447,
+            "npcs": 0,
+            "objects": 51,
+            "exits": 16,
+            "parseMs": 11.4708
+        },
+        {
+            "number": 52,
+            "name": "Profundidades de las Minas",
+            "cells": 4407,
+            "npcs": 4,
+            "objects": 60,
+            "exits": 10,
+            "parseMs": 11.6898
+        },
+        {
+            "number": 53,
+            "name": "Bosque al norte de Ullathorpe",
+            "cells": 10098,
+            "npcs": 11,
+            "objects": 163,
+            "exits": 297,
+            "parseMs": 13.5392
+        },
+        {
+            "number": 54,
+            "name": "Bosque al sur de Banderbill",
+            "cells": 10110,
+            "npcs": 14,
+            "objects": 175,
+            "exits": 302,
+            "parseMs": 14.6974
+        },
+        {
+            "number": 55,
+            "name": "Bosque al sur de Banderbill",
+            "cells": 10094,
+            "npcs": 15,
+            "objects": 178,
+            "exits": 304,
+            "parseMs": 14.51
+        },
+        {
+            "number": 56,
+            "name": "Bosque al sur de Banderbill",
+            "cells": 10080,
+            "npcs": 25,
+            "objects": 179,
+            "exits": 301,
+            "parseMs": 16.9334
+        },
+        {
+            "number": 57,
+            "name": "Bosque al sur de Banderbill.",
+            "cells": 10046,
+            "npcs": 19,
+            "objects": 219,
+            "exits": 301,
+            "parseMs": 13.2051
+        },
+        {
+            "number": 58,
+            "name": "Suburbios de Banderbill",
+            "cells": 13116,
+            "npcs": 27,
+            "objects": 96,
+            "exits": 285,
+            "parseMs": 57.3376
+        },
+        {
+            "number": 59,
+            "name": "Ciudad de Banderbill",
+            "cells": 18223,
+            "npcs": 41,
+            "objects": 41,
+            "exits": 204,
+            "parseMs": 46.2042
+        },
+        {
+            "number": 60,
+            "name": "Ciudad de Banderbill",
+            "cells": 16302,
+            "npcs": 14,
+            "objects": 19,
+            "exits": 248,
+            "parseMs": 45.0804
+        },
+        {
+            "number": 61,
+            "name": "Muelle de Banderbill",
+            "cells": 15220,
+            "npcs": 14,
+            "objects": 39,
+            "exits": 217,
+            "parseMs": 18.3468
+        },
+        {
+            "number": 62,
+            "name": "Ciudad de Lindos",
+            "cells": 11010,
+            "npcs": 19,
+            "objects": 37,
+            "exits": 248,
+            "parseMs": 13.5096
+        },
+        {
+            "number": 63,
+            "name": "Bahia de Lindos",
+            "cells": 10782,
+            "npcs": 8,
+            "objects": 26,
+            "exits": 270,
+            "parseMs": 13.3805
+        },
+        {
+            "number": 64,
+            "name": "Ciudad de Lindos",
+            "cells": 11003,
+            "npcs": 10,
+            "objects": 30,
+            "exits": 234,
+            "parseMs": 14.8788
+        },
+        {
+            "number": 65,
+            "name": "Suburbios de Banderbill",
+            "cells": 11234,
+            "npcs": 0,
+            "objects": 96,
+            "exits": 278,
+            "parseMs": 12.2624
+        },
+        {
+            "number": 66,
+            "name": "Carcel de Banderbill",
+            "cells": 16456,
+            "npcs": 0,
+            "objects": 38,
+            "exits": 258,
+            "parseMs": 17.826
+        },
+        {
+            "number": 67,
+            "name": "Bosque al sur Banderbill",
+            "cells": 10167,
+            "npcs": 11,
+            "objects": 154,
+            "exits": 306,
+            "parseMs": 12.7023
+        },
+        {
+            "number": 68,
+            "name": "Bosque al sur Banderbill.",
+            "cells": 10116,
+            "npcs": 6,
+            "objects": 132,
+            "exits": 303,
+            "parseMs": 10.3145
+        },
+        {
+            "number": 69,
+            "name": "Bosque al sur Banderbill",
+            "cells": 10132,
+            "npcs": 6,
+            "objects": 153,
+            "exits": 306,
+            "parseMs": 11.4043
+        },
+        {
+            "number": 70,
+            "name": "Bosque Central",
+            "cells": 10153,
+            "npcs": 13,
+            "objects": 225,
+            "exits": 301,
+            "parseMs": 13.1627
+        },
+        {
+            "number": 71,
+            "name": "Bosques centrales",
+            "cells": 10127,
+            "npcs": 26,
+            "objects": 157,
+            "exits": 306,
+            "parseMs": 13.7853
+        },
+        {
+            "number": 72,
+            "name": "Bosque",
+            "cells": 10119,
+            "npcs": 16,
+            "objects": 108,
+            "exits": 306,
+            "parseMs": 10.3525
+        },
+        {
+            "number": 73,
+            "name": "Bosque",
+            "cells": 10082,
+            "npcs": 13,
+            "objects": 125,
+            "exits": 294,
+            "parseMs": 11.6687
+        },
+        {
+            "number": 74,
+            "name": "Bosque noroeste de Ullathorpe",
+            "cells": 10140,
+            "npcs": 22,
+            "objects": 174,
+            "exits": 303,
+            "parseMs": 12.7316
+        },
+        {
+            "number": 75,
+            "name": "Cercanías de Pantano",
+            "cells": 10303,
+            "npcs": 8,
+            "objects": 91,
+            "exits": 293,
+            "parseMs": 12.7409
+        },
+        {
+            "number": 76,
+            "name": "Entrada Dungeon Marabel",
+            "cells": 10339,
+            "npcs": 14,
+            "objects": 54,
+            "exits": 307,
+            "parseMs": 11.4431
+        },
+        {
+            "number": 77,
+            "name": "Bosque",
+            "cells": 10514,
+            "npcs": 16,
+            "objects": 97,
+            "exits": 304,
+            "parseMs": 12.2185
+        },
+        {
+            "number": 78,
+            "name": "Costas de nix",
+            "cells": 11609,
+            "npcs": 8,
+            "objects": 72,
+            "exits": 296,
+            "parseMs": 16.3989
+        },
+        {
+            "number": 79,
+            "name": "Mar al suroeste de Nix",
+            "cells": 10186,
+            "npcs": 4,
+            "objects": 19,
+            "exits": 308,
+            "parseMs": 12.9625
+        },
+        {
+            "number": 80,
+            "name": "Mar al noroeste de Nix",
+            "cells": 10731,
+            "npcs": 0,
+            "objects": 30,
+            "exits": 307,
+            "parseMs": 11.4897
+        },
+        {
+            "number": 81,
+            "name": "Bosque noreste de Ullathorpe",
+            "cells": 10209,
+            "npcs": 15,
+            "objects": 81,
+            "exits": 303,
+            "parseMs": 14.5051
+        },
+        {
+            "number": 82,
+            "name": "Bosque",
+            "cells": 10584,
+            "npcs": 18,
+            "objects": 74,
+            "exits": 307,
+            "parseMs": 13.4982
+        },
+        {
+            "number": 83,
+            "name": "Bosque",
+            "cells": 10031,
+            "npcs": 13,
+            "objects": 88,
+            "exits": 307,
+            "parseMs": 14.0852
+        },
+        {
+            "number": 84,
+            "name": "Playas del Golfo",
+            "cells": 10139,
+            "npcs": 0,
+            "objects": 41,
+            "exits": 297,
+            "parseMs": 14.1367
+        },
+        {
+            "number": 85,
+            "name": "Playas del Golfo",
+            "cells": 10180,
+            "npcs": 14,
+            "objects": 92,
+            "exits": 302,
+            "parseMs": 16.2035
+        },
+        {
+            "number": 86,
+            "name": "Bosque Central",
+            "cells": 10173,
+            "npcs": 22,
+            "objects": 113,
+            "exits": 287,
+            "parseMs": 16.7089
+        },
+        {
+            "number": 87,
+            "name": "Mar sur de Nix",
+            "cells": 10428,
+            "npcs": 1,
+            "objects": 46,
+            "exits": 248,
+            "parseMs": 11.5774
+        },
+        {
+            "number": 88,
+            "name": "Mar sur de Nix",
+            "cells": 10075,
+            "npcs": 2,
+            "objects": 10,
+            "exits": 308,
+            "parseMs": 12.8875
+        },
+        {
+            "number": 89,
+            "name": "Mar sur de Nix",
+            "cells": 10078,
+            "npcs": 0,
+            "objects": 10,
+            "exits": 308,
+            "parseMs": 12.5613
+        },
+        {
+            "number": 90,
+            "name": "Oeste de Arkhein",
+            "cells": 12432,
+            "npcs": 0,
+            "objects": 27,
+            "exits": 246,
+            "parseMs": 15.1764
+        },
+        {
+            "number": 91,
+            "name": "Bosque",
+            "cells": 13453,
+            "npcs": 8,
+            "objects": 52,
+            "exits": 158,
+            "parseMs": 17.054
+        },
+        {
+            "number": 92,
+            "name": "Costas de Arkhein",
+            "cells": 11844,
+            "npcs": 0,
+            "objects": 3,
+            "exits": 268,
+            "parseMs": 14.1429
+        },
+        {
+            "number": 93,
+            "name": "Zona Norte de Arkhein",
+            "cells": 14471,
+            "npcs": 9,
+            "objects": 25,
+            "exits": 268,
+            "parseMs": 18.9329
+        },
+        {
+            "number": 94,
+            "name": "Bosque",
+            "cells": 11146,
+            "npcs": 19,
+            "objects": 82,
+            "exits": 306,
+            "parseMs": 18.2145
+        },
+        {
+            "number": 95,
+            "name": "Mar sureño",
+            "cells": 10242,
+            "npcs": 0,
+            "objects": 6,
+            "exits": 308,
+            "parseMs": 14.8003
+        },
+        {
+            "number": 96,
+            "name": "Alta Mar",
+            "cells": 10107,
+            "npcs": 0,
+            "objects": 4,
+            "exits": 308,
+            "parseMs": 10.6769
+        },
+        {
+            "number": 97,
+            "name": "Costas Deserticas",
+            "cells": 10370,
+            "npcs": 0,
+            "objects": 14,
+            "exits": 308,
+            "parseMs": 11.195
+        },
+        {
+            "number": 98,
+            "name": "Desierto",
+            "cells": 10945,
+            "npcs": 18,
+            "objects": 34,
+            "exits": 308,
+            "parseMs": 16.55
+        },
+        {
+            "number": 99,
+            "name": "Mar al sur del desierto.",
+            "cells": 10169,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 308,
+            "parseMs": 20.2933
+        },
+        {
+            "number": 100,
+            "name": "Isla Usurpada",
+            "cells": 10846,
+            "npcs": 11,
+            "objects": 40,
+            "exits": 308,
+            "parseMs": 24.4216
+        },
+        {
+            "number": 101,
+            "name": "Desierto",
+            "cells": 11020,
+            "npcs": 21,
+            "objects": 9,
+            "exits": 308,
+            "parseMs": 11.5139
+        },
+        {
+            "number": 102,
+            "name": "Mar sureste del desierto",
+            "cells": 10046,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.2016
+        },
+        {
+            "number": 103,
+            "name": "Mar este del desierto.",
+            "cells": 10561,
+            "npcs": 0,
+            "objects": 8,
+            "exits": 308,
+            "parseMs": 11.9348
+        },
+        {
+            "number": 104,
+            "name": "Mar oeste de Lindos.",
+            "cells": 10044,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.464
+        },
+        {
+            "number": 105,
+            "name": "Mar oeste de Lindos.",
+            "cells": 10010,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.2579
+        },
+        {
+            "number": 106,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.6654
+        },
+        {
+            "number": 107,
+            "name": "Alta Mar",
+            "cells": 10002,
+            "npcs": 3,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.8428
+        },
+        {
+            "number": 108,
+            "name": "Costas Heladas",
+            "cells": 10201,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 213,
+            "parseMs": 12.506
+        },
+        {
+            "number": 109,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.5342
+        },
+        {
+            "number": 110,
+            "name": "Isla Morgolock",
+            "cells": 10080,
+            "npcs": 32,
+            "objects": 5,
+            "exits": 308,
+            "parseMs": 13.4633
+        },
+        {
+            "number": 111,
+            "name": "Nueva Esperanza",
+            "cells": 11547,
+            "npcs": 12,
+            "objects": 71,
+            "exits": 288,
+            "parseMs": 14.414
+        },
+        {
+            "number": 112,
+            "name": "Pueblo de Nueva Esperanza",
+            "cells": 11902,
+            "npcs": 27,
+            "objects": 46,
+            "exits": 286,
+            "parseMs": 16.9267
+        },
+        {
+            "number": 113,
+            "name": "Nueva Esperanza",
+            "cells": 10688,
+            "npcs": 21,
+            "objects": 72,
+            "exits": 234,
+            "parseMs": 13.359
+        },
+        {
+            "number": 114,
+            "name": " Isla Nueva Esperanza",
+            "cells": 10463,
+            "npcs": 17,
+            "objects": 105,
+            "exits": 231,
+            "parseMs": 13.5896
+        },
+        {
+            "number": 115,
+            "name": "Dungeon Marabel.",
+            "cells": 5181,
+            "npcs": 21,
+            "objects": 0,
+            "exits": 59,
+            "parseMs": 9.6762
+        },
+        {
+            "number": 116,
+            "name": "Dungeon Marabel.",
+            "cells": 5044,
+            "npcs": 18,
+            "objects": 0,
+            "exits": 55,
+            "parseMs": 10.6585
+        },
+        {
+            "number": 117,
+            "name": "Mar al oeste de Lindos.",
+            "cells": 10011,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.1495
+        },
+        {
+            "number": 118,
+            "name": "Mar al oeste de Lindos",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.6719
+        },
+        {
+            "number": 119,
+            "name": "Laderas Heladas",
+            "cells": 11021,
+            "npcs": 6,
+            "objects": 0,
+            "exits": 167,
+            "parseMs": 13.4381
+        },
+        {
+            "number": 120,
+            "name": "Archipielagos ",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.3247
+        },
+        {
+            "number": 121,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 6,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.9453
+        },
+        {
+            "number": 122,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.0044
+        },
+        {
+            "number": 123,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.337
+        },
+        {
+            "number": 124,
+            "name": "Mar al este de Arghal",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.3941
+        },
+        {
+            "number": 125,
+            "name": "Mar Oriental.",
+            "cells": 10031,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 232,
+            "parseMs": 10.6965
+        },
+        {
+            "number": 126,
+            "name": "Mar Oriental.",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 10.6752
+        },
+        {
+            "number": 127,
+            "name": "Mar Oriental.",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 228,
+            "parseMs": 9.7901
+        },
+        {
+            "number": 128,
+            "name": "Golfo Polar",
+            "cells": 11609,
+            "npcs": 2,
+            "objects": 0,
+            "exits": 198,
+            "parseMs": 12.8157
+        },
+        {
+            "number": 129,
+            "name": "Laderas Heladas",
+            "cells": 11287,
+            "npcs": 5,
+            "objects": 0,
+            "exits": 207,
+            "parseMs": 14.3905
+        },
+        {
+            "number": 130,
+            "name": "Mar del Norte",
+            "cells": 10009,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 9.0977
+        },
+        {
+            "number": 131,
+            "name": "Mar del Norte",
+            "cells": 10007,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 11.0133
+        },
+        {
+            "number": 132,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 10.9774
+        },
+        {
+            "number": 133,
+            "name": "Isla del Averno",
+            "cells": 9936,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 243,
+            "parseMs": 9.9651
+        },
+        {
+            "number": 134,
+            "name": "Mar del Norte",
+            "cells": 10017,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 229,
+            "parseMs": 12.5568
+        },
+        {
+            "number": 135,
+            "name": "Mar del Norte",
+            "cells": 10014,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 12.3997
+        },
+        {
+            "number": 136,
+            "name": "Mar del Norte",
+            "cells": 10102,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 234,
+            "parseMs": 11.3115
+        },
+        {
+            "number": 137,
+            "name": "Mar del Norte",
+            "cells": 11421,
+            "npcs": 0,
+            "objects": 46,
+            "exits": 230,
+            "parseMs": 13.3432
+        },
+        {
+            "number": 138,
+            "name": "Aguas Heladas",
+            "cells": 10002,
+            "npcs": 1,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.7391
+        },
+        {
+            "number": 139,
+            "name": "Alta Mar",
+            "cells": 10050,
+            "npcs": 8,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.4847
+        },
+        {
+            "number": 140,
+            "name": " Entrada Dungeon Veriil",
+            "cells": 1548,
+            "npcs": 9,
+            "objects": 0,
+            "exits": 14,
+            "parseMs": 7.0919
+        },
+        {
+            "number": 141,
+            "name": " Dungeon Veriil",
+            "cells": 3769,
+            "npcs": 6,
+            "objects": 1,
+            "exits": 23,
+            "parseMs": 8.5316
+        },
+        {
+            "number": 142,
+            "name": " Dungeon Veriil.",
+            "cells": 4210,
+            "npcs": 7,
+            "objects": 1,
+            "exits": 9,
+            "parseMs": 8.3627
+        },
+        {
+            "number": 143,
+            "name": " Dungeon Veriil.",
+            "cells": 2572,
+            "npcs": 3,
+            "objects": 2,
+            "exits": 21,
+            "parseMs": 9.1535
+        },
+        {
+            "number": 144,
+            "name": "Cercanías Minas de Oro",
+            "cells": 3223,
+            "npcs": 3,
+            "objects": 3,
+            "exits": 20,
+            "parseMs": 11.5603
+        },
+        {
+            "number": 145,
+            "name": " Minas Dungeon Veriil",
+            "cells": 3044,
+            "npcs": 6,
+            "objects": 46,
+            "exits": 5,
+            "parseMs": 6.5667
+        },
+        {
+            "number": 146,
+            "name": "Fuerte",
+            "cells": 1961,
+            "npcs": 4,
+            "objects": 0,
+            "exits": 4,
+            "parseMs": 8.8255
+        },
+        {
+            "number": 147,
+            "name": "Mar este de Arghal",
+            "cells": 10115,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 13.2242
+        },
+        {
+            "number": 148,
+            "name": "Mar este de Arghal",
+            "cells": 10030,
+            "npcs": 16,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 31.0801
+        },
+        {
+            "number": 149,
+            "name": "Mar Este de Arghal",
+            "cells": 10046,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 308,
+            "parseMs": 19.2758
+        },
+        {
+            "number": 150,
+            "name": "Muelle de Arghal",
+            "cells": 10928,
+            "npcs": 2,
+            "objects": 29,
+            "exits": 314,
+            "parseMs": 12.3052
+        },
+        {
+            "number": 151,
+            "name": "Ciudad de Arghal",
+            "cells": 11356,
+            "npcs": 16,
+            "objects": 32,
+            "exits": 312,
+            "parseMs": 15.6966
+        },
+        {
+            "number": 152,
+            "name": "Alta Mar",
+            "cells": 10028,
+            "npcs": 0,
+            "objects": 3,
+            "exits": 308,
+            "parseMs": 10.7669
+        },
+        {
+            "number": 153,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.7188
+        },
+        {
+            "number": 154,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 5,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.3124
+        },
+        {
+            "number": 155,
+            "name": "Aguas profundas",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.7867
+        },
+        {
+            "number": 156,
+            "name": "Entrada de Arghal",
+            "cells": 10746,
+            "npcs": 6,
+            "objects": 50,
+            "exits": 292,
+            "parseMs": 15.707
+        },
+        {
+            "number": 157,
+            "name": "Casa del Árbol",
+            "cells": 10573,
+            "npcs": 2,
+            "objects": 67,
+            "exits": 300,
+            "parseMs": 15.7797
+        },
+        {
+            "number": 158,
+            "name": "Bosques este de Banderbill",
+            "cells": 11554,
+            "npcs": 23,
+            "objects": 128,
+            "exits": 289,
+            "parseMs": 16.828
+        },
+        {
+            "number": 159,
+            "name": "Este de Banderbill",
+            "cells": 16265,
+            "npcs": 19,
+            "objects": 31,
+            "exits": 191,
+            "parseMs": 19.031
+        },
+        {
+            "number": 160,
+            "name": "Bosque este de Banderbill.",
+            "cells": 11182,
+            "npcs": 19,
+            "objects": 78,
+            "exits": 299,
+            "parseMs": 13.8722
+        },
+        {
+            "number": 161,
+            "name": "Entrada de Arghal",
+            "cells": 10366,
+            "npcs": 0,
+            "objects": 70,
+            "exits": 301,
+            "parseMs": 11.9627
+        },
+        {
+            "number": 162,
+            "name": "Guarida Abandonada",
+            "cells": 10470,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 22,
+            "parseMs": 11.704
+        },
+        {
+            "number": 163,
+            "name": "Guarida Abandonada",
+            "cells": 10363,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 74,
+            "parseMs": 14.1244
+        },
+        {
+            "number": 164,
+            "name": "Camino del Tesoro",
+            "cells": 11785,
+            "npcs": 0,
+            "objects": 25,
+            "exits": 15,
+            "parseMs": 12.3998
+        },
+        {
+            "number": 165,
+            "name": "Camino del Tesoro",
+            "cells": 11087,
+            "npcs": 0,
+            "objects": 10,
+            "exits": 118,
+            "parseMs": 12.6153
+        },
+        {
+            "number": 166,
+            "name": "Mapa eventos",
+            "cells": 10644,
+            "npcs": 12,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 14.2223
+        },
+        {
+            "number": 167,
+            "name": "Dungeon Newbie Sur",
+            "cells": 7176,
+            "npcs": 44,
+            "objects": 1,
+            "exits": 80,
+            "parseMs": 12.7184
+        },
+        {
+            "number": 168,
+            "name": "Dungeon Newbie Central.",
+            "cells": 8606,
+            "npcs": 66,
+            "objects": 6,
+            "exits": 97,
+            "parseMs": 14.9
+        },
+        {
+            "number": 169,
+            "name": "Minas de Plata",
+            "cells": 4283,
+            "npcs": 0,
+            "objects": 24,
+            "exits": 12,
+            "parseMs": 10.2414
+        },
+        {
+            "number": 170,
+            "name": "Mesón Hostigado",
+            "cells": 9952,
+            "npcs": 10,
+            "objects": 0,
+            "exits": 5,
+            "parseMs": 12.7178
+        },
+        {
+            "number": 171,
+            "name": "Ciudad Abandonada",
+            "cells": 11662,
+            "npcs": 15,
+            "objects": 59,
+            "exits": 256,
+            "parseMs": 14.949
+        },
+        {
+            "number": 172,
+            "name": "Zona de Comercio",
+            "cells": 10019,
+            "npcs": 10,
+            "objects": 14,
+            "exits": 3,
+            "parseMs": 14.2045
+        },
+        {
+            "number": 173,
+            "name": "Guarida del Pantano",
+            "cells": 8786,
+            "npcs": 1,
+            "objects": 0,
+            "exits": 4,
+            "parseMs": 12.083
+        },
+        {
+            "number": 174,
+            "name": "Drenaje",
+            "cells": 8534,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 12,
+            "parseMs": 13.6206
+        },
+        {
+            "number": 175,
+            "name": "Ducto de escape.",
+            "cells": 5662,
+            "npcs": 6,
+            "objects": 0,
+            "exits": 15,
+            "parseMs": 10.1823
+        },
+        {
+            "number": 176,
+            "name": "Ducto de escape.",
+            "cells": 9623,
+            "npcs": 20,
+            "objects": 0,
+            "exits": 15,
+            "parseMs": 11.9025
+        },
+        {
+            "number": 177,
+            "name": "Ducto de escape.",
+            "cells": 9772,
+            "npcs": 8,
+            "objects": 0,
+            "exits": 31,
+            "parseMs": 12.611
+        },
+        {
+            "number": 178,
+            "name": "Ducto de escape.",
+            "cells": 7193,
+            "npcs": 10,
+            "objects": 0,
+            "exits": 19,
+            "parseMs": 12.124
+        },
+        {
+            "number": 179,
+            "name": "Minas de Oro",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 7.8468
+        },
+        {
+            "number": 180,
+            "name": "Entrada Monte perdido",
+            "cells": 10344,
+            "npcs": 13,
+            "objects": 55,
+            "exits": 310,
+            "parseMs": 11.8936
+        },
+        {
+            "number": 181,
+            "name": "Mar del Sur",
+            "cells": 10674,
+            "npcs": 0,
+            "objects": 8,
+            "exits": 304,
+            "parseMs": 10.3606
+        },
+        {
+            "number": 182,
+            "name": "Mar del Sur",
+            "cells": 10004,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 13.0222
+        },
+        {
+            "number": 183,
+            "name": "Mar del Sur",
+            "cells": 10020,
+            "npcs": 0,
+            "objects": 4,
+            "exits": 308,
+            "parseMs": 10.6908
+        },
+        {
+            "number": 184,
+            "name": "Peninsula del desembarco",
+            "cells": 11165,
+            "npcs": 14,
+            "objects": 3,
+            "exits": 234,
+            "parseMs": 13.6557
+        },
+        {
+            "number": 185,
+            "name": "Bosque Central",
+            "cells": 10235,
+            "npcs": 13,
+            "objects": 124,
+            "exits": 302,
+            "parseMs": 12.5887
+        },
+        {
+            "number": 186,
+            "name": "Bosque",
+            "cells": 10320,
+            "npcs": 3,
+            "objects": 85,
+            "exits": 308,
+            "parseMs": 11.5626
+        },
+        {
+            "number": 187,
+            "name": "Costas",
+            "cells": 10234,
+            "npcs": 0,
+            "objects": 55,
+            "exits": 308,
+            "parseMs": 10.8363
+        },
+        {
+            "number": 188,
+            "name": "Granja De Penthar",
+            "cells": 10362,
+            "npcs": 3,
+            "objects": 48,
+            "exits": 304,
+            "parseMs": 14.582
+        },
+        {
+            "number": 189,
+            "name": "Entrada a Penthar",
+            "cells": 10477,
+            "npcs": 0,
+            "objects": 42,
+            "exits": 312,
+            "parseMs": 16.382
+        },
+        {
+            "number": 190,
+            "name": "Costas",
+            "cells": 10465,
+            "npcs": 0,
+            "objects": 81,
+            "exits": 308,
+            "parseMs": 29.088
+        },
+        {
+            "number": 191,
+            "name": "Bosque",
+            "cells": 10025,
+            "npcs": 3,
+            "objects": 90,
+            "exits": 304,
+            "parseMs": 14.1161
+        },
+        {
+            "number": 192,
+            "name": "Bosque de Tigres",
+            "cells": 10064,
+            "npcs": 5,
+            "objects": 119,
+            "exits": 305,
+            "parseMs": 13.5643
+        },
+        {
+            "number": 193,
+            "name": "Bosque de Huargos",
+            "cells": 10029,
+            "npcs": 3,
+            "objects": 136,
+            "exits": 304,
+            "parseMs": 13.1741
+        },
+        {
+            "number": 194,
+            "name": "Bosque de Tigres",
+            "cells": 10206,
+            "npcs": 6,
+            "objects": 115,
+            "exits": 308,
+            "parseMs": 13.7452
+        },
+        {
+            "number": 195,
+            "name": "Ciudad de Arkhein",
+            "cells": 17433,
+            "npcs": 21,
+            "objects": 15,
+            "exits": 155,
+            "parseMs": 19.9147
+        },
+        {
+            "number": 196,
+            "name": "Ciudad de Arkhein",
+            "cells": 16325,
+            "npcs": 18,
+            "objects": 14,
+            "exits": 170,
+            "parseMs": 18.2744
+        },
+        {
+            "number": 197,
+            "name": "Puerto de Arkhein",
+            "cells": 13808,
+            "npcs": 11,
+            "objects": 12,
+            "exits": 222,
+            "parseMs": 15.6461
+        },
+        {
+            "number": 198,
+            "name": "Barco intercontinental",
+            "cells": 10320,
+            "npcs": 6,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 11.6679
+        },
+        {
+            "number": 199,
+            "name": "Bosque Elfico",
+            "cells": 10170,
+            "npcs": 8,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.9633
+        },
+        {
+            "number": 200,
+            "name": "Laberinto escondido",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 1,
+            "parseMs": 11.6134
+        },
+        {
+            "number": 201,
+            "name": "Isla Pirata",
+            "cells": 10326,
+            "npcs": 31,
+            "objects": 30,
+            "exits": 308,
+            "parseMs": 11.4663
+        },
+        {
+            "number": 202,
+            "name": "Desierto",
+            "cells": 11460,
+            "npcs": 15,
+            "objects": 25,
+            "exits": 308,
+            "parseMs": 13.2775
+        },
+        {
+            "number": 203,
+            "name": "Desierto",
+            "cells": 11394,
+            "npcs": 7,
+            "objects": 12,
+            "exits": 307,
+            "parseMs": 13.3602
+        },
+        {
+            "number": 204,
+            "name": "Alta Mar",
+            "cells": 10047,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 308,
+            "parseMs": 9.9779
+        },
+        {
+            "number": 205,
+            "name": "Alta Mar",
+            "cells": 10118,
+            "npcs": 12,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.2873
+        },
+        {
+            "number": 206,
+            "name": "Isla Perdida",
+            "cells": 10470,
+            "npcs": 13,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.7771
+        },
+        {
+            "number": 207,
+            "name": "Alta Mar",
+            "cells": 10041,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.5432
+        },
+        {
+            "number": 208,
+            "name": "Cueva de las Nagas",
+            "cells": 10047,
+            "npcs": 5,
+            "objects": 0,
+            "exits": 80,
+            "parseMs": 16.8974
+        },
+        {
+            "number": 209,
+            "name": "Mar del Sur",
+            "cells": 10084,
+            "npcs": 0,
+            "objects": 7,
+            "exits": 308,
+            "parseMs": 10.3733
+        },
+        {
+            "number": 210,
+            "name": "Archipielago de Nix",
+            "cells": 10276,
+            "npcs": 13,
+            "objects": 62,
+            "exits": 308,
+            "parseMs": 11.9158
+        },
+        {
+            "number": 211,
+            "name": "Archipielago de Nix",
+            "cells": 10646,
+            "npcs": 0,
+            "objects": 71,
+            "exits": 312,
+            "parseMs": 13.6258
+        },
+        {
+            "number": 212,
+            "name": "Archipielago de Nix",
+            "cells": 10319,
+            "npcs": 23,
+            "objects": 87,
+            "exits": 308,
+            "parseMs": 13.8395
+        },
+        {
+            "number": 213,
+            "name": "Archipielago de Nix",
+            "cells": 10254,
+            "npcs": 21,
+            "objects": 85,
+            "exits": 307,
+            "parseMs": 14.1514
+        },
+        {
+            "number": 214,
+            "name": "Archipielago de Nix",
+            "cells": 10360,
+            "npcs": 12,
+            "objects": 41,
+            "exits": 308,
+            "parseMs": 10.527
+        },
+        {
+            "number": 215,
+            "name": "Archipielago de Nix",
+            "cells": 10132,
+            "npcs": 4,
+            "objects": 25,
+            "exits": 308,
+            "parseMs": 12.0967
+        },
+        {
+            "number": 216,
+            "name": "Mar del Sur",
+            "cells": 10001,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.7138
+        },
+        {
+            "number": 217,
+            "name": "Mar del Sur",
+            "cells": 10222,
+            "npcs": 10,
+            "objects": 9,
+            "exits": 308,
+            "parseMs": 11.2369
+        },
+        {
+            "number": 218,
+            "name": "Costas de Arkhein",
+            "cells": 11304,
+            "npcs": 0,
+            "objects": 17,
+            "exits": 296,
+            "parseMs": 13.1624
+        },
+        {
+            "number": 219,
+            "name": "Costas de Arkhein",
+            "cells": 14579,
+            "npcs": 0,
+            "objects": 28,
+            "exits": 207,
+            "parseMs": 15.6935
+        },
+        {
+            "number": 220,
+            "name": "Costas de Arkhein",
+            "cells": 14635,
+            "npcs": 0,
+            "objects": 13,
+            "exits": 226,
+            "parseMs": 16.0937
+        },
+        {
+            "number": 221,
+            "name": "Costas de Arkhein",
+            "cells": 11528,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 288,
+            "parseMs": 12.155
+        },
+        {
+            "number": 222,
+            "name": "Mar del Sur",
+            "cells": 10051,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 308,
+            "parseMs": 8.8811
+        },
+        {
+            "number": 223,
+            "name": "Costas de Arkhein",
+            "cells": 11760,
+            "npcs": 0,
+            "objects": 34,
+            "exits": 294,
+            "parseMs": 11.1817
+        },
+        {
+            "number": 224,
+            "name": "Isla Solitaria",
+            "cells": 10622,
+            "npcs": 0,
+            "objects": 21,
+            "exits": 308,
+            "parseMs": 9.9701
+        },
+        {
+            "number": 225,
+            "name": "Mar oeste de Nix",
+            "cells": 10185,
+            "npcs": 0,
+            "objects": 3,
+            "exits": 307,
+            "parseMs": 12.8315
+        },
+        {
+            "number": 226,
+            "name": "Mar oeste",
+            "cells": 10125,
+            "npcs": 0,
+            "objects": 22,
+            "exits": 308,
+            "parseMs": 11.1843
+        },
+        {
+            "number": 227,
+            "name": "Aguas poco Profundas",
+            "cells": 10088,
+            "npcs": 0,
+            "objects": 11,
+            "exits": 308,
+            "parseMs": 11.4943
+        },
+        {
+            "number": 228,
+            "name": "Pantano",
+            "cells": 10416,
+            "npcs": 7,
+            "objects": 9,
+            "exits": 272,
+            "parseMs": 12.9631
+        },
+        {
+            "number": 229,
+            "name": "Pantano",
+            "cells": 10248,
+            "npcs": 6,
+            "objects": 1,
+            "exits": 288,
+            "parseMs": 13.0681
+        },
+        {
+            "number": 230,
+            "name": "Pantano",
+            "cells": 10100,
+            "npcs": 0,
+            "objects": 9,
+            "exits": 308,
+            "parseMs": 14.5947
+        },
+        {
+            "number": 231,
+            "name": "Alta Mar",
+            "cells": 10138,
+            "npcs": 0,
+            "objects": 8,
+            "exits": 300,
+            "parseMs": 29.2553
+        },
+        {
+            "number": 232,
+            "name": "Pantano",
+            "cells": 10188,
+            "npcs": 7,
+            "objects": 3,
+            "exits": 295,
+            "parseMs": 21.8035
+        },
+        {
+            "number": 233,
+            "name": "Pantano",
+            "cells": 10429,
+            "npcs": 13,
+            "objects": 0,
+            "exits": 261,
+            "parseMs": 15.5892
+        },
+        {
+            "number": 234,
+            "name": "Pantano",
+            "cells": 10088,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 285,
+            "parseMs": 10.9188
+        },
+        {
+            "number": 235,
+            "name": "Mar Occidental",
+            "cells": 10071,
+            "npcs": 0,
+            "objects": 3,
+            "exits": 308,
+            "parseMs": 11.1519
+        },
+        {
+            "number": 236,
+            "name": "Bosque Elfico",
+            "cells": 10262,
+            "npcs": 3,
+            "objects": 5,
+            "exits": 298,
+            "parseMs": 13.4548
+        },
+        {
+            "number": 237,
+            "name": "Bosque Elfico",
+            "cells": 10242,
+            "npcs": 3,
+            "objects": 7,
+            "exits": 308,
+            "parseMs": 11.927
+        },
+        {
+            "number": 238,
+            "name": "Bosque Elfico",
+            "cells": 10193,
+            "npcs": 0,
+            "objects": 4,
+            "exits": 300,
+            "parseMs": 12.5442
+        },
+        {
+            "number": 239,
+            "name": "Bosque Elfico",
+            "cells": 10288,
+            "npcs": 5,
+            "objects": 8,
+            "exits": 308,
+            "parseMs": 11.136
+        },
+        {
+            "number": 240,
+            "name": "Mar Del Sur",
+            "cells": 10095,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 308,
+            "parseMs": 9.6444
+        },
+        {
+            "number": 241,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.4147
+        },
+        {
+            "number": 242,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.527
+        },
+        {
+            "number": 243,
+            "name": "Costas al sur Banderbill",
+            "cells": 10433,
+            "npcs": 0,
+            "objects": 30,
+            "exits": 306,
+            "parseMs": 12.3133
+        },
+        {
+            "number": 244,
+            "name": "Peninsula de Arghal",
+            "cells": 10349,
+            "npcs": 0,
+            "objects": 70,
+            "exits": 286,
+            "parseMs": 13.8541
+        },
+        {
+            "number": 245,
+            "name": "Bosque de Tigres",
+            "cells": 10114,
+            "npcs": 7,
+            "objects": 128,
+            "exits": 292,
+            "parseMs": 12.6101
+        },
+        {
+            "number": 246,
+            "name": "Cuidad de Arghal",
+            "cells": 10673,
+            "npcs": 0,
+            "objects": 42,
+            "exits": 294,
+            "parseMs": 12.5853
+        },
+        {
+            "number": 247,
+            "name": "Mar sur de Arghal",
+            "cells": 10165,
+            "npcs": 0,
+            "objects": 51,
+            "exits": 308,
+            "parseMs": 12.1778
+        },
+        {
+            "number": 248,
+            "name": "Mar Central",
+            "cells": 10079,
+            "npcs": 0,
+            "objects": 15,
+            "exits": 308,
+            "parseMs": 10.4048
+        },
+        {
+            "number": 249,
+            "name": "Mar Central",
+            "cells": 10030,
+            "npcs": 0,
+            "objects": 5,
+            "exits": 308,
+            "parseMs": 10.971
+        },
+        {
+            "number": 250,
+            "name": "Mar Central",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.122
+        },
+        {
+            "number": 251,
+            "name": "Mar Central",
+            "cells": 10299,
+            "npcs": 8,
+            "objects": 2,
+            "exits": 304,
+            "parseMs": 11.4816
+        },
+        {
+            "number": 252,
+            "name": "Mar Central",
+            "cells": 10229,
+            "npcs": 0,
+            "objects": 8,
+            "exits": 304,
+            "parseMs": 11.5963
+        },
+        {
+            "number": 253,
+            "name": "Mar Central",
+            "cells": 10094,
+            "npcs": 0,
+            "objects": 5,
+            "exits": 308,
+            "parseMs": 12.1074
+        },
+        {
+            "number": 254,
+            "name": "Puerto de Pescadores",
+            "cells": 10902,
+            "npcs": 3,
+            "objects": 5,
+            "exits": 270,
+            "parseMs": 14.8242
+        },
+        {
+            "number": 255,
+            "name": "Sendero del Puerto",
+            "cells": 10519,
+            "npcs": 0,
+            "objects": 20,
+            "exits": 274,
+            "parseMs": 12.729
+        },
+        {
+            "number": 256,
+            "name": "Golfo",
+            "cells": 10260,
+            "npcs": 7,
+            "objects": 31,
+            "exits": 295,
+            "parseMs": 12.7199
+        },
+        {
+            "number": 257,
+            "name": "Peninsula de Arghal",
+            "cells": 10319,
+            "npcs": 0,
+            "objects": 15,
+            "exits": 301,
+            "parseMs": 10.5981
+        },
+        {
+            "number": 258,
+            "name": "Mar de Leviatanes",
+            "cells": 10000,
+            "npcs": 5,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.8438
+        },
+        {
+            "number": 259,
+            "name": "Alta Mar",
+            "cells": 10049,
+            "npcs": 0,
+            "objects": 5,
+            "exits": 308,
+            "parseMs": 10.8821
+        },
+        {
+            "number": 260,
+            "name": "Mar sur",
+            "cells": 10536,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 257,
+            "parseMs": 10.5976
+        },
+        {
+            "number": 261,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.5152
+        },
+        {
+            "number": 262,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.4343
+        },
+        {
+            "number": 263,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.0991
+        },
+        {
+            "number": 264,
+            "name": "Dungeon Newbie",
+            "cells": 8130,
+            "npcs": 62,
+            "objects": 1,
+            "exits": 78,
+            "parseMs": 12.8776
+        },
+        {
+            "number": 265,
+            "name": "Bosque de los Espiritus",
+            "cells": 10238,
+            "npcs": 3,
+            "objects": 2,
+            "exits": 302,
+            "parseMs": 13.4875
+        },
+        {
+            "number": 266,
+            "name": "Ciudad de Ullathorpe",
+            "cells": 10956,
+            "npcs": 0,
+            "objects": 120,
+            "exits": 10,
+            "parseMs": 13.9634
+        },
+        {
+            "number": 267,
+            "name": "Bosque de Tigres",
+            "cells": 10118,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 11.694
+        },
+        {
+            "number": 268,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.3231
+        },
+        {
+            "number": 269,
+            "name": "Bosque Elfico",
+            "cells": 10224,
+            "npcs": 8,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 15.3841
+        },
+        {
+            "number": 270,
+            "name": "Ciudad de Eldoria",
+            "cells": 11050,
+            "npcs": 0,
+            "objects": 4,
+            "exits": 280,
+            "parseMs": 14.9499
+        },
+        {
+            "number": 271,
+            "name": "Ciudad de Eldoria",
+            "cells": 10633,
+            "npcs": 0,
+            "objects": 6,
+            "exits": 288,
+            "parseMs": 15.4363
+        },
+        {
+            "number": 272,
+            "name": "Arena de Clanes",
+            "cells": 10883,
+            "npcs": 32,
+            "objects": 32,
+            "exits": 2,
+            "parseMs": 15.9084
+        },
+        {
+            "number": 273,
+            "name": "Arena de Clanes",
+            "cells": 11019,
+            "npcs": 18,
+            "objects": 11,
+            "exits": 5,
+            "parseMs": 18.8165
+        },
+        {
+            "number": 274,
+            "name": "Bosque Elfico",
+            "cells": 10173,
+            "npcs": 8,
+            "objects": 10,
+            "exits": 308,
+            "parseMs": 24.8368
+        },
+        {
+            "number": 275,
+            "name": "Bosque",
+            "cells": 10230,
+            "npcs": 0,
+            "objects": 10,
+            "exits": 58,
+            "parseMs": 28.651
+        },
+        {
+            "number": 276,
+            "name": "Bosque de Tigres",
+            "cells": 10453,
+            "npcs": 0,
+            "objects": 65,
+            "exits": 123,
+            "parseMs": 18.2611
+        },
+        {
+            "number": 277,
+            "name": "Bosque de Tigres",
+            "cells": 10314,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 65,
+            "parseMs": 16.9773
+        },
+        {
+            "number": 278,
+            "name": "Bosque de Tigres",
+            "cells": 10180,
+            "npcs": 4,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 15.7133
+        },
+        {
+            "number": 279,
+            "name": "Conquista Pirata",
+            "cells": 10367,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 4,
+            "parseMs": 16.562
+        },
+        {
+            "number": 280,
+            "name": "Bodega Pirata",
+            "cells": 10332,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 4,
+            "parseMs": 11.9198
+        },
+        {
+            "number": 281,
+            "name": "Caverna del Dragón",
+            "cells": 10007,
+            "npcs": 1,
+            "objects": 0,
+            "exits": 3,
+            "parseMs": 16.5243
+        },
+        {
+            "number": 282,
+            "name": "Isla Otto",
+            "cells": 10256,
+            "npcs": 0,
+            "objects": 13,
+            "exits": 308,
+            "parseMs": 12.2226
+        },
+        {
+            "number": 283,
+            "name": "Entrada Ruinas de Earost",
+            "cells": 6039,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 39,
+            "parseMs": 13.425
+        },
+        {
+            "number": 284,
+            "name": "Escondrijo Ruinas de Earost",
+            "cells": 9528,
+            "npcs": 9,
+            "objects": 0,
+            "exits": 75,
+            "parseMs": 14.2313
+        },
+        {
+            "number": 285,
+            "name": "Kraken Ruinas de Earost",
+            "cells": 10207,
+            "npcs": 1,
+            "objects": 0,
+            "exits": 28,
+            "parseMs": 13.8772
+        },
+        {
+            "number": 286,
+            "name": "Templo Oscuro",
+            "cells": 10367,
+            "npcs": 3,
+            "objects": 2,
+            "exits": 6,
+            "parseMs": 16.6134
+        },
+        {
+            "number": 287,
+            "name": "Bosque Elfico",
+            "cells": 10109,
+            "npcs": 2,
+            "objects": 0,
+            "exits": 154,
+            "parseMs": 12.6155
+        },
+        {
+            "number": 288,
+            "name": "Mar Del Sur",
+            "cells": 10006,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.7352
+        },
+        {
+            "number": 289,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 17.2917
+        },
+        {
+            "number": 290,
+            "name": "Mar Nordico",
+            "cells": 10004,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 13.0953
+        },
+        {
+            "number": 291,
+            "name": "Catacumbas Lvl2",
+            "cells": 10627,
+            "npcs": 9,
+            "objects": 1,
+            "exits": 7,
+            "parseMs": 19.7795
+        },
+        {
+            "number": 292,
+            "name": "Catacumbas Lvl2",
+            "cells": 10734,
+            "npcs": 6,
+            "objects": 0,
+            "exits": 12,
+            "parseMs": 14.9232
+        },
+        {
+            "number": 293,
+            "name": "Catacumbas Lvl2",
+            "cells": 10724,
+            "npcs": 6,
+            "objects": 0,
+            "exits": 12,
+            "parseMs": 15.823
+        },
+        {
+            "number": 294,
+            "name": "Palacio",
+            "cells": 11701,
+            "npcs": 6,
+            "objects": 1,
+            "exits": 6,
+            "parseMs": 17.5299
+        },
+        {
+            "number": 295,
+            "name": "Palacio",
+            "cells": 11758,
+            "npcs": 5,
+            "objects": 1,
+            "exits": 6,
+            "parseMs": 16.6331
+        },
+        {
+            "number": 296,
+            "name": "2do Piso",
+            "cells": 10285,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 9,
+            "parseMs": 12.7214
+        },
+        {
+            "number": 297,
+            "name": "Isla del Oraculo",
+            "cells": 11819,
+            "npcs": 3,
+            "objects": 6,
+            "exits": 308,
+            "parseMs": 12.8746
+        },
+        {
+            "number": 298,
+            "name": "Mar del Norte",
+            "cells": 10015,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.8408
+        },
+        {
+            "number": 299,
+            "name": "Costas de Esperanza",
+            "cells": 10332,
+            "npcs": 0,
+            "objects": 15,
+            "exits": 308,
+            "parseMs": 12.0669
+        },
+        {
+            "number": 300,
+            "name": "Sin Datos",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 14.7576
+        },
+        {
+            "number": 301,
+            "name": "Camino al Averno",
+            "cells": 10009,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 154,
+            "parseMs": 10.7792
+        },
+        {
+            "number": 302,
+            "name": "Averno Ancestral",
+            "cells": 10053,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 234,
+            "parseMs": 11.0402
+        },
+        {
+            "number": 303,
+            "name": "Cueva de las Nagas",
+            "cells": 10101,
+            "npcs": 5,
+            "objects": 0,
+            "exits": 32,
+            "parseMs": 16.7521
+        },
+        {
+            "number": 304,
+            "name": "Cueva de las Nagas",
+            "cells": 10077,
+            "npcs": 6,
+            "objects": 0,
+            "exits": 148,
+            "parseMs": 16.7552
+        },
+        {
+            "number": 305,
+            "name": "Cueva de las Nagas",
+            "cells": 10089,
+            "npcs": 4,
+            "objects": 0,
+            "exits": 31,
+            "parseMs": 17.1227
+        },
+        {
+            "number": 306,
+            "name": "Gruta del Yeti",
+            "cells": 17800,
+            "npcs": 4,
+            "objects": 0,
+            "exits": 80,
+            "parseMs": 23.2482
+        },
+        {
+            "number": 307,
+            "name": "Refugio de Eztbron Vientogélido",
+            "cells": 18531,
+            "npcs": 1,
+            "objects": 0,
+            "exits": 74,
+            "parseMs": 21.9712
+        },
+        {
+            "number": 308,
+            "name": "Paso del Digno",
+            "cells": 19394,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 148,
+            "parseMs": 22.5853
+        },
+        {
+            "number": 309,
+            "name": "Interior de la cueva",
+            "cells": 18013,
+            "npcs": 4,
+            "objects": 0,
+            "exits": 152,
+            "parseMs": 30.0614
+        },
+        {
+            "number": 310,
+            "name": "Caverna Helada",
+            "cells": 18443,
+            "npcs": 8,
+            "objects": 0,
+            "exits": 78,
+            "parseMs": 35.9984
+        },
+        {
+            "number": 311,
+            "name": "Cueva de las Gorgonas",
+            "cells": 5101,
+            "npcs": 3,
+            "objects": 0,
+            "exits": 15,
+            "parseMs": 15.7318
+        },
+        {
+            "number": 312,
+            "name": "Ala Derecha",
+            "cells": 4215,
+            "npcs": 5,
+            "objects": 0,
+            "exits": 5,
+            "parseMs": 13.6097
+        },
+        {
+            "number": 313,
+            "name": "Ala Izquierda",
+            "cells": 3751,
+            "npcs": 5,
+            "objects": 0,
+            "exits": 5,
+            "parseMs": 13.7866
+        },
+        {
+            "number": 314,
+            "name": "Limbo de los Justos",
+            "cells": 5383,
+            "npcs": 11,
+            "objects": 0,
+            "exits": 11,
+            "parseMs": 23.7102
+        },
+        {
+            "number": 315,
+            "name": "Fortaleza Medusa Reina",
+            "cells": 7653,
+            "npcs": 1,
+            "objects": 2,
+            "exits": 10,
+            "parseMs": 24.0893
+        },
+        {
+            "number": 316,
+            "name": "Sotano",
+            "cells": 10188,
+            "npcs": 2,
+            "objects": 0,
+            "exits": 2,
+            "parseMs": 13.2778
+        },
+        {
+            "number": 317,
+            "name": "Camino a Nivel Tres",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 8.9137
+        },
+        {
+            "number": 318,
+            "name": "Sótano DEMO",
+            "cells": 10244,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 2,
+            "parseMs": 13.8804
+        },
+        {
+            "number": 319,
+            "name": "Iglesia de Banderbill",
+            "cells": 10348,
+            "npcs": 2,
+            "objects": 4,
+            "exits": 6,
+            "parseMs": 12.9952
+        },
+        {
+            "number": 320,
+            "name": "Jardin de Hildorien",
+            "cells": 11561,
+            "npcs": 3,
+            "objects": 44,
+            "exits": 8,
+            "parseMs": 16.715
+        },
+        {
+            "number": 321,
+            "name": "Drenaje",
+            "cells": 6919,
+            "npcs": 12,
+            "objects": 1,
+            "exits": 43,
+            "parseMs": 12.1
+        },
+        {
+            "number": 322,
+            "name": " Teatro \"El Juglar\"",
+            "cells": 10150,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 74,
+            "parseMs": 11.5056
+        },
+        {
+            "number": 323,
+            "name": "Nido Aracnido Boss",
+            "cells": 10091,
+            "npcs": 1,
+            "objects": 0,
+            "exits": 2,
+            "parseMs": 13.7547
+        },
+        {
+            "number": 324,
+            "name": "Zona de Ring",
+            "cells": 10249,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 15.4522
+        },
+        {
+            "number": 325,
+            "name": "Drenaje",
+            "cells": 8589,
+            "npcs": 9,
+            "objects": 0,
+            "exits": 71,
+            "parseMs": 13.6546
+        },
+        {
+            "number": 326,
+            "name": "Laberinto escondido",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 1,
+            "parseMs": 11.6866
+        },
+        {
+            "number": 327,
+            "name": "Drenaje",
+            "cells": 7264,
+            "npcs": 7,
+            "objects": 1,
+            "exits": 106,
+            "parseMs": 13.0572
+        },
+        {
+            "number": 328,
+            "name": "Drenaje",
+            "cells": 7436,
+            "npcs": 8,
+            "objects": 2,
+            "exits": 40,
+            "parseMs": 12.6229
+        },
+        {
+            "number": 329,
+            "name": "Drenaje",
+            "cells": 7476,
+            "npcs": 4,
+            "objects": 4,
+            "exits": 28,
+            "parseMs": 11.9067
+        },
+        {
+            "number": 330,
+            "name": "Ciudad de Eldoria",
+            "cells": 10354,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 297,
+            "parseMs": 11.5562
+        },
+        {
+            "number": 331,
+            "name": "Drenaje",
+            "cells": 6533,
+            "npcs": 6,
+            "objects": 2,
+            "exits": 22,
+            "parseMs": 11.6145
+        },
+        {
+            "number": 332,
+            "name": "Drenaje",
+            "cells": 6790,
+            "npcs": 9,
+            "objects": 1,
+            "exits": 31,
+            "parseMs": 10.8794
+        },
+        {
+            "number": 333,
+            "name": "Drenaje",
+            "cells": 8875,
+            "npcs": 2,
+            "objects": 2,
+            "exits": 48,
+            "parseMs": 12.4913
+        },
+        {
+            "number": 334,
+            "name": "Drenaje",
+            "cells": 8275,
+            "npcs": 7,
+            "objects": 0,
+            "exits": 43,
+            "parseMs": 11.5693
+        },
+        {
+            "number": 335,
+            "name": "Drenaje",
+            "cells": 9569,
+            "npcs": 2,
+            "objects": 2,
+            "exits": 48,
+            "parseMs": 12.8596
+        },
+        {
+            "number": 336,
+            "name": "Drenaje",
+            "cells": 8001,
+            "npcs": 1,
+            "objects": 5,
+            "exits": 57,
+            "parseMs": 13.0415
+        },
+        {
+            "number": 337,
+            "name": "Drenaje",
+            "cells": 7677,
+            "npcs": 2,
+            "objects": 0,
+            "exits": 50,
+            "parseMs": 11.9189
+        },
+        {
+            "number": 338,
+            "name": "Costas del Norte",
+            "cells": 16202,
+            "npcs": 0,
+            "objects": 26,
+            "exits": 320,
+            "parseMs": 18.778
+        },
+        {
+            "number": 339,
+            "name": "Costas del Norte",
+            "cells": 14726,
+            "npcs": 2,
+            "objects": 20,
+            "exits": 285,
+            "parseMs": 16.0841
+        },
+        {
+            "number": 340,
+            "name": "Mar del Norte",
+            "cells": 10316,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 307,
+            "parseMs": 10.6395
+        },
+        {
+            "number": 341,
+            "name": "Oeste Banderbill",
+            "cells": 10462,
+            "npcs": 0,
+            "objects": 10,
+            "exits": 308,
+            "parseMs": 11.1348
+        },
+        {
+            "number": 342,
+            "name": "Oeste de Banderbill",
+            "cells": 10074,
+            "npcs": 0,
+            "objects": 7,
+            "exits": 308,
+            "parseMs": 10.8897
+        },
+        {
+            "number": 343,
+            "name": "Costas Elficas",
+            "cells": 10324,
+            "npcs": 1,
+            "objects": 10,
+            "exits": 308,
+            "parseMs": 10.8043
+        },
+        {
+            "number": 344,
+            "name": "Bosque Elfico",
+            "cells": 10263,
+            "npcs": 2,
+            "objects": 8,
+            "exits": 308,
+            "parseMs": 11.217
+        },
+        {
+            "number": 345,
+            "name": "Costas Del Norte",
+            "cells": 12152,
+            "npcs": 3,
+            "objects": 23,
+            "exits": 218,
+            "parseMs": 12.7261
+        },
+        {
+            "number": 346,
+            "name": "Bosque Este de la ciudad",
+            "cells": 16054,
+            "npcs": 0,
+            "objects": 53,
+            "exits": 277,
+            "parseMs": 19.0676
+        },
+        {
+            "number": 347,
+            "name": "Bosque al sur Banderbill.",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 10.8073
+        },
+        {
+            "number": 348,
+            "name": "Costas heladas",
+            "cells": 10291,
+            "npcs": 2,
+            "objects": 0,
+            "exits": 300,
+            "parseMs": 12.7109
+        },
+        {
+            "number": 349,
+            "name": "Laderas Heladas",
+            "cells": 11230,
+            "npcs": 9,
+            "objects": 0,
+            "exits": 224,
+            "parseMs": 13.667
+        },
+        {
+            "number": 350,
+            "name": "Costas heladas",
+            "cells": 10789,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 219,
+            "parseMs": 13.8442
+        },
+        {
+            "number": 351,
+            "name": "Laderas Heladas",
+            "cells": 10652,
+            "npcs": 8,
+            "objects": 0,
+            "exits": 169,
+            "parseMs": 15.8117
+        },
+        {
+            "number": 352,
+            "name": "Costas Heladas",
+            "cells": 10413,
+            "npcs": 1,
+            "objects": 0,
+            "exits": 272,
+            "parseMs": 10.938
+        },
+        {
+            "number": 353,
+            "name": "Costas Heladas",
+            "cells": 10518,
+            "npcs": 5,
+            "objects": 12,
+            "exits": 298,
+            "parseMs": 11.1661
+        },
+        {
+            "number": 354,
+            "name": "Eleusis",
+            "cells": 11920,
+            "npcs": 22,
+            "objects": 31,
+            "exits": 251,
+            "parseMs": 15.6651
+        },
+        {
+            "number": 355,
+            "name": "Laderas Heladas",
+            "cells": 10585,
+            "npcs": 10,
+            "objects": 6,
+            "exits": 197,
+            "parseMs": 13.5616
+        },
+        {
+            "number": 356,
+            "name": "Laderas Heladas ",
+            "cells": 10595,
+            "npcs": 10,
+            "objects": 0,
+            "exits": 144,
+            "parseMs": 12.521
+        },
+        {
+            "number": 357,
+            "name": "Costas Heladas",
+            "cells": 10331,
+            "npcs": 1,
+            "objects": 0,
+            "exits": 275,
+            "parseMs": 24.6258
+        },
+        {
+            "number": 358,
+            "name": "Costas Heladas",
+            "cells": 10212,
+            "npcs": 4,
+            "objects": 0,
+            "exits": 298,
+            "parseMs": 12.4683
+        },
+        {
+            "number": 359,
+            "name": "Costas Heladas",
+            "cells": 10890,
+            "npcs": 3,
+            "objects": 0,
+            "exits": 293,
+            "parseMs": 14.8408
+        },
+        {
+            "number": 360,
+            "name": "Costas Heladas",
+            "cells": 10677,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 293,
+            "parseMs": 13.5428
+        },
+        {
+            "number": 361,
+            "name": "Caminos helados",
+            "cells": 10190,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 269,
+            "parseMs": 11.672
+        },
+        {
+            "number": 362,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.5494
+        },
+        {
+            "number": 363,
+            "name": "Aguas Profundas",
+            "cells": 10000,
+            "npcs": 5,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.661
+        },
+        {
+            "number": 364,
+            "name": "Mar del Sur",
+            "cells": 10025,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.0561
+        },
+        {
+            "number": 365,
+            "name": "Magma Dugeon",
+            "cells": 10045,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 20,
+            "parseMs": 14.1926
+        },
+        {
+            "number": 366,
+            "name": "Magma Dungeon",
+            "cells": 10125,
+            "npcs": 6,
+            "objects": 0,
+            "exits": 17,
+            "parseMs": 13.3303
+        },
+        {
+            "number": 367,
+            "name": "Magma Dungeon",
+            "cells": 10126,
+            "npcs": 5,
+            "objects": 0,
+            "exits": 11,
+            "parseMs": 13.2018
+        },
+        {
+            "number": 368,
+            "name": "Magma Dungeon",
+            "cells": 10077,
+            "npcs": 1,
+            "objects": 3,
+            "exits": 14,
+            "parseMs": 12.9397
+        },
+        {
+            "number": 369,
+            "name": "Montaña Enana",
+            "cells": 10362,
+            "npcs": 2,
+            "objects": 0,
+            "exits": 16,
+            "parseMs": 15.3434
+        },
+        {
+            "number": 370,
+            "name": "Montaña Enana",
+            "cells": 10393,
+            "npcs": 6,
+            "objects": 0,
+            "exits": 23,
+            "parseMs": 14.5315
+        },
+        {
+            "number": 371,
+            "name": "Montaña Enana",
+            "cells": 10373,
+            "npcs": 5,
+            "objects": 18,
+            "exits": 154,
+            "parseMs": 14.311
+        },
+        {
+            "number": 372,
+            "name": "Zona de Ring",
+            "cells": 10251,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 15.7915
+        },
+        {
+            "number": 373,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 11.9108
+        },
+        {
+            "number": 374,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 10.7761
+        },
+        {
+            "number": 375,
+            "name": "Mar del Sur",
+            "cells": 10008,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 11.8917
+        },
+        {
+            "number": 376,
+            "name": "Drenaje",
+            "cells": 8805,
+            "npcs": 10,
+            "objects": 3,
+            "exits": 48,
+            "parseMs": 13.5882
+        },
+        {
+            "number": 377,
+            "name": "Dungeon Dragon",
+            "cells": 7478,
+            "npcs": 13,
+            "objects": 1,
+            "exits": 24,
+            "parseMs": 13.9009
+        },
+        {
+            "number": 378,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 9.2592
+        },
+        {
+            "number": 379,
+            "name": "Mar del Sur",
+            "cells": 10013,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 10.0043
+        },
+        {
+            "number": 380,
+            "name": "Mar del Sur",
+            "cells": 10166,
+            "npcs": 0,
+            "objects": 15,
+            "exits": 234,
+            "parseMs": 12.6034
+        },
+        {
+            "number": 381,
+            "name": "Mar del Sur",
+            "cells": 10098,
+            "npcs": 0,
+            "objects": 4,
+            "exits": 234,
+            "parseMs": 10.726
+        },
+        {
+            "number": 382,
+            "name": "Drenaje",
+            "cells": 6353,
+            "npcs": 9,
+            "objects": 1,
+            "exits": 36,
+            "parseMs": 11.9381
+        },
+        {
+            "number": 383,
+            "name": "Profundidad de la Montaña",
+            "cells": 10339,
+            "npcs": 4,
+            "objects": 3,
+            "exits": 80,
+            "parseMs": 12.8091
+        },
+        {
+            "number": 384,
+            "name": "Drenaje",
+            "cells": 9332,
+            "npcs": 10,
+            "objects": 0,
+            "exits": 41,
+            "parseMs": 15.4381
+        },
+        {
+            "number": 385,
+            "name": "Oceano corrupto",
+            "cells": 10205,
+            "npcs": 3,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 13.5007
+        },
+        {
+            "number": 386,
+            "name": "Oceano Abierto",
+            "cells": 10049,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.1069
+        },
+        {
+            "number": 387,
+            "name": "Oceano Abierto",
+            "cells": 10048,
+            "npcs": 1,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.5376
+        },
+        {
+            "number": 388,
+            "name": "Drenaje",
+            "cells": 8016,
+            "npcs": 8,
+            "objects": 2,
+            "exits": 60,
+            "parseMs": 12.155
+        },
+        {
+            "number": 389,
+            "name": "Zona de Ring",
+            "cells": 10249,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 16.231
+        },
+        {
+            "number": 390,
+            "name": "Zona de Ring",
+            "cells": 10254,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 14.47
+        },
+        {
+            "number": 391,
+            "name": "Dungeon Dragon",
+            "cells": 8049,
+            "npcs": 7,
+            "objects": 3,
+            "exits": 31,
+            "parseMs": 10.853
+        },
+        {
+            "number": 392,
+            "name": "Mausoleo",
+            "cells": 10086,
+            "npcs": 14,
+            "objects": 0,
+            "exits": 2,
+            "parseMs": 13.9644
+        },
+        {
+            "number": 393,
+            "name": "Sotano Iglesia",
+            "cells": 2788,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 4,
+            "parseMs": 9.2058
+        },
+        {
+            "number": 394,
+            "name": "Cueva Frogiana",
+            "cells": 10082,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 4,
+            "parseMs": 23.9534
+        },
+        {
+            "number": 395,
+            "name": "Catacumba Residencial I",
+            "cells": 14154,
+            "npcs": 0,
+            "objects": 36,
+            "exits": 78,
+            "parseMs": 19.2196
+        },
+        {
+            "number": 396,
+            "name": "Catacumba Residencial II",
+            "cells": 14157,
+            "npcs": 0,
+            "objects": 36,
+            "exits": 78,
+            "parseMs": 19.3272
+        },
+        {
+            "number": 397,
+            "name": "Catacumba Residencial III",
+            "cells": 14156,
+            "npcs": 0,
+            "objects": 36,
+            "exits": 78,
+            "parseMs": 17.8621
+        },
+        {
+            "number": 398,
+            "name": "Catacumba Residencial IV",
+            "cells": 14156,
+            "npcs": 0,
+            "objects": 36,
+            "exits": 72,
+            "parseMs": 18.367
+        },
+        {
+            "number": 399,
+            "name": "Isla de la Fortuna",
+            "cells": 10384,
+            "npcs": 2,
+            "objects": 4,
+            "exits": 314,
+            "parseMs": 15.9771
+        },
+        {
+            "number": 400,
+            "name": "Mar Nordico",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 80,
+            "parseMs": 13.9617
+        },
+        {
+            "number": 401,
+            "name": "Isla Veleta",
+            "cells": 10464,
+            "npcs": 0,
+            "objects": 6,
+            "exits": 234,
+            "parseMs": 38.224
+        },
+        {
+            "number": 402,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 9.8631
+        },
+        {
+            "number": 403,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 9.8662
+        },
+        {
+            "number": 404,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 10.6115
+        },
+        {
+            "number": 405,
+            "name": "Mar del Norte",
+            "cells": 10001,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 12.0104
+        },
+        {
+            "number": 406,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 9.9548
+        },
+        {
+            "number": 407,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 13.0343
+        },
+        {
+            "number": 408,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.6444
+        },
+        {
+            "number": 409,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.0861
+        },
+        {
+            "number": 410,
+            "name": "Mar del Norte",
+            "cells": 10180,
+            "npcs": 0,
+            "objects": 3,
+            "exits": 308,
+            "parseMs": 10.6786
+        },
+        {
+            "number": 411,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.5842
+        },
+        {
+            "number": 412,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.3181
+        },
+        {
+            "number": 413,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.178
+        },
+        {
+            "number": 414,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.4053
+        },
+        {
+            "number": 415,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.3839
+        },
+        {
+            "number": 416,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.5036
+        },
+        {
+            "number": 417,
+            "name": "Mar del Norte",
+            "cells": 10317,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 308,
+            "parseMs": 9.9261
+        },
+        {
+            "number": 418,
+            "name": "Mar del Norte",
+            "cells": 10036,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.0404
+        },
+        {
+            "number": 419,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 8.9382
+        },
+        {
+            "number": 420,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.2406
+        },
+        {
+            "number": 421,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.1796
+        },
+        {
+            "number": 422,
+            "name": "Mar del Norte",
+            "cells": 10001,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.0665
+        },
+        {
+            "number": 423,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.8163
+        },
+        {
+            "number": 424,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.3337
+        },
+        {
+            "number": 425,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.5509
+        },
+        {
+            "number": 426,
+            "name": "Ciudad de Arghal",
+            "cells": 10542,
+            "npcs": 0,
+            "objects": 21,
+            "exits": 314,
+            "parseMs": 13.8273
+        },
+        {
+            "number": 427,
+            "name": "Peninsula de Arghal",
+            "cells": 10513,
+            "npcs": 0,
+            "objects": 16,
+            "exits": 309,
+            "parseMs": 11.8501
+        },
+        {
+            "number": 428,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 6,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.8934
+        },
+        {
+            "number": 429,
+            "name": "Mar del Norte",
+            "cells": 10005,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.8838
+        },
+        {
+            "number": 430,
+            "name": "Mar del Norte",
+            "cells": 10004,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.1139
+        },
+        {
+            "number": 431,
+            "name": "Mar del Norte",
+            "cells": 10007,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.5149
+        },
+        {
+            "number": 432,
+            "name": "Mar del Norte",
+            "cells": 10102,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.2963
+        },
+        {
+            "number": 433,
+            "name": "Mar del Norte",
+            "cells": 10058,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.592
+        },
+        {
+            "number": 434,
+            "name": "Isla Pitonisa",
+            "cells": 10295,
+            "npcs": 5,
+            "objects": 15,
+            "exits": 310,
+            "parseMs": 13.9814
+        },
+        {
+            "number": 435,
+            "name": "Mar del Norte",
+            "cells": 10051,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 308,
+            "parseMs": 11.289
+        },
+        {
+            "number": 436,
+            "name": "Mar del Norte",
+            "cells": 10022,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.0634
+        },
+        {
+            "number": 437,
+            "name": "Bosque Elfico",
+            "cells": 10265,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 308,
+            "parseMs": 12.6856
+        },
+        {
+            "number": 438,
+            "name": "Mar del Norte",
+            "cells": 10030,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.1008
+        },
+        {
+            "number": 439,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.7465
+        },
+        {
+            "number": 440,
+            "name": "Mar del Norte",
+            "cells": 10079,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 308,
+            "parseMs": 10.1682
+        },
+        {
+            "number": 441,
+            "name": "Mar del Norte",
+            "cells": 10453,
+            "npcs": 7,
+            "objects": 16,
+            "exits": 308,
+            "parseMs": 10.8581
+        },
+        {
+            "number": 442,
+            "name": "Mar del Norte",
+            "cells": 10059,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 308,
+            "parseMs": 10.8879
+        },
+        {
+            "number": 443,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 13.5132
+        },
+        {
+            "number": 444,
+            "name": "Bosque Elfico",
+            "cells": 10195,
+            "npcs": 0,
+            "objects": 3,
+            "exits": 308,
+            "parseMs": 12.2378
+        },
+        {
+            "number": 445,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.7254
+        },
+        {
+            "number": 446,
+            "name": "Mar del Norte",
+            "cells": 10012,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.4528
+        },
+        {
+            "number": 447,
+            "name": "Mar del Norte",
+            "cells": 10103,
+            "npcs": 0,
+            "objects": 3,
+            "exits": 256,
+            "parseMs": 10.9677
+        },
+        {
+            "number": 448,
+            "name": "Mar del Norte",
+            "cells": 10010,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.6077
+        },
+        {
+            "number": 449,
+            "name": "Alta Mar",
+            "cells": 10003,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 17.1054
+        },
+        {
+            "number": 450,
+            "name": "Mar Abierto",
+            "cells": 10060,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 291,
+            "parseMs": 16.0317
+        },
+        {
+            "number": 451,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 33.8975
+        },
+        {
+            "number": 452,
+            "name": "Mardel Norte",
+            "cells": 10063,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 308,
+            "parseMs": 10.8012
+        },
+        {
+            "number": 453,
+            "name": "Isla de Dungeon Veril",
+            "cells": 10142,
+            "npcs": 0,
+            "objects": 5,
+            "exits": 309,
+            "parseMs": 12.812
+        },
+        {
+            "number": 454,
+            "name": "Mar del Norte",
+            "cells": 10001,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.5711
+        },
+        {
+            "number": 455,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.0368
+        },
+        {
+            "number": 456,
+            "name": "Alta Mar",
+            "cells": 10049,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 301,
+            "parseMs": 9.8785
+        },
+        {
+            "number": 457,
+            "name": "Isla Nagas",
+            "cells": 10292,
+            "npcs": 4,
+            "objects": 4,
+            "exits": 96,
+            "parseMs": 15.8334
+        },
+        {
+            "number": 458,
+            "name": "Alta Mar",
+            "cells": 10057,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 308,
+            "parseMs": 9.6382
+        },
+        {
+            "number": 459,
+            "name": "Alta Mar",
+            "cells": 10048,
+            "npcs": 0,
+            "objects": 3,
+            "exits": 304,
+            "parseMs": 12.0659
+        },
+        {
+            "number": 460,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.9551
+        },
+        {
+            "number": 461,
+            "name": "Alta Mar",
+            "cells": 10049,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 308,
+            "parseMs": 9.9245
+        },
+        {
+            "number": 462,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.4051
+        },
+        {
+            "number": 463,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.092
+        },
+        {
+            "number": 464,
+            "name": "Alta Mar",
+            "cells": 10072,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 307,
+            "parseMs": 10.2824
+        },
+        {
+            "number": 465,
+            "name": "Alta Mar",
+            "cells": 10658,
+            "npcs": 0,
+            "objects": 4,
+            "exits": 308,
+            "parseMs": 12.8059
+        },
+        {
+            "number": 466,
+            "name": "Alta Mar",
+            "cells": 10083,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 308,
+            "parseMs": 10.6033
+        },
+        {
+            "number": 467,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.4583
+        },
+        {
+            "number": 468,
+            "name": "Alta Mar",
+            "cells": 10037,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 300,
+            "parseMs": 10.4058
+        },
+        {
+            "number": 469,
+            "name": "Mar central",
+            "cells": 10013,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.3776
+        },
+        {
+            "number": 470,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.2826
+        },
+        {
+            "number": 471,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.0702
+        },
+        {
+            "number": 472,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.4932
+        },
+        {
+            "number": 473,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.3642
+        },
+        {
+            "number": 474,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.7381
+        },
+        {
+            "number": 475,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.1861
+        },
+        {
+            "number": 476,
+            "name": "Mar del Oeste",
+            "cells": 10144,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.5421
+        },
+        {
+            "number": 477,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.3655
+        },
+        {
+            "number": 478,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.7041
+        },
+        {
+            "number": 479,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.5597
+        },
+        {
+            "number": 480,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.8509
+        },
+        {
+            "number": 481,
+            "name": "Alta Mar",
+            "cells": 10036,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.8835
+        },
+        {
+            "number": 482,
+            "name": "Alta Mar",
+            "cells": 10011,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.5173
+        },
+        {
+            "number": 483,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.6919
+        },
+        {
+            "number": 484,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 3,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.3247
+        },
+        {
+            "number": 485,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.6717
+        },
+        {
+            "number": 486,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.6331
+        },
+        {
+            "number": 487,
+            "name": "Alta Mar",
+            "cells": 10072,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.1556
+        },
+        {
+            "number": 488,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 8.6203
+        },
+        {
+            "number": 489,
+            "name": "Alta Mar",
+            "cells": 10072,
+            "npcs": 0,
+            "objects": 6,
+            "exits": 308,
+            "parseMs": 9.208
+        },
+        {
+            "number": 490,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.5825
+        },
+        {
+            "number": 491,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.5177
+        },
+        {
+            "number": 492,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.7543
+        },
+        {
+            "number": 493,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.6824
+        },
+        {
+            "number": 494,
+            "name": "Mar Nordico",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.1356
+        },
+        {
+            "number": 495,
+            "name": "Alta Mar",
+            "cells": 10079,
+            "npcs": 0,
+            "objects": 6,
+            "exits": 308,
+            "parseMs": 11.0507
+        },
+        {
+            "number": 496,
+            "name": "Mar del Norte",
+            "cells": 10011,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.8274
+        },
+        {
+            "number": 497,
+            "name": "Alta Mar",
+            "cells": 10032,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 308,
+            "parseMs": 11.6412
+        },
+        {
+            "number": 498,
+            "name": "Mar Nordico",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.3367
+        },
+        {
+            "number": 499,
+            "name": "Alta Mar",
+            "cells": 10016,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 308,
+            "parseMs": 15.0769
+        },
+        {
+            "number": 500,
+            "name": "Mares del Norte",
+            "cells": 10238,
+            "npcs": 0,
+            "objects": 11,
+            "exits": 249,
+            "parseMs": 17.9287
+        },
+        {
+            "number": 501,
+            "name": "Alta Mar",
+            "cells": 10022,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 308,
+            "parseMs": 21.7283
+        },
+        {
+            "number": 502,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 24.143
+        },
+        {
+            "number": 503,
+            "name": "Alta Mar",
+            "cells": 10045,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 308,
+            "parseMs": 11.2098
+        },
+        {
+            "number": 504,
+            "name": "alta Mar",
+            "cells": 10012,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.3226
+        },
+        {
+            "number": 505,
+            "name": "Alta Mar",
+            "cells": 10001,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.8229
+        },
+        {
+            "number": 506,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.4079
+        },
+        {
+            "number": 507,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.665
+        },
+        {
+            "number": 508,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.0522
+        },
+        {
+            "number": 509,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.2289
+        },
+        {
+            "number": 510,
+            "name": "Alta Mar",
+            "cells": 10073,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.0932
+        },
+        {
+            "number": 511,
+            "name": "Embarque",
+            "cells": 10940,
+            "npcs": 3,
+            "objects": 7,
+            "exits": 300,
+            "parseMs": 13.3175
+        },
+        {
+            "number": 512,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.6366
+        },
+        {
+            "number": 513,
+            "name": "Alta Mar",
+            "cells": 10001,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.2166
+        },
+        {
+            "number": 514,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.3241
+        },
+        {
+            "number": 515,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.2884
+        },
+        {
+            "number": 516,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.2019
+        },
+        {
+            "number": 517,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.0429
+        },
+        {
+            "number": 518,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.0345
+        },
+        {
+            "number": 519,
+            "name": "Alta Mar",
+            "cells": 10001,
+            "npcs": 3,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.3397
+        },
+        {
+            "number": 520,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.9215
+        },
+        {
+            "number": 521,
+            "name": "costas del sur",
+            "cells": 10244,
+            "npcs": 0,
+            "objects": 19,
+            "exits": 308,
+            "parseMs": 13.8589
+        },
+        {
+            "number": 522,
+            "name": "Mar sureño",
+            "cells": 10032,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 308,
+            "parseMs": 10.7776
+        },
+        {
+            "number": 523,
+            "name": "Mar del sur",
+            "cells": 10000,
+            "npcs": 2,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.0753
+        },
+        {
+            "number": 524,
+            "name": "Mar del Sur",
+            "cells": 10001,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.2148
+        },
+        {
+            "number": 525,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.4251
+        },
+        {
+            "number": 526,
+            "name": "Mar de Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.5278
+        },
+        {
+            "number": 527,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.2481
+        },
+        {
+            "number": 528,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.6528
+        },
+        {
+            "number": 529,
+            "name": "Mar Nordico",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.128
+        },
+        {
+            "number": 530,
+            "name": "Mar del Sur",
+            "cells": 10089,
+            "npcs": 0,
+            "objects": 9,
+            "exits": 308,
+            "parseMs": 10.405
+        },
+        {
+            "number": 531,
+            "name": "Mar del Sur",
+            "cells": 10295,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 308,
+            "parseMs": 11.7633
+        },
+        {
+            "number": 532,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.8166
+        },
+        {
+            "number": 533,
+            "name": "Mar del Sur",
+            "cells": 10001,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.1187
+        },
+        {
+            "number": 534,
+            "name": "Mar Nordico",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.7235
+        },
+        {
+            "number": 535,
+            "name": "Mar Nordico",
+            "cells": 10001,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.5222
+        },
+        {
+            "number": 536,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.8713
+        },
+        {
+            "number": 537,
+            "name": "Mar del Sur",
+            "cells": 10074,
+            "npcs": 0,
+            "objects": 5,
+            "exits": 308,
+            "parseMs": 9.7455
+        },
+        {
+            "number": 538,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.3144
+        },
+        {
+            "number": 539,
+            "name": "Mar Del Sur",
+            "cells": 10001,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.8533
+        },
+        {
+            "number": 540,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.9924
+        },
+        {
+            "number": 541,
+            "name": "Mar del Sur",
+            "cells": 10010,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.6253
+        },
+        {
+            "number": 542,
+            "name": "Mar del Sur",
+            "cells": 10194,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 306,
+            "parseMs": 11.1187
+        },
+        {
+            "number": 543,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.7867
+        },
+        {
+            "number": 544,
+            "name": "Mar del Sur",
+            "cells": 10001,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 9.8398
+        },
+        {
+            "number": 545,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 9.6234
+        },
+        {
+            "number": 546,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 11.6296
+        },
+        {
+            "number": 547,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 10.1628
+        },
+        {
+            "number": 548,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 9.412
+        },
+        {
+            "number": 549,
+            "name": "Mar del Sur",
+            "cells": 10001,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 234,
+            "parseMs": 14.1713
+        },
+        {
+            "number": 550,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 16.0389
+        },
+        {
+            "number": 551,
+            "name": "Mar del Sur",
+            "cells": 10073,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 15.6247
+        },
+        {
+            "number": 552,
+            "name": "Mar del Sur",
+            "cells": 10071,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 32.6507
+        },
+        {
+            "number": 553,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 8.7902
+        },
+        {
+            "number": 554,
+            "name": "Mar del Sur",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 9.7368
+        },
+        {
+            "number": 555,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 9,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 10.3294
+        },
+        {
+            "number": 556,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.2771
+        },
+        {
+            "number": 557,
+            "name": "Mar del Norte",
+            "cells": 10021,
+            "npcs": 3,
+            "objects": 1,
+            "exits": 304,
+            "parseMs": 9.6243
+        },
+        {
+            "number": 558,
+            "name": "Penthar",
+            "cells": 10813,
+            "npcs": 7,
+            "objects": 19,
+            "exits": 60,
+            "parseMs": 15.077
+        },
+        {
+            "number": 559,
+            "name": "Penthar",
+            "cells": 10188,
+            "npcs": 4,
+            "objects": 4,
+            "exits": 22,
+            "parseMs": 15.7261
+        },
+        {
+            "number": 560,
+            "name": "Penthar",
+            "cells": 11478,
+            "npcs": 15,
+            "objects": 14,
+            "exits": 39,
+            "parseMs": 17.8229
+        },
+        {
+            "number": 561,
+            "name": "Penthar",
+            "cells": 10845,
+            "npcs": 18,
+            "objects": 12,
+            "exits": 40,
+            "parseMs": 17.3318
+        },
+        {
+            "number": 562,
+            "name": "Entrada a Penthar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 10.1204
+        },
+        {
+            "number": 563,
+            "name": "Pirámide",
+            "cells": 11181,
+            "npcs": 1,
+            "objects": 0,
+            "exits": 35,
+            "parseMs": 12.5975
+        },
+        {
+            "number": 564,
+            "name": "Pirámide",
+            "cells": 13355,
+            "npcs": 26,
+            "objects": 5,
+            "exits": 242,
+            "parseMs": 16.135
+        },
+        {
+            "number": 565,
+            "name": "Pirámide",
+            "cells": 11087,
+            "npcs": 2,
+            "objects": 5,
+            "exits": 80,
+            "parseMs": 13.5153
+        },
+        {
+            "number": 566,
+            "name": "Pirámide",
+            "cells": 10524,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 154,
+            "parseMs": 13.8275
+        },
+        {
+            "number": 567,
+            "name": "Pirámide",
+            "cells": 11576,
+            "npcs": 9,
+            "objects": 0,
+            "exits": 125,
+            "parseMs": 13.7663
+        },
+        {
+            "number": 568,
+            "name": "Pirámide",
+            "cells": 10564,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 154,
+            "parseMs": 13.8695
+        },
+        {
+            "number": 569,
+            "name": "Ciudad de Eldoria",
+            "cells": 10507,
+            "npcs": 0,
+            "objects": 6,
+            "exits": 234,
+            "parseMs": 13.9602
+        },
+        {
+            "number": 570,
+            "name": "Portal de Eldoria",
+            "cells": 10108,
+            "npcs": 4,
+            "objects": 2,
+            "exits": 157,
+            "parseMs": 11.1857
+        },
+        {
+            "number": 571,
+            "name": "Prisión Gúl Belthor",
+            "cells": 9844,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 7,
+            "parseMs": 14.7374
+        },
+        {
+            "number": 572,
+            "name": "Penthar",
+            "cells": 10185,
+            "npcs": 4,
+            "objects": 6,
+            "exits": 22,
+            "parseMs": 16.3995
+        },
+        {
+            "number": 573,
+            "name": "Bosque Elfico",
+            "cells": 10090,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 154,
+            "parseMs": 10.4873
+        },
+        {
+            "number": 574,
+            "name": "Libre",
+            "cells": 10254,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 88,
+            "parseMs": 14.7097
+        },
+        {
+            "number": 575,
+            "name": "Libre",
+            "cells": 10213,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 32,
+            "parseMs": 12.9899
+        },
+        {
+            "number": 576,
+            "name": "Cámara de Anubis",
+            "cells": 10552,
+            "npcs": 6,
+            "objects": 0,
+            "exits": 4,
+            "parseMs": 14.1302
+        },
+        {
+            "number": 577,
+            "name": "Minas de la Perdicion",
+            "cells": 10356,
+            "npcs": 14,
+            "objects": 24,
+            "exits": 8,
+            "parseMs": 15.9905
+        },
+        {
+            "number": 578,
+            "name": "Minas de la Perdición",
+            "cells": 10418,
+            "npcs": 14,
+            "objects": 0,
+            "exits": 5,
+            "parseMs": 13.1113
+        },
+        {
+            "number": 579,
+            "name": "Libre",
+            "cells": 10121,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 88,
+            "parseMs": 12.3383
+        },
+        {
+            "number": 580,
+            "name": "Mar del Norte",
+            "cells": 10367,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 134,
+            "parseMs": 12.4969
+        },
+        {
+            "number": 581,
+            "name": "Mar Nordico",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 10.5674
+        },
+        {
+            "number": 582,
+            "name": "Mar Nordico",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 12.04
+        },
+        {
+            "number": 583,
+            "name": "Mar Nordico",
+            "cells": 10014,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 12.0439
+        },
+        {
+            "number": 584,
+            "name": "Mar Nordico",
+            "cells": 10209,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 16.544
+        },
+        {
+            "number": 585,
+            "name": "Mar Nordico",
+            "cells": 10117,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 154,
+            "parseMs": 13.7855
+        },
+        {
+            "number": 586,
+            "name": "Libre",
+            "cells": 10136,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 154,
+            "parseMs": 15.3472
+        },
+        {
+            "number": 587,
+            "name": "Libre",
+            "cells": 10176,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 16.0521
+        },
+        {
+            "number": 588,
+            "name": "Libre",
+            "cells": 10256,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 108,
+            "parseMs": 18.484
+        },
+        {
+            "number": 589,
+            "name": "Bosque de Tigres",
+            "cells": 10100,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 13,
+            "parseMs": 19.5573
+        },
+        {
+            "number": 590,
+            "name": "Ciudad de Eldoria",
+            "cells": 10971,
+            "npcs": 3,
+            "objects": 7,
+            "exits": 149,
+            "parseMs": 17.5331
+        },
+        {
+            "number": 591,
+            "name": "Ciudad de Eldoria",
+            "cells": 11894,
+            "npcs": 11,
+            "objects": 10,
+            "exits": 225,
+            "parseMs": 23.4781
+        },
+        {
+            "number": 592,
+            "name": "Ciudad de Eldoria",
+            "cells": 11048,
+            "npcs": 0,
+            "objects": 14,
+            "exits": 163,
+            "parseMs": 24.4791
+        },
+        {
+            "number": 593,
+            "name": "Bosque de Tigres",
+            "cells": 10017,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 154,
+            "parseMs": 18.7334
+        },
+        {
+            "number": 594,
+            "name": "Bosque de los Espiritus",
+            "cells": 10137,
+            "npcs": 2,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 13.0845
+        },
+        {
+            "number": 595,
+            "name": "Bosque de los Espiritus",
+            "cells": 10279,
+            "npcs": 7,
+            "objects": 2,
+            "exits": 153,
+            "parseMs": 12.3694
+        },
+        {
+            "number": 596,
+            "name": "Bosque de Tigres",
+            "cells": 10086,
+            "npcs": 0,
+            "objects": 4,
+            "exits": 0,
+            "parseMs": 10.7943
+        },
+        {
+            "number": 597,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 8.1847
+        },
+        {
+            "number": 598,
+            "name": "Alta Mar",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 0,
+            "parseMs": 7.6741
+        },
+        {
+            "number": 599,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 12,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.5434
+        },
+        {
+            "number": 600,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.4045
+        },
+        {
+            "number": 601,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.1801
+        },
+        {
+            "number": 602,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 12.6363
+        },
+        {
+            "number": 603,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.9591
+        },
+        {
+            "number": 604,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.9975
+        },
+        {
+            "number": 605,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.4968
+        },
+        {
+            "number": 606,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.7578
+        },
+        {
+            "number": 607,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.5771
+        },
+        {
+            "number": 608,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 12.9629
+        },
+        {
+            "number": 609,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 17.9073
+        },
+        {
+            "number": 610,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.7994
+        },
+        {
+            "number": 611,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.9837
+        },
+        {
+            "number": 612,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.3808
+        },
+        {
+            "number": 613,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.3817
+        },
+        {
+            "number": 614,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.4949
+        },
+        {
+            "number": 615,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.7457
+        },
+        {
+            "number": 616,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 17.4811
+        },
+        {
+            "number": 617,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.2132
+        },
+        {
+            "number": 618,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.2823
+        },
+        {
+            "number": 619,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.7669
+        },
+        {
+            "number": 620,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.6906
+        },
+        {
+            "number": 621,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.9268
+        },
+        {
+            "number": 622,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 12,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.0729
+        },
+        {
+            "number": 623,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.7162
+        },
+        {
+            "number": 624,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.543
+        },
+        {
+            "number": 625,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.4962
+        },
+        {
+            "number": 626,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.0852
+        },
+        {
+            "number": 627,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.8179
+        },
+        {
+            "number": 628,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.816
+        },
+        {
+            "number": 629,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.1017
+        },
+        {
+            "number": 630,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 17.1404
+        },
+        {
+            "number": 631,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 20.4835
+        },
+        {
+            "number": 632,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 20.4128
+        },
+        {
+            "number": 633,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 159.1388
+        },
+        {
+            "number": 634,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 415.5225
+        },
+        {
+            "number": 635,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 1586.0174
+        },
+        {
+            "number": 636,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 22.5602
+        },
+        {
+            "number": 637,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 17.2167
+        },
+        {
+            "number": 638,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 18.9962
+        },
+        {
+            "number": 639,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 20.6967
+        },
+        {
+            "number": 640,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.8524
+        },
+        {
+            "number": 641,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.342
+        },
+        {
+            "number": 642,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 17.265
+        },
+        {
+            "number": 643,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 19.5981
+        },
+        {
+            "number": 644,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.6648
+        },
+        {
+            "number": 645,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.9517
+        },
+        {
+            "number": 646,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 17.3196
+        },
+        {
+            "number": 647,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.8291
+        },
+        {
+            "number": 648,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.67
+        },
+        {
+            "number": 649,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 20.3819
+        },
+        {
+            "number": 650,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 18.2746
+        },
+        {
+            "number": 651,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.2285
+        },
+        {
+            "number": 652,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.5325
+        },
+        {
+            "number": 653,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.3382
+        },
+        {
+            "number": 654,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.2919
+        },
+        {
+            "number": 655,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.6185
+        },
+        {
+            "number": 656,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.3905
+        },
+        {
+            "number": 657,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 29.3072
+        },
+        {
+            "number": 658,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 19.6476
+        },
+        {
+            "number": 659,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 21.522
+        },
+        {
+            "number": 660,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.5817
+        },
+        {
+            "number": 661,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 23.7381
+        },
+        {
+            "number": 662,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.7243
+        },
+        {
+            "number": 663,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 17.3874
+        },
+        {
+            "number": 664,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 17.1667
+        },
+        {
+            "number": 665,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.1115
+        },
+        {
+            "number": 666,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.324
+        },
+        {
+            "number": 667,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.5198
+        },
+        {
+            "number": 668,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.0519
+        },
+        {
+            "number": 669,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.8784
+        },
+        {
+            "number": 670,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.0907
+        },
+        {
+            "number": 671,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.3061
+        },
+        {
+            "number": 672,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 33.1919
+        },
+        {
+            "number": 673,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.5564
+        },
+        {
+            "number": 674,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.3462
+        },
+        {
+            "number": 675,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.5777
+        },
+        {
+            "number": 676,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.298
+        },
+        {
+            "number": 677,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.0143
+        },
+        {
+            "number": 678,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.2079
+        },
+        {
+            "number": 679,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 17.23
+        },
+        {
+            "number": 680,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.1349
+        },
+        {
+            "number": 681,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.5857
+        },
+        {
+            "number": 682,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.8894
+        },
+        {
+            "number": 683,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.0101
+        },
+        {
+            "number": 684,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.473
+        },
+        {
+            "number": 685,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.6182
+        },
+        {
+            "number": 686,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.5594
+        },
+        {
+            "number": 687,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 12.8547
+        },
+        {
+            "number": 688,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 12.7241
+        },
+        {
+            "number": 689,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.0786
+        },
+        {
+            "number": 690,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.9846
+        },
+        {
+            "number": 691,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 18.5353
+        },
+        {
+            "number": 692,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.792
+        },
+        {
+            "number": 693,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.3696
+        },
+        {
+            "number": 694,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.2864
+        },
+        {
+            "number": 695,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.2718
+        },
+        {
+            "number": 696,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.7907
+        },
+        {
+            "number": 697,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 17.3441
+        },
+        {
+            "number": 698,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.0651
+        },
+        {
+            "number": 699,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.449
+        },
+        {
+            "number": 700,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.2267
+        },
+        {
+            "number": 701,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.6411
+        },
+        {
+            "number": 702,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.6639
+        },
+        {
+            "number": 703,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.8861
+        },
+        {
+            "number": 704,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.1045
+        },
+        {
+            "number": 705,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.47
+        },
+        {
+            "number": 706,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.4939
+        },
+        {
+            "number": 707,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.1976
+        },
+        {
+            "number": 708,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.8362
+        },
+        {
+            "number": 709,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 23.9359
+        },
+        {
+            "number": 710,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 25.2972
+        },
+        {
+            "number": 711,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.9118
+        },
+        {
+            "number": 712,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.2839
+        },
+        {
+            "number": 713,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.0988
+        },
+        {
+            "number": 714,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.8232
+        },
+        {
+            "number": 715,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.6545
+        },
+        {
+            "number": 716,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.6306
+        },
+        {
+            "number": 717,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.2014
+        },
+        {
+            "number": 718,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.57
+        },
+        {
+            "number": 719,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.3334
+        },
+        {
+            "number": 720,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.7348
+        },
+        {
+            "number": 721,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.5633
+        },
+        {
+            "number": 722,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 12.859
+        },
+        {
+            "number": 723,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 12.8856
+        },
+        {
+            "number": 724,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.4745
+        },
+        {
+            "number": 725,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.0721
+        },
+        {
+            "number": 726,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.1622
+        },
+        {
+            "number": 727,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.8972
+        },
+        {
+            "number": 728,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.4098
+        },
+        {
+            "number": 729,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.801
+        },
+        {
+            "number": 730,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 12.8666
+        },
+        {
+            "number": 731,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.2608
+        },
+        {
+            "number": 732,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.8846
+        },
+        {
+            "number": 733,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.0621
+        },
+        {
+            "number": 734,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.7973
+        },
+        {
+            "number": 735,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.8174
+        },
+        {
+            "number": 736,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.414
+        },
+        {
+            "number": 737,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.0634
+        },
+        {
+            "number": 738,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 15.0157
+        },
+        {
+            "number": 739,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.579
+        },
+        {
+            "number": 740,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.2859
+        },
+        {
+            "number": 741,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.3356
+        },
+        {
+            "number": 742,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.3896
+        },
+        {
+            "number": 743,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.8526
+        },
+        {
+            "number": 744,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 13.3654
+        },
+        {
+            "number": 745,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 14.6959
+        },
+        {
+            "number": 746,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 19.6513
+        },
+        {
+            "number": 747,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 25.37
+        },
+        {
+            "number": 748,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 16.0447
+        },
+        {
+            "number": 749,
+            "name": "Libre",
+            "cells": 11037,
+            "npcs": 16,
+            "objects": 4,
+            "exits": 8,
+            "parseMs": 17.122
+        },
+        {
+            "number": 750,
+            "name": "Puerto de Forgat",
+            "cells": 11141,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 17.0654
+        },
+        {
+            "number": 751,
+            "name": "Ciudad de Forgat",
+            "cells": 10702,
+            "npcs": 20,
+            "objects": 18,
+            "exits": 304,
+            "parseMs": 17.096
+        },
+        {
+            "number": 752,
+            "name": "Ciudad de Forgat",
+            "cells": 10528,
+            "npcs": 0,
+            "objects": 17,
+            "exits": 330,
+            "parseMs": 14.92
+        },
+        {
+            "number": 753,
+            "name": "Ciudad de Forgat",
+            "cells": 10600,
+            "npcs": 0,
+            "objects": 11,
+            "exits": 322,
+            "parseMs": 17.4892
+        },
+        {
+            "number": 754,
+            "name": "Ciudad de Forgat",
+            "cells": 10333,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 308,
+            "parseMs": 13.2936
+        },
+        {
+            "number": 755,
+            "name": "Costas de Forgat",
+            "cells": 10206,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.3062
+        },
+        {
+            "number": 756,
+            "name": "Cuidad de Forgat",
+            "cells": 10185,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 302,
+            "parseMs": 13.0452
+        },
+        {
+            "number": 757,
+            "name": "Ciudad de Forgat",
+            "cells": 10502,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 305,
+            "parseMs": 13.6264
+        },
+        {
+            "number": 758,
+            "name": "Bosque de Forgat",
+            "cells": 10566,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 308,
+            "parseMs": 14.444
+        },
+        {
+            "number": 759,
+            "name": "Bosque de Forgat",
+            "cells": 10544,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 308,
+            "parseMs": 14.1154
+        },
+        {
+            "number": 760,
+            "name": "Bosque de Forgat",
+            "cells": 10215,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 308,
+            "parseMs": 14.3681
+        },
+        {
+            "number": 761,
+            "name": "Bosque de Forgat",
+            "cells": 10249,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 308,
+            "parseMs": 12.773
+        },
+        {
+            "number": 762,
+            "name": "Valle de la muerte",
+            "cells": 10411,
+            "npcs": 0,
+            "objects": 3,
+            "exits": 308,
+            "parseMs": 12.8552
+        },
+        {
+            "number": 763,
+            "name": "Isla de las Esporas",
+            "cells": 10572,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 15.5384
+        },
+        {
+            "number": 764,
+            "name": "Costa de las Esporas",
+            "cells": 10363,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 14.2475
+        },
+        {
+            "number": 765,
+            "name": "La Gran Excavacion",
+            "cells": 10387,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 311,
+            "parseMs": 19.0325
+        },
+        {
+            "number": 766,
+            "name": "Playa Este",
+            "cells": 10317,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.1736
+        },
+        {
+            "number": 767,
+            "name": "Bosque",
+            "cells": 10296,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.0716
+        },
+        {
+            "number": 768,
+            "name": "Camino de los Valientes",
+            "cells": 10399,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 308,
+            "parseMs": 14.0118
+        },
+        {
+            "number": 769,
+            "name": "Valle de la muerte",
+            "cells": 10549,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 310,
+            "parseMs": 13.4526
+        },
+        {
+            "number": 770,
+            "name": "Mar del Norte",
+            "cells": 10421,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 13.4924
+        },
+        {
+            "number": 771,
+            "name": "El Viejo Molino",
+            "cells": 10486,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 308,
+            "parseMs": 13.1219
+        },
+        {
+            "number": 772,
+            "name": "Bosque",
+            "cells": 10508,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 304,
+            "parseMs": 15.2589
+        },
+        {
+            "number": 773,
+            "name": "Guarida Scramer",
+            "cells": 10508,
+            "npcs": 0,
+            "objects": 5,
+            "exits": 308,
+            "parseMs": 13.2176
+        },
+        {
+            "number": 774,
+            "name": "Altar Sagrado",
+            "cells": 10388,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 300,
+            "parseMs": 12.6616
+        },
+        {
+            "number": 775,
+            "name": "Bosque",
+            "cells": 10368,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.6294
+        },
+        {
+            "number": 776,
+            "name": "La Granja de Sigmud",
+            "cells": 10580,
+            "npcs": 0,
+            "objects": 2,
+            "exits": 310,
+            "parseMs": 13.429
+        },
+        {
+            "number": 777,
+            "name": "Litoral Costero",
+            "cells": 10906,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 294,
+            "parseMs": 12.3775
+        },
+        {
+            "number": 778,
+            "name": "Bosque",
+            "cells": 10371,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.0702
+        },
+        {
+            "number": 779,
+            "name": "Costa de los Scramer ",
+            "cells": 10321,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 13.2577
+        },
+        {
+            "number": 780,
+            "name": "Isla Siniestra",
+            "cells": 10488,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 16.0419
+        },
+        {
+            "number": 781,
+            "name": "Isla Siniestra",
+            "cells": 10441,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 13.9144
+        },
+        {
+            "number": 782,
+            "name": "Costa Esperanza",
+            "cells": 10335,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 308,
+            "parseMs": 23.6251
+        },
+        {
+            "number": 783,
+            "name": "Valle de la muerte",
+            "cells": 10365,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 306,
+            "parseMs": 11.905
+        },
+        {
+            "number": 784,
+            "name": "Valle de la muerte",
+            "cells": 10370,
+            "npcs": 0,
+            "objects": 4,
+            "exits": 308,
+            "parseMs": 14.8648
+        },
+        {
+            "number": 785,
+            "name": "Isla de las Esporas",
+            "cells": 10348,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 14.5632
+        },
+        {
+            "number": 786,
+            "name": "Isla de las Esporas",
+            "cells": 10339,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 14.6532
+        },
+        {
+            "number": 787,
+            "name": "Costa de las Esporas",
+            "cells": 10271,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 14.1359
+        },
+        {
+            "number": 788,
+            "name": "Mar del Norte",
+            "cells": 10031,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.8951
+        },
+        {
+            "number": 789,
+            "name": "Costas de Forgat",
+            "cells": 10790,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 13.0781
+        },
+        {
+            "number": 790,
+            "name": "Peninsula del desembarco",
+            "cells": 11162,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 14.322
+        },
+        {
+            "number": 791,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 9.4538
+        },
+        {
+            "number": 792,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 9.3875
+        },
+        {
+            "number": 793,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 154,
+            "parseMs": 11.2356
+        },
+        {
+            "number": 794,
+            "name": "Mar del Norte",
+            "cells": 10330,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 13.7572
+        },
+        {
+            "number": 795,
+            "name": "Península Serpiente",
+            "cells": 10642,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 18.0401
+        },
+        {
+            "number": 796,
+            "name": "Costas de Forgat",
+            "cells": 10310,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 13.8443
+        },
+        {
+            "number": 797,
+            "name": "Costas de Forgat",
+            "cells": 10367,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 11.9659
+        },
+        {
+            "number": 798,
+            "name": "Costa de Forgat",
+            "cells": 10204,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.1237
+        },
+        {
+            "number": 799,
+            "name": "Mar del Norte",
+            "cells": 10033,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 12.81
+        },
+        {
+            "number": 800,
+            "name": "Bosque de la Desolación",
+            "cells": 10328,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 13.9488
+        },
+        {
+            "number": 801,
+            "name": "Bosque de la Desolación",
+            "cells": 10585,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 311,
+            "parseMs": 12.095
+        },
+        {
+            "number": 802,
+            "name": "Bosque de la Desolación",
+            "cells": 10258,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.4413
+        },
+        {
+            "number": 803,
+            "name": "El Gigante Caido",
+            "cells": 10716,
+            "npcs": 0,
+            "objects": 1,
+            "exits": 311,
+            "parseMs": 11.6502
+        },
+        {
+            "number": 804,
+            "name": "Isla Siniestra",
+            "cells": 10474,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 12.7036
+        },
+        {
+            "number": 805,
+            "name": "Isla Siniestra",
+            "cells": 10393,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 262,
+            "parseMs": 14.0082
+        },
+        {
+            "number": 806,
+            "name": "Isla Siniestra",
+            "cells": 10374,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 13.8325
+        },
+        {
+            "number": 807,
+            "name": "Mar del Norte",
+            "cells": 10103,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 12.9744
+        },
+        {
+            "number": 808,
+            "name": "Mar del Norte",
+            "cells": 10024,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 9.7495
+        },
+        {
+            "number": 809,
+            "name": "El Naufragio",
+            "cells": 10295,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 14.7001
+        },
+        {
+            "number": 810,
+            "name": "Mar del Norte",
+            "cells": 10126,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 14.7623
+        },
+        {
+            "number": 811,
+            "name": "Isla de las Esporas",
+            "cells": 10362,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 227,
+            "parseMs": 16.1739
+        },
+        {
+            "number": 812,
+            "name": "Isla de las Esporas",
+            "cells": 10329,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 13.0928
+        },
+        {
+            "number": 813,
+            "name": "Mar del Norte",
+            "cells": 10065,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 10.936
+        },
+        {
+            "number": 814,
+            "name": "Mar del Norte",
+            "cells": 10088,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 12.5169
+        },
+        {
+            "number": 815,
+            "name": "Isla Siniestra",
+            "cells": 10363,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 14.3879
+        },
+        {
+            "number": 816,
+            "name": "Isla Siniestra",
+            "cells": 10383,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 17.1881
+        },
+        {
+            "number": 817,
+            "name": "Isla Siniestra",
+            "cells": 10390,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 125,
+            "parseMs": 15.315
+        },
+        {
+            "number": 818,
+            "name": "Cueva de la Desolación",
+            "cells": 10329,
+            "npcs": 14,
+            "objects": 0,
+            "exits": 11,
+            "parseMs": 14.3886
+        },
+        {
+            "number": 819,
+            "name": "Cueva de la Desolación",
+            "cells": 10280,
+            "npcs": 9,
+            "objects": 0,
+            "exits": 8,
+            "parseMs": 14.4517
+        },
+        {
+            "number": 820,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 154,
+            "parseMs": 10.5152
+        },
+        {
+            "number": 821,
+            "name": "Mar del Norte",
+            "cells": 10029,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 10.9383
+        },
+        {
+            "number": 822,
+            "name": "Mar del Norte",
+            "cells": 10131,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 207,
+            "parseMs": 20.2766
+        },
+        {
+            "number": 823,
+            "name": "Mar del Norte",
+            "cells": 10030,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 21.7645
+        },
+        {
+            "number": 824,
+            "name": "Costas de Eleuria",
+            "cells": 10520,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 12.7461
+        },
+        {
+            "number": 825,
+            "name": "Aldea Eleuria",
+            "cells": 10621,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 246,
+            "parseMs": 14.0151
+        },
+        {
+            "number": 826,
+            "name": "Cueva de Eleuria",
+            "cells": 10624,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 297,
+            "parseMs": 13.1123
+        },
+        {
+            "number": 827,
+            "name": "Costa de Eleuria",
+            "cells": 10197,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 10.7415
+        },
+        {
+            "number": 828,
+            "name": "Costas de Eleuria",
+            "cells": 10300,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 12.5928
+        },
+        {
+            "number": 829,
+            "name": "Muelle de Eleuria",
+            "cells": 10942,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 254,
+            "parseMs": 14.3135
+        },
+        {
+            "number": 830,
+            "name": "Costas de Eleuria",
+            "cells": 10732,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 308,
+            "parseMs": 13.3801
+        },
+        {
+            "number": 831,
+            "name": "Costa de Eleuria",
+            "cells": 10228,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 228,
+            "parseMs": 12.0165
+        },
+        {
+            "number": 832,
+            "name": "Mar del Norte",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 154,
+            "parseMs": 9.4634
+        },
+        {
+            "number": 833,
+            "name": "Mar del Norte",
+            "cells": 10007,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 9.6488
+        },
+        {
+            "number": 834,
+            "name": "Peninsula de Eleuria",
+            "cells": 10160,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 11.9145
+        },
+        {
+            "number": 835,
+            "name": "Peninsula de Eleuria",
+            "cells": 10045,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 154,
+            "parseMs": 11.3617
+        },
+        {
+            "number": 836,
+            "name": "Cueva Graciar",
+            "cells": 10153,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 60,
+            "parseMs": 16.4869
+        },
+        {
+            "number": 837,
+            "name": "Cueva Glaciar",
+            "cells": 10361,
+            "npcs": 5,
+            "objects": 0,
+            "exits": 91,
+            "parseMs": 13.0764
+        },
+        {
+            "number": 838,
+            "name": "Cueva Glaciar",
+            "cells": 10122,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 61,
+            "parseMs": 13.2912
+        },
+        {
+            "number": 839,
+            "name": "Cueva Glaciar",
+            "cells": 10115,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 63,
+            "parseMs": 13.001
+        },
+        {
+            "number": 840,
+            "name": "Cueva Glaciar",
+            "cells": 10072,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 80,
+            "parseMs": 15.248
+        },
+        {
+            "number": 841,
+            "name": "Penthar",
+            "cells": 11333,
+            "npcs": 6,
+            "objects": 27,
+            "exits": 52,
+            "parseMs": 19.7751
+        },
+        {
+            "number": 842,
+            "name": "Mar Nordico",
+            "cells": 10000,
+            "npcs": 0,
+            "objects": 0,
+            "exits": 234,
+            "parseMs": 12.4853
+        }
+    ],
+    "issues": [
+        {
+            "map": 266,
+            "kind": "missing_destination",
+            "detail": "map=3000"
+        },
+        {
+            "map": 266,
+            "kind": "missing_destination",
+            "detail": "map=3000"
+        },
+        {
+            "map": 266,
+            "kind": "missing_destination",
+            "detail": "map=3001"
+        },
+        {
+            "map": 266,
+            "kind": "missing_destination",
+            "detail": "map=3001"
+        },
+        {
+            "map": 266,
+            "kind": "missing_destination",
+            "detail": "map=3002"
+        },
+        {
+            "map": 266,
+            "kind": "missing_destination",
+            "detail": "map=3002"
+        },
+        {
+            "map": 266,
+            "kind": "missing_destination",
+            "detail": "map=3003"
+        },
+        {
+            "map": 266,
+            "kind": "missing_destination",
+            "detail": "map=3003"
+        },
+        {
+            "map": 266,
+            "kind": "missing_destination",
+            "detail": "map=3004"
+        },
+        {
+            "map": 266,
+            "kind": "missing_destination",
+            "detail": "map=3004"
+        }
+    ]
+}

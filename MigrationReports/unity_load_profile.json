@@ -1,0 +1,112 @@
+{
+    "utc": "2026-09-23T18:10:03.2767172Z",
+    "scene": "AO_Ciudad_de_Ullathorpe_Playable",
+    "error": "",
+    "snowPacketVisible": true,
+    "fogPacketVisible": true,
+    "rainPacketVisible": true,
+    "samples": [
+        {
+            "map": 1,
+            "timing": {
+                "map": 1,
+                "jsonMs": 24.0218,
+                "clearMs": 15.1134,
+                "gridMs": 0.2348,
+                "lightingMs": 0.7561,
+                "visualsMs": 59.9964,
+                "overlayMs": 1.2091,
+                "populationMs": 10.7178,
+                "particlesMs": 3.4653,
+                "weatherMs": 0.5644,
+                "finishMs": 0.6049,
+                "totalMs": 116.68400000000001
+            }
+        },
+        {
+            "map": 2,
+            "timing": {
+                "map": 2,
+                "jsonMs": 34.5355,
+                "clearMs": 17.4436,
+                "gridMs": 0.3357,
+                "lightingMs": 0.1555,
+                "visualsMs": 93.1331,
+                "overlayMs": 0.7082,
+                "populationMs": 16.903,
+                "particlesMs": 0.776,
+                "weatherMs": 0.2756,
+                "finishMs": 1.6479,
+                "totalMs": 165.91410000000003
+            }
+        },
+        {
+            "map": 40,
+            "timing": {
+                "map": 40,
+                "jsonMs": 24.6317,
+                "clearMs": 16.5054,
+                "gridMs": 0.1707,
+                "lightingMs": 0.1021,
+                "visualsMs": 26.9538,
+                "overlayMs": 0.685,
+                "populationMs": 4.1623,
+                "particlesMs": 0.9483,
+                "weatherMs": 0.0004,
+                "finishMs": 0.4502,
+                "totalMs": 74.6099
+            }
+        },
+        {
+            "map": 119,
+            "timing": {
+                "map": 119,
+                "jsonMs": 33.9519,
+                "clearMs": 4.9297,
+                "gridMs": 0.2348,
+                "lightingMs": 0.0204,
+                "visualsMs": 130.3472,
+                "overlayMs": 0.6304,
+                "populationMs": 1.3401,
+                "particlesMs": 0.0003,
+                "weatherMs": 0.2563,
+                "finishMs": 0.3495,
+                "totalMs": 172.06060000000003
+            }
+        },
+        {
+            "map": 126,
+            "timing": {
+                "map": 126,
+                "jsonMs": 28.1281,
+                "clearMs": 16.8569,
+                "gridMs": 0.209,
+                "lightingMs": 0.0602,
+                "visualsMs": 77.846,
+                "overlayMs": 1.5,
+                "populationMs": 0.0232,
+                "particlesMs": 0.0002,
+                "weatherMs": 0.5887,
+                "finishMs": 0.8332,
+                "totalMs": 126.04550000000002
+            }
+        },
+        {
+            "map": 1,
+            "timing": {
+                "map": 1,
+                "jsonMs": 33.1518,
+                "clearMs": 21.4277,
+                "gridMs": 0.3127,
+                "lightingMs": 0.8378,
+                "visualsMs": 104.1018,
+                "overlayMs": 1.7839,
+                "populationMs": 20.8803,
+                "particlesMs": 3.0505,
+                "weatherMs": 0.2421,
+                "finishMs": 0.5171,
+                "totalMs": 186.30569999999998
+            }
+        }
+    ]
+}
