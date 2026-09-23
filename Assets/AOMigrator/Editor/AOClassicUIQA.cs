@@ -16,6 +16,7 @@ public static class AOClassicUIQA
         public int screenHeight;
         public int citiesWithMaps;
         public int raceGenderPairsWithHeads;
+        public int raceGenderPairsWithVisuals;
         public bool creatorOpen;
         public bool journalOpen;
         public int journalDrawCalls;
@@ -27,12 +28,14 @@ public static class AOClassicUIQA
     static readonly string Request = Path.Combine(Root, "Temp", "run_classic_ui_qa.flag");
     static readonly string ReportPath = Path.Combine(Root, "MigrationReports", "unity_classic_ui_qa.json");
     static readonly string Screenshot = Path.Combine(Root, "MigrationReports", "unity_classic_ui_qa.png");
+    static readonly string OrcScreenshot = Path.Combine(Root, "MigrationReports", "unity_classic_orc_qa.png");
     static readonly string MenuScreenshot = Path.Combine(Root, "MigrationReports", "unity_classic_menu_qa.png");
     const string ScenePath = "Assets/Scenes/AOMigrator/Generated/AO_Ciudad_de_Ullathorpe_Playable.unity";
     static int frames;
     static bool checking;
     static bool captured;
     static bool menuCaptured;
+    static bool orcCaptured;
     static bool journalCaptured;
     static Report report;
 
@@ -63,6 +66,7 @@ public static class AOClassicUIQA
         checking = true;
         captured = false;
         menuCaptured = false;
+        orcCaptured = false;
         journalCaptured = false;
         frames = 30;
         report = new Report { utc = DateTime.UtcNow.ToString("o") };
@@ -109,8 +113,20 @@ public static class AOClassicUIQA
                 }
                 for (int race = 1; race <= 6; race++)
                     for (int gender = 1; gender <= 2; gender++)
+                    {
                         if (AOCharacterVisualDatabaseV111.ValidHeads(race, gender).Length > 0)
                             report.raceGenderPairsWithHeads++;
+                        int head = AOCharacterVisualDatabaseV111.DefaultHead(race, gender);
+                        if (AOCharacterVisualDatabaseV111.TryBuildBase(
+                                race, gender, head, out AOCharacterRenderer.DirectionVisual[] dirs,
+                                out _, out _, out _) && dirs != null &&
+                            Array.Exists(dirs, direction =>
+                                direction != null && direction.heading == AOGridMap.SOUTH &&
+                                direction.body != null && direction.body.Length > 0 &&
+                                direction.body[0] != null && direction.head != null &&
+                                direction.head.Length > 0 && direction.head[0] != null))
+                            report.raceGenderPairsWithVisuals++;
+                    }
 
                 captured = true;
                 frames = 25;
@@ -128,6 +144,14 @@ public static class AOClassicUIQA
         {
             AOCharacterCreationV170 creator =
                 UnityEngine.Object.FindFirstObjectByType<AOCharacterCreationV170>();
+            if (!orcCaptured && creator != null)
+            {
+                creator.SelectVisualForQA(6, 1);
+                orcCaptured = true;
+                frames = 25;
+                ScreenCapture.CaptureScreenshot(OrcScreenshot);
+                return;
+            }
             AOQuestUIV150 journal =
                 UnityEngine.Object.FindFirstObjectByType<AOQuestUIV150>();
             if (creator == null || journal == null)
@@ -150,7 +174,9 @@ public static class AOClassicUIQA
                report.journalDrawCalls > 0 &&
                report.citiesWithMaps == 6 &&
                report.raceGenderPairsWithHeads == 12 &&
-               File.Exists(MenuScreenshot) && File.Exists(Screenshot));
+               report.raceGenderPairsWithVisuals == 12 &&
+               File.Exists(MenuScreenshot) && File.Exists(Screenshot) &&
+               File.Exists(OrcScreenshot));
     }
 
     static void Finish(bool passed)

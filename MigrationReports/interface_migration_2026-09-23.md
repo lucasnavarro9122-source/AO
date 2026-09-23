@@ -6,11 +6,13 @@
 - Menú principal, ventanas de ciudad y diario de misiones usan el aspecto clásico. Las transiciones que alteran ventanas se ejecutan en `Update` para evitar el error de `GUILayout` durante `OnGUI`.
 - El botón de misiones del HUD abre el diario. Los botones superiores abren Ajustes, Manual y Mercado AO; minimizar funciona en la compilación para Windows; salir ofrece volver al menú o cerrar el juego tras guardar.
 - La creación de personaje comprueba que exista el mapa inicial y conserva el guardado anterior hasta que se pueda escribir el nuevo. `Capture()` guarda nombre y ciudad inicial, que antes se omitían.
+- Corrección posterior: los perfiles de Orco apuntaban a cuerpos `582/581` ausentes. Se restauraron los cuerpos originales `248/249` de `Recursos-master`; el retrato ahora se dibuja para ambos géneros. La ruta de imagen ausente ya no lanza `NullReferenceException`.
 
 ## Comprobación
 
 - `dotnet build Assembly-CSharp-Editor.csproj -nologo -v:q -p:NoWarn=0649`: 0 errores, 0 advertencias.
 - Unity 6000.3.17f1 en Play: prueba de interfaz completada (`unity_classic_ui_qa.json`), 6 mapas de ciudades disponibles, 12 pares raza/género con cabezas, creador visible y diario invocado. Capturas de menú y creador en este directorio. Esta prueba no confirma cada clic manual ni la disponibilidad actual de los sitios externos.
+- Segunda prueba en Unity: 12 pares raza/género también tienen cuerpo y cabeza renderizables; `unity_classic_orc_qa.png` muestra al Orco masculino. No aparecieron errores nuevos en la última ejecución.
 
 ## Pendiente
 

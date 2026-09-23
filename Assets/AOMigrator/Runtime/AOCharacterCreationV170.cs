@@ -18,6 +18,13 @@ public partial class AOCharacterCreationV170 : MonoBehaviour
         visible = false;
         enabled = false;
     }
+
+    public void SelectVisualForQA(int race, int gender)
+    {
+        raceId = race;
+        genderId = gender;
+        ResetHead();
+    }
 #endif
 
     bool visible;
@@ -578,8 +585,8 @@ public partial class AOCharacterCreationV170 : MonoBehaviour
         {
             GUI.Label(
                 rect,
-                "Preview no disponible.",
-                centerStyle);
+                "Apariencia no disponible para esta raza.",
+                classicSmall ?? GUI.skin.label);
             return;
         }
 
