@@ -660,6 +660,25 @@ public class AOSaveGameV140 : MonoBehaviour
                 : data.savedAtUtc);
     }
 
+    public bool TryGetCharacterVisual(
+        out int raceId,
+        out int genderId,
+        out int headId)
+    {
+        raceId = 0;
+        genderId = 0;
+        headId = 0;
+
+        SaveData data = ReadBestSave();
+        if (data == null || data.rpg == null)
+            return false;
+
+        raceId = data.rpg.raceId;
+        genderId = data.rpg.genderId;
+        headId = data.rpg.headIndex;
+        return raceId > 0 && genderId > 0 && headId > 0;
+    }
+
     public void DeleteSaveFiles()
     {
         TryDelete(
