@@ -92,6 +92,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
     GUIStyle chatStyle;
     GUIStyle chatInputStyle;
     GUIStyle speechStyle;
+    GUIStyle speechOutlineStyle;
     GUIStyle tinyWhite;
     GUIStyle centeredWhite;
     GUIStyle slotCountStyle;
@@ -421,6 +422,11 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         speechStyle.fontStyle = FontStyle.Bold;
         speechStyle.wordWrap = true;
         speechStyle.alignment = TextAnchor.MiddleCenter;
+        speechStyle.normal.textColor = new Color(1f, 0.97f, 0.77f);
+
+        speechOutlineStyle = new GUIStyle(speechStyle);
+        speechOutlineStyle.normal.textColor =
+            new Color(0.04f, 0.03f, 0.02f, 0.95f);
 
         chatInputStyle =
             new GUIStyle(
@@ -2316,12 +2322,17 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         float y = Mathf.Clamp(Screen.height - screen.y - height - 5f,
             top + 4f, bottom - height - 4f);
 
-        Color previous = GUI.color;
-        GUI.color = new Color(0f, 0f, 0f, 0.72f);
-        GUI.DrawTexture(new Rect(x - 4f, y - 2f, width + 8f, height + 4f),
-            Texture2D.whiteTexture);
-        GUI.color = previous;
-        GUI.Label(new Rect(x, y, width, height), visible, speechStyle);
+        float outline = Mathf.Max(1f, scale);
+        Rect textRect = new Rect(x, y, width, height);
+        GUI.Label(new Rect(x - outline, y, width, height), visible,
+            speechOutlineStyle);
+        GUI.Label(new Rect(x + outline, y, width, height), visible,
+            speechOutlineStyle);
+        GUI.Label(new Rect(x, y - outline, width, height), visible,
+            speechOutlineStyle);
+        GUI.Label(new Rect(x, y + outline, width, height), visible,
+            speechOutlineStyle);
+        GUI.Label(textRect, visible, speechStyle);
     }
 
     static string WrapSpeech(string text)
