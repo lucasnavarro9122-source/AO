@@ -1,3 +1,4 @@
+// Journal overlay for the local Unity client.
 using System.Collections.Generic;
 using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
@@ -16,11 +17,20 @@ public class AOQuestUIV150 : MonoBehaviour
 
     static AOQuestUIV150 instance;
 
+#if UNITY_EDITOR
+    public static bool VisualQAOverride;
+    public static int VisualQADrawCalls;
+#endif
+
     [RuntimeInitializeOnLoadMethod(
         RuntimeInitializeLoadType.SubsystemRegistration)]
     static void ResetStatic()
     {
         instance = null;
+#if UNITY_EDITOR
+        VisualQAOverride = false;
+        VisualQADrawCalls = 0;
+#endif
     }
 
     public static bool ModalOpen =>
@@ -45,6 +55,7 @@ public class AOQuestUIV150 : MonoBehaviour
     Vector2 detailScroll;
 
     string message = "";
+    bool closeNextFrame;
 
     Rect window =
         new Rect(
@@ -66,6 +77,13 @@ public class AOQuestUIV150 : MonoBehaviour
 
     void Update()
     {
+        if (closeNextFrame)
+        {
+            closeNextFrame = false;
+            Close();
+            return;
+        }
+
         if (!AOMainMenuV140.SessionActive)
             return;
 
@@ -185,8 +203,17 @@ public class AOQuestUIV150 : MonoBehaviour
 
     void OnGUI()
     {
-        if (!AOMainMenuV140.SessionActive)
+        if (!AOMainMenuV140.SessionActive
+#if UNITY_EDITOR
+            && !VisualQAOverride
+#endif
+           )
             return;
+
+#if UNITY_EDITOR
+        if (VisualQAOverride && mode != Mode.None)
+            VisualQADrawCalls++;
+#endif
 
         if (mode !=
             Mode.None)
@@ -201,6 +228,11 @@ public class AOQuestUIV150 : MonoBehaviour
 
     void DrawModal()
     {
+        GUISkin previousSkin = GUI.skin;
+        int previousDepth = GUI.depth;
+        GUI.depth = -90;
+        GUI.skin = AOClassicSkinV200.Get(previousSkin);
+
         window.width =
             Mathf.Min(
                 880f,
@@ -237,6 +269,8 @@ public class AOQuestUIV150 : MonoBehaviour
                 ? currentNpc.name +
                   " — Misiones"
                 : "Misiones");
+        GUI.skin = previousSkin;
+        GUI.depth = previousDepth;
     }
 
     void DrawWindow(
@@ -285,7 +319,7 @@ public class AOQuestUIV150 : MonoBehaviour
                 GUILayout.Width(
                     110))))
         {
-            Close();
+            closeNextFrame = true;
         }
 
         GUILayout.EndHorizontal();

@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 
 [DisallowMultipleComponent]
-public class AOCharacterCreationV170 : MonoBehaviour
+public partial class AOCharacterCreationV170 : MonoBehaviour
 {
     static AOCharacterCreationV170 instance;
 
@@ -29,6 +29,7 @@ public class AOCharacterCreationV170 : MonoBehaviour
     int raceId = 1;
     int genderId = 1;
     int classId = 3;
+    int homeCityId = 1;
     int headId;
 
     bool overwriteWarning;
@@ -127,6 +128,7 @@ public class AOCharacterCreationV170 : MonoBehaviour
         raceId = 1;
         genderId = 1;
         classId = 3;
+        homeCityId = 1;
 
         headId =
             AOCharacterVisualDatabaseV111
@@ -153,35 +155,7 @@ public class AOCharacterCreationV170 : MonoBehaviour
     {
         if (!visible)
             return;
-
-        EnsureStyles();
-
-        window.width =
-            Mathf.Min(
-                920f,
-                Screen.width - 20f);
-
-        window.height =
-            Mathf.Min(
-                670f,
-                Screen.height - 20f);
-
-        window.x =
-            (Screen.width -
-             window.width) *
-            0.5f;
-
-        window.y =
-            (Screen.height -
-             window.height) *
-            0.5f;
-
-        window =
-            GUI.ModalWindow(
-                170170,
-                window,
-                Draw,
-                "Crear personaje");
+        DrawClassic();
     }
 
     void Draw(
@@ -640,7 +614,7 @@ public class AOCharacterCreationV170 : MonoBehaviour
             ? south.head[0]
             : null;
 
-        float scale = 2.7f;
+        float scale = 3.6f;
 
         Vector2 basePoint =
             new Vector2(
@@ -834,7 +808,8 @@ public class AOCharacterCreationV170 : MonoBehaviour
                 raceId,
                 genderId,
                 classId,
-                headId))
+                headId,
+                homeCityId))
         {
             message =
                 "No pude crear el personaje. Revisá la Console.";

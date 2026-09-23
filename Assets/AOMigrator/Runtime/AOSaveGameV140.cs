@@ -475,13 +475,20 @@ public class AOSaveGameV140 : MonoBehaviour
         int raceId,
         int genderId,
         int classId,
-        int headIndex)
+        int headIndex,
+        int homeCityId = 1)
     {
         try
         {
             FindReferences();
 
-            DeleteSaveFiles();
+            if (!AOHomeCityV200.TryGet(homeCityId, out string homeName,
+                                       out int homeMap, out int homeX,
+                                       out int homeY))
+                throw new Exception("Ciudad inicial inválida.");
+            if (Resources.Load<TextAsset>(
+                    "AOMigrator/WorldV07/Maps/map_" + homeMap) == null)
+                throw new Exception("No está migrado el mapa de " + homeName + ".");
 
             if (identity == null)
             {
@@ -493,10 +500,10 @@ public class AOSaveGameV140 : MonoBehaviour
 
             identity.Configure(
                 characterName,
-                1,
-                1,
-                57,
-                44);
+                homeCityId,
+                homeMap,
+                homeX,
+                homeY);
 
             if (rpg == null ||
                 inventory == null ||
@@ -556,13 +563,13 @@ public class AOSaveGameV140 : MonoBehaviour
                 profileVisual.SyncFromRPG();
 
             if (!world.MagicTeleport(
-                    1,
-                    57,
-                    44,
+                    homeMap,
+                    homeX,
+                    homeY,
                     out string startResult))
             {
                 throw new Exception(
-                    "No pude iniciar en Ullathorpe: " +
+                    "No pude iniciar en " + homeName + ": " +
                     startResult);
             }
 
@@ -573,11 +580,11 @@ public class AOSaveGameV140 : MonoBehaviour
                 Time.unscaledTime +
                 60f;
 
-            SaveGame(
-                false);
+            if (!SaveGame(false))
+                throw new Exception("No pude guardar el personaje nuevo.");
 
             AOInterfaceV0101.PushMessage(
-                "Bienvenido a Ullathorpe, " +
+                "Bienvenido a " + homeName + ", " +
                 identity.CharacterName +
                 ".");
 
@@ -670,6 +677,12 @@ public class AOSaveGameV140 : MonoBehaviour
         data.savedAtUtc =
             DateTime.UtcNow.ToString(
                 "o");
+
+        data.character.name = identity.CharacterName;
+        data.character.homeCityId = identity.HomeCityId;
+        data.character.homeMap = identity.HomeMap;
+        data.character.homeX = identity.HomeX;
+        data.character.homeY = identity.HomeY;
 
         data.rpg.raceId =
             rpg.RaceId;

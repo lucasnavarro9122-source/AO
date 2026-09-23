@@ -49,6 +49,7 @@ public class AOCityUIV130 : MonoBehaviour
     int quantity = 1;
 
     string message = "";
+    bool closeNextFrame;
 
     Rect windowRect =
         new Rect(
@@ -74,6 +75,13 @@ public class AOCityUIV130 : MonoBehaviour
 
     void Update()
     {
+        if (closeNextFrame)
+        {
+            closeNextFrame = false;
+            Close();
+            return;
+        }
+
         if (mode !=
                 Mode.None &&
             PressedEscape())
@@ -192,6 +200,11 @@ public class AOCityUIV130 : MonoBehaviour
 
         FindReferences();
 
+        GUISkin previousSkin = GUI.skin;
+        int previousDepth = GUI.depth;
+        GUI.depth = -90;
+        GUI.skin = AOClassicSkinV200.Get(previousSkin);
+
         windowRect.width =
             Mathf.Min(
                 900f,
@@ -228,6 +241,8 @@ public class AOCityUIV130 : MonoBehaviour
                 windowRect,
                 DrawWindow,
                 Title());
+        GUI.skin = previousSkin;
+        GUI.depth = previousDepth;
     }
 
     string Title()
@@ -305,7 +320,7 @@ public class AOCityUIV130 : MonoBehaviour
                 GUILayout.Width(
                     110))))
         {
-            Close();
+            closeNextFrame = true;
         }
 
         GUILayout.EndHorizontal();

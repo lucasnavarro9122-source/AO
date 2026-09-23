@@ -33,13 +33,15 @@ public class AOMainMenuV140 : MonoBehaviour
     string status = "";
 
     bool openCreatorNextFrame;
+    bool continueNextFrame;
+    bool exitNextFrame;
 
     Rect window =
         new Rect(
             0,
             0,
             460,
-            410);
+            460);
 
     [RuntimeInitializeOnLoadMethod(
         RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -63,10 +65,33 @@ public class AOMainMenuV140 : MonoBehaviour
 
     void Update()
     {
+        if (exitNextFrame)
+        {
+            exitNextFrame = false;
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+            return;
+        }
+
+        if (continueNextFrame)
+        {
+            continueNextFrame = false;
+            FindReferences();
+            if (save != null && save.LoadGame(false))
+                StartSession();
+            else
+                status = "No pude cargar la partida.";
+            return;
+        }
+
         if (!openCreatorNextFrame)
             return;
 
         openCreatorNextFrame = false;
+        visible = false;
 
         FindReferences();
 
@@ -103,6 +128,9 @@ public class AOMainMenuV140 : MonoBehaviour
 
         FindReferences();
 
+        GUISkin previousSkin = GUI.skin;
+        GUI.skin = AOClassicSkinV200.Get(previousSkin);
+
         window.x =
             (Screen.width -
              window.width) *
@@ -118,6 +146,7 @@ public class AOMainMenuV140 : MonoBehaviour
             window,
             Draw,
             "Argentum Unity — Demo 1 jugador");
+        GUI.skin = previousSkin;
     }
 
     void Draw(
@@ -166,16 +195,7 @@ public class AOMainMenuV140 : MonoBehaviour
                 GUILayout.Height(
                     44))))
         {
-            if (save.LoadGame(
-                    false))
-            {
-                StartSession();
-            }
-            else
-            {
-                status =
-                    "No pude cargar la partida.";
-            }
+            continueNextFrame = true;
         }
 
         GUI.enabled = true;
@@ -188,7 +208,6 @@ public class AOMainMenuV140 : MonoBehaviour
             // IMGUI no permite activar otro ModalWindow dentro
             // del mismo evento que está dibujando este modal.
             // Lo diferimos a Update para el siguiente frame.
-            visible = false;
             openCreatorNextFrame = true;
         }
 
@@ -216,12 +235,7 @@ public class AOMainMenuV140 : MonoBehaviour
                 GUILayout.Height(
                     32))))
         {
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication
-                .isPlaying = false;
-#else
-            Application.Quit();
-#endif
+            exitNextFrame = true;
         }
     }
 

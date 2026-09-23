@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 #endif
 
 [DisallowMultipleComponent]
-public class AOInterfaceV0101 : MonoBehaviour
+public partial class AOInterfaceV0101 : MonoBehaviour
 {
     public static bool Active { get; private set; }
     public static bool InputCaptured { get; private set; }
@@ -176,6 +176,10 @@ public class AOInterfaceV0101 : MonoBehaviour
     void Update()
     {
         FindReferences();
+        UpdateTopActions();
+
+        if (AOMainMenuV140.ModalOpen || AOCharacterCreationV170.ModalOpen)
+            topDialog = TopDialog.None;
 
         if (!chatEditing)
         {
@@ -196,7 +200,8 @@ public class AOInterfaceV0101 : MonoBehaviour
             AOCityUIV130.ModalOpen ||
             AOQuestUIV150.ModalOpen ||
             AOCharacterCreationV170.ModalOpen ||
-            AOMainMenuV140.ModalOpen;
+            AOMainMenuV140.ModalOpen ||
+            topDialog != TopDialog.None;
 
         UpdateGeometry();
         UpdateCameraViewport();
@@ -548,6 +553,9 @@ public class AOInterfaceV0101 : MonoBehaviour
 
     void OnGUI()
     {
+        if (AOMainMenuV140.ModalOpen || AOCharacterCreationV170.ModalOpen)
+            return;
+
         if (hudFrame == null)
             return;
 
@@ -580,6 +588,8 @@ public class AOInterfaceV0101 : MonoBehaviour
 
         DrawDragGhost();
         DrawMagicStatusOverlay();
+        DrawTopButtons();
+        DrawTopDialog();
     }
 
     void DrawMagicStatusOverlay()
@@ -2312,8 +2322,13 @@ public class AOInterfaceV0101 : MonoBehaviour
                 GUIContent.none,
                 invisibleButton)))
         {
-            PushMessage(
-                "Quest: sistema pendiente para una etapa posterior.");
+            AOQuestUIV150 journal = player == null
+                ? UnityEngine.Object.FindFirstObjectByType<AOQuestUIV150>()
+                : player.GetComponent<AOQuestUIV150>();
+            if (journal != null)
+                journal.OpenJournal();
+            else
+                PushMessage("Diario de misiones no disponible.");
         }
 
         Vector2 m =
