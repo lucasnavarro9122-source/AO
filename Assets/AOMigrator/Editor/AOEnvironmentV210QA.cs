@@ -13,10 +13,13 @@ public static class AOEnvironmentV210QA
     {
         public bool doorOpened;
         public bool doorPassable;
+        public bool doorExitPassable;
         public bool doorClosed;
         public bool roofHiddenInsideChurch;
         public bool characterBehindFoliage;
         public bool cityMusicPlaying;
+        public bool merchantPanelRendered;
+        public bool merchantOriginalAssetLoaded;
         public bool saveSessionInactive;
         public float roofAlpha;
         public string error;
@@ -25,6 +28,7 @@ public static class AOEnvironmentV210QA
     static readonly string Root = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
     static readonly string Request = Path.Combine(Root, "Temp", "run_environment_v210_qa.flag");
     static readonly string Output = Path.Combine(Root, "MigrationReports", "unity_environment_v210_qa.json");
+    static readonly string MerchantScreenshot = Path.Combine(Root, "MigrationReports", "unity_merchant_original_qa.png");
     const string ScenePath = "Assets/Scenes/AOMigrator/Generated/AO_Ciudad_de_Ullathorpe_Playable.unity";
     static Report report;
     static int frames;
@@ -93,10 +97,13 @@ public static class AOEnvironmentV210QA
             report.doorPassable = grid.CanEnter(71, 35, AOGridMap.NORTH) &&
                 grid.CanEnter(72, 35, AOGridMap.NORTH) &&
                 !grid.CanEnter(70, 35, AOGridMap.NORTH);
+            report.doorExitPassable =
+                grid.CanEnter(71, 36, AOGridMap.SOUTH);
             door.TryToggle(out _);
             report.doorClosed = !door.IsOpen &&
                 !grid.CanEnter(71, 35, AOGridMap.NORTH) &&
-                !grid.CanEnter(72, 35, AOGridMap.NORTH);
+                !grid.CanEnter(72, 35, AOGridMap.NORTH) &&
+                !grid.CanEnter(71, 36, AOGridMap.SOUTH);
 
             world.LoadMap(1, 78, 67, true);
             report.cityMusicPlaying = AOAudioV190.CurrentMapMusicId == 4;
@@ -122,6 +129,35 @@ public static class AOEnvironmentV210QA
                 report.roofAlpha = roof == null ? -1f : roof.color.a;
                 report.roofHiddenInsideChurch = roof != null && roof.color.a < 0.2f;
                 EditorApplication.update -= CheckRoof;
+                AOCityUIV130 cityUI =
+                    UnityEngine.Object.FindFirstObjectByType<AOCityUIV130>();
+                if (cityUI == null)
+                {
+                    report.error = "Falta interfaz de comercio.";
+                    Finish();
+                    return;
+                }
+                report.merchantOriginalAssetLoaded = Resources.Load<Texture2D>(
+                    "AOMigrator/CityV130/UI/es_comerciar") != null;
+                cityUI.OpenMerchant(AOCityNPCDatabaseV130.Get(8));
+                frames = 12;
+                EditorApplication.update += CaptureMerchant;
+            }
+            void CaptureMerchant()
+            {
+                if (!EditorApplication.isPlaying) { EditorApplication.update -= CaptureMerchant; Finish(); return; }
+                if (frames-- > 0) return;
+                ScreenCapture.CaptureScreenshot(MerchantScreenshot);
+                EditorApplication.update -= CaptureMerchant;
+                frames = 20;
+                EditorApplication.update += CheckMerchant;
+            }
+            void CheckMerchant()
+            {
+                if (!EditorApplication.isPlaying) { EditorApplication.update -= CheckMerchant; Finish(); return; }
+                if (frames-- > 0) return;
+                report.merchantPanelRendered = File.Exists(MerchantScreenshot);
+                EditorApplication.update -= CheckMerchant;
                 Finish();
             }
             EditorApplication.update += CheckRoof;
@@ -143,9 +179,11 @@ public static class AOEnvironmentV210QA
         File.WriteAllText(Output, JsonUtility.ToJson(report, true));
         if (File.Exists(Request)) File.Delete(Request);
         bool passed = report.saveSessionInactive && report.doorOpened &&
-            report.doorPassable && report.doorClosed &&
+            report.doorPassable && report.doorExitPassable &&
+            report.doorClosed &&
             report.roofHiddenInsideChurch && report.characterBehindFoliage &&
-            report.cityMusicPlaying;
+            report.cityMusicPlaying && report.merchantPanelRendered &&
+            report.merchantOriginalAssetLoaded;
         Debug.Log("AO_ENVIRONMENT_V210_QA_DONE passed=" + passed +
                   " error=" + report.error);
         if (EditorApplication.isPlaying) EditorApplication.isPlaying = false;

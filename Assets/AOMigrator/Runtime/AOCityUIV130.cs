@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 #endif
 
 [DisallowMultipleComponent]
-public class AOCityUIV130 : MonoBehaviour
+public partial class AOCityUIV130 : MonoBehaviour
 {
     enum Mode
     {
@@ -120,10 +120,7 @@ public class AOCityUIV130 : MonoBehaviour
         mode = Mode.Merchant;
         ResetSelection();
 
-        message =
-            npc == null
-            ? ""
-            : npc.description;
+        message = "";
     }
 
     public void OpenBank(
@@ -204,6 +201,14 @@ public class AOCityUIV130 : MonoBehaviour
         int previousDepth = GUI.depth;
         GUI.depth = -90;
         GUI.skin = AOClassicSkinV200.Get(previousSkin);
+
+        if (mode == Mode.Merchant)
+        {
+            DrawMerchantClassic();
+            GUI.skin = previousSkin;
+            GUI.depth = previousDepth;
+            return;
+        }
 
         windowRect.width =
             Mathf.Min(
@@ -903,5 +908,193 @@ public class AOCityUIV130 : MonoBehaviour
         return Input.GetKeyDown(
             KeyCode.Escape);
 #endif
+    }
+
+    const int MerchantColumns = 6;
+    const int MerchantRows = 7;
+    const float MerchantWidth = 542f;
+    const float MerchantHeight = 481f;
+    static Texture2D merchantBackground;
+
+    void DrawMerchantClassic()
+    {
+        if (merchantBackground == null)
+            merchantBackground = Resources.Load<Texture2D>(
+                "AOMigrator/CityV130/UI/es_comerciar");
+        if (merchantBackground == null)
+        {
+            windowRect.width = Mathf.Min(900f, Screen.width - 20f);
+            windowRect.height = Mathf.Min(610f, Screen.height - 20f);
+            windowRect = GUI.ModalWindow(130130, windowRect,
+                                         DrawWindow, Title());
+            return;
+        }
+
+        Matrix4x4 previousMatrix = GUI.matrix;
+        float scale = Mathf.Min(1.5f, Screen.width / 552f,
+                                Screen.height / 491f);
+        GUI.matrix = Matrix4x4.Scale(new Vector3(scale, scale, 1f));
+        Rect rect = new Rect((Screen.width / scale - MerchantWidth) * 0.5f,
+                             (Screen.height / scale - MerchantHeight) * 0.5f,
+                             MerchantWidth, MerchantHeight);
+        GUI.ModalWindow(130130, rect, DrawMerchantClassicWindow, "",
+                        GUIStyle.none);
+        GUI.matrix = previousMatrix;
+    }
+
+    void DrawMerchantClassicWindow(int id)
+    {
+        GUI.DrawTexture(new Rect(0, 0, MerchantWidth, MerchantHeight),
+                        merchantBackground);
+        if (AOAudioV190.Clicked(GUI.Button(new Rect(515, 1, 26, 27),
+                                          GUIContent.none, GUIStyle.none)))
+            closeNextFrame = true;
+
+        if (city == null || inventory == null || currentNPC == null)
+            return;
+
+        AOCityNPCDatabaseV130.ShopEntry[] stock = currentNPC.stock;
+        if (stock != null)
+            for (int i = 0; i < stock.Length && i < MerchantColumns * MerchantRows; i++)
+            {
+                AOCityNPCDatabaseV130.ShopEntry entry = stock[i];
+                if (entry == null) continue;
+                AOItemDatabaseV10.ItemDef item = AOItemDatabaseV10.Get(entry.itemIndex);
+                if (item == null) continue;
+                int amount = city.CurrentStock(currentNPC, entry);
+                string hint = item.name + " | " + city.BuyPrice(item.index) +
+                              " oro | stock " + (amount < 0 ? "∞" : amount.ToString());
+                Rect slot = MerchantSlot(42f, i);
+                DrawMerchantIcon(slot, item.index,
+                                 amount < 0 ? "" : amount.ToString(),
+                                 selectedShopItem == i);
+                if (AOAudioV190.Clicked(GUI.Button(slot,
+                    new GUIContent("", hint), GUIStyle.none)))
+                {
+                    selectedShopItem = i;
+                    selectedInventorySlot = -1;
+                }
+            }
+
+        int slotCount = Mathf.Min(inventory.SlotCount,
+                                  MerchantColumns * MerchantRows);
+        for (int i = 0; i < slotCount; i++)
+        {
+            int itemIndex = inventory.GetSlotItemIndex(i);
+            int amount = inventory.GetSlotAmount(i);
+            if (itemIndex <= 0 || amount <= 0) continue;
+            AOItemDatabaseV10.ItemDef item = AOItemDatabaseV10.Get(itemIndex);
+            string name = item == null ? "OBJ " + itemIndex : item.name;
+            string hint = name + " x" + amount + " | venta " +
+                          city.SellPrice(itemIndex) + " oro";
+            Rect slot = MerchantSlot(293f, i);
+            DrawMerchantIcon(slot, itemIndex, amount.ToString(),
+                             selectedInventorySlot == i);
+            if (AOAudioV190.Clicked(GUI.Button(slot,
+                new GUIContent("", hint), GUIStyle.none)))
+            {
+                selectedInventorySlot = i;
+                selectedShopItem = -1;
+            }
+        }
+
+        GUIStyle info = new GUIStyle(GUI.skin.label)
+        {
+            alignment = TextAnchor.MiddleCenter,
+            fontSize = 12,
+            wordWrap = true
+        };
+        string selectedName = "Seleccioná un objeto";
+        string selectedDetail = "";
+        if (selectedShopItem >= 0 && stock != null && selectedShopItem < stock.Length)
+        {
+            AOCityNPCDatabaseV130.ShopEntry entry = stock[selectedShopItem];
+            if (entry != null)
+            {
+                AOItemDatabaseV10.ItemDef item = AOItemDatabaseV10.Get(entry.itemIndex);
+                if (item != null)
+                {
+                    selectedName = item.name;
+                    selectedDetail = city.BuyPrice(item.index) + " oro";
+                }
+            }
+        }
+        else if (selectedInventorySlot >= 0 &&
+                 selectedInventorySlot < inventory.SlotCount)
+        {
+            int index = inventory.GetSlotItemIndex(selectedInventorySlot);
+            AOItemDatabaseV10.ItemDef item = AOItemDatabaseV10.Get(index);
+            selectedName = item == null ? "OBJ " + index : item.name;
+            selectedDetail = "Venta: " + city.SellPrice(index) + " oro";
+        }
+        GUI.Label(new Rect(160, 370, 224, 22), selectedName, info);
+        GUI.Label(new Rect(160, 391, 224, 18), selectedDetail, info);
+        if (!string.IsNullOrEmpty(message))
+            GUI.Label(new Rect(36, 412, 470, 17), message, info);
+        GUI.Label(new Rect(403, 373, 105, 30),
+                  "Oro: " + city.Gold, info);
+
+        if (AOAudioV190.Clicked(GUI.Button(new Rect(211, 431, 24, 27),
+                                          GUIContent.none, GUIStyle.none)))
+            quantity = Mathf.Max(1, quantity - 1);
+        string amountText = GUI.TextField(new Rect(241, 433, 62, 22),
+                                          quantity.ToString(), 5);
+        if (int.TryParse(amountText, out int entered))
+            quantity = Mathf.Clamp(entered, 1, 10000);
+        if (AOAudioV190.Clicked(GUI.Button(new Rect(309, 431, 24, 27),
+                                          GUIContent.none, GUIStyle.none)))
+            quantity = Mathf.Min(10000, quantity + 1);
+
+        GUI.enabled = stock != null && selectedShopItem >= 0 &&
+                      selectedShopItem < stock.Length;
+        if (AOAudioV190.Clicked(GUI.Button(new Rect(55, 431, 122, 29),
+                                          GUIContent.none, GUIStyle.none)))
+            city.Buy(currentNPC, stock[selectedShopItem], quantity, out message);
+        GUI.enabled = selectedInventorySlot >= 0;
+        if (AOAudioV190.Clicked(GUI.Button(new Rect(367, 431, 122, 29),
+                                          GUIContent.none, GUIStyle.none)))
+            city.Sell(currentNPC, selectedInventorySlot, quantity, out message);
+        GUI.enabled = true;
+    }
+
+    static Rect MerchantSlot(float startX, int index)
+    {
+        int column = index % MerchantColumns;
+        int row = index / MerchantColumns;
+        return new Rect(startX + column * 35.2f,
+                        108f + row * 35.2f, 33f, 33f);
+    }
+
+    static void DrawMerchantIcon(Rect slot, int itemIndex,
+                                 string count, bool selected)
+    {
+        if (selected)
+        {
+            Color previous = GUI.color;
+            GUI.color = new Color(0.95f, 0.73f, 0.24f, 0.42f);
+            GUI.DrawTexture(slot, Texture2D.whiteTexture);
+            GUI.color = previous;
+        }
+        Sprite icon = AOItemDatabaseV10.Icon(itemIndex);
+        if (icon != null && icon.texture != null)
+        {
+            Rect textureRect = icon.textureRect;
+            Rect uv = new Rect(textureRect.x / icon.texture.width,
+                               textureRect.y / icon.texture.height,
+                               textureRect.width / icon.texture.width,
+                               textureRect.height / icon.texture.height);
+            GUI.DrawTextureWithTexCoords(new Rect(slot.x + 2, slot.y + 1, 29, 29),
+                                          icon.texture, uv, true);
+        }
+        if (!string.IsNullOrEmpty(count))
+        {
+            GUIStyle amountStyle = new GUIStyle(GUI.skin.label)
+            {
+                alignment = TextAnchor.LowerRight,
+                fontSize = 10,
+                fontStyle = FontStyle.Bold
+            };
+            GUI.Label(new Rect(slot.x, slot.y + 17, 31, 15), count, amountStyle);
+        }
     }
 }

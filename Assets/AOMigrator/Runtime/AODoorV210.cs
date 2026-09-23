@@ -11,6 +11,7 @@ public class AODoorV210 : MonoBehaviour
     int tileY;
     int firstPassageX;
     int[] closedNorthFlags;
+    int[] closedSouthFlags;
     bool locked;
     bool open;
 
@@ -30,13 +31,19 @@ public class AODoorV210 : MonoBehaviour
             Mathf.Clamp(Mathf.CeilToInt(closedSprite.rect.width / 32f), 1, 2);
         firstPassageX = x - width + 1;
         closedNorthFlags = new int[width];
+        closedSouthFlags = new int[width];
         if (grid != null)
             for (int offset = 0; offset < width; offset++)
             {
-                int flags = grid.GetFlags(firstPassageX + offset, y);
+                int passageX = firstPassageX + offset;
+                int flags = grid.GetFlags(passageX, y);
                 if ((flags & AOGridMap.FLAG_ALL_SIDES) !=
                     AOGridMap.FLAG_ALL_SIDES)
                     closedNorthFlags[offset] = flags & 1;
+                int outsideFlags = grid.GetFlags(passageX, y + 1);
+                if ((outsideFlags & AOGridMap.FLAG_ALL_SIDES) !=
+                    AOGridMap.FLAG_ALL_SIDES)
+                    closedSouthFlags[offset] = outsideFlags & 4;
             }
     }
 
@@ -73,8 +80,12 @@ public class AODoorV210 : MonoBehaviour
                 return true;
             }
             for (int offset = 0; offset < closedNorthFlags.Length; offset++)
+            {
                 grid.OrFlags(firstPassageX + offset, tileY,
                              closedNorthFlags[offset]);
+                grid.OrFlags(firstPassageX + offset, tileY + 1,
+                             closedSouthFlags[offset]);
+            }
             visual.sprite = closedSprite;
             open = false;
             message = "Puerta cerrada.";
@@ -82,8 +93,12 @@ public class AODoorV210 : MonoBehaviour
         else
         {
             for (int offset = 0; offset < closedNorthFlags.Length; offset++)
+            {
                 grid.ClearFlags(firstPassageX + offset, tileY,
                                 closedNorthFlags[offset]);
+                grid.ClearFlags(firstPassageX + offset, tileY + 1,
+                                closedSouthFlags[offset]);
+            }
             visual.sprite = openSprite;
             open = true;
             message = "Puerta abierta.";
