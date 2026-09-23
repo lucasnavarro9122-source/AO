@@ -7,7 +7,6 @@ public class AOConsumableFeedbackV114 : MonoBehaviour
     AudioSource source;
     AudioClip food;
     AudioClip drink;
-    AudioClip alternateDrink;
 
     [RuntimeInitializeOnLoadMethod(
         RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -61,17 +60,19 @@ public class AOConsumableFeedbackV114 : MonoBehaviour
             Resources.Load<AudioClip>(
                 "AOMigrator/ConsumablesV114/Audio/7");
 
-        alternateDrink =
-            Resources.Load<AudioClip>(
-                "AOMigrator/ConsumablesV114/Audio/46");
-
         drink =
             Resources.Load<AudioClip>(
                 "AOMigrator/ConsumablesV114/Audio/135");
     }
 
-    public static void PlayFood()
+    public static void PlayFood(int soundId = 0)
     {
+        if (soundId > 0)
+        {
+            AOAudioV190.PlayEffect(soundId, 0.72f);
+            return;
+        }
+
         AOConsumableFeedbackV114 fx =
             Ensure();
 
@@ -82,15 +83,15 @@ public class AOConsumableFeedbackV114 : MonoBehaviour
     public static void PlayDrink(
         int soundId)
     {
+        if (soundId > 0)
+        {
+            AOAudioV190.PlayEffect(soundId, 0.72f);
+            return;
+        }
+
         AOConsumableFeedbackV114 fx =
             Ensure();
-
-        if (soundId == 46)
-            fx.Play(
-                fx.alternateDrink);
-        else
-            fx.Play(
-                fx.drink);
+        fx.Play(fx.drink);
     }
 
     static void Pulse(
@@ -100,7 +101,8 @@ public class AOConsumableFeedbackV114 : MonoBehaviour
         {
             AOCombatFeedbackV113.PlayEquip(
                 visual,
-                3);
+                3,
+                false);
         }
     }
 
@@ -110,7 +112,7 @@ public class AOConsumableFeedbackV114 : MonoBehaviour
         int soundId)
     {
         if (isFood)
-            PlayFood();
+            PlayFood(soundId);
         else
             PlayDrink(soundId);
 

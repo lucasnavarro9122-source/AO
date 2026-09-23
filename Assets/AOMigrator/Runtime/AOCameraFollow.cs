@@ -20,6 +20,8 @@ public class AOCameraFollow : MonoBehaviour
     void Awake()
     {
         cam = GetComponent<Camera>();
+        if (UnityEngine.Object.FindFirstObjectByType<AudioListener>() == null)
+            gameObject.AddComponent<AudioListener>();
     }
 
     public void SnapNow()

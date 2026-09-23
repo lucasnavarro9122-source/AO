@@ -300,10 +300,10 @@ public class AOCityUIV130 : MonoBehaviour
 
         GUILayout.FlexibleSpace();
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Cerrar",
                 GUILayout.Width(
-                    110)))
+                    110))))
         {
             Close();
         }
@@ -383,7 +383,7 @@ public class AOCityUIV130 : MonoBehaviour
                     selectedShopItem ==
                     i;
 
-                if (GUILayout.Button(
+                if (AOAudioV190.Clicked(GUILayout.Button(
                         (selected
                             ? "▶ "
                             : "") +
@@ -393,7 +393,7 @@ public class AOCityUIV130 : MonoBehaviour
                         " oro | stock " +
                         stockText,
                         GUILayout.Height(
-                            26)))
+                            26))))
                 {
                     selectedShopItem = i;
                     selectedInventorySlot =
@@ -455,7 +455,7 @@ public class AOCityUIV130 : MonoBehaviour
                 city.SellPrice(
                     itemIndex);
 
-            if (GUILayout.Button(
+            if (AOAudioV190.Clicked(GUILayout.Button(
                     (selected
                         ? "▶ "
                         : "") +
@@ -465,7 +465,7 @@ public class AOCityUIV130 : MonoBehaviour
                     " | venta " +
                     sell,
                     GUILayout.Height(
-                        26)))
+                        26))))
             {
                 selectedInventorySlot =
                     i;
@@ -494,10 +494,10 @@ public class AOCityUIV130 : MonoBehaviour
         GUI.enabled =
             selectedShopItem >= 0;
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Comprar",
                 GUILayout.Width(
-                    130)))
+                    130))))
         {
             var entry =
                 currentNPC.stock[
@@ -513,10 +513,10 @@ public class AOCityUIV130 : MonoBehaviour
         GUI.enabled =
             selectedInventorySlot >= 0;
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Vender",
                 GUILayout.Width(
-                    130)))
+                    130))))
         {
             city.Sell(
                 currentNPC,
@@ -539,10 +539,10 @@ public class AOCityUIV130 : MonoBehaviour
             GUILayout.Width(
                 100));
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "-",
                 GUILayout.Width(
-                    35)))
+                    35))))
         {
             quantity =
                 Mathf.Max(
@@ -550,10 +550,10 @@ public class AOCityUIV130 : MonoBehaviour
                     quantity - 1);
         }
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "+",
                 GUILayout.Width(
-                    35)))
+                    35))))
         {
             quantity =
                 Mathf.Min(
@@ -561,22 +561,22 @@ public class AOCityUIV130 : MonoBehaviour
                     quantity + 1);
         }
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "1",
                 GUILayout.Width(
-                    45)))
+                    45))))
             quantity = 1;
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "5",
                 GUILayout.Width(
-                    45)))
+                    45))))
             quantity = 5;
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "10",
                 GUILayout.Width(
-                    45)))
+                    45))))
             quantity = 10;
 
         GUILayout.EndHorizontal();
@@ -626,7 +626,7 @@ public class AOCityUIV130 : MonoBehaviour
                 selectedBankSlot ==
                     i;
 
-            if (GUILayout.Button(
+            if (AOAudioV190.Clicked(GUILayout.Button(
                     (selected
                         ? "▶ "
                         : "") +
@@ -640,7 +640,7 @@ public class AOCityUIV130 : MonoBehaviour
                     " x" +
                     amount,
                     GUILayout.Height(
-                        26)))
+                        26))))
             {
                 selectedBankSlot = i;
                 selectedInventorySlot =
@@ -690,7 +690,7 @@ public class AOCityUIV130 : MonoBehaviour
                 selectedInventorySlot ==
                     i;
 
-            if (GUILayout.Button(
+            if (AOAudioV190.Clicked(GUILayout.Button(
                     (selected
                         ? "▶ "
                         : "") +
@@ -704,7 +704,7 @@ public class AOCityUIV130 : MonoBehaviour
                     " x" +
                     amount,
                     GUILayout.Height(
-                        26)))
+                        26))))
             {
                 selectedInventorySlot = i;
                 selectedBankSlot = -1;
@@ -723,10 +723,10 @@ public class AOCityUIV130 : MonoBehaviour
         GUI.enabled =
             selectedInventorySlot >= 0;
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Depositar item",
                 GUILayout.Width(
-                    145)))
+                    145))))
         {
             bank.DepositItem(
                 selectedInventorySlot,
@@ -737,10 +737,10 @@ public class AOCityUIV130 : MonoBehaviour
         GUI.enabled =
             selectedBankSlot >= 0;
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Retirar item",
                 GUILayout.Width(
-                    145)))
+                    145))))
         {
             bank.WithdrawItem(
                 selectedBankSlot,
@@ -762,30 +762,30 @@ public class AOCityUIV130 : MonoBehaviour
 
         GUILayout.BeginHorizontal();
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Depositar 100",
                 GUILayout.Width(
-                    120)))
+                    120))))
         {
             bank.DepositGold(
                 100,
                 out message);
         }
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Depositar 1000",
                 GUILayout.Width(
-                    120)))
+                    120))))
         {
             bank.DepositGold(
                 1000,
                 out message);
         }
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Depositar todo",
                 GUILayout.Width(
-                    120)))
+                    120))))
         {
             bank.DepositGold(
                 combat.Gold,
@@ -794,30 +794,30 @@ public class AOCityUIV130 : MonoBehaviour
 
         GUILayout.FlexibleSpace();
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Retirar 100",
                 GUILayout.Width(
-                    110)))
+                    110))))
         {
             bank.WithdrawGold(
                 100,
                 out message);
         }
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Retirar 1000",
                 GUILayout.Width(
-                    110)))
+                    110))))
         {
             bank.WithdrawGold(
                 1000,
                 out message);
         }
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Retirar todo",
                 GUILayout.Width(
-                    110)))
+                    110))))
         {
             bank.WithdrawGold(
                 bank.BankGold,
@@ -846,12 +846,12 @@ public class AOCityUIV130 : MonoBehaviour
         GUILayout.Space(
             20);
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 combat.IsDead
                 ? "Resucitar"
                 : "Curar completamente",
                 GUILayout.Height(
-                    46)))
+                    46))))
         {
             city.HealOrResurrect(
                 out message);

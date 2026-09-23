@@ -280,10 +280,10 @@ public class AOQuestUIV150 : MonoBehaviour
 
         GUILayout.FlexibleSpace();
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Cerrar",
                 GUILayout.Width(
-                    110)))
+                    110))))
         {
             Close();
         }
@@ -376,7 +376,7 @@ public class AOQuestUIV150 : MonoBehaviour
             selectedQuestId ==
             questId;
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 (selected
                     ? "▶ "
                     : "") +
@@ -384,7 +384,7 @@ public class AOQuestUIV150 : MonoBehaviour
                 "\n" +
                 state,
                 GUILayout.Height(
-                    48)))
+                    48))))
         {
             selectedQuestId =
                 questId;
@@ -501,10 +501,10 @@ public class AOQuestUIV150 : MonoBehaviour
                     quest.id,
                     out _);
 
-            if (GUILayout.Button(
+            if (AOAudioV190.Clicked(GUILayout.Button(
                     "Aceptar",
                     GUILayout.Height(
-                        36)))
+                        36))))
             {
                 if (quests.AcceptQuest(
                         quest.id,
@@ -522,13 +522,13 @@ public class AOQuestUIV150 : MonoBehaviour
         }
         else
         {
-            if (GUILayout.Button(
+            if (AOAudioV190.Clicked(GUILayout.Button(
                     quests.TrackedQuestId ==
                         quest.id
                     ? "Siguiendo"
                     : "Seguir",
                     GUILayout.Height(
-                        36)))
+                        36))))
             {
                 quests.TrackQuest(
                     quest.id);
@@ -551,10 +551,10 @@ public class AOQuestUIV150 : MonoBehaviour
                     quest.id,
                     out _);
 
-            if (GUILayout.Button(
+            if (AOAudioV190.Clicked(GUILayout.Button(
                     "Entregar",
                     GUILayout.Height(
-                        36)))
+                        36))))
             {
                 if (quests.TurnInQuest(
                         quest.id,

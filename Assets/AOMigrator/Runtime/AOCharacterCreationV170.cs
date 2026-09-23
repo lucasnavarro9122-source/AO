@@ -241,12 +241,12 @@ public class AOCharacterCreationV170 : MonoBehaviour
         GUI.enabled =
             !transitionPending;
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Volver",
                 GUILayout.Height(
                     38),
                 GUILayout.Width(
-                    130)))
+                    130))))
         {
             Close();
         }
@@ -259,12 +259,12 @@ public class AOCharacterCreationV170 : MonoBehaviour
             ? "Reemplazar partida"
             : "Crear personaje";
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 createLabel,
                 GUILayout.Height(
                     42),
                 GUILayout.Width(
-                    190)))
+                    190))))
         {
             if (overwriteWarning &&
                 !overwriteConfirmed)
@@ -457,12 +457,12 @@ public class AOCharacterCreationV170 : MonoBehaviour
 
         GUILayout.BeginHorizontal();
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "<",
                 GUILayout.Width(
                     45),
                 GUILayout.Height(
-                    32)))
+                    32))))
         {
             CycleHead(
                 -1);
@@ -479,12 +479,12 @@ public class AOCharacterCreationV170 : MonoBehaviour
 
         GUILayout.FlexibleSpace();
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 ">",
                 GUILayout.Width(
                     45),
                 GUILayout.Height(
-                    32)))
+                    32))))
         {
             CycleHead(
                 1);
@@ -536,13 +536,13 @@ public class AOCharacterCreationV170 : MonoBehaviour
                   id
                 : cls.name;
 
-            if (GUILayout.Button(
+            if (AOAudioV190.Clicked(GUILayout.Button(
                     (classId == id
                         ? "▶ "
                         : "") +
                     label,
                     GUILayout.Height(
-                        30)))
+                        30))))
             {
                 classId = id;
             }
@@ -725,13 +725,13 @@ public class AOCharacterCreationV170 : MonoBehaviour
         string text,
         bool selected)
     {
-        return GUILayout.Button(
+        return AOAudioV190.Clicked(GUILayout.Button(
             (selected
                 ? "▶ "
                 : "") +
             text,
             GUILayout.Height(
-                30));
+                30)));
     }
 
     void ResetHead()

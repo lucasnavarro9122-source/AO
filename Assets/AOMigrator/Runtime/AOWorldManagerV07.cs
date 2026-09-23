@@ -275,6 +275,10 @@ public class AOWorldManagerV07 : MonoBehaviour
     public int CurrentMapNumber => currentMapNumber;
     public string CurrentMapName =>
         currentMap == null ? "" : currentMap.mapName;
+    public string CurrentTerrain =>
+        currentMap == null ? "" : currentMap.terrain;
+    public string CurrentZone =>
+        currentMap == null ? "" : currentMap.zone;
     public bool IsLoading => loading;
     public float CurrentWorldHour => worldHour;
 
@@ -612,6 +616,7 @@ public class AOWorldManagerV07 : MonoBehaviour
             long now = System.Diagnostics.Stopwatch.GetTimestamp();
             metrics.jsonMs = ElapsedMs(phaseStart, now);
             phaseStart = now;
+            AOAudioV190.SetWeather(false);
             PrepareMapRoot(data);
             now = System.Diagnostics.Stopwatch.GetTimestamp();
             metrics.clearMs = ElapsedMs(phaseStart, now);

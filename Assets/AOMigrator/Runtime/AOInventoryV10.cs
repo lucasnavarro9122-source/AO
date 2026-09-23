@@ -1877,11 +1877,11 @@ public class AOInventoryV10 : MonoBehaviour
 
             Slot slot = slots[i];
 
-            if (GUI.Button(
+            if (AOAudioV190.Clicked(GUI.Button(
                     r,
                     i == selectedSlot
                         ? "●"
-                        : ""))
+                        : "")))
             {
                 selectedSlot = i;
             }
@@ -1999,7 +1999,7 @@ public class AOInventoryV10 : MonoBehaviour
 
                 if (item.Equipable)
                 {
-                    if (GUI.Button(
+                    if (AOAudioV190.Clicked(GUI.Button(
                             new Rect(
                                 details.x + 12,
                                 details.y + 190,
@@ -2008,7 +2008,7 @@ public class AOInventoryV10 : MonoBehaviour
                             IsEquipped(
                                 item.index)
                                 ? "Quitar"
-                                : "Equipar"))
+                                : "Equipar")))
                     {
                         if (IsEquipped(
                                 item.index))

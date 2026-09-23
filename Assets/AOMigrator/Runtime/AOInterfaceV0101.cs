@@ -789,10 +789,10 @@ public class AOInterfaceV0101 : MonoBehaviour
 
         DrawMapMarker(rect);
 
-        if (GUI.Button(
+        if (AOAudioV190.Clicked(GUI.Button(
                 rect,
                 GUIContent.none,
-                invisibleButton))
+                invisibleButton)))
         {
             largeMap =
                 !largeMap;
@@ -913,13 +913,13 @@ public class AOInterfaceV0101 : MonoBehaviour
                 mapRect);
         }
 
-        if (GUI.Button(
+        if (AOAudioV190.Clicked(GUI.Button(
                 R(
                     470f,
                     635f,
                     95f,
                     24f),
-                "Cerrar (M)"))
+                "Cerrar (M)")))
         {
             largeMap = false;
         }
@@ -1004,19 +1004,19 @@ public class AOInterfaceV0101 : MonoBehaviour
                 true);
         }
 
-        if (GUI.Button(
+        if (AOAudioV190.Clicked(GUI.Button(
                 invRect,
                 GUIContent.none,
-                invisibleButton))
+                invisibleButton)))
         {
             upperTab =
                 UpperTab.Inventory;
         }
 
-        if (GUI.Button(
+        if (AOAudioV190.Clicked(GUI.Button(
                 spellRect,
                 GUIContent.none,
-                invisibleButton))
+                invisibleButton)))
         {
             upperTab =
                 UpperTab.Spells;
@@ -1678,9 +1678,9 @@ public class AOInterfaceV0101 : MonoBehaviour
                 "No conocés hechizos.\n\nDoble click en un pergamino para aprenderlo.\nF12 = spellbook de prueba.",
                 centeredWhite);
 
-            if (GUI.Button(
+            if (AOAudioV190.Clicked(GUI.Button(
                     R(790f,430f,95f,28f),
-                    magicV120.MeditationLabel))
+                    magicV120.MeditationLabel)))
             {
                 magicV120.ToggleMeditation();
             }
@@ -1729,7 +1729,7 @@ public class AOInterfaceV0101 : MonoBehaviour
                 (selected ? "▶ " : "") +
                 spell.name;
 
-            if (GUI.Button(
+            if (AOAudioV190.Clicked(GUI.Button(
                     new Rect(
                         0f,
                         i * rowHeight,
@@ -1737,7 +1737,7 @@ public class AOInterfaceV0101 : MonoBehaviour
                         22f * scale,
                         rowHeight -
                         2f * scale),
-                    label))
+                    label)))
             {
                 magicV120.SelectSpell(
                     spell.id);
@@ -1834,9 +1834,9 @@ public class AOInterfaceV0101 : MonoBehaviour
                 ? 98f
                 : 204f;
 
-            if (GUI.Button(
+            if (AOAudioV190.Clicked(GUI.Button(
                     R(789f,438f,castWidth,26f),
-                    castLabel))
+                    castLabel)))
             {
                 if (current.target == 1)
                     magicV120.CastSelectedOnSelf();
@@ -1845,17 +1845,17 @@ public class AOInterfaceV0101 : MonoBehaviour
             }
 
             if (current.target == 3 &&
-                GUI.Button(
+                AOAudioV190.Clicked(GUI.Button(
                     R(895f,438f,98f,26f),
-                    "En mí"))
+                    "En mí")))
             {
                 magicV120.CastSelectedOnSelf();
             }
         }
 
-        if (GUI.Button(
+        if (AOAudioV190.Clicked(GUI.Button(
                 R(790f,469f,95f,22f),
-                magicV120.MeditationLabel))
+                magicV120.MeditationLabel)))
         {
             magicV120.ToggleMeditation();
         }
@@ -1910,19 +1910,19 @@ public class AOInterfaceV0101 : MonoBehaviour
                 133f,
                 28f);
 
-        if (GUI.Button(
+        if (AOAudioV190.Clicked(GUI.Button(
                 statsTab,
                 GUIContent.none,
-                invisibleButton))
+                invisibleButton)))
         {
             lowerTab =
                 LowerTab.Stats;
         }
 
-        if (GUI.Button(
+        if (AOAudioV190.Clicked(GUI.Button(
                 infoTab,
                 GUIContent.none,
-                invisibleButton))
+                invisibleButton)))
         {
             lowerTab =
                 LowerTab.Info;
@@ -2278,10 +2278,10 @@ public class AOInterfaceV0101 : MonoBehaviour
                 36f,
                 33f);
 
-        if (GUI.Button(
+        if (AOAudioV190.Clicked(GUI.Button(
                 home,
                 GUIContent.none,
-                invisibleButton))
+                invisibleButton)))
         {
             if (deathV160 == null)
             {
@@ -2298,19 +2298,19 @@ public class AOInterfaceV0101 : MonoBehaviour
             }
         }
 
-        if (GUI.Button(
+        if (AOAudioV190.Clicked(GUI.Button(
                 stats,
                 GUIContent.none,
-                invisibleButton))
+                invisibleButton)))
         {
             lowerTab =
                 LowerTab.Stats;
         }
 
-        if (GUI.Button(
+        if (AOAudioV190.Clicked(GUI.Button(
                 quest,
                 GUIContent.none,
-                invisibleButton))
+                invisibleButton)))
         {
             PushMessage(
                 "Quest: sistema pendiente para una etapa posterior.");
@@ -2598,13 +2598,13 @@ public class AOInterfaceV0101 : MonoBehaviour
                 rpgV11.GetSkill(i) <
                 AORPGDatabaseV11.MaxSkill;
 
-            if (GUI.Button(
+            if (AOAudioV190.Clicked(GUI.Button(
                     R(
                         x + 205f,
                         y,
                         28f,
                         22f),
-                    "+"))
+                    "+")))
             {
                 if (rpgV11
                     .TryIncreaseSkill(i))

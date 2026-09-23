@@ -16,6 +16,7 @@ public class AOTestPlayer : MonoBehaviour
 
     SpriteRenderer markerRenderer;
     AOCharacterRenderer character;
+    AOWorldManagerV07 world;
     bool moving;
     float moveTime;
     Vector3 moveFrom;
@@ -94,6 +95,7 @@ public class AOTestPlayer : MonoBehaviour
     {
         markerRenderer = GetComponent<SpriteRenderer>();
         FindCharacter();
+        world = UnityEngine.Object.FindFirstObjectByType<AOWorldManagerV07>();
     }
 
     void Start()
@@ -242,6 +244,12 @@ public class AOTestPlayer : MonoBehaviour
 
         if (character != null)
             character.SetWalking(true);
+
+        if (world == null)
+            world = UnityEngine.Object.FindFirstObjectByType<AOWorldManagerV07>();
+        AOAudioV190.PlayFootstep(
+            world == null ? "" : world.CurrentTerrain,
+            world == null ? "" : world.CurrentZone);
 
         return true;
     }

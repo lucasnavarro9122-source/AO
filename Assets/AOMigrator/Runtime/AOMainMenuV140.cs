@@ -161,10 +161,10 @@ public class AOMainMenuV140 : MonoBehaviour
             save != null &&
             save.HasSave;
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Continuar",
                 GUILayout.Height(
-                    44)))
+                    44))))
         {
             if (save.LoadGame(
                     false))
@@ -180,10 +180,10 @@ public class AOMainMenuV140 : MonoBehaviour
 
         GUI.enabled = true;
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Nueva partida",
                 GUILayout.Height(
-                    44)))
+                    44))))
         {
             // IMGUI no permite activar otro ModalWindow dentro
             // del mismo evento que está dibujando este modal.
@@ -211,10 +211,10 @@ public class AOMainMenuV140 : MonoBehaviour
 
         GUILayout.FlexibleSpace();
 
-        if (GUILayout.Button(
+        if (AOAudioV190.Clicked(GUILayout.Button(
                 "Salir",
                 GUILayout.Height(
-                    32)))
+                    32))))
         {
 #if UNITY_EDITOR
             UnityEditor.EditorApplication

@@ -205,6 +205,7 @@ public class AOCombatFeedbackV113 : MonoBehaviour
     public static void PlayMiss(
         Vector3 world)
     {
+        AOAudioV190.PlayEffect(2, 0.7f);
         Ensure()
             .SpawnFloating(
                 world +
@@ -265,7 +266,8 @@ public class AOCombatFeedbackV113 : MonoBehaviour
 
     public static void PlayEquip(
         AOCharacterRenderer visual,
-        int objType)
+        int objType,
+        bool playSound = true)
     {
         if (visual == null)
             return;
@@ -276,6 +278,9 @@ public class AOCombatFeedbackV113 : MonoBehaviour
         fx.StartCoroutine(
             fx.EquipPulseRoutine(
                 visual.transform));
+
+        if (!playSound)
+            return;
 
         if (objType == 2)
         {

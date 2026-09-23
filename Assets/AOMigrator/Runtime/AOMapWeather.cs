@@ -81,6 +81,7 @@ public class AOMapWeather : MonoBehaviour
         if (next != active)
         {
             active = next;
+            AOAudioV190.SetWeather(active != Precipitation.None);
             if (active != Precipitation.None)
                 RestartDrops(halfWidth, halfHeight);
             Debug.Log("AO_MAP_WEATHER_ACTIVE mode=" + active +
