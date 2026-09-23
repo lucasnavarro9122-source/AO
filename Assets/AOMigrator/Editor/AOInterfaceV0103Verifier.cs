@@ -7,6 +7,8 @@ public static class AOInterfaceV0103Verifier
 {
     const string MiniFolder =
         "Assets/Resources/AOMigrator/MinimapsV0103";
+    const string MapFolder =
+        "Assets/Resources/AOMigrator/WorldV07/Maps";
 
     const string Diagnostic =
         "Assets/AOMigrator/interface_v0103_diagnostic.json";
@@ -20,6 +22,8 @@ public static class AOInterfaceV0103Verifier
         public bool success;
         public string message;
         public int minimaps;
+        public int maps;
+        public int missingMinimaps;
         public bool interfaceScript;
         public bool inventoryScript;
         public bool playerFound;
@@ -55,6 +59,19 @@ public static class AOInterfaceV0103Verifier
                     .Length
                 : 0;
 
+            if (Directory.Exists(MapFolder))
+            {
+                string[] mapFiles = Directory.GetFiles(
+                    MapFolder, "map_*.json", SearchOption.TopDirectoryOnly);
+                report.maps = mapFiles.Length;
+                foreach (string mapFile in mapFiles)
+                {
+                    string number = Path.GetFileNameWithoutExtension(mapFile);
+                    if (!File.Exists(Path.Combine(MiniFolder, number + ".png")))
+                        report.missingMinimaps++;
+                }
+            }
+
             report.playerFound =
                 UnityEngine.Object
                     .FindFirstObjectByType
@@ -70,13 +87,16 @@ public static class AOInterfaceV0103Verifier
             report.success =
                 report.interfaceScript &&
                 report.inventoryScript &&
-                report.minimaps >= 21 &&
+                report.maps > 0 &&
+                report.missingMinimaps == 0 &&
                 report.playerFound &&
                 report.worldFound;
 
             report.message =
                 "Minimapas=" +
                 report.minimaps +
+                "/" + report.maps +
+                ", Faltantes=" + report.missingMinimaps +
                 ", Player=" +
                 report.playerFound +
                 ", World=" +

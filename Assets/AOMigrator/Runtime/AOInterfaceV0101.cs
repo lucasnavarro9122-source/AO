@@ -389,8 +389,8 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                 "AOMigrator/MinimapsV0103/map_" +
                 map);
 
-        minimapCache[map] =
-            texture;
+        if (texture != null)
+            minimapCache[map] = texture;
 
         return texture;
     }
