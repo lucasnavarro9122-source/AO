@@ -20,7 +20,6 @@ public class AOPlayerMagicV120 : MonoBehaviour
     [SerializeField] int selectedSpellId;
     [SerializeField] bool targeting;
     [SerializeField] bool meditating;
-    [SerializeField] bool debugFreeCast;
 
     AOTestPlayer player;
     AOPlayerRPGV11 rpg;
@@ -37,15 +36,10 @@ public class AOPlayerMagicV120 : MonoBehaviour
     readonly Dictionary<int,float> spellReadyAt=new Dictionary<int,float>();
     readonly List<AOSummonedPetV129> pets=new List<AOSummonedPetV129>();
 
-    static readonly int[] TestSpellbook={
-        1,3,4,6,7,8,10,11,12,13,15,16,21,22,24,25,26,27,32,41,42,44,45,46,57,121,208,242,257,263,264,268,270,281,284
-    };
-
     public int KnownSpellCount=>knownSpellIds==null?0:knownSpellIds.Count;
     public int SelectedSpellId=>selectedSpellId;
     public bool IsTargeting=>targeting;
     public bool IsMeditating=>meditating;
-    public bool DebugFreeCast=>debugFreeCast;
     public int ActivePetCount { get { CleanupPets(); return pets.Count; } }
     public AOSpellDatabaseV120.SpellDef SelectedSpell=>AOSpellDatabaseV120.Get(selectedSpellId);
     public string TargetPrompt { get { var s=SelectedSpell;return !targeting||s==null?"":"Objetivo de "+s.name+": "+s.TargetLabel+" | click mundo | Esc cancelar"; } }
@@ -58,8 +52,6 @@ public class AOPlayerMagicV120 : MonoBehaviour
 
     void Update(){
         FindReferences();CleanupPets();
-        if(!AOInterfaceV0101.InputCaptured&&PressedTestSpellbook())GrantTestSpellbook();
-        if(!AOInterfaceV0101.InputCaptured&&PressedMagicDebug()){debugFreeCast=!debugFreeCast;AOInterfaceV0101.PushMessage(debugFreeCast?"TEST MAGIA: requisitos/costos ignorados.":"TEST MAGIA desactivado.");}
         UpdateMeditation();
         if(!targeting)return;
         if(PressedCancel()){targeting=false;AOInterfaceV0101.PushMessage("Casteo cancelado.");return;}
@@ -171,7 +163,6 @@ public class AOPlayerMagicV120 : MonoBehaviour
     {
         targeting = false;
         meditating = false;
-        debugFreeCast = false;
 
         nextGlobalCastAt = 0f;
         meditationStartedAt = 0f;
@@ -212,11 +203,6 @@ public class AOPlayerMagicV120 : MonoBehaviour
             status.RemoveDebuffs();
             status.RemoveInvisibility();
         }
-    }
-
-    public void GrantTestSpellbook(){
-        int added=0;foreach(int id in TestSpellbook)if(TryLearnSpell(id)==LearnResult.Learned)added++;
-        AOInterfaceV0101.PushMessage("Spellbook de prueba v0.12.9: +"+added+" hechizos. "+KnownSpellCount+"/"+AOSpellDatabaseV120.MaxUserSpells+".");
     }
 
     public void SelectSpell(int id){if(!KnowsSpell(id))return;selectedSpellId=id;targeting=false;SaveSpellbook();}
@@ -288,7 +274,6 @@ public class AOPlayerMagicV120 : MonoBehaviour
         error="";if(s==null){error="No hay hechizo seleccionado.";return false;}if(!s.supportedLocal){error=s.name+" es una habilidad física/especial y no forma parte del núcleo mágico local.";return false;}
         if(combat!=null&&combat.IsDead){error="No podés lanzar hechizos muerto.";return false;}if(status!=null&&!status.CanCast){error="No podés castear mientras estás paralizado.";return false;}
         if(rpg==null){error="No encuentro AOPlayerRPGV11.";return false;}
-        if(debugFreeCast)return true;
         if(rpg.GetSkill(1)<s.minSkill){error="Requiere Magia "+s.minSkill+". Tenés "+rpg.GetSkill(1)+".";return false;}
         if(s.maxLevelCastable>0&&rpg.Level>s.maxLevelCastable){error="Sólo puede castearse hasta nivel "+s.maxLevelCastable+".";return false;}
         if(s.requiredHp>0&&(combat==null||combat.HP<s.requiredHp)){error="Necesitás al menos "+s.requiredHp+" HP.";return false;}
@@ -418,10 +403,8 @@ public class AOPlayerMagicV120 : MonoBehaviour
 
     void FinishCast(AOSpellDatabaseV120.SpellDef s,Vector3 targetWorld,string targetName){
         int mana=GetManaCost(s),sta=GetStaminaCost(s);
-        if(!debugFreeCast){
-            if(!rpg.SpendMagicCost(mana,sta)){AOInterfaceV0101.PushMessage("No se pudo pagar el costo del hechizo.");return;}
-            if(s.requiredHp>0&&combat!=null&&!combat.PayHealthCost(s.requiredHp)){AOInterfaceV0101.PushMessage("No se pudo pagar el costo de vida.");return;}
-        }
+        if(!rpg.SpendMagicCost(mana,sta)){AOInterfaceV0101.PushMessage("No se pudo pagar el costo del hechizo.");return;}
+        if(s.requiredHp>0&&combat!=null&&!combat.PayHealthCost(s.requiredHp)){AOInterfaceV0101.PushMessage("No se pudo pagar el costo de vida.");return;}
         float global=(AOSpellDatabaseV120.Settings==null?1230:AOSpellDatabaseV120.Settings.castIntervalMs)/1000f;nextGlobalCastAt=Time.time+global;
         float cd=Mathf.Max(0,s.cooldown);if(cd>0f&&HasElvenWood())cd*=.5f;if(cd>0f)spellReadyAt[s.id]=Time.time+cd;
         if(!string.IsNullOrWhiteSpace(s.magicWords))AOInterfaceV0101.PushMessage(s.magicWords);
@@ -463,21 +446,6 @@ public class AOPlayerMagicV120 : MonoBehaviour
         catch(Exception e){Debug.LogWarning("[AO v0.12.9] No pude guardar spellbook: "+e.Message);}
     }
 
-    bool PressedMagicDebug(){
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current!=null&&Keyboard.current.f4Key.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.F4);
-#endif
-    }
-
-    bool PressedTestSpellbook(){
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current!=null&&Keyboard.current.f12Key.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.F12);
-#endif
-    }
     bool PressedCancel(){
 #if ENABLE_INPUT_SYSTEM
         return Keyboard.current!=null&&Keyboard.current.escapeKey.wasPressedThisFrame;

@@ -493,33 +493,6 @@ public partial class AOWorldManagerV07 : MonoBehaviour
         if (AOInterfaceV0101.InputCaptured)
             return;
 
-        if (PressedToggleNpcAI())
-        {
-            AONPCMovementV08.GlobalPaused =
-                !AONPCMovementV08.GlobalPaused;
-
-            ShowStatus(
-                AONPCMovementV08.GlobalPaused
-                ? "NPC IA pausada (F7)."
-                : "NPC IA reanudada (F7).");
-        }
-
-        if (PressedReload())
-        {
-            LoadMap(
-                currentMapNumber,
-                player.TileX,
-                player.TileY,
-                true);
-            return;
-        }
-
-        if (PressedReturn())
-        {
-            LoadMap(1, initialX, initialY, true);
-            return;
-        }
-
         if (player.IsMoving)
             return;
 
@@ -1839,36 +1812,6 @@ public partial class AOWorldManagerV07 : MonoBehaviour
             (grh >= 26767 && grh <= 26782);
     }
 
-    bool PressedReload()
-    {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.f5Key.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.F5);
-#endif
-    }
-
-    bool PressedReturn()
-    {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.f6Key.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.F6);
-#endif
-    }
-
-    bool PressedToggleNpcAI()
-    {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.f7Key.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.F7);
-#endif
-    }
-
     void OnGUI()
     {
         if (AOInterfaceV0101.Active)
@@ -1894,8 +1837,7 @@ public partial class AOWorldManagerV07 : MonoBehaviour
             "Salidas: " + exits +
             " | NPC IA: " +
             (AONPCMovementV08.GlobalPaused ? "PAUSA" : "ON") +
-            " (" + AONPCMovementV08.ActiveControllers + ")" +
-            "\nF5: recargar | F6: Ullathorpe | F7: pausar NPC";
+            " (" + AONPCMovementV08.ActiveControllers + ")";
 
         GUI.Box(
             new Rect(

@@ -142,8 +142,6 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         Application.logMessageReceived +=
             OnLogMessage;
 
-        PushMessage(
-            "Interfaz AO v0.10.3: minimapa, chat, tooltips y drag & drop.");
     }
 
     void OnDisable()
@@ -181,7 +179,12 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         if (AOMainMenuV140.ModalOpen || AOCharacterCreationV170.ModalOpen)
             topDialog = TopDialog.None;
 
-        if (!chatEditing)
+        if (!chatEditing &&
+            !AOCityUIV130.ModalOpen &&
+            !AOQuestUIV150.ModalOpen &&
+            !AOCharacterCreationV170.ModalOpen &&
+            !AOMainMenuV140.ModalOpen &&
+            topDialog == TopDialog.None)
         {
             if (PressedInventory())
                 upperTab =
@@ -634,6 +637,10 @@ public partial class AOInterfaceV0101 : MonoBehaviour
 
     void HandleChatKeyboard()
     {
+        if (AOCityUIV130.ModalOpen || AOQuestUIV150.ModalOpen ||
+            topDialog != TopDialog.None)
+            return;
+
         Event e =
             Event.current;
 
@@ -1179,7 +1186,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                     449f,
                     210f,
                     18f),
-                "F8: kit de prueba",
+                "Seleccioná un objeto",
                 centeredWhite);
         }
 
@@ -1666,7 +1673,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         {
             GUI.Label(
                 R(785f,218f,215f,90f),
-                "AO Magic v0.12.9 se agrega automáticamente al entrar en Play.",
+                "Magia no disponible.",
                 centeredWhite);
             return;
         }
@@ -1685,7 +1692,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         {
             GUI.Label(
                 R(785f,220f,215f,82f),
-                "No conocés hechizos.\n\nDoble click en un pergamino para aprenderlo.\nF12 = spellbook de prueba.",
+                "No conocés hechizos.\n\nDoble click en un pergamino para aprenderlo.",
                 centeredWhite);
 
             if (AOAudioV190.Clicked(GUI.Button(
@@ -1869,13 +1876,6 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         {
             magicV120.ToggleMeditation();
         }
-
-        GUI.Label(
-            R(890f,469f,108f,22f),
-            magicV120.DebugFreeCast
-                ? "F4 TEST GRATIS"
-                : "F12 spells | F4 test",
-            centeredWhite);
 
         if (magicV120.IsTargeting)
         {
@@ -2260,7 +2260,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                   " Nv " +
                   rpgV11.Level
                 : "") +
-            "\nM mapa | F9 personaje | F10/F11 consumibles | F12 magia | pergaminos",
+            "\nM mapa | F9 personaje | Q misiones",
             tinyWhite);
     }
 
@@ -2513,7 +2513,11 @@ public partial class AOInterfaceV0101 : MonoBehaviour
 
         GUI.Box(
             outer,
-            "Personaje AO v0.11 — F9 para cerrar");
+            "PERSONAJE");
+
+        if (AOAudioV190.Clicked(GUI.Button(
+                R(603f, 177f, 45f, 30f), "X")))
+            showRPGPanel = false;
 
         GUI.Label(
             R(

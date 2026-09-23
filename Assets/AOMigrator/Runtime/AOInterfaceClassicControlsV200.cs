@@ -88,6 +88,15 @@ public partial class AOInterfaceV0101
         if (topDialog == TopDialog.None)
             return;
 
+        Event current = Event.current;
+        if (current != null && current.type == EventType.KeyDown &&
+            current.keyCode == KeyCode.Escape)
+        {
+            topDialog = TopDialog.None;
+            current.Use();
+            return;
+        }
+
         GUISkin previousSkin = GUI.skin;
         int previousDepth = GUI.depth;
         GUI.skin = AOClassicSkinV200.Get(previousSkin);

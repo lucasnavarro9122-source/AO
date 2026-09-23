@@ -29,16 +29,10 @@ public class AOInventoryV10 : MonoBehaviour
     [SerializeField] int amulet;
     [SerializeField] int magicAccessory;
 
-    [Header("Prueba")]
-    [SerializeField]
-    bool allowTestKit = true;
-
     AOCharacterRenderer character;
 
     bool showInventory;
     int selectedSlot = -1;
-    bool testKitGranted;
-    bool consumableTestKitGranted;
     float nextPotionUseAt;
     string message = "";
     float messageUntil;
@@ -260,38 +254,6 @@ public class AOInventoryV10 : MonoBehaviour
             showInventory =
                 !showInventory;
 
-        if (allowTestKit &&
-            !testKitGranted &&
-            PressedTestKit())
-        {
-            GiveTestKit();
-        }
-
-        if (allowTestKit &&
-            !consumableTestKitGranted &&
-            PressedConsumableKit())
-        {
-            GiveConsumableTestKit();
-        }
-
-        if (allowTestKit &&
-            PressedDrainTest())
-        {
-            AOPlayerRPGV11 rpg =
-                GetComponent<AOPlayerRPGV11>();
-
-            AOPlayerCombatV09 combat =
-                GetComponent<AOPlayerCombatV09>();
-
-            if (rpg != null)
-                rpg.SetResourcesForTesting();
-
-            if (combat != null)
-                combat.SetHealthForTesting();
-
-            Flash(
-                "TEST supervivencia aplicado.");
-        }
     }
 
     void EnsureSlots()
@@ -524,8 +486,6 @@ public class AOInventoryV10 : MonoBehaviour
 
         selectedSlot = -1;
 
-        testKitGranted = false;
-        consumableTestKitGranted = false;
 
         RefreshVisualEquipment();
     }
@@ -1684,40 +1644,6 @@ public class AOInventoryV10 : MonoBehaviour
             character.CurrentShieldFrameCount);
     }
 
-    void GiveTestKit()
-    {
-        AddItem(460, 1);
-        AddItem(464, 1);
-        AddItem(3488, 1);
-        AddItem(3489, 1);
-
-        testKitGranted = true;
-        showInventory = true;
-
-        Flash(
-            "Kit de prueba agregado. " +
-            "I abre/cierra el inventario.");
-    }
-
-    void GiveConsumableTestKit()
-    {
-        AddItem(1, 5);
-        AddItem(43, 5);
-        AddItem(38, 5);
-        AddItem(37, 5);
-        AddItem(169, 5);
-        AddItem(39, 2);
-        AddItem(36, 2);
-        AddItem(533, 2);
-
-        consumableTestKitGranted = true;
-        showInventory = true;
-
-        Flash(
-            "Kit consumibles v0.11.4 agregado. " +
-            "F11 baja recursos para probarlos.");
-    }
-
     bool IsEquipped(
         int itemIndex)
     {
@@ -1767,36 +1693,6 @@ public class AOInventoryV10 : MonoBehaviour
 #endif
     }
 
-    bool PressedTestKit()
-    {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.f8Key.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.F8);
-#endif
-    }
-
-    bool PressedConsumableKit()
-    {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.f10Key.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.F10);
-#endif
-    }
-
-    bool PressedDrainTest()
-    {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.f11Key.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.F11);
-#endif
-    }
-
     void OnGUI()
     {
         if (AOInterfaceV0101.Active)
@@ -1809,7 +1705,7 @@ public class AOInventoryV10 : MonoBehaviour
                     Screen.height - 140,
                     330,
                     24),
-                "I: Inventario | F8 equipo | F10 consumibles | F11 bajar stats");
+                "I: Inventario");
 
             return;
         }
@@ -2028,7 +1924,7 @@ public class AOInventoryV10 : MonoBehaviour
                 50),
             "DEF media local: " +
             AverageDefense() +
-            "\nI: cerrar | F8: kit test");
+            "\nI: cerrar");
 
         if (!string.IsNullOrEmpty(
                 message) &&

@@ -129,21 +129,8 @@ public class AOTestPlayer : MonoBehaviour
             !moving)
             return;
 
-        if (PressedDebug())
-            map.ToggleDebugOverlay();
-
         if (PressedInteract())
             Interact();
-
-        if (PressedReset() && !moving)
-        {
-            tileX = spawnX;
-            tileY = spawnY;
-            transform.position = map.TileToWorld(tileX, tileY);
-            if (character != null)
-                character.SetWalking(false);
-            UpdateSorting();
-        }
 
         if (moving)
         {
@@ -417,26 +404,6 @@ public class AOTestPlayer : MonoBehaviour
 #endif
     }
 
-    bool PressedDebug()
-    {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.f2Key.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.F2);
-#endif
-    }
-
-    bool PressedReset()
-    {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.rKey.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.R);
-#endif
-    }
-
     bool PressedInteract()
     {
 #if ENABLE_INPUT_SYSTEM
@@ -454,7 +421,7 @@ public class AOTestPlayer : MonoBehaviour
         string info =
             "AO v0.7 - mundo conectado\n" +
             "Mover: WASD / Flechas | E: interactuar\n" +
-            "F2: colisiones | R: volver al punto de llegada\n" +
+            "M: mapa | Q: misiones | I: inventario\n" +
             "Tile: " + tileX + ", " + tileY +
             " | Heading: " + heading;
 

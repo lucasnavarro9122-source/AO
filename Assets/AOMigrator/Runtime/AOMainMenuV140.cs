@@ -145,7 +145,7 @@ public class AOMainMenuV140 : MonoBehaviour
             140140,
             window,
             Draw,
-            "Argentum Unity — Demo 1 jugador");
+            "Argentum Online");
         GUI.skin = previousSkin;
     }
 
@@ -156,7 +156,7 @@ public class AOMainMenuV140 : MonoBehaviour
             12);
 
         GUILayout.Label(
-            "AO Demo",
+            "ARGENTUM ONLINE",
             GUI.skin
                 .GetStyle(
                     "box"),

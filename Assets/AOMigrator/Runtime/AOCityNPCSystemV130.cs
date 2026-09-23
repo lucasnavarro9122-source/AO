@@ -1,8 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-#if ENABLE_INPUT_SYSTEM
-using UnityEngine.InputSystem;
-#endif
 
 [DisallowMultipleComponent]
 public class AOCityNPCSystemV130 : MonoBehaviour
@@ -13,8 +10,6 @@ public class AOCityNPCSystemV130 : MonoBehaviour
     AOCityUIV130 ui;
 
     AudioSource audioSource;
-
-    bool testGoldGranted;
 
     readonly Dictionary<int, Dictionary<int, int>>
         finiteStock =
@@ -38,27 +33,6 @@ public class AOCityNPCSystemV130 : MonoBehaviour
 
             audioSource.spatialBlend =
                 0f;
-        }
-    }
-
-    void Update()
-    {
-        if (!testGoldGranted &&
-            PressedTestGold())
-        {
-            FindReferences();
-
-            if (combat != null)
-            {
-                combat.AddGold(
-                    20000,
-                    true);
-
-                testGoldGranted = true;
-
-                AOCityUIV130.Message(
-                    "F4 TEST: +20.000 de oro.");
-            }
         }
     }
 
@@ -675,14 +649,4 @@ public class AOCityNPCSystemV130 : MonoBehaviour
         }
     }
 
-    bool PressedTestGold()
-    {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.f4Key.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(
-            KeyCode.F4);
-#endif
-    }
 }
