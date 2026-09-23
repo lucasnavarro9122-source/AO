@@ -1114,24 +1114,12 @@ public class AOSaveGameV140 : MonoBehaviour
 
     bool PressedQuickSave()
     {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.f1Key.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(
-            KeyCode.F1);
-#endif
+        return AOPlayerSettingsV230.Pressed(AOGameAction.QuickSave);
     }
 
     bool PressedQuickLoad()
     {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.f3Key.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(
-            KeyCode.F3);
-#endif
+        return AOPlayerSettingsV230.Pressed(AOGameAction.QuickLoad);
     }
 
     void OnApplicationPause(

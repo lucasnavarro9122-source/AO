@@ -688,13 +688,7 @@ public class AOQuestUIV150 : MonoBehaviour
 
     bool PressedQuestJournal()
     {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.qKey.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(
-            KeyCode.Q);
-#endif
+        return AOPlayerSettingsV230.Pressed(AOGameAction.Quests);
     }
 
     bool PressedEscape()

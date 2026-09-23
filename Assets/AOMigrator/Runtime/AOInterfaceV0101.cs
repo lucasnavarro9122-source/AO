@@ -599,7 +599,8 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         DrawLowerPanel();
         DrawExperience();
         DrawChat();
-        DrawSpeech();
+        if (AOPlayerSettingsV230.ShowSpeech)
+            DrawSpeech();
 
         if (largeMap)
             DrawLargeMapOverlay();
@@ -610,6 +611,9 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         DrawDragGhost();
         DrawMagicStatusOverlay();
         DrawTopButtons();
+        if (AOPlayerSettingsV230.ShowFps && Event.current.type == EventType.Repaint)
+            GUI.Label(R(673, 4, 85, 27),
+                Mathf.RoundToInt(1f / Mathf.Max(0.001f, Time.unscaledDeltaTime)) + " FPS");
         DrawTopDialog();
     }
 
@@ -812,11 +816,13 @@ public partial class AOInterfaceV0101 : MonoBehaviour
 
         if (mini != null)
         {
-            GUI.DrawTexture(
-                rect,
-                mini,
-                ScaleMode.StretchToFill,
-                false);
+            if (AOPlayerSettingsV230.CenteredMinimap && player != null)
+                DrawCenteredMinimap(rect, mini);
+            else
+            {
+                GUI.DrawTexture(rect, mini, ScaleMode.StretchToFill, false);
+                DrawMapMarker(rect);
+            }
         }
         else
         {
@@ -825,7 +831,8 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                 "Sin\nminimapa");
         }
 
-        DrawMapMarker(rect);
+        if (mini == null)
+            DrawMapMarker(rect);
 
         if (AOAudioV190.Clicked(GUI.Button(
                 rect,
@@ -836,7 +843,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                 !largeMap;
         }
 
-        if (world != null)
+        if (world != null && AOPlayerSettingsV230.ShowMapNumber)
         {
             GUI.Label(
                 R(
@@ -848,6 +855,30 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                 world.CurrentMapNumber,
                 centeredWhite);
         }
+    }
+
+    void DrawCenteredMinimap(Rect rect, Texture2D mini)
+    {
+        const float zoom = 2f;
+        float width = rect.width * zoom;
+        float height = rect.height * zoom;
+        float nx = Mathf.Clamp01((player.TileX - 1f) / 99f);
+        float ny = Mathf.Clamp01((player.TileY - 1f) / 99f);
+        float x = Mathf.Clamp(rect.width * 0.5f - nx * width,
+            rect.width - width, 0f);
+        float y = Mathf.Clamp(rect.height * 0.5f - ny * height,
+            rect.height - height, 0f);
+        float size = Mathf.Max(3f, 4f * scale);
+
+        GUI.BeginGroup(rect);
+        GUI.DrawTexture(new Rect(x, y, width, height), mini,
+            ScaleMode.StretchToFill, false);
+        Color old = GUI.color;
+        GUI.color = new Color(1f, 0.18f, 0.12f, 1f);
+        GUI.DrawTexture(new Rect(x + nx * width - size * 0.5f,
+            y + ny * height - size * 0.5f, size, size), Texture2D.whiteTexture);
+        GUI.color = old;
+        GUI.EndGroup();
     }
 
     void DrawMapMarker(
@@ -2603,31 +2634,16 @@ public partial class AOInterfaceV0101 : MonoBehaviour
 
     bool PressedInventory()
     {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.iKey.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.I);
-#endif
+        return AOPlayerSettingsV230.Pressed(AOGameAction.Inventory);
     }
 
     bool PressedMap()
     {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.mKey.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.M);
-#endif
+        return AOPlayerSettingsV230.Pressed(AOGameAction.Map);
     }
 
     bool PressedRPG()
     {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.f9Key.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.F9);
-#endif
+        return AOPlayerSettingsV230.Pressed(AOGameAction.Character);
     }
 }

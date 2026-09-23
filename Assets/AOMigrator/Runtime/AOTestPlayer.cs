@@ -371,47 +371,20 @@ public class AOTestPlayer : MonoBehaviour
 
     int ReadHeading()
     {
-#if ENABLE_INPUT_SYSTEM
-        var keyboard = Keyboard.current;
-        if (keyboard == null) return 0;
-        if (keyboard.wKey.isPressed ||
-            keyboard.upArrowKey.isPressed)
+        if (AOPlayerSettingsV230.Held(AOGameAction.MoveUp))
             return AOGridMap.NORTH;
-        if (keyboard.dKey.isPressed ||
-            keyboard.rightArrowKey.isPressed)
+        if (AOPlayerSettingsV230.Held(AOGameAction.MoveRight))
             return AOGridMap.EAST;
-        if (keyboard.sKey.isPressed ||
-            keyboard.downArrowKey.isPressed)
+        if (AOPlayerSettingsV230.Held(AOGameAction.MoveDown))
             return AOGridMap.SOUTH;
-        if (keyboard.aKey.isPressed ||
-            keyboard.leftArrowKey.isPressed)
+        if (AOPlayerSettingsV230.Held(AOGameAction.MoveLeft))
             return AOGridMap.WEST;
         return 0;
-#else
-        if (Input.GetKey(KeyCode.W) ||
-            Input.GetKey(KeyCode.UpArrow))
-            return AOGridMap.NORTH;
-        if (Input.GetKey(KeyCode.D) ||
-            Input.GetKey(KeyCode.RightArrow))
-            return AOGridMap.EAST;
-        if (Input.GetKey(KeyCode.S) ||
-            Input.GetKey(KeyCode.DownArrow))
-            return AOGridMap.SOUTH;
-        if (Input.GetKey(KeyCode.A) ||
-            Input.GetKey(KeyCode.LeftArrow))
-            return AOGridMap.WEST;
-        return 0;
-#endif
     }
 
     bool PressedInteract()
     {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.eKey.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.E);
-#endif
+        return AOPlayerSettingsV230.Pressed(AOGameAction.Interact);
     }
 
     void OnGUI()

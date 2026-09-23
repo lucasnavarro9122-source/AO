@@ -1685,12 +1685,7 @@ public class AOInventoryV10 : MonoBehaviour
 
     bool PressedInventory()
     {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.iKey.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.I);
-#endif
+        return AOPlayerSettingsV230.Pressed(AOGameAction.Inventory);
     }
 
     void OnGUI()

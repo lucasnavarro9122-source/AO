@@ -121,7 +121,13 @@ public partial class AOAudioV190 : MonoBehaviour
         else
             id = alternate ? 69 : 201;
 
-        PlayEffect(id, 0.38f);
+        PlayEffect(id, 0.38f * AOPlayerSettingsV230.Footsteps);
+    }
+
+    public static void RefreshAmbientPreference()
+    {
+        if (instance != null && instance.weather != null)
+            instance.weather.volume = 0.3f * AOPlayerSettingsV230.Ambient;
     }
 
     public static void SetWeather(bool active)
@@ -140,7 +146,7 @@ public partial class AOAudioV190 : MonoBehaviour
             if (rain == null || audio.weather == null)
                 return;
             audio.weather.clip = rain;
-            audio.weather.volume = 0.3f;
+            audio.weather.volume = 0.3f * AOPlayerSettingsV230.Ambient;
             audio.weather.Play();
         }
         else

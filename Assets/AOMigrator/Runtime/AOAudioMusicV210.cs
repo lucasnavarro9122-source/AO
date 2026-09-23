@@ -24,6 +24,7 @@ public partial class AOAudioV190
 
     static Dictionary<int, int> musicByMap;
     int playingMusicId;
+    int requestedMapNumber;
     float nextMusicCheck;
     public static int CurrentMapMusicId => instance == null ? 0 :
         instance.playingMusicId;
@@ -60,7 +61,18 @@ public partial class AOAudioV190
 
     public static void SetMapMusic(int mapNumber)
     {
-        Ensure().PlayMapMusic(MusicForMap(mapNumber));
+        AOAudioV190 audio = Ensure();
+        audio.requestedMapNumber = mapNumber;
+        audio.PlayMapMusic(MusicForMap(mapNumber));
+    }
+
+    public static void RefreshMusicPreference()
+    {
+        if (instance == null) return;
+        if (!AOPlayerSettingsV230.Music)
+            instance.StopMapMusic();
+        else
+            instance.PlayMapMusic(MusicForMap(instance.requestedMapNumber));
     }
 
     void PlayMapMusic(int musicId)
@@ -68,6 +80,8 @@ public partial class AOAudioV190
         if (playingMusicId == musicId)
             return;
         StopMapMusic();
+        if (!AOPlayerSettingsV230.Music)
+            return;
         if (musicId <= 0 || musicId > 999)
             return;
 

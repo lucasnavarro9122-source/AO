@@ -7,8 +7,13 @@ using System.Runtime.InteropServices;
 public partial class AOInterfaceV0101
 {
     enum TopDialog { None, Settings, Manual, Market, Exit }
+    enum SettingsTab { Gameplay, Audio, Video, Controls }
 
     TopDialog topDialog;
+    SettingsTab settingsTab;
+    int controlsPage;
+    AOGameAction? bindingAction;
+    string settingsStatus = "";
     bool leaveSessionNextFrame;
     bool quitNextFrame;
 
@@ -89,6 +94,20 @@ public partial class AOInterfaceV0101
             return;
 
         Event current = Event.current;
+        if (topDialog == TopDialog.Settings && bindingAction.HasValue &&
+            current != null && current.type == EventType.KeyDown)
+        {
+            if (current.keyCode == KeyCode.Escape)
+                settingsStatus = "Cambio cancelado.";
+            else if (AOPlayerSettingsV230.SetKey(bindingAction.Value,
+                         current.keyCode, out string error))
+                settingsStatus = "Tecla actualizada.";
+            else
+                settingsStatus = error;
+            bindingAction = null;
+            current.Use();
+            return;
+        }
         if (current != null && current.type == EventType.KeyDown &&
             current.keyCode == KeyCode.Escape)
         {
@@ -102,27 +121,30 @@ public partial class AOInterfaceV0101
         GUI.skin = AOClassicSkinV200.Get(previousSkin);
         GUI.depth = -85;
 
+        if (topDialog == TopDialog.Settings)
+        {
+            DrawSettingsDialog();
+            GUI.depth = previousDepth;
+            GUI.skin = previousSkin;
+            return;
+        }
+
         GUI.Box(R(263, 186, 500, 344), "");
         GUI.Label(R(294, 215, 440, 31), DialogTitle());
 
-        if (topDialog == TopDialog.Settings)
-        {
-            GUI.Label(R(294, 263, 440, 25), "Volumen de efectos");
-            AudioListener.volume = GUI.HorizontalSlider(
-                R(294, 297, 440, 22), AudioListener.volume, 0f, 1f);
-            GUI.Label(R(294, 327, 440, 24),
-                      Mathf.RoundToInt(AudioListener.volume * 100f) + "%");
-            bool fullscreen = GUI.Toggle(R(294, 372, 300, 26),
-                                         Screen.fullScreen, "Pantalla completa");
-            if (fullscreen != Screen.fullScreen)
-                Screen.fullScreen = fullscreen;
-        }
-        else if (topDialog == TopDialog.Manual)
+        if (topDialog == TopDialog.Manual)
         {
             GUI.Label(R(294, 260, 440, 105),
-                "WASD / flechas: mover   ·   E: interactuar\n" +
-                "I: inventario   ·   M: mapa   ·   Q: misiones\n" +
-                "F1: guardar   ·   F3: cargar   ·   F9: personaje");
+                "Mover: " + AOPlayerSettingsV230.KeyName(AOGameAction.MoveUp) +
+                "/" + AOPlayerSettingsV230.KeyName(AOGameAction.MoveLeft) +
+                "/" + AOPlayerSettingsV230.KeyName(AOGameAction.MoveDown) +
+                "/" + AOPlayerSettingsV230.KeyName(AOGameAction.MoveRight) +
+                "   ·   Interactuar: " + AOPlayerSettingsV230.KeyName(AOGameAction.Interact) + "\n" +
+                "Inventario: " + AOPlayerSettingsV230.KeyName(AOGameAction.Inventory) +
+                "   ·   Mapa: " + AOPlayerSettingsV230.KeyName(AOGameAction.Map) +
+                "   ·   Misiones: " + AOPlayerSettingsV230.KeyName(AOGameAction.Quests) + "\n" +
+                "Guardar: " + AOPlayerSettingsV230.KeyName(AOGameAction.QuickSave) +
+                "   ·   Cargar: " + AOPlayerSettingsV230.KeyName(AOGameAction.QuickLoad));
             if (AOAudioV190.Clicked(GUI.Button(R(294, 382, 440, 35),
                                              "Abrir wiki original")))
                 Application.OpenURL("https://www.argentumonline.com.ar/wiki");
@@ -152,6 +174,163 @@ public partial class AOInterfaceV0101
 
         GUI.depth = previousDepth;
         GUI.skin = previousSkin;
+    }
+
+    void DrawSettingsDialog()
+    {
+        GUI.Box(R(170, 88, 684, 594), "");
+        GUI.Label(R(204, 112, 610, 34), "AJUSTES");
+
+        string[] tabs = { "JUEGO", "AUDIO", "VIDEO", "TECLAS" };
+        for (int i = 0; i < tabs.Length; i++)
+        {
+            if (AOAudioV190.Clicked(GUI.Button(R(202 + i * 153, 158, 145, 38),
+                    tabs[i])))
+            {
+                settingsTab = (SettingsTab)i;
+                bindingAction = null;
+                settingsStatus = "";
+            }
+        }
+
+        switch (settingsTab)
+        {
+            case SettingsTab.Gameplay: DrawGameplaySettings(); break;
+            case SettingsTab.Audio: DrawAudioSettings(); break;
+            case SettingsTab.Video: DrawVideoSettings(); break;
+            case SettingsTab.Controls: DrawControlSettings(); break;
+        }
+
+        if (!string.IsNullOrEmpty(settingsStatus))
+            GUI.Label(R(203, 604, 472, 31), settingsStatus);
+        if (AOAudioV190.Clicked(GUI.Button(R(687, 627, 133, 35), "Cerrar")))
+        {
+            bindingAction = null;
+            topDialog = TopDialog.None;
+        }
+    }
+
+    void DrawGameplaySettings()
+    {
+        bool arrows = GUI.Toggle(R(208, 226, 545, 38),
+            AOPlayerSettingsV230.ArrowMovement, "Flechas alternativas para mover");
+        if (arrows != AOPlayerSettingsV230.ArrowMovement)
+        {
+            AOPlayerSettingsV230.ArrowMovement = arrows;
+            if (arrows && !AOPlayerSettingsV230.ArrowMovement)
+                settingsStatus = "Una flecha está asignada a otra acción.";
+        }
+
+        bool speech = GUI.Toggle(R(208, 283, 545, 38),
+            AOPlayerSettingsV230.ShowSpeech,
+            "Mostrar mensajes sobre el personaje");
+        if (speech != AOPlayerSettingsV230.ShowSpeech)
+            AOPlayerSettingsV230.ShowSpeech = speech;
+
+        bool centered = GUI.Toggle(R(208, 340, 545, 38),
+            AOPlayerSettingsV230.CenteredMinimap, "Minimapa centrado");
+        if (centered != AOPlayerSettingsV230.CenteredMinimap)
+            AOPlayerSettingsV230.CenteredMinimap = centered;
+
+        bool mapName = GUI.Toggle(R(208, 397, 545, 38),
+            AOPlayerSettingsV230.ShowMapNumber, "Mostrar número del mapa");
+        if (mapName != AOPlayerSettingsV230.ShowMapNumber)
+            AOPlayerSettingsV230.ShowMapNumber = mapName;
+
+        GUI.Label(R(208, 488, 570, 67),
+            "Estas preferencias son locales y no cambian la partida.\n" +
+            "Enter abre el chat y Escape cierra ventanas.");
+    }
+
+    void DrawAudioSettings()
+    {
+        DrawVolumeSetting("Volumen de efectos", 210,
+            AOPlayerSettingsV230.Effects, value => AOPlayerSettingsV230.Effects = value);
+        DrawVolumeSetting("Volumen de pasos", 304,
+            AOPlayerSettingsV230.Footsteps, value => AOPlayerSettingsV230.Footsteps = value);
+        DrawVolumeSetting("Ambiente (lluvia)", 398,
+            AOPlayerSettingsV230.Ambient, value => AOPlayerSettingsV230.Ambient = value);
+
+        bool music = GUI.Toggle(R(208, 505, 545, 38),
+            AOPlayerSettingsV230.Music, "Música de mapas");
+        if (music != AOPlayerSettingsV230.Music)
+            AOPlayerSettingsV230.Music = music;
+        GUI.Label(R(208, 548, 585, 31),
+            "La música MIDI original admite encendido y apagado.");
+    }
+
+    void DrawVolumeSetting(string label, float y, float current,
+                           System.Action<float> change)
+    {
+        GUI.Label(R(208, y, 420, 30), label);
+        float value = GUI.HorizontalSlider(R(208, y + 39, 485, 24),
+            current, 0f, 1f);
+        GUI.Label(R(709, y + 31, 100, 32),
+            Mathf.RoundToInt(value * 100f) + "%");
+        if (Mathf.Abs(value - current) > 0.005f)
+            change(value);
+    }
+
+    void DrawVideoSettings()
+    {
+        bool fullscreen = GUI.Toggle(R(208, 226, 545, 38),
+            AOPlayerSettingsV230.Fullscreen, "Pantalla completa");
+        if (fullscreen != AOPlayerSettingsV230.Fullscreen)
+            AOPlayerSettingsV230.Fullscreen = fullscreen;
+
+        bool vsync = GUI.Toggle(R(208, 283, 545, 38),
+            AOPlayerSettingsV230.VSync, "Sincronización vertical");
+        if (vsync != AOPlayerSettingsV230.VSync)
+            AOPlayerSettingsV230.VSync = vsync;
+
+        bool fps = GUI.Toggle(R(208, 340, 545, 38),
+            AOPlayerSettingsV230.ShowFps, "Mostrar FPS");
+        if (fps != AOPlayerSettingsV230.ShowFps)
+            AOPlayerSettingsV230.ShowFps = fps;
+
+        GUI.Label(R(208, 437, 570, 70),
+            "En el editor, pantalla completa queda guardada\n" +
+            "para el ejecutable del juego.");
+    }
+
+    void DrawControlSettings()
+    {
+        int first = controlsPage * 7;
+        int count = System.Enum.GetValues(typeof(AOGameAction)).Length;
+        for (int row = 0; row < 7 && first + row < count; row++)
+        {
+            AOGameAction action = (AOGameAction)(first + row);
+            float y = 209 + row * 50;
+            GUI.Label(R(208, y, 390, 36),
+                AOPlayerSettingsV230.ActionName(action));
+            string value = bindingAction == action
+                ? "Presioná una tecla..."
+                : AOPlayerSettingsV230.KeyName(action);
+            if (AOAudioV190.Clicked(GUI.Button(R(560, y, 250, 37), value)))
+            {
+                bindingAction = action;
+                settingsStatus = "Escape cancela el cambio.";
+            }
+        }
+
+        if (AOAudioV190.Clicked(GUI.Button(R(208, 569, 110, 34), "Anterior")))
+        {
+            controlsPage = 0;
+            bindingAction = null;
+        }
+        GUI.Label(R(325, 571, 145, 30), (controlsPage + 1) + " / 2");
+        if (AOAudioV190.Clicked(GUI.Button(R(441, 569, 110, 34), "Siguiente")))
+        {
+            controlsPage = 1;
+            bindingAction = null;
+        }
+        if (AOAudioV190.Clicked(GUI.Button(R(584, 569, 226, 34),
+                "Restablecer teclas")))
+        {
+            AOPlayerSettingsV230.RestoreKeys();
+            bindingAction = null;
+            settingsStatus = "Teclas originales de esta versión restauradas.";
+        }
     }
 
     string DialogTitle()

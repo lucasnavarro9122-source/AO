@@ -999,27 +999,13 @@ public class AOPlayerCombatV09 : MonoBehaviour
 
     bool PressedAttack()
     {
-#if ENABLE_INPUT_SYSTEM
-        Keyboard k = Keyboard.current;
-        return k != null &&
-            (k.leftCtrlKey.wasPressedThisFrame ||
-             k.rightCtrlKey.wasPressedThisFrame ||
-             k.spaceKey.wasPressedThisFrame);
-#else
-        return Input.GetKeyDown(KeyCode.LeftControl) ||
-               Input.GetKeyDown(KeyCode.RightControl) ||
-               Input.GetKeyDown(KeyCode.Space);
-#endif
+        return AOPlayerSettingsV230.Pressed(AOGameAction.Attack) ||
+               AOPlayerSettingsV230.Pressed(AOGameAction.AttackAlternate);
     }
 
     bool PressedPickup()
     {
-#if ENABLE_INPUT_SYSTEM
-        return Keyboard.current != null &&
-               Keyboard.current.gKey.wasPressedThisFrame;
-#else
-        return Input.GetKeyDown(KeyCode.G);
-#endif
+        return AOPlayerSettingsV230.Pressed(AOGameAction.PickUp);
     }
 
     void OnGUI()
