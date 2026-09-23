@@ -266,6 +266,12 @@ public class AOTestPlayer : MonoBehaviour
 
         AOInteractable target =
             AOInteractionRegistry.FindFirst(x, y);
+        if (target == null)
+        {
+            AODoorV210 nearbyDoor = AODoorV210.FindForInteraction(x, y);
+            if (nearbyDoor != null)
+                target = nearbyDoor.GetComponent<AOInteractable>();
+        }
 
         if (target == null)
         {
@@ -336,6 +342,15 @@ public class AOTestPlayer : MonoBehaviour
                 }
             }
 
+            AODoorV210 door = target.GetComponent<AODoorV210>();
+            if (door != null)
+            {
+                door.TryToggle(out interactionText);
+                interactionUntil = Time.time + 3f;
+                AOInterfaceV0101.PushMessage(interactionText);
+                return;
+            }
+
             interactionText = target.DisplayName;
             if (!string.IsNullOrWhiteSpace(target.Description))
                 interactionText += "\n" + target.Description;
@@ -352,7 +367,7 @@ public class AOTestPlayer : MonoBehaviour
     void UpdateSorting()
     {
         int baseOrder =
-            10000 + Mathf.RoundToInt(-transform.position.y);
+            AORenderOrderV210.Character(-transform.position.y);
 
         if (markerRenderer == null)
             markerRenderer = GetComponent<SpriteRenderer>();

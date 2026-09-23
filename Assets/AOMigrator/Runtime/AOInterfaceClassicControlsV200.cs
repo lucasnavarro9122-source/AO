@@ -98,7 +98,7 @@ public partial class AOInterfaceV0101
 
         if (topDialog == TopDialog.Settings)
         {
-            GUI.Label(R(294, 263, 440, 25), "Volumen general");
+            GUI.Label(R(294, 263, 440, 25), "Volumen de efectos");
             AudioListener.volume = GUI.HorizontalSlider(
                 R(294, 297, 440, 22), AudioListener.volume, 0f, 1f);
             GUI.Label(R(294, 327, 440, 24),

@@ -11,7 +11,7 @@ public class AOSummonedPetV129 : MonoBehaviour
     public void Configure(AOTestPlayer newOwner,AOPlayerCombatV09 combat,AOSummonDatabaseV129.SummonDef summon,int x,int y,float lifetime){
         owner=newOwner;ownerCombat=combat;def=summon;grid=owner==null?null:owner.CurrentGrid;tileX=x;tileY=y;expiresAt=Time.time+Mathf.Max(30f,lifetime);
         transform.position=grid==null?transform.position:grid.TileToWorld(x,y);
-        visual=gameObject.AddComponent<AOCharacterRenderer>();visual.Configure(AOSummonDatabaseV129.BuildVisuals(def),def.walkFps<=0?18f:def.walkFps,def.headOffsetX/32f,-def.headOffsetY/32f,def.bodyShiftX/32f);visual.SetHeading(def.heading<=0?AOGridMap.SOUTH:def.heading);visual.UpdateSorting(12000+y);
+        visual=gameObject.AddComponent<AOCharacterRenderer>();visual.Configure(AOSummonDatabaseV129.BuildVisuals(def),def.walkFps<=0?18f:def.walkFps,def.headOffsetX/32f,-def.headOffsetY/32f,def.bodyShiftX/32f);visual.SetHeading(def.heading<=0?AOGridMap.SOUTH:def.heading);visual.UpdateSorting(AORenderOrderV210.Character(y));
         gameObject.AddComponent<AOMagicEffectRuntimeV129>();
     }
 
@@ -36,12 +36,12 @@ public class AOSummonedPetV129 : MonoBehaviour
     void StepToward(int tx,int ty){
         int dx=tx==tileX?0:(tx>tileX?1:-1),dy=ty==tileY?0:(ty>tileY?1:-1);int nx=tileX,ny=tileY,heading=visual==null?AOGridMap.SOUTH:visual.Heading;
         if(Mathf.Abs(tx-tileX)>=Mathf.Abs(ty-tileY)&&dx!=0){nx+=dx;heading=dx>0?AOGridMap.EAST:AOGridMap.WEST;}else if(dy!=0){ny+=dy;heading=dy>0?AOGridMap.SOUTH:AOGridMap.NORTH;}
-        if(grid.InBounds(nx,ny)&&grid.CanEnter(nx,ny,heading)&&!AOInteractionRegistry.IsBlocked(nx,ny)){tileX=nx;tileY=ny;transform.position=grid.TileToWorld(nx,ny);if(visual!=null){visual.SetHeading(heading);visual.PlayCombatBurst(.14f);visual.UpdateSorting(12000+ny);}}
+        if(grid.InBounds(nx,ny)&&grid.CanEnter(nx,ny,heading)&&!AOInteractionRegistry.IsBlocked(nx,ny)){tileX=nx;tileY=ny;transform.position=grid.TileToWorld(nx,ny);if(visual!=null){visual.SetHeading(heading);visual.PlayCombatBurst(.14f);visual.UpdateSorting(AORenderOrderV210.Character(ny));}}
     }
 
     public void WarpNearOwner(){
         if(owner==null||grid==null)return;int[,] offsets={{1,0},{-1,0},{0,1},{0,-1},{1,1},{-1,1},{1,-1},{-1,-1}};
-        for(int i=0;i<offsets.GetLength(0);i++){int x=owner.TileX+offsets[i,0],y=owner.TileY+offsets[i,1];if(grid.InBounds(x,y)&&grid.CanEnter(x,y,AOGridMap.SOUTH)&&!AOInteractionRegistry.IsBlocked(x,y)){tileX=x;tileY=y;transform.position=grid.TileToWorld(x,y);if(visual!=null)visual.UpdateSorting(12000+y);return;}}
+        for(int i=0;i<offsets.GetLength(0);i++){int x=owner.TileX+offsets[i,0],y=owner.TileY+offsets[i,1];if(grid.InBounds(x,y)&&grid.CanEnter(x,y,AOGridMap.SOUTH)&&!AOInteractionRegistry.IsBlocked(x,y)){tileX=x;tileY=y;transform.position=grid.TileToWorld(x,y);if(visual!=null)visual.UpdateSorting(AORenderOrderV210.Character(y));return;}}
         tileX=owner.TileX;tileY=owner.TileY;transform.position=grid.TileToWorld(tileX,tileY);
     }
 

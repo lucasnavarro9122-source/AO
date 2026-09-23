@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 #endif
 
 [DisallowMultipleComponent]
-public class AOWorldManagerV07 : MonoBehaviour
+public partial class AOWorldManagerV07 : MonoBehaviour
 {
     const string MapResourceRoot =
         "AOMigrator/WorldV07/Maps/map_";
@@ -487,6 +487,9 @@ public class AOWorldManagerV07 : MonoBehaviour
         if (loading || player == null || currentMap == null)
             return;
 
+        UpdateRoofVisibility();
+        UpdateTreeVisibility();
+
         if (AOInterfaceV0101.InputCaptured)
             return;
 
@@ -629,6 +632,8 @@ public class AOWorldManagerV07 : MonoBehaviour
             now = System.Diagnostics.Stopwatch.GetTimestamp();
             metrics.lightingMs = ElapsedMs(phaseStart, now);
             phaseStart = now;
+            ResetRoofGroups(data);
+            ResetTreeVisuals();
             BuildVisuals(data);
             now = System.Diagnostics.Stopwatch.GetTimestamp();
             metrics.visualsMs = ElapsedMs(phaseStart, now);
@@ -660,6 +665,8 @@ public class AOWorldManagerV07 : MonoBehaviour
                 spawnY, grid.YMin, grid.YMax);
 
             player.Initialize(grid, targetX, targetY);
+            UpdateRoofVisibility();
+            AOAudioV190.SetMapMusic(mapNumber);
 
             if (followCamera != null)
                 followCamera.Initialize(
@@ -980,11 +987,15 @@ public class AOWorldManagerV07 : MonoBehaviour
             else if (cell.layer == 2)
                 sr.sortingOrder = -20000 + cell.y;
             else if (cell.layer == 3)
-                sr.sortingOrder = 1000 + cell.y;
+                sr.sortingOrder = AORenderOrderV210.Layer3(cell.y);
             else
                 sr.sortingOrder = 20000 + cell.y;
             if (reused)
                 go.SetActive(true);
+            if (cell.layer == 4)
+                RegisterRoofCell(cell, sr);
+            else if (cell.layer == 3 && TreeGrh.Contains(cell.grh))
+                RegisterTreeVisual(cell.x, cell.y, sr);
         }
         mapRendererPoolReady = true;
     }
@@ -1393,7 +1404,7 @@ public class AOWorldManagerV07 : MonoBehaviour
         visual.SetHeading(npc.heading);
         visual.SetWalking(false);
 
-        int baseOrder = 10000 + npc.y;
+        int baseOrder = AORenderOrderV210.Character(npc.y);
         visual.UpdateSorting(baseOrder);
 
         AOPlayerCombatV09 playerCombat =
@@ -1502,8 +1513,12 @@ public class AOWorldManagerV07 : MonoBehaviour
         if (frames.Length > 0)
             renderer.sprite = frames[0];
 
-        renderer.sortingOrder =
-            9000 + obj.y;
+        renderer.sortingOrder = obj.objType == 4 || obj.objType == 6 ||
+            obj.objType == 8 || obj.objType == 27 || obj.objType == 28
+            ? AORenderOrderV210.LargeObject(obj.y)
+            : 9000 + obj.y;
+        if (obj.objType == 4)
+            RegisterTreeVisual(obj.x, obj.y, renderer);
 
         if (frames.Length > 1)
         {
@@ -1526,6 +1541,25 @@ public class AOWorldManagerV07 : MonoBehaviour
             obj.objType,
             obj.amount,
             obj.grhIndex);
+
+        if (obj.objType == 6)
+        {
+            AODoorCatalogV210.DoorDef doorDef =
+                AODoorCatalogV210.Get(obj.objIndex);
+            if (doorDef != null)
+            {
+                Sprite openSprite = null;
+                if (!doorDef.locked && doorDef.openFrame != null)
+                {
+                    FrameSpec frame = doorDef.openFrame;
+                    openSprite = GetSprite(frame.fileNum, frame.sx,
+                        frame.sy, frame.width, frame.height, frame.key);
+                }
+                AODoorV210 door = go.AddComponent<AODoorV210>();
+                door.Configure(grid, renderer, openSprite, obj.x, obj.y,
+                               doorDef.locked);
+            }
+        }
     }
 
     void CreateNameLabel(

@@ -894,9 +894,7 @@ public class AONPCMovementV08 : MonoBehaviour
     void UpdateSorting()
     {
         int baseOrder =
-            10000 +
-            Mathf.RoundToInt(
-                -transform.position.y);
+            AORenderOrderV210.Character(-transform.position.y);
 
         visual.UpdateSorting(baseOrder);
     }

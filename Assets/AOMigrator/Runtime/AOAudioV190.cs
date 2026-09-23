@@ -4,7 +4,7 @@ using UnityEngine;
 
 // Sound IDs and footstep pairs follow the original AO20 client.
 [DisallowMultipleComponent]
-public class AOAudioV190 : MonoBehaviour
+public partial class AOAudioV190 : MonoBehaviour
 {
     static AOAudioV190 instance;
     readonly Dictionary<int, AudioClip> clips = new Dictionary<int, AudioClip>();
@@ -57,6 +57,15 @@ public class AOAudioV190 : MonoBehaviour
         weather.playOnAwake = false;
         weather.spatialBlend = 0f;
         weather.loop = true;
+    }
+
+    void OnDestroy()
+    {
+        if (instance == this)
+        {
+            StopMapMusic();
+            instance = null;
+        }
     }
 
     AudioClip Clip(int id)

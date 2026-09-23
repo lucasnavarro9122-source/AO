@@ -131,10 +131,6 @@ public class AOCityNPCSystemV130 : MonoBehaviour
         {
             ui.OpenMerchant(
                 def);
-
-            PlaySound(
-                def.soundOpen);
-
             return true;
         }
 
@@ -142,10 +138,6 @@ public class AOCityNPCSystemV130 : MonoBehaviour
         {
             ui.OpenBank(
                 def);
-
-            PlaySound(
-                def.soundOpen);
-
             return true;
         }
 
@@ -160,9 +152,6 @@ public class AOCityNPCSystemV130 : MonoBehaviour
 
         ui.OpenDialogue(
             def);
-
-        PlaySound(
-            def.soundOpen);
 
         return true;
     }
@@ -527,9 +516,8 @@ public class AOCityNPCSystemV130 : MonoBehaviour
     public void PlayClose(
         AOCityNPCDatabaseV130.NPCDef def)
     {
-        if (def != null)
-            PlaySound(
-                def.soundClose);
+        // Los sonidos de apertura y cierre del NPC incluyen voces.
+        // Se conserva el sonido de curación, que es un efecto independiente.
     }
 
     public void CaptureFiniteStock(
