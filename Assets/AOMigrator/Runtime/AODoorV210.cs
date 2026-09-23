@@ -50,11 +50,17 @@ public class AODoorV210 : MonoBehaviour
     public bool CoversInteractionTile(int x, int y) =>
         y == tileY && x >= firstPassageX && x <= tileX;
 
+    // E targets the tile in front of the player. From the threshold, that
+    // target can be one row outside or inside the door's anchored tile.
+    public bool CanInteractAt(int x, int y) =>
+        x >= firstPassageX && x <= tileX &&
+        y >= tileY - 1 && y <= tileY + 1;
+
     public static AODoorV210 FindForInteraction(int x, int y)
     {
         foreach (AODoorV210 door in
                  Object.FindObjectsByType<AODoorV210>(FindObjectsSortMode.None))
-            if (door.CoversInteractionTile(x, y))
+            if (door.CanInteractAt(x, y))
                 return door;
         return null;
     }

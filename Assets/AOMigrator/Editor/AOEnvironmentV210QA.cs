@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -14,6 +15,8 @@ public static class AOEnvironmentV210QA
         public bool doorOpened;
         public bool doorPassable;
         public bool doorExitPassable;
+        public bool insideDoorOpenedWithE;
+        public bool insideExitPassable;
         public bool doorClosed;
         public bool roofHiddenInsideChurch;
         public bool characterBehindFoliage;
@@ -105,6 +108,22 @@ public static class AOEnvironmentV210QA
                 !grid.CanEnter(72, 35, AOGridMap.NORTH) &&
                 !grid.CanEnter(71, 36, AOGridMap.SOUTH);
 
+            // Saved player position reported by the user: map 1, 46,64.
+            AOTestPlayer player =
+                UnityEngine.Object.FindFirstObjectByType<AOTestPlayer>();
+            if (player == null) throw new Exception("Falta jugador de prueba.");
+            player.Initialize(grid, 46, 64);
+            player.RestoreHeading(AOGridMap.SOUTH);
+            AODoorV210 insideDoor = AODoorV210.FindForInteraction(46, 65);
+            MethodInfo interact = typeof(AOTestPlayer).GetMethod("Interact",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            if (insideDoor == null || interact == null)
+                throw new Exception("Falta interacción interior de puerta.");
+            interact.Invoke(player, null);
+            report.insideDoorOpenedWithE = insideDoor.IsOpen;
+            report.insideExitPassable =
+                grid.CanEnter(46, 65, AOGridMap.SOUTH);
+
             world.LoadMap(1, 78, 67, true);
             report.cityMusicPlaying = AOAudioV190.CurrentMapMusicId == 4;
 
@@ -180,7 +199,8 @@ public static class AOEnvironmentV210QA
         if (File.Exists(Request)) File.Delete(Request);
         bool passed = report.saveSessionInactive && report.doorOpened &&
             report.doorPassable && report.doorExitPassable &&
-            report.doorClosed &&
+            report.doorClosed && report.insideDoorOpenedWithE &&
+            report.insideExitPassable &&
             report.roofHiddenInsideChurch && report.characterBehindFoliage &&
             report.cityMusicPlaying && report.merchantPanelRendered &&
             report.merchantOriginalAssetLoaded;
