@@ -91,6 +91,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
 
     GUIStyle chatStyle;
     GUIStyle chatInputStyle;
+    GUIStyle speechStyle;
     GUIStyle tinyWhite;
     GUIStyle centeredWhite;
     GUIStyle slotCountStyle;
@@ -104,6 +105,9 @@ public partial class AOInterfaceV0101 : MonoBehaviour
 
     bool chatEditing;
     string chatInput = "";
+    string speechText = "";
+    float speechUntil;
+    AOCharacterRenderer speechVisual;
 
     bool largeMap;
     bool showRPGPanel;
@@ -139,16 +143,10 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         Active = true;
         InputCaptured = false;
 
-        Application.logMessageReceived +=
-            OnLogMessage;
-
     }
 
     void OnDisable()
     {
-        Application.logMessageReceived -=
-            OnLogMessage;
-
         Active = false;
         InputCaptured = false;
 
@@ -413,10 +411,16 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                 0.92f,
                 0.92f);
 
-        chatStyle.wordWrap = true;
+        chatStyle.wordWrap = false;
 
         chatStyle.alignment =
             TextAnchor.LowerLeft;
+
+        speechStyle = new GUIStyle(chatStyle);
+        speechStyle.fontSize = 13;
+        speechStyle.fontStyle = FontStyle.Bold;
+        speechStyle.wordWrap = true;
+        speechStyle.alignment = TextAnchor.MiddleCenter;
 
         chatInputStyle =
             new GUIStyle(
@@ -582,6 +586,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         DrawLowerPanel();
         DrawExperience();
         DrawChat();
+        DrawSpeech();
 
         if (largeMap)
             DrawLargeMapOverlay();
@@ -717,6 +722,9 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                 PushMessage(
                     "Tú: " +
                     clean);
+                speechText = clean.Replace('\r', ' ').Replace('\n', ' ');
+                speechUntil = Time.unscaledTime + 5f +
+                    0.06f * speechText.Length;
             }
         }
 
@@ -1678,25 +1686,15 @@ public partial class AOInterfaceV0101 : MonoBehaviour
             return;
         }
 
-        GUI.Label(
-            R(786f,192f,210f,16f),
-            "Spellbook " +
-            magicV120.KnownSpellCount +
-            "/" +
-            AOSpellDatabaseV120.MaxUserSpells +
-            " | Pets " +
-            magicV120.ActivePetCount,
-            centeredWhite);
-
         if (magicV120.KnownSpellCount == 0)
         {
             GUI.Label(
-                R(785f,220f,215f,82f),
-                "No conocés hechizos.\n\nDoble click en un pergamino para aprenderlo.",
+                R(790f,235f,200f,72f),
+                "No conocés hechizos.\nAprendé con un pergamino.",
                 centeredWhite);
 
             if (AOAudioV190.Clicked(GUI.Button(
-                    R(790f,430f,95f,28f),
+                    R(815f,365f,160f,28f),
                     magicV120.MeditationLabel)))
             {
                 magicV120.ToggleMeditation();
@@ -1706,7 +1704,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         }
 
         Rect viewport =
-            R(783f,210f,220f,106f);
+            R(783f,205f,220f,127f);
 
         float rowHeight =
             23f * scale;
@@ -1776,7 +1774,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         if (icon != null)
         {
             Rect ir =
-                R(786f,322f,38f,38f);
+                R(786f,340f,38f,38f);
 
             Rect tr =
                 icon.textureRect;
@@ -1819,41 +1817,30 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                 : "");
 
         GUI.Label(
-            R(830f,318f,172f,58f),
+            R(830f,338f,172f,45f),
             detail,
             tinyWhite);
 
         GUI.Label(
-            R(786f,374f,210f,42f),
+            R(786f,385f,210f,18f),
             Short(
                 current.description,
-                115),
+                42),
             tinyWhite);
 
         if (!current.supportedLocal)
         {
             GUI.Label(
-                R(786f,417f,210f,22f),
-                "Habilidad física/especial; no pertenece al núcleo mágico.",
+                R(885f,405f,110f,23f),
+                "No disponible",
                 centeredWhite);
         }
         else
         {
-            string castLabel =
-                current.target == 1
-                ? "Castear en mí"
-                : current.target == 5
-                    ? "Castear mascotas"
-                    : "Elegir objetivo";
-
-            float castWidth =
-                current.target == 3
-                ? 98f
-                : 204f;
-
             if (AOAudioV190.Clicked(GUI.Button(
-                    R(789f,438f,castWidth,26f),
-                    castLabel)))
+                    R(772f,446f,152f,33f),
+                    GUIContent.none,
+                    invisibleButton)))
             {
                 if (current.target == 1)
                     magicV120.CastSelectedOnSelf();
@@ -1863,7 +1850,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
 
             if (current.target == 3 &&
                 AOAudioV190.Clicked(GUI.Button(
-                    R(895f,438f,98f,26f),
+                    R(895f,405f,98f,23f),
                     "En mí")))
             {
                 magicV120.CastSelectedOnSelf();
@@ -1871,7 +1858,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         }
 
         if (AOAudioV190.Clicked(GUI.Button(
-                R(790f,469f,95f,22f),
+                R(789f,405f,95f,23f),
                 magicV120.MeditationLabel)))
         {
             magicV120.ToggleMeditation();
@@ -1945,7 +1932,6 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         }
         else
         {
-            DrawInfoPanel();
             DrawOriginalInfoButtons();
         }
     }
@@ -2124,144 +2110,6 @@ public partial class AOInterfaceV0101 : MonoBehaviour
             gold.ToString(),
             tinyWhite);
 
-        if (rpgV11 != null)
-        {
-            GUI.Label(
-                R(
-                    780f,
-                    674f,
-                    230f,
-                    18f),
-                "Nv " +
-                rpgV11.Level +
-                " " +
-                rpgV11.RaceName +
-                " " +
-                rpgV11.ClassName +
-                " | F9 skills",
-                tinyWhite);
-        }
-
-        if (inventory != null)
-        {
-            var w =
-                inventory
-                    .GetWeapon();
-
-            var a =
-                inventory
-                    .GetArmor();
-
-            var s =
-                inventory
-                    .GetShield();
-
-            var h =
-                inventory
-                    .GetHelmet();
-
-            string equipment =
-                "Arma: " +
-                Short(
-                    w == null
-                    ? "-"
-                    : w.name,
-                    22) +
-                "\nDaño: " +
-                RangeText(
-                    w == null
-                    ? 0
-                    : (w.minHitToNpc > 0
-                        ? w.minHitToNpc
-                        : w.minHit),
-                    w == null
-                    ? 0
-                    : (w.maxHitToNpc > 0
-                        ? w.maxHitToNpc
-                        : w.maxHit)) +
-                "\nEscudo: " +
-                RangeText(
-                    s == null
-                    ? 0
-                    : s.minDef,
-                    s == null
-                    ? 0
-                    : s.maxDef) +
-                " | Casco: " +
-                RangeText(
-                    h == null
-                    ? 0
-                    : h.minDef,
-                    h == null
-                    ? 0
-                    : h.maxDef) +
-                "\nArmadura: " +
-                RangeText(
-                    a == null
-                    ? 0
-                    : a.minDef,
-                    a == null
-                    ? 0
-                    : a.maxDef);
-
-            GUI.Label(
-                R(
-                    783f,
-                    707f,
-                    225f,
-                    53f),
-                equipment,
-                tinyWhite);
-        }
-    }
-
-    static string RangeText(
-        int min,
-        int max)
-    {
-        return min +
-            "/" +
-            max;
-    }
-
-    void DrawInfoPanel()
-    {
-        string mapText =
-            world == null
-            ? "Mapa: -"
-            : "Mapa " +
-              world.CurrentMapNumber +
-              " — " +
-              world.CurrentMapName;
-
-        string tile =
-            player == null
-            ? "-"
-            : player.TileX +
-              "," +
-              player.TileY;
-
-        GUI.Label(
-            R(
-                770f,
-                558f,
-                220f,
-                74f),
-            mapText +
-            "\nPosición: " +
-            tile +
-            (rpgV11 != null
-                ? "\n" +
-                  rpgV11.RaceName +
-                  " / " +
-                  rpgV11.GenderName +
-                  " / " +
-                  rpgV11.ClassName +
-                  " Nv " +
-                  rpgV11.Level
-                : "") +
-            "\nM mapa | F9 personaje | Q misiones",
-            tinyWhite);
     }
 
     void DrawOriginalInfoButtons()
@@ -2331,43 +2179,6 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                 PushMessage("Diario de misiones no disponible.");
         }
 
-        Vector2 m =
-            Event.current
-                .mousePosition;
-
-        if (home.Contains(m))
-        {
-            GUI.Label(
-                R(
-                    820f,
-                    620f,
-                    130f,
-                    18f),
-                "Hogar",
-                centeredWhite);
-        }
-        else if (stats.Contains(m))
-        {
-            GUI.Label(
-                R(
-                    820f,
-                    658f,
-                    130f,
-                    18f),
-                "Estadísticas",
-                centeredWhite);
-        }
-        else if (quest.Contains(m))
-        {
-            GUI.Label(
-                R(
-                    820f,
-                    582f,
-                    130f,
-                    18f),
-                "Quests",
-                centeredWhite);
-        }
     }
 
     void DrawExperience()
@@ -2427,34 +2238,18 @@ public partial class AOInterfaceV0101 : MonoBehaviour
 
     void DrawChat()
     {
-        int first =
-            Mathf.Max(
-                0,
-                chat.Count - 5);
-
-        string text = "";
-
-        for (int i = first;
-             i < chat.Count;
-             i++)
+        int count = Mathf.Min(4, chat.Count);
+        for (int i = 0; i < count; i++)
         {
-            if (text.Length > 0)
-                text += "\n";
+            string original = chat[chat.Count - count + i]
+                .Replace('\r', ' ').Replace('\n', ' ');
+            string line = original;
+            while (line.Length > 1 &&
+                   chatStyle.CalcSize(new GUIContent(line)).x > 610f * scale)
+                line = original.Substring(0, line.Length - 2) + "…";
 
-            text += chat[i];
-        }
-
-        if (!string.IsNullOrEmpty(
-                text))
-        {
-            GUI.Label(
-                R(
-                    16f,
-                    32f,
-                    612f,
-                    85f),
-                text,
-                chatStyle);
+            GUI.Label(R(16f, 39f + (4 - count + i) * 18f, 612f, 18f),
+                line, chatStyle);
         }
 
         if (chatEditing)
@@ -2487,6 +2282,72 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                 "Enter: escribir mensaje local",
                 tinyWhite);
         }
+    }
+
+    void DrawSpeech()
+    {
+        if (string.IsNullOrEmpty(speechText) ||
+            Time.unscaledTime >= speechUntil ||
+            player == null || gameCamera == null)
+            return;
+
+        if (speechVisual == null)
+            speechVisual = player.GetComponentInChildren<AOCharacterRenderer>(true);
+
+        Vector3 anchor = speechVisual == null
+            ? player.transform.position + Vector3.up * 1.5f
+            : speechVisual.SpeechAnchor;
+        Vector3 screen = gameCamera.WorldToScreenPoint(anchor);
+        if (screen.z <= 0f)
+            return;
+
+        Rect view = gameCamera.pixelRect;
+        if (!view.Contains(new Vector2(screen.x, screen.y)))
+            return;
+
+        string visible = WrapSpeech(Short(speechText, 72));
+        float width = Mathf.Min(220f * scale, view.width - 8f);
+        float height = Mathf.Min(84f,
+            speechStyle.CalcHeight(new GUIContent(visible), width - 12f) + 6f);
+        float x = Mathf.Clamp(screen.x - width * 0.5f,
+            view.xMin + 4f, view.xMax - width - 4f);
+        float top = Screen.height - view.yMax;
+        float bottom = Screen.height - view.yMin;
+        float y = Mathf.Clamp(Screen.height - screen.y - height - 5f,
+            top + 4f, bottom - height - 4f);
+
+        Color previous = GUI.color;
+        GUI.color = new Color(0f, 0f, 0f, 0.72f);
+        GUI.DrawTexture(new Rect(x - 4f, y - 2f, width + 8f, height + 4f),
+            Texture2D.whiteTexture);
+        GUI.color = previous;
+        GUI.Label(new Rect(x, y, width, height), visible, speechStyle);
+    }
+
+    static string WrapSpeech(string text)
+    {
+        string[] words = text.Split(new[] { ' ' },
+            StringSplitOptions.RemoveEmptyEntries);
+        string result = "";
+        int lineLength = 0;
+        foreach (string word in words)
+        {
+            if (lineLength > 0 && lineLength + word.Length + 1 > 18)
+            {
+                result += "\n";
+                lineLength = 0;
+            }
+            else if (lineLength > 0)
+            {
+                result += " ";
+                lineLength++;
+            }
+
+            result += word;
+            lineLength += word.Length;
+        }
+
+        return result;
     }
 
     void DrawRPGPanel()
@@ -2701,34 +2562,6 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                 1,
                 max - 1)) +
             "…";
-    }
-
-    void OnLogMessage(
-        string condition,
-        string stackTrace,
-        LogType type)
-    {
-        if (string.IsNullOrEmpty(
-                condition))
-            return;
-
-        if (!condition.StartsWith(
-                "[AO ",
-                StringComparison.Ordinal))
-            return;
-
-        int end =
-            condition.IndexOf(']');
-
-        string clean =
-            end >= 0 &&
-            end + 1 <
-                condition.Length
-            ? condition.Substring(
-                end + 1).Trim()
-            : condition;
-
-        PushMessage(clean);
     }
 
     public static void PushMessage(

@@ -62,6 +62,20 @@ public class AOCharacterRenderer : MonoBehaviour
         CountFrames(
             EffectiveHelmetFrames());
 
+    public Vector3 SpeechAnchor
+    {
+        get
+        {
+            if (headRenderer != null && headRenderer.sprite != null)
+                return new Vector3(transform.position.x,
+                    headRenderer.bounds.max.y + 0.15f, 0f);
+            if (bodyRenderer != null && bodyRenderer.sprite != null)
+                return new Vector3(transform.position.x,
+                    bodyRenderer.bounds.max.y + 0.15f, 0f);
+            return transform.position + Vector3.up * 1.5f;
+        }
+    }
+
     public void Configure(
         DirectionVisual[] newDirections,
         float fps,
