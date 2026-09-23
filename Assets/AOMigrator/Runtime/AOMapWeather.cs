@@ -67,8 +67,11 @@ public class AOMapWeather : MonoBehaviour
         transform.position = new Vector3(center.x, center.y, 0f);
         float halfHeight = mapCamera.orthographicSize;
         float halfWidth = halfHeight * mapCamera.aspect;
+        float deltaTime = AOMainMenuV140.ModalOpen
+            ? Time.unscaledDeltaTime
+            : Time.deltaTime;
         visibleFogAlpha = Mathf.MoveTowards(visibleFogAlpha, fogAlpha,
-                                           Time.deltaTime * 10f);
+                                           deltaTime * 10f);
 
         Precipitation next = Precipitation.None;
         if (requested == Precipitation.Rain && RainAllowed &&
@@ -166,7 +169,9 @@ public class AOMapWeather : MonoBehaviour
         int count = active == Precipitation.Rain
             ? Mathf.Clamp(rainDefinition.count, 0, 200)
             : Mathf.Clamp(snowDefinition.count, 0, 200);
-        float delta = Mathf.Min(Time.deltaTime, 0.1f);
+        float delta = Mathf.Min(AOMainMenuV140.ModalOpen
+            ? Time.unscaledDeltaTime
+            : Time.deltaTime, 0.1f);
         for (int i = 0; i < count; i++)
         {
             Vector2 position = dropPositions[i];
@@ -202,8 +207,11 @@ public class AOMapWeather : MonoBehaviour
         Color color = new Color(1f, 1f, 1f, visibleFogAlpha / 255f);
         for (int layer = 0; layer < 2; layer++)
         {
-            float xOffset = Mathf.Repeat(Time.time * (layer == 0 ? 0.28f : -0.43f), 16f);
-            float yOffset = Mathf.Repeat(Time.time * (layer == 0 ? 0.20f : -0.25f), 16f);
+            float animationTime = AOMainMenuV140.ModalOpen
+                ? Time.unscaledTime
+                : Time.time;
+            float xOffset = Mathf.Repeat(animationTime * (layer == 0 ? 0.28f : -0.43f), 16f);
+            float yOffset = Mathf.Repeat(animationTime * (layer == 0 ? 0.20f : -0.25f), 16f);
             for (int i = 0; i < fogTiles[layer].Length; i++)
             {
                 SpriteRenderer tile = fogTiles[layer][i];

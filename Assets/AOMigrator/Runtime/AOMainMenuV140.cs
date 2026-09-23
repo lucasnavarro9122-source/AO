@@ -15,10 +15,16 @@ public class AOMainMenuV140 : MonoBehaviour
         instance != null &&
         instance.visible;
 
+    public static bool EntranceOpen =>
+        instance != null &&
+        instance.visible &&
+        instance.showEntrance;
+
 #if UNITY_EDITOR
     public void HideForVisualQA()
     {
         openCreatorNextFrame = false;
+        loadingGameNextFrame = false;
         visible = false;
         SessionActive = false;
         enabled = false;
@@ -36,6 +42,10 @@ public class AOMainMenuV140 : MonoBehaviour
     GUIStyle selectionTitle;
     GUIStyle selectionDetails;
     GUIStyle selectionHint;
+    GUIStyle entrancePrimary;
+    GUIStyle entranceSecondary;
+    Texture2D entranceFrame;
+    Texture2D entranceLogo;
     string selectionSummary = "";
     bool selectionHasSave;
     Sprite selectionBody;
@@ -46,7 +56,10 @@ public class AOMainMenuV140 : MonoBehaviour
 
     bool openCreatorNextFrame;
     bool continueNextFrame;
+    bool loadingGameNextFrame;
+    float loadingGameStartedAt;
     bool exitNextFrame;
+    bool showEntrance = true;
 
     Rect window =
         new Rect(
@@ -71,6 +84,7 @@ public class AOMainMenuV140 : MonoBehaviour
 
         visible = true;
         SessionActive = false;
+        showEntrance = true;
 
         RefreshSelection();
 
@@ -93,6 +107,17 @@ public class AOMainMenuV140 : MonoBehaviour
         if (continueNextFrame)
         {
             continueNextFrame = false;
+            loadingGameNextFrame = true;
+            loadingGameStartedAt = Time.unscaledTime;
+            return;
+        }
+
+        if (loadingGameNextFrame)
+        {
+            if (Time.unscaledTime - loadingGameStartedAt < 0.45f)
+                return;
+
+            loadingGameNextFrame = false;
             FindReferences();
             if (save != null && save.LoadGame(false))
                 StartSession();
@@ -175,6 +200,12 @@ public class AOMainMenuV140 : MonoBehaviour
         if (!visible)
             return;
 
+        if (continueNextFrame || loadingGameNextFrame)
+        {
+            AOClassicLoadingV220.Draw("Cargando personaje local...");
+            return;
+        }
+
         FindReferences();
 
         if (characterSelectArt == null)
@@ -183,7 +214,10 @@ public class AOMainMenuV140 : MonoBehaviour
 
         if (characterSelectArt != null)
         {
-            DrawCharacterSelection();
+            if (showEntrance)
+                DrawEntrance();
+            else
+                DrawCharacterSelection();
             return;
         }
 
@@ -232,6 +266,97 @@ public class AOMainMenuV140 : MonoBehaviour
         selectionHint = new GUIStyle(selectionDetails);
         selectionHint.fontSize = 13;
         selectionHint.normal.textColor = new Color(0.75f, 0.72f, 0.65f);
+
+        entrancePrimary = new GUIStyle(GUI.skin.button);
+        entrancePrimary.font = font;
+        entrancePrimary.fontSize = 22;
+        entrancePrimary.fontStyle = FontStyle.Bold;
+        entrancePrimary.normal.background = Resources.Load<Texture2D>(
+            "AOMigrator/ClassicUI/button_red_default");
+        entrancePrimary.hover.background = Resources.Load<Texture2D>(
+            "AOMigrator/ClassicUI/button_red_over");
+        entrancePrimary.active.background = entrancePrimary.hover.background;
+        entrancePrimary.normal.textColor = Color.white;
+        entrancePrimary.hover.textColor = Color.white;
+        entrancePrimary.active.textColor = Color.white;
+        entrancePrimary.border = new RectOffset(12, 12, 10, 10);
+
+        entranceSecondary = new GUIStyle(entrancePrimary);
+        entranceSecondary.fontSize = 18;
+        entranceSecondary.normal.background = Resources.Load<Texture2D>(
+            "AOMigrator/ClassicUI/button_gray_default");
+        entranceSecondary.hover.background = Resources.Load<Texture2D>(
+            "AOMigrator/ClassicUI/button_gray_over");
+        entranceSecondary.active.background =
+            entranceSecondary.hover.background;
+
+        entranceFrame = Resources.Load<Texture2D>(
+            "AOMigrator/ClassicUI/frame");
+        entranceLogo = Resources.Load<Texture2D>(
+            "AOMigrator/EntryUI/logo");
+    }
+
+    void DrawEntrance()
+    {
+        EnsureSelectionStyles();
+
+        Matrix4x4 oldMatrix = GUI.matrix;
+        int oldDepth = GUI.depth;
+        bool oldEnabled = GUI.enabled;
+        Color oldColor = GUI.color;
+
+        GUI.depth = -100;
+        GUI.color = new Color(0.01f, 0.01f, 0.02f, 0.38f);
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height),
+                        Texture2D.whiteTexture);
+        GUI.color = Color.white;
+
+        const float width = 1024f;
+        const float height = 768f;
+        float scale = Mathf.Min(Screen.width / width, Screen.height / height);
+        GUI.matrix = Matrix4x4.TRS(
+            new Vector3((Screen.width - width * scale) * 0.5f,
+                        (Screen.height - height * scale) * 0.5f, 0f),
+            Quaternion.identity, new Vector3(scale, scale, 1f));
+
+        // Grh 1172: logo independiente sobre el mapa de ingreso.
+        if (entranceLogo != null)
+            GUI.DrawTextureWithTexCoords(new Rect(40, 21, 944, 282),
+                entranceLogo,
+                new Rect(0f, 715f / 1024f, 856f / 1024f,
+                         309f / 1024f), true);
+
+        Rect panel = new Rect(277, 326, 470, 350);
+        if (entranceFrame != null)
+            GUI.DrawTexture(panel, entranceFrame, ScaleMode.StretchToFill,
+                            true);
+        else
+            GUI.Box(panel, GUIContent.none);
+
+        GUI.Label(new Rect(310, 353, 404, 40), "INGRESAR",
+                  selectionTitle);
+        GUI.Label(new Rect(315, 405, 394, 38),
+                  "Modo local", selectionDetails);
+        GUI.Label(new Rect(315, 438, 394, 40),
+                  "El servidor de cuentas todavía no está conectado.",
+                  selectionHint);
+
+        if (AOAudioV190.Clicked(GUI.Button(new Rect(350, 496, 324, 54),
+                "JUGAR SIN CONEXIÓN", entrancePrimary)))
+            showEntrance = false;
+
+        if (AOAudioV190.Clicked(GUI.Button(new Rect(390, 574, 244, 43),
+                "SALIR", entranceSecondary)))
+            exitNextFrame = true;
+
+        GUI.Label(new Rect(305, 633, 414, 24),
+                  "Cuenta online: requiere servidor.",
+                  selectionHint);
+
+        GUI.enabled = oldEnabled;
+        GUI.color = oldColor;
+        GUI.matrix = oldMatrix;
+        GUI.depth = oldDepth;
     }
 
     void DrawCharacterSelection()
@@ -308,10 +433,11 @@ public class AOMainMenuV140 : MonoBehaviour
         GUI.enabled = oldEnabled;
 
         if (AOAudioV190.Clicked(GUI.Button(new Rect(966, 12, 49, 48),
-                GUIContent.none, GUIStyle.none)) ||
-            AOAudioV190.Clicked(GUI.Button(new Rect(10, 12, 49, 48),
                 GUIContent.none, GUIStyle.none)))
             exitNextFrame = true;
+        if (AOAudioV190.Clicked(GUI.Button(new Rect(10, 12, 49, 48),
+                GUIContent.none, GUIStyle.none)))
+            showEntrance = true;
 
         GUI.color = oldColor;
         GUI.matrix = oldMatrix;
@@ -437,8 +563,10 @@ public class AOMainMenuV140 : MonoBehaviour
             return;
 
         instance.openCreatorNextFrame = false;
+        instance.loadingGameNextFrame = false;
         instance.visible = true;
         SessionActive = false;
+        instance.showEntrance = false;
 
         instance.RefreshSelection();
 
@@ -456,6 +584,7 @@ public class AOMainMenuV140 : MonoBehaviour
     void StartSession()
     {
         openCreatorNextFrame = false;
+        loadingGameNextFrame = false;
         visible = false;
         SessionActive = true;
 

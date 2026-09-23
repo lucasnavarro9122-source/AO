@@ -1137,6 +1137,9 @@ public class AOSaveGameV140 : MonoBehaviour
     void OnApplicationPause(
         bool pause)
     {
+        if (Application.isEditor)
+            return;
+
         if (pause &&
             AOMainMenuV140.SessionActive)
         {
@@ -1147,6 +1150,9 @@ public class AOSaveGameV140 : MonoBehaviour
 
     void OnApplicationQuit()
     {
+        if (Application.isEditor)
+            return;
+
         if (AOMainMenuV140.SessionActive)
         {
             SaveGame(

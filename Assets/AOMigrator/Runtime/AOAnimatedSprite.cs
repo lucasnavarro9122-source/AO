@@ -32,7 +32,9 @@ public class AOAnimatedSprite : MonoBehaviour
     void Update()
     {
         if (!playing || frames == null || frames.Length <= 1) return;
-        elapsed += Time.deltaTime;
+        elapsed += AOMainMenuV140.ModalOpen
+            ? Time.unscaledDeltaTime
+            : Time.deltaTime;
         Refresh();
     }
 

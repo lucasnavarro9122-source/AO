@@ -39,7 +39,10 @@ public class AOCameraFollow : MonoBehaviour
 
         Vector3 desired = ClampedTargetPosition();
         transform.position = Vector3.SmoothDamp(
-            transform.position, desired, ref velocity, smoothTime);
+            transform.position, desired, ref velocity, smoothTime,
+            Mathf.Infinity, AOMainMenuV140.EntranceOpen
+                ? Time.unscaledDeltaTime
+                : Time.deltaTime);
         transform.position = new Vector3(
             transform.position.x, transform.position.y, -10f);
     }
@@ -52,6 +55,13 @@ public class AOCameraFollow : MonoBehaviour
             target.position.x + visualOffset.x,
             target.position.y + visualOffset.y,
             -10f);
+
+        if (AOMainMenuV140.EntranceOpen)
+        {
+            float time = Time.unscaledTime;
+            desired.x += Mathf.Sin(time * 0.17f) * 1.1f;
+            desired.y += Mathf.Sin(time * 0.12f) * 0.55f;
+        }
 
         float halfH = cam.orthographicSize;
         float halfW = halfH * cam.aspect;

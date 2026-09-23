@@ -46,6 +46,10 @@ public partial class AOCharacterCreationV170 : MonoBehaviour
 
     bool returnToMenuNextFrame;
     bool startSessionNextFrame;
+    bool createCharacterNextFrame;
+    bool loadingShown;
+    float loadingStartedAt;
+    string pendingCharacterName;
 
     Vector2 classScroll;
 
@@ -73,6 +77,37 @@ public partial class AOCharacterCreationV170 : MonoBehaviour
 
     void Update()
     {
+        if (createCharacterNextFrame)
+        {
+            if (!loadingShown)
+            {
+                loadingShown = true;
+                loadingStartedAt = Time.unscaledTime;
+                return;
+            }
+
+            if (Time.unscaledTime - loadingStartedAt < 0.45f)
+                return;
+
+            createCharacterNextFrame = false;
+            loadingShown = false;
+            if (!save.NewGameWithCharacter(
+                    pendingCharacterName,
+                    raceId,
+                    genderId,
+                    classId,
+                    headId,
+                    homeCityId))
+            {
+                message =
+                    "No pude crear el personaje. Revisá la Console.";
+                return;
+            }
+
+            startSessionNextFrame = true;
+            return;
+        }
+
         if (returnToMenuNextFrame)
         {
             returnToMenuNextFrame =
@@ -108,6 +143,8 @@ public partial class AOCharacterCreationV170 : MonoBehaviour
 
         returnToMenuNextFrame = false;
         startSessionNextFrame = false;
+        createCharacterNextFrame = false;
+        loadingShown = false;
         visible = true;
         overwriteWarning =
             existingSave;
@@ -127,6 +164,8 @@ public partial class AOCharacterCreationV170 : MonoBehaviour
         // No cambiamos de modal durante OnGUI.
         // La transición ocurre en Update en el siguiente frame.
         message = "";
+        createCharacterNextFrame = false;
+        loadingShown = false;
         returnToMenuNextFrame = true;
     }
 
@@ -162,6 +201,11 @@ public partial class AOCharacterCreationV170 : MonoBehaviour
     {
         if (!visible)
             return;
+        if (createCharacterNextFrame)
+        {
+            AOClassicLoadingV220.Draw("Creando personaje local...");
+            return;
+        }
         DrawClassic();
     }
 
@@ -810,22 +854,9 @@ public partial class AOCharacterCreationV170 : MonoBehaviour
             return;
         }
 
-        if (!save.NewGameWithCharacter(
-                cleanName,
-                raceId,
-                genderId,
-                classId,
-                headId,
-                homeCityId))
-        {
-            message =
-                "No pude crear el personaje. Revisá la Console.";
-            return;
-        }
-
-        // Evita destruir/cambiar el ModalWindow mientras
-        // Unity todavía está procesando su grupo GUILayout.
-        startSessionNextFrame = true;
+        pendingCharacterName = cleanName;
+        createCharacterNextFrame = true;
+        loadingShown = false;
     }
 
     public static bool ValidateName(

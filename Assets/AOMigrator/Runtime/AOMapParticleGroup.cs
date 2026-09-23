@@ -125,7 +125,9 @@ public class AOMapParticleGroup : MonoBehaviour
             renderer.enabled = true;
 
         // VB6: timerTicksPerFrame = elapsedMilliseconds * engineBaseSpeed (0.018).
-        elapsed += Time.deltaTime * 18f;
+        elapsed += (AOMainMenuV140.ModalOpen
+            ? Time.unscaledDeltaTime
+            : Time.deltaTime) * 18f;
         if (elapsed > Mathf.Max(0.001f, definition.speed))
         {
             elapsed = 0f;

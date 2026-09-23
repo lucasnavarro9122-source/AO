@@ -538,6 +538,13 @@ public partial class AOInterfaceV0101 : MonoBehaviour
             scale <= 0f)
             return;
 
+        if (AOMainMenuV140.EntranceOpen)
+        {
+            gameCamera.pixelRect = new Rect(
+                0f, 0f, Screen.width, Screen.height);
+            return;
+        }
+
         float px =
             frameRect.x +
             8f * scale;
