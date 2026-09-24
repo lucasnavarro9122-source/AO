@@ -1,0 +1,49 @@
+{
+  "spell_id": 52,
+  "name": "Ráfaga Ígnea",
+  "fields": {
+    "nombre": "Ráfaga Ígnea",
+    "desc": "Causa 125 a 145 puntos de daño a la víctima.",
+    "palabrasmagicas": "IGNÎS XAR",
+    "hechizeromsg": "Has lanzado Ráfaga ígnea sobre",
+    "targetmsg": "lanzó Ráfaga ígnea vos.",
+    "propiomsg": "Has lanzado una ráfaga ígnea sobre ti.",
+    "en_name": "Gust of Fire",
+    "en_desc": "It causes 125 to 145 points of damage to the victim.",
+    "en_hechizeromsg": "You casted Gust of Fire on",
+    "en_targetmsg": "casted Gust of Fire on you",
+    "en_propiomsg": "You casted Gust of Fire on yourself.",
+    "targeteffecttype": "2",
+    "tipo": "1",
+    "wav": "242",
+    "loops": "0",
+    "resis": "1",
+    "fxgrh": "0",
+    "subehp": "2",
+    "minhp": "125",
+    "maxhp": "145",
+    "minskill": "100",
+    "manarequerido": "640",
+    "starequerido": "120",
+    "iconoindex": "35696",
+    "target": "3",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 52,
+      "kind": "icon",
+      "source_id": 35696,
+      "top_grh": 35696,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35696,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035696__atlas_108__x384_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/052_Rafaga_Ignea/01_icon__src35696__topGRH35696__frame001__GRH35696.png"
+        }
+      ]
+    }
+  ]
+}

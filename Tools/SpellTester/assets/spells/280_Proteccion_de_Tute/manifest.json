@@ -1,0 +1,74 @@
+{
+  "spell_id": 280,
+  "name": "Protección de Tute",
+  "fields": {
+    "nombre": "Protección de Tute",
+    "desc": "Protección Para GM",
+    "palabrasmagicas": "",
+    "hechizeromsg": "",
+    "targetmsg": "",
+    "propiomsg": "",
+    "tipo": "2",
+    "autolanzar": "1",
+    "wav": "0",
+    "fxgrh": "0",
+    "starequerido": "10",
+    "timeparticula": "0",
+    "target": "1",
+    "cooldown": "0",
+    "eotid": "55",
+    "iconoindex": "74696",
+    "cdeffectid": "26",
+    "nowiki": "1",
+    "targeteffecttype": "1",
+    "isskill": "1",
+    "isbindable": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 280,
+      "kind": "icon",
+      "source_id": 74696,
+      "top_grh": 74696,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74696,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074696__atlas_113__x352_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/280_Proteccion_de_Tute/01_icon__src74696__topGRH74696__frame001__GRH74696.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 280,
+      "kind": "eot_client_effect",
+      "source_id": 26,
+      "top_grh": 74696,
+      "detail": "EOT55->Effect26",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74696,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074696__atlas_113__x352_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/280_Proteccion_de_Tute/02_eot_client_effect__src26__topGRH74696__frame001__GRH74696.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 280,
+      "kind": "cooldown_effect",
+      "source_id": 26,
+      "top_grh": 74696,
+      "detail": "cdeffectid->Effect26",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74696,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074696__atlas_113__x352_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/280_Proteccion_de_Tute/03_cooldown_effect__src26__topGRH74696__frame001__GRH74696.png"
+        }
+      ]
+    }
+  ]
+}

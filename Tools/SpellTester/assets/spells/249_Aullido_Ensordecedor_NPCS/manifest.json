@@ -1,0 +1,109 @@
+{
+  "spell_id": 249,
+  "name": "Aullido Ensordecedor (NPCS)",
+  "fields": {
+    "nombre": "Aullido Ensordecedor (NPCS)",
+    "desc": "Causa entre 50 y 100 puntos de daño a la víctima.",
+    "palabrasmagicas": "AUU UUU",
+    "hechizeromsg": "Has lanzado aullido ensordecedor sobre",
+    "targetmsg": "disparó un aullido ensordecedor sobre vos.",
+    "propiomsg": "Has lanzado aullido ensordecedor sobre ti.",
+    "en_name": "deafening howl",
+    "en_desc": "Deals between 50 and 100 damage to the target.",
+    "en_hechizeromsg": "You casted deafening howl on",
+    "en_targetmsg": "You have been shot by deafening howl",
+    "en_propiomsg": "Casted deafening howl on yourself",
+    "tipo": "1",
+    "wav": "139",
+    "subehp": "2",
+    "minhp": "50",
+    "maxhp": "100",
+    "fxgrh": "86",
+    "loops": "0",
+    "minskill": "20",
+    "manarequerido": "30",
+    "starequerido": "5",
+    "iconoindex": "35727",
+    "cdeffectid": "4",
+    "target": "3",
+    "antirm": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 249,
+      "kind": "icon",
+      "source_id": 35727,
+      "top_grh": 35727,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35727,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035727__atlas_108__x352_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/249_Aullido_Ensordecedor_NPCS/01_icon__src35727__topGRH35727__frame001__GRH35727.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 249,
+      "kind": "spell_fx",
+      "source_id": 86,
+      "top_grh": 4832,
+      "detail": "FXgrh FX86->Anim4832",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 4826,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_004826__atlas_1457__x0_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/249_Aullido_Ensordecedor_NPCS/02_spell_fx__src86__topGRH4832__frame001__GRH4826.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 4827,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_004827__atlas_1457__x32_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/249_Aullido_Ensordecedor_NPCS/02_spell_fx__src86__topGRH4832__frame002__GRH4827.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 4828,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_004828__atlas_1457__x64_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/249_Aullido_Ensordecedor_NPCS/02_spell_fx__src86__topGRH4832__frame003__GRH4828.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 4829,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_004829__atlas_1457__x96_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/249_Aullido_Ensordecedor_NPCS/02_spell_fx__src86__topGRH4832__frame004__GRH4829.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 4830,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_004830__atlas_1457__x128_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/249_Aullido_Ensordecedor_NPCS/02_spell_fx__src86__topGRH4832__frame005__GRH4830.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 4831,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_004831__atlas_1457__x160_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/249_Aullido_Ensordecedor_NPCS/02_spell_fx__src86__topGRH4832__frame006__GRH4831.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 249,
+      "kind": "cooldown_effect",
+      "source_id": 4,
+      "top_grh": 74708,
+      "detail": "cdeffectid->Effect4",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74708,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074708__atlas_113__x224_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/249_Aullido_Ensordecedor_NPCS/03_cooldown_effect__src4__topGRH74708__frame001__GRH74708.png"
+        }
+      ]
+    }
+  ]
+}

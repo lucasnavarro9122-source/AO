@@ -1,0 +1,115 @@
+{
+  "spell_id": 25,
+  "name": "Paralizar",
+  "fields": {
+    "nombre": "Paralizar",
+    "desc": "Paraliza a la víctima durante un periodo de tiempo.",
+    "palabrasmagicas": "HOAX VORP",
+    "hechizeromsg": "Has paralizado a",
+    "targetmsg": "te ha paralizado.",
+    "propiomsg": "Te has paralizado.",
+    "en_name": "Paralyze",
+    "en_desc": "Paralyzes the victim for a short period of time.",
+    "en_hechizeromsg": "You paralyzed",
+    "en_targetmsg": "has paralyzed you.",
+    "en_propiomsg": "You are paralyzed.",
+    "targeteffecttype": "2",
+    "tipo": "2",
+    "wav": "16",
+    "fxgrh": "8",
+    "loops": "0",
+    "paraliza": "1",
+    "minskill": "50",
+    "manarequerido": "400",
+    "starequerido": "87",
+    "iconoindex": "32410",
+    "target": "3",
+    "duration": "15"
+  },
+  "resources": [
+    {
+      "spell_id": 25,
+      "kind": "icon",
+      "source_id": 32410,
+      "top_grh": 32410,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32410,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032410__atlas_107__x64_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/025_Paralizar/01_icon__src32410__topGRH32410__frame001__GRH32410.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 25,
+      "kind": "spell_fx",
+      "source_id": 8,
+      "top_grh": 183,
+      "detail": "FXgrh FX8->Anim183",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 173,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000173__atlas_3454__x0_y0_w96_h128.png",
+          "spell_copy": "02_Por_Hechizo/025_Paralizar/02_spell_fx__src8__topGRH183__frame001__GRH173.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 174,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000174__atlas_3454__x96_y0_w96_h128.png",
+          "spell_copy": "02_Por_Hechizo/025_Paralizar/02_spell_fx__src8__topGRH183__frame002__GRH174.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 175,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000175__atlas_3454__x192_y0_w96_h128.png",
+          "spell_copy": "02_Por_Hechizo/025_Paralizar/02_spell_fx__src8__topGRH183__frame003__GRH175.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 176,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000176__atlas_3454__x288_y0_w96_h128.png",
+          "spell_copy": "02_Por_Hechizo/025_Paralizar/02_spell_fx__src8__topGRH183__frame004__GRH176.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 177,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000177__atlas_3454__x384_y0_w96_h128.png",
+          "spell_copy": "02_Por_Hechizo/025_Paralizar/02_spell_fx__src8__topGRH183__frame005__GRH177.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 178,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000178__atlas_3454__x0_y128_w96_h128.png",
+          "spell_copy": "02_Por_Hechizo/025_Paralizar/02_spell_fx__src8__topGRH183__frame006__GRH178.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 179,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000179__atlas_3454__x96_y128_w96_h128.png",
+          "spell_copy": "02_Por_Hechizo/025_Paralizar/02_spell_fx__src8__topGRH183__frame007__GRH179.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 180,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000180__atlas_3454__x192_y128_w96_h128.png",
+          "spell_copy": "02_Por_Hechizo/025_Paralizar/02_spell_fx__src8__topGRH183__frame008__GRH180.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 181,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000181__atlas_3454__x288_y128_w96_h128.png",
+          "spell_copy": "02_Por_Hechizo/025_Paralizar/02_spell_fx__src8__topGRH183__frame009__GRH181.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 182,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000182__atlas_3454__x384_y128_w96_h128.png",
+          "spell_copy": "02_Por_Hechizo/025_Paralizar/02_spell_fx__src8__topGRH183__frame010__GRH182.png"
+        }
+      ]
+    }
+  ]
+}

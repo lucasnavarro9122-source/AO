@@ -1,0 +1,236 @@
+{
+  "spell_id": 58,
+  "name": "TESTEO GRHS",
+  "fields": {
+    "nombre": "TESTEO GRHS",
+    "desc": "TESTEO",
+    "palabrasmagicas": "TESTEO",
+    "hechizeromsg": "Has lanzado TESTEO sobre",
+    "targetmsg": "lanzó TESTEO sobre vos.",
+    "propiomsg": "Has lanzado TESTEO sobre ti.",
+    "en_name": "TESTEO GRHS",
+    "en_desc": "TESTEO",
+    "en_hechizeromsg": "Has lanzado TESTEO sobre",
+    "en_targetmsg": "lanzó TESTEO sobre vos.",
+    "en_propiomsg": "Has lanzado TESTEO sobre ti.",
+    "tipo": "1",
+    "wav": "27",
+    "fxgrh": "74",
+    "loops": "0",
+    "subehp": "2",
+    "minhp": "1",
+    "maxhp": "2",
+    "minskill": "60",
+    "manarequerido": "150",
+    "starequerido": "50",
+    "target": "3",
+    "iconoindex": "35691",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 58,
+      "kind": "icon",
+      "source_id": 35691,
+      "top_grh": 35691,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35691,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035691__atlas_108__x224_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/01_icon__src35691__topGRH35691__frame001__GRH35691.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 58,
+      "kind": "spell_fx",
+      "source_id": 74,
+      "top_grh": 27959,
+      "detail": "FXgrh FX74->Anim27959",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 27929,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027929__atlas_3479__x0_y0_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame001__GRH27929.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 27930,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027930__atlas_3479__x128_y0_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame002__GRH27930.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 27931,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027931__atlas_3479__x256_y0_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame003__GRH27931.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 27932,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027932__atlas_3479__x384_y0_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame004__GRH27932.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 27933,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027933__atlas_3479__x512_y0_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame005__GRH27933.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 27934,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027934__atlas_3479__x640_y0_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame006__GRH27934.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 27935,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027935__atlas_3479__x0_y126_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame007__GRH27935.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 27936,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027936__atlas_3479__x128_y126_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame008__GRH27936.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 27937,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027937__atlas_3479__x256_y126_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame009__GRH27937.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 27938,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027938__atlas_3479__x384_y126_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame010__GRH27938.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 27939,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027939__atlas_3479__x512_y126_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame011__GRH27939.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 27940,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027940__atlas_3479__x640_y126_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame012__GRH27940.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 27941,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027941__atlas_3479__x0_y252_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame013__GRH27941.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 27942,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027942__atlas_3479__x128_y252_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame014__GRH27942.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 27943,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027943__atlas_3479__x256_y252_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame015__GRH27943.png"
+        },
+        {
+          "frame_number": 16,
+          "grh": 27944,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027944__atlas_3479__x384_y252_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame016__GRH27944.png"
+        },
+        {
+          "frame_number": 17,
+          "grh": 27945,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027945__atlas_3479__x512_y252_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame017__GRH27945.png"
+        },
+        {
+          "frame_number": 18,
+          "grh": 27946,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027946__atlas_3479__x640_y252_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame018__GRH27946.png"
+        },
+        {
+          "frame_number": 19,
+          "grh": 27947,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027947__atlas_3479__x0_y378_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame019__GRH27947.png"
+        },
+        {
+          "frame_number": 20,
+          "grh": 27948,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027948__atlas_3479__x128_y378_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame020__GRH27948.png"
+        },
+        {
+          "frame_number": 21,
+          "grh": 27949,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027949__atlas_3479__x256_y378_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame021__GRH27949.png"
+        },
+        {
+          "frame_number": 22,
+          "grh": 27950,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027950__atlas_3479__x384_y378_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame022__GRH27950.png"
+        },
+        {
+          "frame_number": 23,
+          "grh": 27951,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027951__atlas_3479__x512_y378_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame023__GRH27951.png"
+        },
+        {
+          "frame_number": 24,
+          "grh": 27952,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027952__atlas_3479__x640_y378_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame024__GRH27952.png"
+        },
+        {
+          "frame_number": 25,
+          "grh": 27953,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027953__atlas_3479__x0_y504_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame025__GRH27953.png"
+        },
+        {
+          "frame_number": 26,
+          "grh": 27954,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027954__atlas_3479__x128_y504_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame026__GRH27954.png"
+        },
+        {
+          "frame_number": 27,
+          "grh": 27955,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027955__atlas_3479__x256_y504_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame027__GRH27955.png"
+        },
+        {
+          "frame_number": 28,
+          "grh": 27956,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027956__atlas_3479__x384_y504_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame028__GRH27956.png"
+        },
+        {
+          "frame_number": 29,
+          "grh": 27957,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027957__atlas_3479__x512_y504_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame029__GRH27957.png"
+        },
+        {
+          "frame_number": 30,
+          "grh": 27958,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_027958__atlas_3479__x640_y504_w128_h126.png",
+          "spell_copy": "02_Por_Hechizo/058_TESTEO_GRHS/02_spell_fx__src74__topGRH27959__frame030__GRH27958.png"
+        }
+      ]
+    }
+  ]
+}

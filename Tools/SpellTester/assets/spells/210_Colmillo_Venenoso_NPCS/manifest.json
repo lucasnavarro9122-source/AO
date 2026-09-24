@@ -1,0 +1,136 @@
+{
+  "spell_id": 210,
+  "name": "Colmillo Venenoso (NPCS)",
+  "fields": {
+    "nombre": "Colmillo Venenoso (NPCS)",
+    "desc": "Causa 20 a 35 puntos de daño y envenena al oponente.",
+    "palabrasmagicas": "VÄX'N ÄCi'",
+    "hechizeromsg": "Has lanzado un colmillo venenoso sobre",
+    "targetmsg": "te lanzó un colmillo venenoso.",
+    "propiomsg": "Has lanzado un colmillo sobre ti.",
+    "en_name": "Poisonous Fang (NPCS)",
+    "en_desc": "Causes 20 to 35 hit points and poisons the target.",
+    "en_hechizeromsg": "Casted a Poisonous Fang on",
+    "en_targetmsg": "casted Poisonous Fang on you.",
+    "en_propiomsg": "Casted Poisonous Fang on yourself.",
+    "tipo": "8",
+    "wav": "127",
+    "fxgrh": "1",
+    "loops": "0",
+    "subehp": "2",
+    "minhp": "55",
+    "maxhp": "65",
+    "minskill": "75",
+    "manarequerido": "400",
+    "starequerido": "100",
+    "envenena": "3",
+    "iconoindex": "35692",
+    "target": "3",
+    "nowiki": "1",
+    "targeteffecttype": "2"
+  },
+  "resources": [
+    {
+      "spell_id": 210,
+      "kind": "icon",
+      "source_id": 35692,
+      "top_grh": 35692,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35692,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035692__atlas_108__x256_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/210_Colmillo_Venenoso_NPCS/01_icon__src35692__topGRH35692__frame001__GRH35692.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 210,
+      "kind": "spell_fx",
+      "source_id": 1,
+      "top_grh": 115,
+      "detail": "FXgrh FX1->Anim115",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 100,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000100__atlas_3458__x0_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/210_Colmillo_Venenoso_NPCS/02_spell_fx__src1__topGRH115__frame001__GRH100.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 101,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000101__atlas_3458__x128_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/210_Colmillo_Venenoso_NPCS/02_spell_fx__src1__topGRH115__frame002__GRH101.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 102,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000102__atlas_3458__x256_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/210_Colmillo_Venenoso_NPCS/02_spell_fx__src1__topGRH115__frame003__GRH102.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 103,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000103__atlas_3458__x384_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/210_Colmillo_Venenoso_NPCS/02_spell_fx__src1__topGRH115__frame004__GRH103.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 104,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000104__atlas_3458__x0_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/210_Colmillo_Venenoso_NPCS/02_spell_fx__src1__topGRH115__frame005__GRH104.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 105,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000105__atlas_3458__x128_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/210_Colmillo_Venenoso_NPCS/02_spell_fx__src1__topGRH115__frame006__GRH105.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 106,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000106__atlas_3458__x256_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/210_Colmillo_Venenoso_NPCS/02_spell_fx__src1__topGRH115__frame007__GRH106.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 107,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000107__atlas_3458__x384_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/210_Colmillo_Venenoso_NPCS/02_spell_fx__src1__topGRH115__frame008__GRH107.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 108,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000108__atlas_3458__x0_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/210_Colmillo_Venenoso_NPCS/02_spell_fx__src1__topGRH115__frame009__GRH108.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 109,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000109__atlas_3458__x128_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/210_Colmillo_Venenoso_NPCS/02_spell_fx__src1__topGRH115__frame010__GRH109.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 110,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000110__atlas_3458__x256_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/210_Colmillo_Venenoso_NPCS/02_spell_fx__src1__topGRH115__frame011__GRH110.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 111,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000111__atlas_3458__x384_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/210_Colmillo_Venenoso_NPCS/02_spell_fx__src1__topGRH115__frame012__GRH111.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 112,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000112__atlas_3458__x0_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/210_Colmillo_Venenoso_NPCS/02_spell_fx__src1__topGRH115__frame013__GRH112.png"
+        }
+      ]
+    }
+  ]
+}

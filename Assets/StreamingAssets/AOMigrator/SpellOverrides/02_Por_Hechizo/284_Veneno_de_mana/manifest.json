@@ -1,0 +1,88 @@
+{
+  "spell_id": 284,
+  "name": "Veneno de mana",
+  "fields": {
+    "nombre": "Veneno de mana",
+    "desc": "Aplica veneno en el armar, al golpear un enemigo este pierde mana por segundo.",
+    "palabrasmagicas": "",
+    "hechizeromsg": "",
+    "targetmsg": "",
+    "propiomsg": "",
+    "tipo": "2",
+    "autolanzar": "1",
+    "wav": "0",
+    "fxgrh": "0",
+    "starequerido": "5000",
+    "timeparticula": "0",
+    "iconoindex": "49018",
+    "target": "1",
+    "cooldown": "10",
+    "cdeffectid": "8",
+    "eotid": "16",
+    "isskill": "1",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 284,
+      "kind": "icon",
+      "source_id": 49018,
+      "top_grh": 49018,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 49018,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_049018__atlas_104__x96_y288_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/284_Veneno_de_mana/01_icon__src49018__topGRH49018__frame001__GRH49018.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 284,
+      "kind": "eot_client_effect",
+      "source_id": 8,
+      "top_grh": 74688,
+      "detail": "EOT16->Effect8",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74688,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074688__atlas_113__x96_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/284_Veneno_de_mana/02_eot_client_effect__src8__topGRH74688__frame001__GRH74688.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 284,
+      "kind": "eot_client_effect",
+      "source_id": 10,
+      "top_grh": 74687,
+      "detail": "EOT15->Effect10",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74687,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074687__atlas_113__x64_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/284_Veneno_de_mana/03_eot_client_effect__src10__topGRH74687__frame001__GRH74687.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 284,
+      "kind": "cooldown_effect",
+      "source_id": 8,
+      "top_grh": 74688,
+      "detail": "cdeffectid->Effect8",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74688,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074688__atlas_113__x96_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/284_Veneno_de_mana/04_cooldown_effect__src8__topGRH74688__frame001__GRH74688.png"
+        }
+      ]
+    }
+  ]
+}

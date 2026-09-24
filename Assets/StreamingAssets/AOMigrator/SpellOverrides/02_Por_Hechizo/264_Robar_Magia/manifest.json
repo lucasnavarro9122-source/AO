@@ -1,0 +1,58 @@
+{
+  "spell_id": 264,
+  "name": "Robar Magia",
+  "fields": {
+    "nombre": "Robar Magia",
+    "desc": "Roba un efecto positivo del objetivo.",
+    "palabrasmagicas": "E IC JUM",
+    "targetmsg": "te robo un buff sobre vos.",
+    "hechizeromsg": "Has robado un buff a",
+    "targeteffecttype": "2",
+    "tipo": "2",
+    "stealbuff": "1",
+    "autolanzar": "0",
+    "wav": "0",
+    "fxgrh": "0",
+    "timeparticula": "0",
+    "iconoindex": "74716",
+    "manarequerido": "100",
+    "starequerido": "5000",
+    "target": "3",
+    "cooldown": "20",
+    "cdeffectid": "32",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 264,
+      "kind": "icon",
+      "source_id": 74716,
+      "top_grh": 74716,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74716,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074716__atlas_113__x480_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/264_Robar_Magia/01_icon__src74716__topGRH74716__frame001__GRH74716.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 264,
+      "kind": "cooldown_effect",
+      "source_id": 32,
+      "top_grh": 74716,
+      "detail": "cdeffectid->Effect32",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74716,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074716__atlas_113__x480_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/264_Robar_Magia/02_cooldown_effect__src32__topGRH74716__frame001__GRH74716.png"
+        }
+      ]
+    }
+  ]
+}

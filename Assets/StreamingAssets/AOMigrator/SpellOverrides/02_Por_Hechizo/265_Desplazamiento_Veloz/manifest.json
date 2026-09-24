@@ -1,0 +1,73 @@
+{
+  "spell_id": 265,
+  "name": "Desplazamiento Veloz",
+  "fields": {
+    "nombre": "Desplazamiento Veloz",
+    "desc": "Aceleras tu movimientos por unos segundos",
+    "palabrasmagicas": "",
+    "hechizeromsg": "",
+    "targetmsg": "",
+    "propiomsg": "",
+    "tipo": "2",
+    "autolanzar": "1",
+    "requiretransform": "900",
+    "wav": "0",
+    "fxgrh": "0",
+    "timeparticula": "0",
+    "iconoindex": "74722",
+    "requiretargetonland": "1",
+    "target": "1",
+    "cooldown": "30",
+    "cdeffectid": "34",
+    "eotid": "35",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 265,
+      "kind": "icon",
+      "source_id": 74722,
+      "top_grh": 74722,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74722,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074722__atlas_113__x160_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/265_Desplazamiento_Veloz/01_icon__src74722__topGRH74722__frame001__GRH74722.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 265,
+      "kind": "eot_client_effect",
+      "source_id": 34,
+      "top_grh": 74722,
+      "detail": "EOT35->Effect34",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74722,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074722__atlas_113__x160_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/265_Desplazamiento_Veloz/02_eot_client_effect__src34__topGRH74722__frame001__GRH74722.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 265,
+      "kind": "cooldown_effect",
+      "source_id": 34,
+      "top_grh": 74722,
+      "detail": "cdeffectid->Effect34",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74722,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074722__atlas_113__x160_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/265_Desplazamiento_Veloz/03_cooldown_effect__src34__topGRH74722__frame001__GRH74722.png"
+        }
+      ]
+    }
+  ]
+}

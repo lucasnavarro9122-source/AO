@@ -1,0 +1,69 @@
+{
+  "spell_id": 220,
+  "name": "Partitura Maldita (Area)",
+  "fields": {
+    "nombre": "Partitura Maldita (Area)",
+    "desc": "Baja la velocidad de movimiento del usuario, incluido su poder de combate, por 5 segundos en un radio de 4 tiles.",
+    "palabrasmagicas": "Siviare Diamonto",
+    "hechizeromsg": "",
+    "targetmsg": "te ha lanzado Partitura maldita.",
+    "propiomsg": "",
+    "en_name": "Cursed Score (Area)",
+    "en_desc": "Lowers the user's mobility speed and combat power for 5 seconds in a four tile radius.",
+    "en_hechizeromsg": "",
+    "en_targetmsg": "has casted Cursed Score on you.",
+    "en_propiomsg": "",
+    "tipo": "5",
+    "wav": "253",
+    "particle": "193",
+    "timeparticula": "40",
+    "iconoindex": "35717",
+    "subefu": "2",
+    "minfu": "8",
+    "maxfu": "10",
+    "subeag": "2",
+    "minag": "8",
+    "maxag": "10",
+    "minskill": "100",
+    "manarequerido": "1050",
+    "starequerido": "250",
+    "target": "4",
+    "duration": "15",
+    "areaafecta": "1",
+    "arearadio": "22",
+    "nowiki": "1",
+    "targeteffecttype": "2"
+  },
+  "resources": [
+    {
+      "spell_id": 220,
+      "kind": "icon",
+      "source_id": 35717,
+      "top_grh": 35717,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35717,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035717__atlas_108__x32_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/220_Partitura_Maldita_Area/01_icon__src35717__topGRH35717__frame001__GRH35717.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 220,
+      "kind": "particle",
+      "source_id": 193,
+      "top_grh": 19995,
+      "detail": "particle Particle193 Seismo",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 19995,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_019995__atlas_3__x128_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/220_Partitura_Maldita_Area/02_particle__src193__topGRH19995__frame001__GRH19995.png"
+        }
+      ]
+    }
+  ]
+}

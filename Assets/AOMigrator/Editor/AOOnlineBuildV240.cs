@@ -6,6 +6,42 @@ using UnityEngine;
 
 public static class AOOnlineBuildV240
 {
+    // Explicit local marker allows rebuilding an already-open editor without a
+    // second Unity instance or changing any player/character data.
+    [InitializeOnLoadMethod]
+    static void WatchBuildRequest()
+    {
+        EditorApplication.update += () =>
+        {
+            if (EditorApplication.isPlayingOrWillChangePlaymode || EditorApplication.isCompiling || EditorApplication.isUpdating)
+                return;
+            string root = Path.GetFullPath(Path.Combine(Application.dataPath, ".."));
+            string restart = Path.Combine(root, "Temp", "restart_online_editor");
+            if (File.Exists(restart))
+            {
+                File.Delete(restart);
+                bool saved = UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
+                AssetDatabase.SaveAssets();
+                File.WriteAllText(Path.Combine(root, "Temp", "restart_online_editor_result.txt"), saved ? "Saved" : "Save failed");
+                if (saved) EditorApplication.Exit(0);
+                return;
+            }
+            string refresh = Path.Combine(root, "Temp", "refresh_online_client");
+            if (File.Exists(refresh))
+            {
+                File.Delete(refresh);
+                AssetDatabase.Refresh();
+                return;
+            }
+            string marker = Path.Combine(root, "Temp", "build_online_client");
+            if (!File.Exists(marker)) return;
+            File.Delete(marker);
+            string result = Path.Combine(root, "Temp", "build_online_client_result.txt");
+            try { Build(); File.WriteAllText(result, "Succeeded"); }
+            catch (System.Exception error) { File.WriteAllText(result, error.ToString()); Debug.LogException(error); }
+        };
+    }
+
     [MenuItem("AO Migrator/Build private room client")]
     public static void Build()
     {

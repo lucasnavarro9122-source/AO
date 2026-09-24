@@ -1,0 +1,74 @@
+{
+  "spell_id": 258,
+  "name": "Forma de Lobo",
+  "fields": {
+    "nombre": "Forma de Lobo",
+    "desc": "Te transforma en lobo cambiando tus aptitudes físicas",
+    "palabrasmagicas": "LU' T PUM",
+    "hechizeromsg": "",
+    "targetmsg": "",
+    "propiomsg": "",
+    "tipo": "2",
+    "autolanzar": "1",
+    "wav": "0",
+    "fxgrh": "0",
+    "timeparticula": "0",
+    "iconoindex": "74705",
+    "target": "1",
+    "cooldown": "20",
+    "starequerido": "5000",
+    "requiretargetonland": "1",
+    "cdeffectid": "27",
+    "eotid": "30",
+    "cancelactiveeffect": "1",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 258,
+      "kind": "icon",
+      "source_id": 74705,
+      "top_grh": 74705,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74705,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074705__atlas_113__x128_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/258_Forma_de_Lobo/01_icon__src74705__topGRH74705__frame001__GRH74705.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 258,
+      "kind": "eot_client_effect",
+      "source_id": 27,
+      "top_grh": 74705,
+      "detail": "EOT30->Effect27",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74705,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074705__atlas_113__x128_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/258_Forma_de_Lobo/02_eot_client_effect__src27__topGRH74705__frame001__GRH74705.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 258,
+      "kind": "cooldown_effect",
+      "source_id": 27,
+      "top_grh": 74705,
+      "detail": "cdeffectid->Effect27",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74705,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074705__atlas_113__x128_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/258_Forma_de_Lobo/03_cooldown_effect__src27__topGRH74705__frame001__GRH74705.png"
+        }
+      ]
+    }
+  ]
+}

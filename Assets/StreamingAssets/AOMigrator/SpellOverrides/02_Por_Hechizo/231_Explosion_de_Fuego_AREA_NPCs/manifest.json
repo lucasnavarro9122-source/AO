@@ -1,0 +1,148 @@
+{
+  "spell_id": 231,
+  "name": "Explosión de Fuego (ÁREA) (NPCs)",
+  "fields": {
+    "nombre": "Explosión de Fuego (ÁREA) (NPCs)",
+    "desc": "Causa 20 a 45 puntos de daño al objetivo.",
+    "palabrasmagicas": "EN VAX ON TAR",
+    "hechizeromsg": "Has lanzado una explosión sobre",
+    "targetmsg": "lanzó una explosión sobre vos.",
+    "propiomsg": "Has lanzado una explosión sobre ti.",
+    "en_name": "Fire Blast (AREA) (NPCs)",
+    "en_desc": "Causes 20 to 45 hit points to the target.",
+    "en_hechizeromsg": "You casted Fire Blast on",
+    "en_targetmsg": "has casted Fire Blast on you.",
+    "en_propiomsg": "Casted Fire Blast on yourself.",
+    "tipo": "5",
+    "wav": "27",
+    "fxgrh": "7",
+    "loops": "0",
+    "subehp": "2",
+    "minhp": "20",
+    "maxhp": "45",
+    "minskill": "60",
+    "manarequerido": "150",
+    "starequerido": "50",
+    "target": "4",
+    "iconoindex": "35691",
+    "areaafecta": "1",
+    "arearadio": "3",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 231,
+      "kind": "icon",
+      "source_id": 35691,
+      "top_grh": 35691,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35691,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035691__atlas_108__x224_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/01_icon__src35691__topGRH35691__frame001__GRH35691.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 231,
+      "kind": "spell_fx",
+      "source_id": 7,
+      "top_grh": 172,
+      "detail": "FXgrh FX7->Anim172",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 157,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000157__atlas_3451__x0_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/02_spell_fx__src7__topGRH172__frame001__GRH157.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 158,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000158__atlas_3451__x128_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/02_spell_fx__src7__topGRH172__frame002__GRH158.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 159,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000159__atlas_3451__x256_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/02_spell_fx__src7__topGRH172__frame003__GRH159.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 160,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000160__atlas_3451__x384_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/02_spell_fx__src7__topGRH172__frame004__GRH160.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 161,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000161__atlas_3451__x0_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/02_spell_fx__src7__topGRH172__frame005__GRH161.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 162,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000162__atlas_3451__x128_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/02_spell_fx__src7__topGRH172__frame006__GRH162.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 163,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000163__atlas_3451__x256_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/02_spell_fx__src7__topGRH172__frame007__GRH163.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 164,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000164__atlas_3451__x384_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/02_spell_fx__src7__topGRH172__frame008__GRH164.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 165,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000165__atlas_3451__x0_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/02_spell_fx__src7__topGRH172__frame009__GRH165.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 166,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000166__atlas_3451__x128_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/02_spell_fx__src7__topGRH172__frame010__GRH166.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 167,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000167__atlas_3451__x256_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/02_spell_fx__src7__topGRH172__frame011__GRH167.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 168,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000168__atlas_3451__x384_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/02_spell_fx__src7__topGRH172__frame012__GRH168.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 169,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000169__atlas_3451__x0_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/02_spell_fx__src7__topGRH172__frame013__GRH169.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 170,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000170__atlas_3451__x128_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/02_spell_fx__src7__topGRH172__frame014__GRH170.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 171,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000171__atlas_3451__x256_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/231_Explosion_de_Fuego_AREA_NPCs/02_spell_fx__src7__topGRH172__frame015__GRH171.png"
+        }
+      ]
+    }
+  ]
+}

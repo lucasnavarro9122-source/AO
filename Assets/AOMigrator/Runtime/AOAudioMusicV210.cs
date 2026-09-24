@@ -63,7 +63,7 @@ public partial class AOAudioV190
     {
         AOAudioV190 audio = Ensure();
         audio.requestedMapNumber = mapNumber;
-        audio.PlayMapMusic(MusicForMap(mapNumber));
+        audio.PlayMapMusic(AOMainMenuV140.SessionActive ? MusicForMap(mapNumber) : 2);
     }
 
     public static void RefreshMusicPreference()
@@ -72,7 +72,7 @@ public partial class AOAudioV190
         if (!AOPlayerSettingsV230.Music)
             instance.StopMapMusic();
         else
-            instance.PlayMapMusic(MusicForMap(instance.requestedMapNumber));
+            instance.PlayMapMusic(AOMainMenuV140.SessionActive ? MusicForMap(instance.requestedMapNumber) : 2);
     }
 
     void PlayMapMusic(int musicId)
@@ -86,10 +86,13 @@ public partial class AOAudioV190
             return;
 
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
-        string path = Path.Combine(Application.streamingAssetsPath,
-            "AOMigrator", "Music", "track_" + musicId + ".mid");
-        if (!File.Exists(path))
-            return;
+        string path;
+        try { path = PrepareMidiPath(musicId); }
+        catch (IOException error) { Debug.LogWarning("AO music: " + error.Message); return; }
+        catch (UnauthorizedAccessException error) { Debug.LogWarning("AO music: " + error.Message); return; }
+        if (string.IsNullOrEmpty(path)) return;
+        // A previous domain reload may leave an MCI alias open.
+        mciSendString("close " + MidiAlias, null, 0, IntPtr.Zero);
 
         int open = mciSendString("open \"" + path +
             "\" type sequencer alias " + MidiAlias, null, 0, IntPtr.Zero);
@@ -111,9 +114,26 @@ public partial class AOAudioV190
 #endif
     }
 
+    // Windows MCI fails on some long install paths. Keep a short local MIDI cache.
+    public static string PrepareMidiPath(int musicId)
+    {
+        if (musicId <= 0 || musicId > 999) return null;
+        string source = Path.Combine(Application.streamingAssetsPath, "AOMigrator", "Music", "track_" + musicId + ".mid");
+        if (!File.Exists(source)) return null;
+        string cache = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "AoDuels", "Music");
+        Directory.CreateDirectory(cache);
+        string target = Path.Combine(cache, "track_" + musicId + ".mid");
+        if (!File.Exists(target) || new FileInfo(source).Length != new FileInfo(target).Length || File.GetLastWriteTimeUtc(source) != File.GetLastWriteTimeUtc(target))
+            File.Copy(source, target, true);
+        return target;
+    }
+
     void Update()
     {
 #if UNITY_EDITOR_WIN || UNITY_STANDALONE_WIN
+        int desired = AOMainMenuV140.SessionActive ? MusicForMap(requestedMapNumber) : 2;
+        if (AOPlayerSettingsV230.Music && desired != playingMusicId && Time.unscaledTime >= nextMusicCheck)
+        { nextMusicCheck = Time.unscaledTime + 5f; PlayMapMusic(desired); }
         if (playingMusicId == 0 || Time.unscaledTime < nextMusicCheck)
             return;
         nextMusicCheck = Time.unscaledTime + 2f;

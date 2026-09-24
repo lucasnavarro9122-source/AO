@@ -137,6 +137,20 @@ def run():
             time.sleep(.04);assert not a.action('cast',spell=2,id=b.id,x=50,y=51)['ok']
             time.sleep(.04);assert a.action('cast',spell=1,id=b.id,x=50,y=51)['ok']
             b.events(b.until(lambda m:m['type']=='state' and any(e['type']=='spell' for e in m['events']))['events'])
+            # Skill shots send their flight time (amount, ms): the cooldown counts from the launch.
+            ally=dict(spell=1,id=b.id,x=50,y=51)
+            def cooling(**extra):return 'recuperaci' in a.action('cast',**extra,**ally).get('text','')
+            time.sleep(1.2);assert a.action('cast',**ally)['ok']
+            time.sleep(.04);assert cooling()
+            time.sleep(1.3);assert cooling(amount=1000)
+            time.sleep(.04);assert a.action('cast',amount=100,**ally)['ok']
+            time.sleep(.04);assert cooling()
+            # Meditation aura and cast animation reach the other players; unknown spells are ignored.
+            def seen(fx,seq,spell):
+                return b.until(lambda m:m['type']=='state' and any(p['id']==a.id and p['meditationFx']==fx and p['castSeq']==seq and p['castSpell']==spell for p in m['players']))
+            a.send(dict(type='position',player=dict(a.player(),meditationFx=115,castSpell=1,castSeq=1)));seen(115,1,1)
+            a.send(dict(type='position',player=dict(a.player(),meditationFx=115,castSpell=999,castSeq=2)))
+            a.send(dict(type='position',player=dict(a.player(),meditationFx=0,castSpell=999,castSeq=2)));seen(0,1,1)
             a.action('sync');b.action('sync')
             a_id=a.identity;b_id=b.identity;expected_a=copy.deepcopy(a.save);expected_b=copy.deepcopy(b.save)
             a.close();b.close();peers=[];time.sleep(.25);process.terminate();process.wait(5)
@@ -156,7 +170,7 @@ def run():
             except RuntimeError as e: assert 'completa' in str(e)
             else: raise AssertionError('12th player accepted')
             assert len(peers)==11
-            print('PASS: shared NPC death, split XP, unique loot, idempotent pickup, transfer, finite shop, gold, doors, ally healing, no PvP, restart, replay, 11-player cap.')
+            print('PASS: shared NPC death, split XP, unique loot, idempotent pickup, transfer, finite shop, gold, doors, ally healing, no PvP, skill shot cooldown, meditation/cast sync, restart, replay, 11-player cap.')
         finally:
             for peer in peers:
                 try:peer.close()

@@ -1,0 +1,42 @@
+{
+  "spell_id": 45,
+  "name": "Materializar: Comida",
+  "fields": {
+    "nombre": "Materializar: Comida",
+    "desc": "Los hechizos de materialización convierten magia en materia. Este hechizo puede crear comida a partir de su lanzamiento.",
+    "palabrasmagicas": "Sunt Alifens",
+    "hechizeromsg": "Has creado algo de comida.",
+    "en_name": "Materialize: Food.",
+    "en_desc": "When casted, food appears on the ground.",
+    "en_hechizeromsg": "You created some food.",
+    "tipo": "3",
+    "fxgrh": "0",
+    "loops": "0",
+    "timeparticula": "30",
+    "minskill": "100",
+    "manarequerido": "500",
+    "starequerido": "120",
+    "iconoindex": "32444",
+    "materializaobj": "1",
+    "materializacant": "1",
+    "target": "4",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 45,
+      "kind": "icon",
+      "source_id": 32444,
+      "top_grh": 32444,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32444,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032444__atlas_107__x0_y96_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/045_Materializar_Comida/01_icon__src32444__topGRH32444__frame001__GRH32444.png"
+        }
+      ]
+    }
+  ]
+}

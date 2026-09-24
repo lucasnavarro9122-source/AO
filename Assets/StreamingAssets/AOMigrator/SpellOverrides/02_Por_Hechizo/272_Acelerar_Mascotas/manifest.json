@@ -1,0 +1,57 @@
+{
+  "spell_id": 272,
+  "name": "Acelerar Mascotas",
+  "fields": {
+    "nombre": "Acelerar Mascotas",
+    "desc": "aumenta la velocidad de movimiento de tus mascotas",
+    "palabrasmagicas": "",
+    "hechizeromsg": "",
+    "targetmsg": "",
+    "propiomsg": "",
+    "targeteffecttype": "1",
+    "tipo": "2",
+    "wav": "1111",
+    "fxgrh": "0",
+    "timeparticula": "0",
+    "autolanzar": "1",
+    "iconoindex": "74696",
+    "manarequerido": "200",
+    "target": "5",
+    "cooldown": "20",
+    "cdeffectid": "47",
+    "eotid": "35",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 272,
+      "kind": "icon",
+      "source_id": 74696,
+      "top_grh": 74696,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74696,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074696__atlas_113__x352_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/272_Acelerar_Mascotas/01_icon__src74696__topGRH74696__frame001__GRH74696.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 272,
+      "kind": "eot_client_effect",
+      "source_id": 34,
+      "top_grh": 74722,
+      "detail": "EOT35->Effect34",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74722,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074722__atlas_113__x160_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/272_Acelerar_Mascotas/02_eot_client_effect__src34__topGRH74722__frame001__GRH74722.png"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,216 @@
+{
+  "spell_id": 54,
+  "name": "Implosión",
+  "fields": {
+    "nombre": "Implosión",
+    "desc": "Causa de 120 a 130 puntos de daño a la víctima seleccionada.",
+    "palabrasmagicas": "Rahil Mortem",
+    "hechizeromsg": "Has lanzado Implosión sobre",
+    "targetmsg": "lanzó Implosión sobre vos.",
+    "propiomsg": "Has lanzado Implosión sobre ti.",
+    "en_name": "Implosion",
+    "en_desc": "Causes 120 to 130 hit points to the target.",
+    "en_hechizeromsg": "You casted Implosion on",
+    "en_targetmsg": "casted Implosion on you.",
+    "en_propiomsg": "You casted Implosion on yourself.",
+    "targeteffecttype": "2",
+    "tipo": "1",
+    "fxgrh": "12834",
+    "subehp": "2",
+    "minhp": "120",
+    "maxhp": "130",
+    "iconoindex": "32443",
+    "minskill": "100",
+    "manarequerido": "1650",
+    "starequerido": "120",
+    "target": "3",
+    "particle": "88",
+    "timeparticula": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 54,
+      "kind": "icon",
+      "source_id": 32443,
+      "top_grh": 32443,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32443,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032443__atlas_107__x352_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/01_icon__src32443__topGRH32443__frame001__GRH32443.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 54,
+      "kind": "spell_fx_direct_grh_fallback",
+      "source_id": 12834,
+      "top_grh": 12834,
+      "detail": "FXgrh FX index fuera de FXs.ini; tratado como GRH directo",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 12810,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012810__atlas_3471__x0_y0_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame001__GRH12810.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 12811,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012811__atlas_3471__x192_y0_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame002__GRH12811.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 12812,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012812__atlas_3471__x384_y0_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame003__GRH12812.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 12813,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012813__atlas_3471__x576_y0_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame004__GRH12813.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 12814,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012814__atlas_3471__x768_y0_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame005__GRH12814.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 12815,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012815__atlas_3471__x0_y192_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame006__GRH12815.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 12816,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012816__atlas_3471__x192_y192_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame007__GRH12816.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 12817,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012817__atlas_3471__x384_y192_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame008__GRH12817.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 12818,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012818__atlas_3471__x576_y192_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame009__GRH12818.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 12819,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012819__atlas_3471__x768_y192_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame010__GRH12819.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 12820,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012820__atlas_3471__x0_y384_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame011__GRH12820.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 12821,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012821__atlas_3471__x192_y384_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame012__GRH12821.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 12822,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012822__atlas_3471__x384_y384_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame013__GRH12822.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 12823,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012823__atlas_3471__x576_y384_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame014__GRH12823.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 12824,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012824__atlas_3471__x768_y384_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame015__GRH12824.png"
+        },
+        {
+          "frame_number": 16,
+          "grh": 12825,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012825__atlas_3471__x0_y576_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame016__GRH12825.png"
+        },
+        {
+          "frame_number": 17,
+          "grh": 12826,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012826__atlas_3471__x192_y576_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame017__GRH12826.png"
+        },
+        {
+          "frame_number": 18,
+          "grh": 12827,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012827__atlas_3471__x384_y576_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame018__GRH12827.png"
+        },
+        {
+          "frame_number": 19,
+          "grh": 12828,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012828__atlas_3471__x576_y576_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame019__GRH12828.png"
+        },
+        {
+          "frame_number": 20,
+          "grh": 12829,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012829__atlas_3471__x768_y576_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame020__GRH12829.png"
+        },
+        {
+          "frame_number": 21,
+          "grh": 12830,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012830__atlas_3471__x0_y768_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame021__GRH12830.png"
+        },
+        {
+          "frame_number": 22,
+          "grh": 12831,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012831__atlas_3471__x192_y768_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame022__GRH12831.png"
+        },
+        {
+          "frame_number": 23,
+          "grh": 12832,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012832__atlas_3471__x384_y768_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame023__GRH12832.png"
+        },
+        {
+          "frame_number": 24,
+          "grh": 12833,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012833__atlas_3471__x576_y768_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/02_spell_fx_direct_grh_fallback__src12834__topGRH12834__frame024__GRH12833.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 54,
+      "kind": "particle",
+      "source_id": 88,
+      "top_grh": 20146,
+      "detail": "particle Particle88 Hipnosis",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20146,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020146__atlas_11__x0_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/054_Implosion/03_particle__src88__topGRH20146__frame001__GRH20146.png"
+        }
+      ]
+    }
+  ]
+}

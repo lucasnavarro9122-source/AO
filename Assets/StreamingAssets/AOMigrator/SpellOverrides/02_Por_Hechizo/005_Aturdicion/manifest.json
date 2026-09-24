@@ -1,0 +1,46 @@
+{
+  "spell_id": 5,
+  "name": "Aturdición",
+  "fields": {
+    "nombre": "Aturdición",
+    "desc": "Causa de 100 a 110 puntos de daño a la víctima seleccionada.",
+    "palabrasmagicas": "ÖÄR NÏÄ RÖ",
+    "hechizeromsg": "Has lanzado aturdición sobre",
+    "targetmsg": "lanzó aturdición sobre vos.",
+    "en_name": "Stun",
+    "en_desc": "Causes 100 to 110 hit points to the target.",
+    "en_hechizeromsg": "You stunned",
+    "en_targetmsg": "has stunned you",
+    "targeteffecttype": "2",
+    "tipo": "1",
+    "wav": "163",
+    "fxgrh": "0",
+    "loops": "0",
+    "subehp": "2",
+    "minhp": "100",
+    "maxhp": "110",
+    "minskill": "100",
+    "manarequerido": "250",
+    "starequerido": "20",
+    "target": "2",
+    "iconoindex": "35710",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 5,
+      "kind": "icon",
+      "source_id": 35710,
+      "top_grh": 35710,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35710,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035710__atlas_108__x320_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/005_Aturdicion/01_icon__src35710__topGRH35710__frame001__GRH35710.png"
+        }
+      ]
+    }
+  ]
+}

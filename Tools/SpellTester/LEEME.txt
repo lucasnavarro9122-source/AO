@@ -1,0 +1,31 @@
+AO SPELL TESTER v1
+==================
+
+Tester externo de hechizos para AoDuels / Argentum Online.
+No hace falta abrir Unity ni entrar en Play Mode.
+
+USO
+1. Abrí index.html con Chrome, Edge o Firefox.
+2. Elegí un hechizo de la lista.
+3. Presioná LANZAR (o la barra espaciadora).
+4. La app reproduce:
+   - Partícula de viaje cuando existe.
+   - Animación de impacto por frames.
+   - EOT/aura persistente cuando existe.
+   - Audio original WAV/OGG si está presente en Recursos-master.
+
+DATOS
+- Los hechizos y frames salen de 02_Por_Hechizo.
+- Los sonidos salen de Recursos-master/wav y SoundsOgg.
+- Si el WAV original está referenciado por el hechizo pero no existe en los archivos de recursos,
+  la app lo marca en rojo como archivo faltante en lugar de inventar/reemplazar el sonido.
+
+CONTROLES
+- Buscar: filtra por nombre o ID.
+- LANZAR: reproduce la prueba.
+- Espacio: también lanza.
+- Detener efectos: corta audio/animaciones persistentes.
+- Velocidad: cambia la velocidad visual para inspección.
+
+NOTA
+La app es HTML local y funciona como visor/tester, por lo que no modifica el proyecto Unity.

@@ -1,0 +1,33 @@
+{
+  "version": "1.2",
+  "npc_casting_removed": true,
+  "meditation_variants": 15,
+  "unique_meditation_fx": [
+    122,
+    123,
+    124,
+    126,
+    127,
+    128,
+    129,
+    130,
+    131,
+    132,
+    133,
+    134,
+    135,
+    136,
+    137,
+    138,
+    139,
+    140,
+    141
+  ],
+  "sound": {
+    "id": 158,
+    "path": "assets/audio/158.wav",
+    "original": true
+  },
+  "sequence": "start once -> loop infinite -> start reverse at half duration",
+  "level_mapping": "not present in client; server sends FX id"
+}

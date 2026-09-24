@@ -1,0 +1,74 @@
+{
+  "spell_id": 259,
+  "name": "Forma de Oso",
+  "fields": {
+    "nombre": "Forma de Oso",
+    "desc": "Te transforma en oso cambiando tus aptitudes físicas",
+    "palabrasmagicas": "UR' T SUS",
+    "hechizeromsg": "",
+    "targetmsg": "",
+    "propiomsg": "",
+    "tipo": "2",
+    "autolanzar": "1",
+    "wav": "0",
+    "fxgrh": "0",
+    "timeparticula": "0",
+    "iconoindex": "74707",
+    "requiretargetonland": "1",
+    "target": "1",
+    "cooldown": "20",
+    "cdeffectid": "28",
+    "starequerido": "5000",
+    "eotid": "31",
+    "cancelactiveeffect": "1",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 259,
+      "kind": "icon",
+      "source_id": 74707,
+      "top_grh": 74707,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74707,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074707__atlas_113__x192_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/259_Forma_de_Oso/01_icon__src74707__topGRH74707__frame001__GRH74707.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 259,
+      "kind": "eot_client_effect",
+      "source_id": 28,
+      "top_grh": 74707,
+      "detail": "EOT31->Effect28",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74707,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074707__atlas_113__x192_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/259_Forma_de_Oso/02_eot_client_effect__src28__topGRH74707__frame001__GRH74707.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 259,
+      "kind": "cooldown_effect",
+      "source_id": 28,
+      "top_grh": 74707,
+      "detail": "cdeffectid->Effect28",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74707,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074707__atlas_113__x192_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/259_Forma_de_Oso/03_cooldown_effect__src28__topGRH74707__frame001__GRH74707.png"
+        }
+      ]
+    }
+  ]
+}

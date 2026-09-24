@@ -1,0 +1,72 @@
+{
+  "spell_id": 11,
+  "name": "Curar veneno",
+  "fields": {
+    "nombre": "Curar veneno",
+    "desc": "Cura el envenenamiento del personaje seleccionado.",
+    "palabrasmagicas": "NIHIL VED",
+    "hechizeromsg": "Has curado a",
+    "targetmsg": "te ha curado del envenenamiento.",
+    "propiomsg": "Te has curado del envenenamiento.",
+    "en_name": "Poison Cure",
+    "en_desc": "Cures poison on the selected character.",
+    "en_hechizeromsg": "You have cured",
+    "en_targetmsg": "has cured your poisoning.",
+    "en_propiomsg": "You have cured your poisoning.",
+    "tipo": "2",
+    "wav": "16",
+    "fxgrh": "2",
+    "loops": "1",
+    "curaveneno": "1",
+    "minskill": "5",
+    "manarequerido": "10",
+    "starequerido": "1",
+    "iconoindex": "35731",
+    "target": "1",
+    "targeteffecttype": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 11,
+      "kind": "icon",
+      "source_id": 35731,
+      "top_grh": 35731,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35731,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035731__atlas_108__x480_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/011_Curar_veneno/01_icon__src35731__topGRH35731__frame001__GRH35731.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 11,
+      "kind": "spell_fx",
+      "source_id": 2,
+      "top_grh": 119,
+      "detail": "FXgrh FX2->Anim119",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 116,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000116__atlas_3457__x0_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/011_Curar_veneno/02_spell_fx__src2__topGRH119__frame001__GRH116.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 117,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000117__atlas_3457__x32_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/011_Curar_veneno/02_spell_fx__src2__topGRH119__frame002__GRH117.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 118,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000118__atlas_3457__x64_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/011_Curar_veneno/02_spell_fx__src2__topGRH119__frame003__GRH118.png"
+        }
+      ]
+    }
+  ]
+}

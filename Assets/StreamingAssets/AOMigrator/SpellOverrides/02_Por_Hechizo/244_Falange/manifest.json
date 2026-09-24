@@ -1,0 +1,231 @@
+{
+  "spell_id": 244,
+  "name": "Falange",
+  "fields": {
+    "nombre": "Falange",
+    "desc": "Concentra al usuario en la defensa, reduciento 40% del daño recibido y reciendo 40% del daño realizado.",
+    "palabrasmagicas": "",
+    "hechizeromsg": "Has usa Falange sobre",
+    "targetmsg": "ha usado Falange sobre ti.",
+    "propiomsg": "Has usado Falange sobre ti.",
+    "en_name": "Phalanx",
+    "en_desc": "Focus the user on defense.",
+    "en_hechizeromsg": "You used Phalanx on",
+    "en_targetmsg": "has used Phalanx on you",
+    "en_propiomsg": "You used Phalanx on yourself.",
+    "tipo": "2",
+    "wav": "230",
+    "fxgrh": "145",
+    "timeparticula": "40",
+    "manarequerido": "0",
+    "starequerido": "5000",
+    "iconoindex": "32474",
+    "target": "1",
+    "autolanzar": "1",
+    "cooldown": "60",
+    "cdeffectid": "2",
+    "requireshield": "1",
+    "eotid": "3",
+    "targeteffecttype": "1",
+    "isskill": "1",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 244,
+      "kind": "icon",
+      "source_id": 32474,
+      "top_grh": 32474,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32474,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032474__atlas_107__x192_y160_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/01_icon__src32474__topGRH32474__frame001__GRH32474.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 244,
+      "kind": "spell_fx",
+      "source_id": 145,
+      "top_grh": 74683,
+      "detail": "FXgrh FX145->Anim74683",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74659,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074659__atlas_3547__x0_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame001__GRH74659.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 74660,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074660__atlas_3547__x64_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame002__GRH74660.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 74661,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074661__atlas_3547__x128_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame003__GRH74661.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 74662,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074662__atlas_3547__x192_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame004__GRH74662.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 74663,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074663__atlas_3547__x256_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame005__GRH74663.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 74664,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074664__atlas_3547__x320_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame006__GRH74664.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 74665,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074665__atlas_3547__x384_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame007__GRH74665.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 74666,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074666__atlas_3547__x448_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame008__GRH74666.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 74667,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074667__atlas_3547__x512_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame009__GRH74667.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 74668,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074668__atlas_3547__x576_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame010__GRH74668.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 74669,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074669__atlas_3547__x640_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame011__GRH74669.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 74670,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074670__atlas_3547__x704_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame012__GRH74670.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 74671,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074671__atlas_3547__x768_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame013__GRH74671.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 74672,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074672__atlas_3547__x832_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame014__GRH74672.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 74673,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074673__atlas_3547__x896_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame015__GRH74673.png"
+        },
+        {
+          "frame_number": 16,
+          "grh": 74674,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074674__atlas_3547__x960_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/02_spell_fx__src145__topGRH74683__frame016__GRH74674.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 244,
+      "kind": "eot_onhitfx",
+      "source_id": 146,
+      "top_grh": 74684,
+      "detail": "EOT3 FX146->Anim74684",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74675,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074675__atlas_3547__x0_y192_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/03_eot_onhitfx__src146__topGRH74684__frame001__GRH74675.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 74676,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074676__atlas_3547__x64_y192_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/03_eot_onhitfx__src146__topGRH74684__frame002__GRH74676.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 74677,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074677__atlas_3547__x128_y192_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/03_eot_onhitfx__src146__topGRH74684__frame003__GRH74677.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 74678,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074678__atlas_3547__x192_y192_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/03_eot_onhitfx__src146__topGRH74684__frame004__GRH74678.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 74679,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074679__atlas_3547__x256_y192_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/03_eot_onhitfx__src146__topGRH74684__frame005__GRH74679.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 74680,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074680__atlas_3547__x320_y192_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/03_eot_onhitfx__src146__topGRH74684__frame006__GRH74680.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 244,
+      "kind": "eot_client_effect",
+      "source_id": 2,
+      "top_grh": 32474,
+      "detail": "EOT3->Effect2",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32474,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032474__atlas_107__x192_y160_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/04_eot_client_effect__src2__topGRH32474__frame001__GRH32474.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 244,
+      "kind": "cooldown_effect",
+      "source_id": 2,
+      "top_grh": 32474,
+      "detail": "cdeffectid->Effect2",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32474,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032474__atlas_107__x192_y160_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/244_Falange/05_cooldown_effect__src2__topGRH32474__frame001__GRH32474.png"
+        }
+      ]
+    }
+  ]
+}

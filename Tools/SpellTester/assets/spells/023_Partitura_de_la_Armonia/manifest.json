@@ -1,0 +1,85 @@
+{
+  "spell_id": 23,
+  "name": "Partitura de la Armonía",
+  "fields": {
+    "nombre": "Partitura de la Armonía",
+    "desc": "Aumenta la fuerza y la agilidad del objetivo críticamente.",
+    "palabrasmagicas": "IrX'ÔA'l",
+    "hechizeromsg": "Le has lanzado Partitura de la Armonía a",
+    "targetmsg": "te ha lanzado Partitura de la Armonía.",
+    "propiomsg": "Te has lanzado Partitura de la Armonía.",
+    "en_name": "Harmonious Chant",
+    "en_desc": "Significantly increases the strength and agility of the target.",
+    "en_hechizeromsg": "You casted Harmonious Chant on",
+    "en_targetmsg": "has casted Harmonious Chant on you.",
+    "en_propiomsg": "You casted Harmonious Chant on yourself.",
+    "tipo": "8",
+    "wav": "251",
+    "fxgrh": "0",
+    "loops": "0",
+    "particle": "189",
+    "timeparticula": "1",
+    "duration": "4",
+    "subefu": "1",
+    "minfu": "18",
+    "maxfu": "20",
+    "subeag": "1",
+    "minag": "18",
+    "maxag": "20",
+    "velocidad": "1.15",
+    "iconoindex": "35756",
+    "minskill": "100",
+    "manarequerido": "750",
+    "starequerido": "250",
+    "target": "1",
+    "targeteffecttype": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 23,
+      "kind": "icon",
+      "source_id": 35756,
+      "top_grh": 35756,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35756,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035756__atlas_108__x256_y128_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/023_Partitura_de_la_Armonia/01_icon__src35756__topGRH35756__frame001__GRH35756.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 23,
+      "kind": "particle",
+      "source_id": 189,
+      "top_grh": 19976,
+      "detail": "particle Particle189 GolpeIracundo",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 19976,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_019976__atlas_3__x32_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/023_Partitura_de_la_Armonia/02_particle__src189__topGRH19976__frame001__GRH19976.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 23,
+      "kind": "particle",
+      "source_id": 189,
+      "top_grh": 19992,
+      "detail": "particle Particle189 GolpeIracundo",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 19992,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_019992__atlas_3__x32_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/023_Partitura_de_la_Armonia/03_particle__src189__topGRH19992__frame001__GRH19992.png"
+        }
+      ]
+    }
+  ]
+}

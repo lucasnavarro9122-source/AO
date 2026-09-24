@@ -1,0 +1,127 @@
+{
+  "spell_id": 55,
+  "name": "Lamento de la Banshee",
+  "fields": {
+    "nombre": "Lamento de la Banshee",
+    "desc": "Causa 150 a 180 puntos de daño y no le afecta la RM.",
+    "palabrasmagicas": "V R NI MÈS",
+    "hechizeromsg": "Has lanzado Lamento de la Banshee sobre",
+    "targetmsg": "lanzó Lamento de la Banshee sobre vos.",
+    "propiomsg": "Has lanzado Lamento de la Banshee sobre ti.",
+    "en_name": "Banshee's Lament",
+    "en_desc": "Causes 150 to 180 hit to the target ignoring magic resistance.",
+    "en_hechizeromsg": "You casted Banshee's Lament on",
+    "en_targetmsg": "casted Banshee's Lament on you",
+    "en_propiomsg": "You casted Banshee's Lament on yourself.",
+    "targeteffecttype": "2",
+    "tipo": "1",
+    "wav": "99",
+    "fxgrh": "0",
+    "loops": "0",
+    "subehp": "2",
+    "minhp": "80",
+    "maxhp": "100",
+    "antirm": "1",
+    "minskill": "100",
+    "manarequerido": "2050",
+    "starequerido": "200",
+    "iconoindex": "32451",
+    "target": "3",
+    "particleviaje": "206",
+    "particle": "46",
+    "timeparticula": "2",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 55,
+      "kind": "icon",
+      "source_id": 32451,
+      "top_grh": 32451,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32451,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032451__atlas_107__x224_y96_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/055_Lamento_de_la_Banshee/01_icon__src32451__topGRH32451__frame001__GRH32451.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 55,
+      "kind": "particle",
+      "source_id": 46,
+      "top_grh": 20037,
+      "detail": "particle Particle46 banshee",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20037,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020037__atlas_3__x96_y160_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/055_Lamento_de_la_Banshee/02_particle__src46__topGRH20037__frame001__GRH20037.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 55,
+      "kind": "particle",
+      "source_id": 46,
+      "top_grh": 20033,
+      "detail": "particle Particle46 banshee",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20033,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020033__atlas_3__x320_y96_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/055_Lamento_de_la_Banshee/03_particle__src46__topGRH20033__frame001__GRH20033.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 55,
+      "kind": "particle",
+      "source_id": 46,
+      "top_grh": 20035,
+      "detail": "particle Particle46 banshee",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20035,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020035__atlas_3__x448_y96_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/055_Lamento_de_la_Banshee/04_particle__src46__topGRH20035__frame001__GRH20035.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 55,
+      "kind": "particle",
+      "source_id": 46,
+      "top_grh": 20034,
+      "detail": "particle Particle46 banshee",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20034,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020034__atlas_3__x384_y96_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/055_Lamento_de_la_Banshee/05_particle__src46__topGRH20034__frame001__GRH20034.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 55,
+      "kind": "particleviaje",
+      "source_id": 206,
+      "top_grh": 20004,
+      "detail": "particleviaje Particle206 banshee",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20004,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020004__atlas_3__x416_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/055_Lamento_de_la_Banshee/06_particleviaje__src206__topGRH20004__frame001__GRH20004.png"
+        }
+      ]
+    }
+  ]
+}

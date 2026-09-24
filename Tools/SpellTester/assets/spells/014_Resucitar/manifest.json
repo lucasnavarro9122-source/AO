@@ -1,0 +1,44 @@
+{
+  "spell_id": 14,
+  "name": "Resucitar",
+  "fields": {
+    "nombre": "Resucitar",
+    "desc": "Resucitar un usuario muerto.",
+    "palabrasmagicas": "AHIL KNÄ XÄR",
+    "hechizeromsg": "Has resucitado a",
+    "targetmsg": "te ha resucitado.",
+    "propiomsg": "Te has resucitado.",
+    "en_name": "Resurrect.",
+    "en_desc": "Resurrects a dead player.",
+    "en_hechizeromsg": "You brought  back to life.",
+    "en_targetmsg": "You have been brought back to life by",
+    "en_propiomsg": "You have resurrected.",
+    "tipo": "2",
+    "wav": "20",
+    "revivir": "1",
+    "minskill": "100",
+    "manarequerido": "550",
+    "starequerido": "300",
+    "iconoindex": "35725",
+    "target": "1",
+    "workondead": "1",
+    "targeteffecttype": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 14,
+      "kind": "icon",
+      "source_id": 35725,
+      "top_grh": 35725,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35725,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035725__atlas_108__x288_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/014_Resucitar/01_icon__src35725__topGRH35725__frame001__GRH35725.png"
+        }
+      ]
+    }
+  ]
+}

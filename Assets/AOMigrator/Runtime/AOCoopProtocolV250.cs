@@ -22,6 +22,8 @@ using System;
     public int id, map, x, y, heading, race, gender, head, level, hp, maxHp, mana, maxMana;
     public int weapon, armor, helmet, shield, attack, evasion, defense, minHit, maxHit, strength;
     public float damageModifier = 1;
+    // Visual only: 0 = not meditating; castSeq changes on every local cast.
+    public int meditationFx, castSpell, castSeq;
     public string name;
     public bool dead;
     public AOCoopPet[] pets;

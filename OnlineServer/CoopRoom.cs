@@ -96,7 +96,12 @@ sealed class CoopRoom
         if (m.type == "position")
         {
             if (m.player != null && ValidPosition(m.player.map, m.player.x, m.player.y))
-            { s.State.map = m.player.map; s.State.x = m.player.x; s.State.y = m.player.y; s.State.heading = Math.Clamp(m.player.heading, 1, 4); }
+            {
+                s.State.map = m.player.map; s.State.x = m.player.x; s.State.y = m.player.y; s.State.heading = Math.Clamp(m.player.heading, 1, 4);
+                s.State.meditationFx = s.State.dead ? 0 : Math.Clamp(m.player.meditationFx, 0, 1000);
+                if (m.player.castSeq != s.State.castSeq && (m.player.castSpell == 0 || spells.ContainsKey(m.player.castSpell)))
+                { s.State.castSeq = m.player.castSeq; s.State.castSpell = m.player.castSpell; }
+            }
             return new AOCoopMessage { type = "noop" };
         }
         if (!string.IsNullOrEmpty(m.request) && s.Replies.TryGetValue(m.request, out var previous)) return previous;
@@ -214,6 +219,7 @@ sealed class CoopRoom
         if(Distance(pet.x,pet.y,n.state.x,n.state.y)>2) return;
         s.PetCooldown[pet.id]=Now+400; Hit(s,map,n,Math.Max(1,Roll(Int(def,"minHit"),Int(def,"maxHit"))-Int(n.source,"defense")));
     }
+    const int MaxSkillShotFlightMs = 1500;
     void Cast(Session s, MapRecord map, AOCoopMessage m)
     {
         Alive(s);
@@ -221,7 +227,9 @@ sealed class CoopRoom
         var save=JsonNode.Parse(s.Record.snapshot)!;
         if(save["magic"]?["learnedSpells"] is not JsonArray known || !known.Any(k=>k?.GetValue<int>()==m.spell))
             throw new InvalidOperationException("No conocés ese hechizo.");
-        if(Now<s.NextCast || (s.SpellCooldown.TryGetValue(m.spell,out long next)&&Now<next)) throw new InvalidOperationException("Hechizo en recuperación.");
+        // Skill shots report their flight time in amount: cooldown counts from the launch, as in the client.
+        long castAt=Now-Math.Clamp(m.amount,0,MaxSkillShotFlightMs);
+        if(castAt<s.NextCast || (s.SpellCooldown.TryGetValue(m.spell,out long next)&&castAt<next)) throw new InvalidOperationException("Hechizo en recuperación.");
         if(Distance(s.State.x,s.State.y,m.x,m.y)>12) throw new InvalidOperationException("Objetivo fuera de alcance.");
         if(m.id>0)
         {
@@ -261,7 +269,7 @@ sealed class CoopRoom
             }
             if(!affected) throw new InvalidOperationException("Sin objetivo válido.");
         }
-        s.NextCast=Now+1100; s.SpellCooldown[m.spell]=Now+(long)(Float(spell,"cooldown")*1000);
+        s.NextCast=castAt+1100; s.SpellCooldown[m.spell]=castAt+(long)(Float(spell,"cooldown")*1000);
     }
     int MagicDamage(Session s,JsonNode spell,JsonNode? npc,int raw)
     {

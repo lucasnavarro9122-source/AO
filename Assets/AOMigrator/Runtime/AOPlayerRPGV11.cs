@@ -1049,6 +1049,7 @@ public class AOPlayerRPGV11 : MonoBehaviour
             Time.time + 0.44f;
     }
 
+#if UNITY_EDITOR // debug only: hidden in player builds
     public void SetResourcesForTesting()
     {
         hunger =
@@ -1071,6 +1072,7 @@ public class AOPlayerRPGV11 : MonoBehaviour
         Debug.Log(
             "[AO v0.11.4] TEST: Hambre/Sed=20, Stamina=10, Mana=0.");
     }
+#endif
 
     void RestoreBaseAttributes()
     {

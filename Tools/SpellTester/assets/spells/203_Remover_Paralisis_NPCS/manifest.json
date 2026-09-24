@@ -1,0 +1,193 @@
+{
+  "spell_id": 203,
+  "name": "Remover Parálisis (NPCS)",
+  "fields": {
+    "nombre": "Remover Parálisis (NPCS)",
+    "desc": "Remueve la parálisis o inmovilización.",
+    "palabrasmagicas": "AN HOAX VORP",
+    "hechizeromsg": "Le has removido la parálisis a",
+    "targetmsg": "te ha removido la parálisis.",
+    "propiomsg": "Te has removido la parálisis.",
+    "en_name": "Remove Paralysis (NPCS)",
+    "en_desc": "Removes paralysis or immobilization.",
+    "en_hechizeromsg": "You removed paralysis from",
+    "en_targetmsg": "got rid of yout paralysis",
+    "en_propiomsg": "you are no longer paralyzed.",
+    "tipo": "2",
+    "wav": "16",
+    "fxgrh": "6",
+    "loops": "0",
+    "particle": "132",
+    "timeparticula": "1",
+    "removerparalisis": "1",
+    "minskill": "45",
+    "manarequerido": "300",
+    "starequerido": "44",
+    "iconoindex": "35723",
+    "target": "2",
+    "autolanzar": "1",
+    "nowiki": "1",
+    "targeteffecttype": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 203,
+      "kind": "icon",
+      "source_id": 35723,
+      "top_grh": 35723,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35723,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035723__atlas_108__x224_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/01_icon__src35723__topGRH35723__frame001__GRH35723.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 203,
+      "kind": "spell_fx",
+      "source_id": 6,
+      "top_grh": 20656,
+      "detail": "FXgrh FX6->Anim20656",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20636,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020636__atlas_3473__x0_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame001__GRH20636.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 20637,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020637__atlas_3473__x128_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame002__GRH20637.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 20638,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020638__atlas_3473__x256_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame003__GRH20638.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 20639,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020639__atlas_3473__x384_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame004__GRH20639.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 20640,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020640__atlas_3473__x512_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame005__GRH20640.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 20641,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020641__atlas_3473__x0_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame006__GRH20641.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 20642,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020642__atlas_3473__x128_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame007__GRH20642.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 20643,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020643__atlas_3473__x256_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame008__GRH20643.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 20644,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020644__atlas_3473__x384_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame009__GRH20644.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 20645,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020645__atlas_3473__x512_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame010__GRH20645.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 20646,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020646__atlas_3473__x0_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame011__GRH20646.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 20647,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020647__atlas_3473__x128_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame012__GRH20647.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 20648,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020648__atlas_3473__x256_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame013__GRH20648.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 20649,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020649__atlas_3473__x384_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame014__GRH20649.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 20650,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020650__atlas_3473__x512_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame015__GRH20650.png"
+        },
+        {
+          "frame_number": 16,
+          "grh": 20651,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020651__atlas_3473__x0_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame016__GRH20651.png"
+        },
+        {
+          "frame_number": 17,
+          "grh": 20652,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020652__atlas_3473__x128_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame017__GRH20652.png"
+        },
+        {
+          "frame_number": 18,
+          "grh": 20653,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020653__atlas_3473__x256_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame018__GRH20653.png"
+        },
+        {
+          "frame_number": 19,
+          "grh": 20654,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020654__atlas_3473__x384_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame019__GRH20654.png"
+        },
+        {
+          "frame_number": 20,
+          "grh": 20655,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020655__atlas_3473__x512_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/02_spell_fx__src6__topGRH20656__frame020__GRH20655.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 203,
+      "kind": "particle",
+      "source_id": 132,
+      "top_grh": 19986,
+      "detail": "particle Particle132 Paz Elfica",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 19986,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_019986__atlas_3__x352_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/203_Remover_Paralisis_NPCS/03_particle__src132__topGRH19986__frame001__GRH19986.png"
+        }
+      ]
+    }
+  ]
+}

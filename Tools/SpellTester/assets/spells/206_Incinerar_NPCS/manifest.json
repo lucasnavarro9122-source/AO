@@ -1,0 +1,46 @@
+{
+  "spell_id": 206,
+  "name": "Incinerar (NPCS)",
+  "fields": {
+    "nombre": "Incinerar (NPCS)",
+    "desc": "Una llamarada incinerará al objetivo, causando un daño considerable rápidamente.",
+    "palabrasmagicas": "Incinera Corps",
+    "hechizeromsg": "Has incinerado a",
+    "targetmsg": "te ha incinerado.",
+    "propiomsg": "Te has incinerado.",
+    "en_name": "Incinerate (NPCS)",
+    "en_desc": "A blazing fire will incinerate the target, causing considerable hit quickly.",
+    "en_hechizeromsg": "You incinerated",
+    "en_targetmsg": "has incinerated you",
+    "en_propiomsg": "You are on fire.",
+    "tipo": "2",
+    "fxgrh": "0",
+    "loops": "0",
+    "timeparticula": "60",
+    "iconoindex": "32451",
+    "incinera": "1",
+    "minskill": "100",
+    "manarequerido": "1000",
+    "starequerido": "300",
+    "target": "3",
+    "nowiki": "1",
+    "targeteffecttype": "2"
+  },
+  "resources": [
+    {
+      "spell_id": 206,
+      "kind": "icon",
+      "source_id": 32451,
+      "top_grh": 32451,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32451,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032451__atlas_107__x224_y96_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/206_Incinerar_NPCS/01_icon__src32451__topGRH32451__frame001__GRH32451.png"
+        }
+      ]
+    }
+  ]
+}

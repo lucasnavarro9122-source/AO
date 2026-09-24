@@ -1,0 +1,42 @@
+{
+  "spell_id": 154,
+  "name": "Invisibilidad",
+  "fields": {
+    "nombre": "Invisibilidad",
+    "desc": "Vuelve invisible al objetivo. Efecto no permanente.",
+    "hechizeromsg": "Has lanzado Invisibilidad sobre",
+    "targetmsg": "lanzó Invisibilidad sobre vos.",
+    "propiomsg": "Te has vuelto invisible.",
+    "tipo": "2",
+    "wav": "16",
+    "fxgrh": "0",
+    "invisibilidad": "1",
+    "duration": "30",
+    "minskill": "87",
+    "manarequerido": "500",
+    "starequerido": "300",
+    "iconoindex": "35734",
+    "target": "1",
+    "autolanzar": "1",
+    "en_desc": "Makes the target invisible. Non-permanent effect.",
+    "targeteffecttype": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 154,
+      "kind": "icon",
+      "source_id": 35734,
+      "top_grh": 35734,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35734,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035734__atlas_108__x64_y96_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/154_Invisibilidad/01_icon__src35734__topGRH35734__frame001__GRH35734.png"
+        }
+      ]
+    }
+  ]
+}

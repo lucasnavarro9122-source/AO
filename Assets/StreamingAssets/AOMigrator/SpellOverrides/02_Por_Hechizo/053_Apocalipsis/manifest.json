@@ -1,0 +1,166 @@
+{
+  "spell_id": 53,
+  "name": "Apocalipsis",
+  "fields": {
+    "nombre": "Apocalipsis",
+    "desc": "Causa de 91 a 100 puntos de daño sobre la víctima.",
+    "palabrasmagicas": "Rahma Nañarak O'al",
+    "hechizeromsg": "Has lanzado Apocalípsis sobre",
+    "targetmsg": "lanzó Apocalípsis sobre vos.",
+    "propiomsg": "Has lanzado Apocalípsis sobre ti.",
+    "en_name": "Apocalypse",
+    "en_desc": "Causes 91 to 100 hit points on the target.",
+    "en_hechizeromsg": "You casted Apocalypse on",
+    "en_targetmsg": "casted Apocalypse on you",
+    "en_propiomsg": "You casted Apocalypse on yourself.",
+    "targeteffecttype": "2",
+    "tipo": "1",
+    "target": "3",
+    "wav": "162",
+    "fxgrh": "13",
+    "loops": "0",
+    "subehp": "2",
+    "minhp": "91",
+    "maxhp": "100",
+    "iconoindex": "32408",
+    "minskill": "100",
+    "manarequerido": "1000",
+    "starequerido": "175",
+    "staffaffected": "1",
+    "needstaff": "2"
+  },
+  "resources": [
+    {
+      "spell_id": 53,
+      "kind": "icon",
+      "source_id": 32408,
+      "top_grh": 32408,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32408,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032408__atlas_107__x0_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/01_icon__src32408__topGRH32408__frame001__GRH32408.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 53,
+      "kind": "spell_fx",
+      "source_id": 13,
+      "top_grh": 259,
+      "detail": "FXgrh FX13->Anim259",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 238,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000238__atlas_3440__x0_y0_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame001__GRH238.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 239,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000239__atlas_3440__x145_y0_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame002__GRH239.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 240,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000240__atlas_3440__x290_y0_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame003__GRH240.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 241,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000241__atlas_3440__x0_y145_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame004__GRH241.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 242,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000242__atlas_3440__x145_y145_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame005__GRH242.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 243,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000243__atlas_3440__x290_y145_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame006__GRH243.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 244,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000244__atlas_3440__x0_y290_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame007__GRH244.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 245,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000245__atlas_3440__x145_y290_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame008__GRH245.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 246,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000246__atlas_3440__x290_y290_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame009__GRH246.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 247,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000247__atlas_3439__x0_y0_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame010__GRH247.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 248,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000248__atlas_3439__x145_y0_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame011__GRH248.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 249,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000249__atlas_3439__x290_y0_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame012__GRH249.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 250,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000250__atlas_3439__x0_y145_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame013__GRH250.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 251,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000251__atlas_3439__x145_y145_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame014__GRH251.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 252,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000252__atlas_3439__x290_y145_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame015__GRH252.png"
+        },
+        {
+          "frame_number": 16,
+          "grh": 253,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000253__atlas_3439__x0_y290_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame016__GRH253.png"
+        },
+        {
+          "frame_number": 17,
+          "grh": 254,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000254__atlas_3439__x145_y290_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame017__GRH254.png"
+        },
+        {
+          "frame_number": 18,
+          "grh": 255,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000255__atlas_3439__x290_y290_w145_h145.png",
+          "spell_copy": "02_Por_Hechizo/053_Apocalipsis/02_spell_fx__src13__topGRH259__frame018__GRH255.png"
+        }
+      ]
+    }
+  ]
+}

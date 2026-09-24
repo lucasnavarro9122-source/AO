@@ -1,0 +1,78 @@
+{
+  "spell_id": 6,
+  "name": "Petrificar",
+  "fields": {
+    "nombre": "Petrificar",
+    "desc": "Detiene totalmente las acciones de las criaturas durante 120 segundos.",
+    "palabrasmagicas": "Parakmenoties",
+    "hechizeromsg": "Has petrificado a",
+    "targetmsg": "te ha petrificado.",
+    "propiomsg": "Te has petrificado.",
+    "en_name": "Petrify",
+    "en_desc": "Stops targets from moving for 120 seconds.",
+    "en_hechizeromsg": "You casted Petrify.",
+    "en_targetmsg": "has petrified you.",
+    "en_propiomsg": "You are petrified.",
+    "particleviaje": "196",
+    "targeteffecttype": "2",
+    "tipo": "2",
+    "wav": "203",
+    "particle": "192",
+    "timeparticula": "80",
+    "loops": "0",
+    "paraliza": "1",
+    "minskill": "45",
+    "manarequerido": "200",
+    "starequerido": "90",
+    "iconoindex": "35711",
+    "target": "2",
+    "duration": "20"
+  },
+  "resources": [
+    {
+      "spell_id": 6,
+      "kind": "icon",
+      "source_id": 35711,
+      "top_grh": 35711,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35711,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035711__atlas_108__x352_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/006_Petrificar/01_icon__src35711__topGRH35711__frame001__GRH35711.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 6,
+      "kind": "particle",
+      "source_id": 192,
+      "top_grh": 20134,
+      "detail": "particle Particle192 Torrente",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20134,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020134__atlas_10__x0_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/006_Petrificar/02_particle__src192__topGRH20134__frame001__GRH20134.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 6,
+      "kind": "particleviaje",
+      "source_id": 196,
+      "top_grh": 19986,
+      "detail": "particleviaje Particle196 Flecha",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 19986,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_019986__atlas_3__x352_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/006_Petrificar/03_particleviaje__src196__topGRH19986__frame001__GRH19986.png"
+        }
+      ]
+    }
+  ]
+}

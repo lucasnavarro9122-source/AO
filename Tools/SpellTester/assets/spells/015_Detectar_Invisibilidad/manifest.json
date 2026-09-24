@@ -1,0 +1,61 @@
+{
+  "spell_id": 15,
+  "name": "Detectar Invisibilidad",
+  "fields": {
+    "nombre": "Detectar Invisibilidad",
+    "desc": "Detecta todo usuario invisible en el rango de visión del usuario.",
+    "hechizeromsg": "Has lanzado Detectar Invisibilidad.",
+    "palabrasmagicas": "Fant Visiblî",
+    "targetmsg": "Detectó invisibilidad en la Zona",
+    "en_targetmsg": "Detected invisibility in the Zone",
+    "en_name": "Detect Invisibility",
+    "en_desc": "Detects every invisible player on your field of view.",
+    "en_hechizeromsg": "You've casted Detect Invisibility",
+    "target": "4",
+    "tipo": "12",
+    "targeteffecttype": "2",
+    "areaafecta": "1 ' Afecta a usuarios solamente",
+    "arearadio": "22 ' Toda la visión, esto es 11x11",
+    "remueveinvisibilidadparcial": "1",
+    "wav": "16",
+    "particle": "90",
+    "timeparticula": "1",
+    "minskill": "100",
+    "manarequerido": "2000",
+    "starequerido": "400",
+    "iconoindex": "35735",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 15,
+      "kind": "icon",
+      "source_id": 35735,
+      "top_grh": 35735,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35735,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035735__atlas_108__x96_y96_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/015_Detectar_Invisibilidad/01_icon__src35735__topGRH35735__frame001__GRH35735.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 15,
+      "kind": "particle",
+      "source_id": 90,
+      "top_grh": 20047,
+      "detail": "particle Particle90 Castigo Ilusorio",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20047,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020047__atlas_3__x256_y224_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/015_Detectar_Invisibilidad/02_particle__src90__topGRH20047__frame001__GRH20047.png"
+        }
+      ]
+    }
+  ]
+}

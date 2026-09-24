@@ -1,0 +1,89 @@
+{
+  "spell_id": 266,
+  "name": "Desgarro",
+  "fields": {
+    "nombre": "Desgarro",
+    "desc": "Golpeas con las garras, dejando un sangrado que hace daño en el tiempo.",
+    "palabrasmagicas": "",
+    "hechizeromsg": "",
+    "targetmsg": "",
+    "propiomsg": "",
+    "tipo": "2",
+    "autolanzar": "1",
+    "requiretransform": "661",
+    "wav": "0",
+    "fxgrh": "0",
+    "timeparticula": "0",
+    "iconoindex": "74715",
+    "requiretargetonland": "1",
+    "target": "1",
+    "cooldown": "5",
+    "cdeffectid": "35",
+    "eotid": "36",
+    "isskill": "1",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 266,
+      "kind": "icon",
+      "source_id": 74715,
+      "top_grh": 74715,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74715,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074715__atlas_113__x448_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/266_Desgarro/01_icon__src74715__topGRH74715__frame001__GRH74715.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 266,
+      "kind": "eot_client_effect",
+      "source_id": 35,
+      "top_grh": 74715,
+      "detail": "EOT36->Effect35",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74715,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074715__atlas_113__x448_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/266_Desgarro/02_eot_client_effect__src35__topGRH74715__frame001__GRH74715.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 266,
+      "kind": "eot_client_effect",
+      "source_id": 36,
+      "top_grh": 74717,
+      "detail": "EOT37->Effect36",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74717,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074717__atlas_113__x0_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/266_Desgarro/03_eot_client_effect__src36__topGRH74717__frame001__GRH74717.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 266,
+      "kind": "cooldown_effect",
+      "source_id": 35,
+      "top_grh": 74715,
+      "detail": "cdeffectid->Effect35",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74715,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074715__atlas_113__x448_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/266_Desgarro/04_cooldown_effect__src35__topGRH74715__frame001__GRH74715.png"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,135 @@
+{
+  "spell_id": 215,
+  "name": "Aliento de Dragón (Área)",
+  "fields": {
+    "nombre": "Aliento de Dragón (Área)",
+    "desc": "Causa de 90 a 95 puntos de daño sobre la víctima.",
+    "palabrasmagicas": "ÖÄR NÏÄ RÖ",
+    "hechizeromsg": "Has lanzado Aliento de Dragón sobre",
+    "targetmsg": "lanzó Aliento de Dragón sobre vos.",
+    "propiomsg": "Has lanzado Aliento de Dragón sobre ti.",
+    "en_name": "Dragon's Breath (Area)",
+    "en_desc": "Causes 90 to 95 hit points to the target.",
+    "en_hechizeromsg": "You casted Dragon's Breath on",
+    "en_targetmsg": "has casted Dragon's Breath on you.",
+    "en_propiomsg": "Casted Dragon's Breath on yourself.",
+    "tipo": "5",
+    "target": "4",
+    "wav": "231",
+    "fxgrh": "121",
+    "loops": "0",
+    "subehp": "2",
+    "minhp": "170",
+    "maxhp": "200",
+    "minskill": "100",
+    "manarequerido": "1000",
+    "starequerido": "300",
+    "staffaffected": "1",
+    "needstaff": "2",
+    "areaafecta": "1",
+    "arearadio": "22",
+    "nowiki": "1",
+    "targeteffecttype": "2"
+  },
+  "resources": [
+    {
+      "spell_id": 215,
+      "kind": "spell_fx",
+      "source_id": 121,
+      "top_grh": 16830,
+      "detail": "FXgrh FX121->Anim16830",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 16815,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_016815__atlas_3468__x0_y0_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/215_Aliento_de_Dragon_Area/01_spell_fx__src121__topGRH16830__frame001__GRH16815.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 16816,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_016816__atlas_3468__x192_y0_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/215_Aliento_de_Dragon_Area/01_spell_fx__src121__topGRH16830__frame002__GRH16816.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 16817,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_016817__atlas_3468__x384_y0_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/215_Aliento_de_Dragon_Area/01_spell_fx__src121__topGRH16830__frame003__GRH16817.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 16818,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_016818__atlas_3468__x576_y0_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/215_Aliento_de_Dragon_Area/01_spell_fx__src121__topGRH16830__frame004__GRH16818.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 16819,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_016819__atlas_3468__x768_y0_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/215_Aliento_de_Dragon_Area/01_spell_fx__src121__topGRH16830__frame005__GRH16819.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 16820,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_016820__atlas_3468__x0_y192_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/215_Aliento_de_Dragon_Area/01_spell_fx__src121__topGRH16830__frame006__GRH16820.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 16821,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_016821__atlas_3468__x192_y192_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/215_Aliento_de_Dragon_Area/01_spell_fx__src121__topGRH16830__frame007__GRH16821.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 16822,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_016822__atlas_3468__x384_y192_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/215_Aliento_de_Dragon_Area/01_spell_fx__src121__topGRH16830__frame008__GRH16822.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 16823,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_016823__atlas_3468__x576_y192_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/215_Aliento_de_Dragon_Area/01_spell_fx__src121__topGRH16830__frame009__GRH16823.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 16824,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_016824__atlas_3468__x768_y192_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/215_Aliento_de_Dragon_Area/01_spell_fx__src121__topGRH16830__frame010__GRH16824.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 16825,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_016825__atlas_3468__x0_y384_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/215_Aliento_de_Dragon_Area/01_spell_fx__src121__topGRH16830__frame011__GRH16825.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 16826,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_016826__atlas_3468__x192_y384_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/215_Aliento_de_Dragon_Area/01_spell_fx__src121__topGRH16830__frame012__GRH16826.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 16827,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_016827__atlas_3468__x384_y384_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/215_Aliento_de_Dragon_Area/01_spell_fx__src121__topGRH16830__frame013__GRH16827.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 16828,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_016828__atlas_3468__x576_y384_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/215_Aliento_de_Dragon_Area/01_spell_fx__src121__topGRH16830__frame014__GRH16828.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 16829,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_016829__atlas_3468__x768_y384_w192_h192.png",
+          "spell_copy": "02_Por_Hechizo/215_Aliento_de_Dragon_Area/01_spell_fx__src121__topGRH16830__frame015__GRH16829.png"
+        }
+      ]
+    }
+  ]
+}

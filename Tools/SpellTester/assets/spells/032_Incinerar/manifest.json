@@ -1,0 +1,46 @@
+{
+  "spell_id": 32,
+  "name": "Incinerar",
+  "fields": {
+    "nombre": "Incinerar",
+    "desc": "Una llamarada incinerará al objetivo, causando un daño considerable rápidamente.",
+    "palabrasmagicas": "Incinera Corps",
+    "hechizeromsg": "Has incinerado a",
+    "targetmsg": "te ha incinerado.",
+    "propiomsg": "Te has incinerado.",
+    "en_name": "Incinerate",
+    "en_desc": "A blazing fire will burn the target, rapidly hurting them.",
+    "en_hechizeromsg": "You burned",
+    "en_targetmsg": "has burned you",
+    "en_propiomsg": "You are burning.",
+    "targeteffecttype": "2",
+    "tipo": "2",
+    "fxgrh": "0",
+    "loops": "0",
+    "timeparticula": "60",
+    "iconoindex": "32451",
+    "incinera": "1",
+    "minskill": "100",
+    "manarequerido": "1500",
+    "starequerido": "300",
+    "target": "3",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 32,
+      "kind": "icon",
+      "source_id": 32451,
+      "top_grh": 32451,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32451,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032451__atlas_107__x224_y96_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/032_Incinerar/01_icon__src32451__topGRH32451__frame001__GRH32451.png"
+        }
+      ]
+    }
+  ]
+}

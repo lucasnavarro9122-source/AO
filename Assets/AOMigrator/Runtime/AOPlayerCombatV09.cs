@@ -335,6 +335,7 @@ public class AOPlayerCombatV09 : MonoBehaviour
         return true;
     }
 
+#if UNITY_EDITOR // debug only: hidden in player builds
     public void SetHealthForTesting()
     {
         if (dead)
@@ -352,6 +353,7 @@ public class AOPlayerCombatV09 : MonoBehaviour
             MaxHP +
             ".");
     }
+#endif
 
     public void SyncFromRPG(
         bool refill)
@@ -422,6 +424,9 @@ public class AOPlayerCombatV09 : MonoBehaviour
             TryPickup();
     }
 
+    public void AttackFromControls() { if (!dead && !AOInterfaceV0101.InputCaptured && !AOOnlineClientV240.InputBlocked) TryAttack(); }
+    public void PickupFromControls() { if (!dead && !AOInterfaceV0101.InputCaptured && !AOOnlineClientV240.InputBlocked) TryPickup(); }
+
     void TryAttack()
     {
         AOPlayerMagicStatusV120 magicStatus =
@@ -433,6 +438,11 @@ public class AOPlayerCombatV09 : MonoBehaviour
             Flash("Estás paralizado.");
             return;
         }
+
+        // AO original (HandleAttack): attacking ends meditation, then the attack goes on.
+        AOPlayerMagicV120 magic = GetComponent<AOPlayerMagicV120>();
+        if (magic != null)
+            magic.InterruptMeditation();
 
         if (Time.time < nextAttackAt)
             return;

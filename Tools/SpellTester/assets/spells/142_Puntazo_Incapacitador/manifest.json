@@ -1,0 +1,100 @@
+{
+  "spell_id": 142,
+  "name": "Puntazo Incapacitador",
+  "fields": {
+    "nombre": "Puntazo Incapacitador",
+    "desc": "Reduce fuertemente la capacidad de combate del objetivo.",
+    "palabrasmagicas": "Rrik'bLuck'",
+    "hechizeromsg": "Le has lanzado Puntazo Incapacitador a",
+    "targetmsg": "te ha lanzado Puntazo Incapacitador.",
+    "propiomsg": "Te has lanzado Puntazo Incapacitador.",
+    "en_name": "Incapacitating Strike",
+    "en_desc": "Strongly reduces the targets combat ability",
+    "en_hechizeromsg": "You casted Incapacitating Strike on",
+    "en_targetmsg": "casted Incapacitating Strike on you",
+    "en_propiomsg": "Casted Incapacitating Strike on yourself.",
+    "targeteffecttype": "2",
+    "tipo": "8",
+    "wav": "109",
+    "fxgrh": "0",
+    "loops": "0",
+    "particle": "164",
+    "timeparticula": "1",
+    "duration": "5",
+    "subefu": "2",
+    "minfu": "7",
+    "maxfu": "15",
+    "subeag": "2",
+    "cooldown": "15",
+    "minag": "7",
+    "maxag": "15",
+    "iconoindex": "35756",
+    "minskill": "100",
+    "manarequerido": "350",
+    "starequerido": "250",
+    "target": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 142,
+      "kind": "icon",
+      "source_id": 35756,
+      "top_grh": 35756,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35756,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035756__atlas_108__x256_y128_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/142_Puntazo_Incapacitador/01_icon__src35756__topGRH35756__frame001__GRH35756.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 142,
+      "kind": "particle",
+      "source_id": 164,
+      "top_grh": 19995,
+      "detail": "particle Particle164 Castigo crepitante",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 19995,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_019995__atlas_3__x128_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/142_Puntazo_Incapacitador/02_particle__src164__topGRH19995__frame001__GRH19995.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 142,
+      "kind": "particle",
+      "source_id": 164,
+      "top_grh": 20008,
+      "detail": "particle Particle164 Castigo crepitante",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20008,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020008__atlas_3__x0_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/142_Puntazo_Incapacitador/03_particle__src164__topGRH20008__frame001__GRH20008.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 142,
+      "kind": "particle",
+      "source_id": 164,
+      "top_grh": 20027,
+      "detail": "particle Particle164 Castigo crepitante",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20027,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020027__atlas_3__x96_y96_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/142_Puntazo_Incapacitador/04_particle__src164__topGRH20027__frame001__GRH20027.png"
+        }
+      ]
+    }
+  ]
+}

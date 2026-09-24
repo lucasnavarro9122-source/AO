@@ -1,0 +1,116 @@
+{
+  "spell_id": 56,
+  "name": "Juicio Final",
+  "fields": {
+    "nombre": "Juicio Final",
+    "desc": "Causa 138 a 148 puntos de daño a la víctima.",
+    "palabrasmagicas": "Finis Mortem",
+    "hechizeromsg": "Has lanzado Juicio final sobre",
+    "targetmsg": "lanzó Juicio final sobre vos.",
+    "propiomsg": "Has lanzado Juicio final sobre ti.",
+    "en_name": "Final Judgement",
+    "en_desc": "Causes 138 to 148 hit points to the target.",
+    "en_hechizeromsg": "You casted Final Judgement on",
+    "en_targetmsg": "casted Final Judgement on you.",
+    "en_propiomsg": "You casted Final Judgment on yourself.",
+    "targeteffecttype": "2",
+    "tipo": "1",
+    "loops": "0",
+    "subehp": "2",
+    "minhp": "138",
+    "maxhp": "148",
+    "minskill": "100",
+    "manarequerido": "1750",
+    "starequerido": "250",
+    "iconoindex": "32447",
+    "target": "3",
+    "particle": "138",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 56,
+      "kind": "icon",
+      "source_id": 32447,
+      "top_grh": 32447,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32447,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032447__atlas_107__x96_y96_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/056_Juicio_Final/01_icon__src32447__topGRH32447__frame001__GRH32447.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 56,
+      "kind": "particle",
+      "source_id": 138,
+      "top_grh": 12546,
+      "detail": "particle Particle138 Juicio Final Particula",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 12535,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012535__atlas_900__x0_y0_w128_h100.png",
+          "spell_copy": "02_Por_Hechizo/056_Juicio_Final/02_particle__src138__topGRH12546__frame001__GRH12535.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 12536,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012536__atlas_900__x128_y0_w128_h100.png",
+          "spell_copy": "02_Por_Hechizo/056_Juicio_Final/02_particle__src138__topGRH12546__frame002__GRH12536.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 12537,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012537__atlas_900__x256_y0_w128_h100.png",
+          "spell_copy": "02_Por_Hechizo/056_Juicio_Final/02_particle__src138__topGRH12546__frame003__GRH12537.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 12538,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012538__atlas_900__x384_y0_w128_h100.png",
+          "spell_copy": "02_Por_Hechizo/056_Juicio_Final/02_particle__src138__topGRH12546__frame004__GRH12538.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 12539,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012539__atlas_900__x0_y100_w128_h100.png",
+          "spell_copy": "02_Por_Hechizo/056_Juicio_Final/02_particle__src138__topGRH12546__frame005__GRH12539.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 12540,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012540__atlas_900__x128_y100_w128_h100.png",
+          "spell_copy": "02_Por_Hechizo/056_Juicio_Final/02_particle__src138__topGRH12546__frame006__GRH12540.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 12541,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012541__atlas_900__x256_y100_w128_h100.png",
+          "spell_copy": "02_Por_Hechizo/056_Juicio_Final/02_particle__src138__topGRH12546__frame007__GRH12541.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 12542,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012542__atlas_900__x384_y100_w128_h100.png",
+          "spell_copy": "02_Por_Hechizo/056_Juicio_Final/02_particle__src138__topGRH12546__frame008__GRH12542.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 12543,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012543__atlas_900__x0_y200_w128_h100.png",
+          "spell_copy": "02_Por_Hechizo/056_Juicio_Final/02_particle__src138__topGRH12546__frame009__GRH12543.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 12544,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_012544__atlas_900__x128_y200_w128_h100.png",
+          "spell_copy": "02_Por_Hechizo/056_Juicio_Final/02_particle__src138__topGRH12546__frame010__GRH12544.png"
+        }
+      ]
+    }
+  ]
+}

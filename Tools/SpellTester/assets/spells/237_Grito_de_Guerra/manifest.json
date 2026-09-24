@@ -1,0 +1,79 @@
+{
+  "spell_id": 237,
+  "name": "Grito de Guerra",
+  "fields": {
+    "nombre": "Grito de Guerra",
+    "desc": "Aumenta la velocidad del personaje.",
+    "palabrasmagicas": "GrU'ÔhK'loN",
+    "hechizeromsg": "Tu Grito de Guerra es oído por.",
+    "targetmsg": "te ha lanzado un Grito de Guerra.",
+    "propiomsg": "Corres más rápido.",
+    "en_name": "Warcry",
+    "en_desc": "Increase the speed of the character.",
+    "en_palabrasmagicas": "GrU'ÔhK'loN",
+    "en_hechizeromsg": "Your warcry has been heared by.",
+    "en_targetmsg": "Has shouted a warcry at you.",
+    "en_propiomsg": "You run faster.",
+    "tipo": "8",
+    "wav": "251",
+    "fxgrh": "0",
+    "loops": "0",
+    "particle": "189",
+    "timeparticula": "1",
+    "duration": "6",
+    "velocidad": "1.25",
+    "iconoindex": "35756",
+    "minskill": "0",
+    "requiredhp": "200",
+    "starequerido": "400",
+    "target": "1",
+    "autolanzar": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 237,
+      "kind": "icon",
+      "source_id": 35756,
+      "top_grh": 35756,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35756,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035756__atlas_108__x256_y128_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/237_Grito_de_Guerra/01_icon__src35756__topGRH35756__frame001__GRH35756.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 237,
+      "kind": "particle",
+      "source_id": 189,
+      "top_grh": 19976,
+      "detail": "particle Particle189 GolpeIracundo",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 19976,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_019976__atlas_3__x32_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/237_Grito_de_Guerra/02_particle__src189__topGRH19976__frame001__GRH19976.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 237,
+      "kind": "particle",
+      "source_id": 189,
+      "top_grh": 19992,
+      "detail": "particle Particle189 GolpeIracundo",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 19992,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_019992__atlas_3__x32_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/237_Grito_de_Guerra/03_particle__src189__topGRH19992__frame001__GRH19992.png"
+        }
+      ]
+    }
+  ]
+}

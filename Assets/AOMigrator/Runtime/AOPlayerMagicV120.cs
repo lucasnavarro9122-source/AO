@@ -29,7 +29,10 @@ public class AOPlayerMagicV120 : MonoBehaviour
     AOInventoryV10 inventory;
     AOWorldManagerV07 world;
     Camera gameCamera;
+    AOMeditationVisualV269 meditationVisual;
 
+    int targetInputFrame = -1;
+    public bool ConsumedInputThisFrame => targetInputFrame == Time.frameCount;
     float nextGlobalCastAt;
     float meditationStartedAt;
     float nextMeditationTick;
@@ -42,7 +45,7 @@ public class AOPlayerMagicV120 : MonoBehaviour
     public bool IsMeditating=>meditating;
     public int ActivePetCount { get { CleanupPets(); return pets.Count; } }
     public AOSpellDatabaseV120.SpellDef SelectedSpell=>AOSpellDatabaseV120.Get(selectedSpellId);
-    public string TargetPrompt { get { var s=SelectedSpell;return !targeting||s==null?"":"Objetivo de "+s.name+": "+s.TargetLabel+" | click mundo | Esc cancelar"; } }
+    public string TargetPrompt { get { var s=SelectedSpell;if(!targeting||s==null)return "";return AOSkillShotConfigV267.IsSkillShot(s.id)?"Skill shot "+s.name+": apuntá la dirección | click mundo | Esc cancelar":"Objetivo de "+s.name+": "+s.TargetLabel+" | click mundo | Esc cancelar"; } }
     public string MeditationLabel=>meditating?"Meditando...":"Meditar";
     string SavePath=>Path.Combine(Application.persistentDataPath,"ao_magic_v129_spellbook.json");
 
@@ -54,6 +57,7 @@ public class AOPlayerMagicV120 : MonoBehaviour
         if (AOOnlineClientV240.InputBlocked) return;
         FindReferences();CleanupPets();
         UpdateMeditation();
+        if(AOInterfaceV0101.InputCaptured||AOCityUIV130.ModalOpen||AOQuestUIV150.ModalOpen){targeting=false;return;}
         if(!targeting)return;
         if(PressedCancel()){targeting=false;AOInterfaceV0101.PushMessage("Casteo cancelado.");return;}
         if(PressedPrimary())TryTargetMouse();
@@ -63,6 +67,10 @@ public class AOPlayerMagicV120 : MonoBehaviour
         if(player==null)player=GetComponent<AOTestPlayer>();if(rpg==null)rpg=GetComponent<AOPlayerRPGV11>();if(combat==null)combat=GetComponent<AOPlayerCombatV09>();
         if(status==null)status=GetComponent<AOPlayerMagicStatusV120>();if(effects==null)effects=GetComponent<AOMagicEffectRuntimeV129>();if(inventory==null)inventory=GetComponent<AOInventoryV10>();
         if(world==null)world=UnityEngine.Object.FindFirstObjectByType<AOWorldManagerV07>();
+        if(meditationVisual==null){
+            meditationVisual=GetComponent<AOMeditationVisualV269>();
+            if(meditationVisual==null)meditationVisual=gameObject.AddComponent<AOMeditationVisualV269>();
+        }
         if(gameCamera==null){AOCameraFollow f=UnityEngine.Object.FindFirstObjectByType<AOCameraFollow>();if(f!=null)gameCamera=f.GetComponent<Camera>();if(gameCamera==null)gameCamera=Camera.main;}
     }
 
@@ -164,6 +172,7 @@ public class AOPlayerMagicV120 : MonoBehaviour
     {
         targeting = false;
         meditating = false;
+        meditationVisual?.End();
 
         nextGlobalCastAt = 0f;
         meditationStartedAt = 0f;
@@ -212,6 +221,18 @@ public class AOPlayerMagicV120 : MonoBehaviour
         float a=Mathf.Max(0f,nextGlobalCastAt-Time.time);float b=spellReadyAt.TryGetValue(id,out float v)?Mathf.Max(0f,v-Time.time):0f;return Mathf.Max(a,b);
     }
 
+    public void CancelTargeting(){targeting=false;}
+    public void CastShortcut(int id,bool quickCast)
+    {
+        if(AOInterfaceV0101.InputCaptured||AOOnlineClientV240.InputBlocked)return;
+        FindReferences();
+        if(!KnowsSpell(id)){AOInterfaceV0101.PushMessage("Ese personaje todavía no aprendió el hechizo asignado.");return;}
+        SelectSpell(id);
+        if(!quickCast){BeginCastSelected();return;}
+        if(SelectedSpell.target==5){CastSelectedOnPets();return;}
+        if(SelectedSpell.target==1){CastSelectedOnSelf();return;}
+        TryTargetMouse();
+    }
     public void BeginCastSelected(){
         var s=SelectedSpell;if(!ValidateSpell(s,false,out string err)){AOInterfaceV0101.PushMessage(err);return;}
         StopMeditation();
@@ -238,10 +259,11 @@ public class AOPlayerMagicV120 : MonoBehaviour
         FindReferences();if(rpg==null||rpg.MaxMana<=0){AOInterfaceV0101.PushMessage("Tu personaje no posee mana.");return;}
         if(meditating){StopMeditation();AOInterfaceV0101.PushMessage("Dejaste de meditar.");return;}
         if(rpg.Mana>=rpg.MaxMana){AOInterfaceV0101.PushMessage("Ya tenés el mana completo.");return;}
-        meditating=true;meditationStartedAt=Time.time;nextMeditationTick=Time.time+.8f;AOInterfaceV0101.PushMessage("Comenzás a meditar.");
+        meditating=true;meditationStartedAt=Time.time;nextMeditationTick=Time.time+.8f;meditationVisual?.Begin(rpg.Level);AOInterfaceV0101.PushMessage("Comenzás a meditar.");
     }
 
-    void StopMeditation(){meditating=false;meditationStartedAt=nextMeditationTick=0f;}
+    public void InterruptMeditation(){if(!meditating)return;StopMeditation();AOInterfaceV0101.PushMessage("Dejaste de meditar.");}
+    void StopMeditation(){meditating=false;meditationStartedAt=nextMeditationTick=0f;meditationVisual?.End();}
     void UpdateMeditation(){
         if(!meditating||rpg==null)return;
         if(combat!=null&&combat.IsDead){StopMeditation();return;}
@@ -255,10 +277,12 @@ public class AOPlayerMagicV120 : MonoBehaviour
     }
 
     void TryTargetMouse(){
-        if(gameCamera==null||player==null||player.CurrentGrid==null)return;Vector2 m=MousePosition();if(!gameCamera.pixelRect.Contains(m))return;
-        float z=Mathf.Abs(gameCamera.transform.position.z);Vector3 wp=gameCamera.ScreenToWorldPoint(new Vector3(m.x,m.y,z));int tx=Mathf.RoundToInt(wp.x+.5f),ty=Mathf.RoundToInt(-wp.y);
+        var s=SelectedSpell;
+        if(s!=null&&AOSkillShotConfigV267.IsSkillShot(s.id)){TryLaunchSkillShotMouse(s);return;}
+        if(!AOActionBarV260.CursorTile(player,out int tx,out int ty))return;
+        targetInputFrame=Time.frameCount;
         AOGridMap grid=player.CurrentGrid;if(!grid.InBounds(tx,ty)){AOInterfaceV0101.PushMessage("Objetivo fuera del mapa.");return;}
-        var s=SelectedSpell;if(!ValidateSpell(s,true,out string err)){targeting=false;AOInterfaceV0101.PushMessage(err);return;}
+        if(!ValidateSpell(s,true,out string err)){targeting=false;AOInterfaceV0101.PushMessage(err);return;}
         if(!InRange(tx,ty)){AOInterfaceV0101.PushMessage("Objetivo fuera del rango de visión.");return;}
         if(s.RequiresLand&&grid.IsDeepWater(tx,ty)){AOInterfaceV0101.PushMessage("Este hechizo requiere un objetivo sobre tierra.");return;}
         bool ok=false;string targetName="";
@@ -270,6 +294,39 @@ public class AOPlayerMagicV120 : MonoBehaviour
         } else if(s.target==2){var n=FindNpcAt(tx,ty);if(n!=null){ok=ApplyToNpc(s,n);targetName=n.DisplayName;}}
         if(!ok){AOInterfaceV0101.PushMessage("El hechizo no tuvo un objetivo o efecto válido.");return;}
         targeting=false;StopMeditation();FinishCast(s,grid.TileToWorld(tx,ty),targetName);
+    }
+
+    void TryLaunchSkillShotMouse(AOSpellDatabaseV120.SpellDef s)
+    {
+        FindReferences();
+        if(player==null||player.CurrentGrid==null||gameCamera==null)return;
+        if(!ValidateSpell(s,true,out string err)){targeting=false;AOInterfaceV0101.PushMessage(err);return;}
+        Vector2 mouse=MousePosition();
+        if(!gameCamera.pixelRect.Contains(mouse))return;
+        AOActionBarV260 bar=GetComponent<AOActionBarV260>();
+        Vector2 guiMouse=new Vector2(mouse.x,Screen.height-mouse.y);
+        if(bar!=null&&bar.ShowBarPublic()&&bar.GetBarRectGUI().Contains(guiMouse))return;
+        Vector3 worldPoint=gameCamera.ScreenToWorldPoint(new Vector3(mouse.x,mouse.y,Mathf.Abs(gameCamera.transform.position.z)));
+        Vector2 from=new Vector2(transform.position.x,transform.position.y);
+        Vector2 direction=new Vector2(worldPoint.x,worldPoint.y)-from;
+        if(direction.sqrMagnitude<.04f){AOInterfaceV0101.PushMessage("Apuntá más lejos del personaje.");return;}
+        // Online: check before paying, the server would reject the hit anyway.
+        if(AOOnlineClientV240.Requested&&s.mimic==0&&!AOOnlineClientV240.CanCastNpcSpell(s.id)){targeting=false;AOInterfaceV0101.PushMessage("Ese efecto sobre criaturas todavía no está disponible en la alpha cooperativa.");return;}
+        if(!CommitCastResources(s))return;
+        targetInputFrame=Time.frameCount;targeting=false;StopMeditation();
+        if(!string.IsNullOrWhiteSpace(s.magicWords))AOInterfaceV0101.PushMessage(s.magicWords);
+        AOInterfaceV0101.PushMessage("Lanzaste "+s.name+" como skill shot.");
+        AOCastAnimationRuntimeV268.PlayPlayer(gameObject,s);AOOnlineClientV240.NotifyLocalCast(s.id);
+        AOSpellFXV120.PlayCastSound(s);
+        AOSkillShotProjectileV267.Launch(this,s,player.CurrentGrid,transform.position,direction.normalized);
+    }
+
+    public void ResolveSkillShotHit(AOSpellDatabaseV120.SpellDef s,AONPCCombatV09 npc,Vector3 impactWorld)
+    {
+        if(s==null||npc==null||!npc.IsAlive)return;
+        bool ok=ApplyToNpc(s,npc);
+        AOSpellFXV120.PlayImpact(s,impactWorld,false);
+        if(ok)AOInterfaceV0101.PushMessage(s.name+" impactó a "+npc.DisplayName+".");
     }
 
     bool ValidateSpell(AOSpellDatabaseV120.SpellDef s,bool cooldown,out string error){
@@ -325,6 +382,7 @@ public class AOPlayerMagicV120 : MonoBehaviour
             if(s.curse!=0){status.ApplyCurse(d);a=true;}if(s.removeCurse!=0){status.RemoveCurse();a=true;}if(s.removeDebuff!=0){status.RemoveDebuffs();a=true;}
         }
         if(s.eotId>0&&effects!=null)a=effects.ApplyEffect(s.eotId,combat)||a;
+        if(a&&ShouldPersistSpellVisual(s))AOSpellPersistentVisualV130.ApplySpellBuff(gameObject,s.id,Mathf.Max(1f,s.duration));
         return a;
     }
 
@@ -362,12 +420,12 @@ public class AOPlayerMagicV120 : MonoBehaviour
         if(s.speed>0f){ne.ApplyTemporarySpeed(s.speed,dur);a=true;}if(s.eotId>0)a=ne.ApplyEffect(s.eotId,combat)||a;
         if(s.stealBuff!=0&&effects!=null)a=ne.StealOneBuffTo(effects,combat)||a;
         if(s.mimic!=0){AOCharacterRenderer src=npc.GetComponentInChildren<AOCharacterRenderer>(true);AOMimicVisualV129 mimic=GetComponent<AOMimicVisualV129>();if(mimic==null)mimic=gameObject.AddComponent<AOMimicVisualV129>();mimic.Apply(src,30f);a=true;}
-        if(a)npc.NotifyProvoked();return a;
+        if(a){if(ShouldPersistSpellVisual(s))AOSpellPersistentVisualV130.ApplySpellBuff(npc.gameObject,s.id,Mathf.Max(1f,s.duration));npc.NotifyProvoked();}return a;
     }
 
     bool ApplyToPet(AOSpellDatabaseV120.SpellDef s,AOSummonedPetV129 pet){
         if(pet==null)return false;AOMagicEffectRuntimeV129 e=pet.GetComponent<AOMagicEffectRuntimeV129>();if(e==null)e=pet.gameObject.AddComponent<AOMagicEffectRuntimeV129>();bool a=false;
-        if(s.eotId>0)a=e.ApplyEffect(s.eotId,combat);if(s.speed>0f){e.ApplyTemporarySpeed(s.speed,Mathf.Max(1,s.duration));a=true;}return a;
+        if(s.eotId>0)a=e.ApplyEffect(s.eotId,combat);if(s.speed>0f){e.ApplyTemporarySpeed(s.speed,Mathf.Max(1,s.duration));a=true;}if(a&&ShouldPersistSpellVisual(s))AOSpellPersistentVisualV130.ApplySpellBuff(pet.gameObject,s.id,Mathf.Max(1f,s.duration));return a;
     }
 
     bool ApplyToTerrain(AOSpellDatabaseV120.SpellDef s,int tx,int ty){
@@ -412,15 +470,29 @@ public class AOPlayerMagicV120 : MonoBehaviour
         AOInterfaceV0101.PushMessage(msg);return false;
     }
 
-    void FinishCast(AOSpellDatabaseV120.SpellDef s,Vector3 targetWorld,string targetName){
+    bool CommitCastResources(AOSpellDatabaseV120.SpellDef s)
+    {
+        if(s==null||rpg==null)return false;
         int mana=GetManaCost(s),sta=GetStaminaCost(s);
-        if(!rpg.SpendMagicCost(mana,sta)){AOInterfaceV0101.PushMessage("No se pudo pagar el costo del hechizo.");return;}
-        if(s.requiredHp>0&&combat!=null&&!combat.PayHealthCost(s.requiredHp)){AOInterfaceV0101.PushMessage("No se pudo pagar el costo de vida.");return;}
+        if(!rpg.SpendMagicCost(mana,sta)){AOInterfaceV0101.PushMessage("No se pudo pagar el costo del hechizo.");return false;}
+        if(s.requiredHp>0&&combat!=null&&!combat.PayHealthCost(s.requiredHp)){AOInterfaceV0101.PushMessage("No se pudo pagar el costo de vida.");return false;}
         float global=(AOSpellDatabaseV120.Settings==null?1230:AOSpellDatabaseV120.Settings.castIntervalMs)/1000f;nextGlobalCastAt=Time.time+global;
         float cd=Mathf.Max(0,s.cooldown);if(cd>0f&&HasElvenWood())cd*=.5f;if(cd>0f)spellReadyAt[s.id]=Time.time+cd;
+        return true;
+    }
+
+    void FinishCast(AOSpellDatabaseV120.SpellDef s,Vector3 targetWorld,string targetName){
+        if(!CommitCastResources(s))return;
         if(!string.IsNullOrWhiteSpace(s.magicWords))AOInterfaceV0101.PushMessage(s.magicWords);
         AOInterfaceV0101.PushMessage("Lanzaste "+s.name+(string.IsNullOrEmpty(targetName)?".":" sobre "+targetName+"."));
+        AOCastAnimationRuntimeV268.PlayPlayer(gameObject,s);AOOnlineClientV240.NotifyLocalCast(s.id);
         AOSpellFXV120.Play(s,transform.position,targetWorld);
+    }
+
+
+    bool ShouldPersistSpellVisual(AOSpellDatabaseV120.SpellDef s){
+        if(s==null||s.eotId>0||s.duration<=1||!AOSpellVisualOverridesV130.HasBuffVisual(s.id))return false;
+        return s.raiseAgility!=0||s.raiseStrength!=0||s.raiseCharisma!=0||s.speed>0f||s.invisibility!=0||s.paralyze!=0||s.immobilize!=0||s.poison!=0||s.incinerate!=0||s.blindness!=0||s.dumb!=0||s.curse!=0;
     }
 
     int MagicHealing(int baseAmount){

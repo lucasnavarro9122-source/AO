@@ -326,10 +326,19 @@ public class AODeathRespawnV160 : MonoBehaviour
                   HOME_SECONDS) +
               " s";
 
+        // Anchored to the game viewport so it does not cover the chat.
+        Camera gameCamera =
+            AOActionBarV260.GameCamera;
+
+        Rect view =
+            gameCamera != null
+            ? gameCamera.pixelRect
+            : new Rect(0f, 0f, Screen.width, Screen.height);
+
         GUI.Box(
             new Rect(
-                320f,
-                12f,
+                view.center.x - 180f,
+                Screen.height - view.yMax + 8f,
                 360f,
                 56f),
             "ESPÍRITU\n" +

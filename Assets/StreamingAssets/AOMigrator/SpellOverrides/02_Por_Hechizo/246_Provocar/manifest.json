@@ -1,0 +1,199 @@
+{
+  "spell_id": 246,
+  "name": "Provocar",
+  "fields": {
+    "nombre": "Provocar",
+    "desc": "Provoca a los enemigos cercanos forzandolos a atacarte..",
+    "palabrasmagicas": "",
+    "hechizeromsg": "",
+    "targetmsg": "te ha provocado.",
+    "propiomsg": "Has usado Provocar sobre ti.",
+    "en_name": "Provoke",
+    "en_desc": "Provoke close enemies.",
+    "en_hechizeromsg": "",
+    "en_targetmsg": "has provoked you",
+    "en_propiomsg": "You used Provoke.",
+    "tipo": "2",
+    "wav": "230",
+    "fxgrh": "145",
+    "timeparticula": "40",
+    "manarequerido": "0",
+    "starequerido": "5000",
+    "iconoindex": "74708",
+    "remueveinvisibilidadparcial": "1",
+    "target": "1",
+    "autolanzar": "1",
+    "cooldown": "90",
+    "cdeffectid": "4",
+    "eotid": "5",
+    "isskill": "1",
+    "isbindable": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 246,
+      "kind": "icon",
+      "source_id": 74708,
+      "top_grh": 74708,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74708,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074708__atlas_113__x224_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/01_icon__src74708__topGRH74708__frame001__GRH74708.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 246,
+      "kind": "spell_fx",
+      "source_id": 145,
+      "top_grh": 74683,
+      "detail": "FXgrh FX145->Anim74683",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74659,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074659__atlas_3547__x0_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame001__GRH74659.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 74660,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074660__atlas_3547__x64_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame002__GRH74660.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 74661,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074661__atlas_3547__x128_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame003__GRH74661.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 74662,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074662__atlas_3547__x192_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame004__GRH74662.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 74663,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074663__atlas_3547__x256_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame005__GRH74663.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 74664,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074664__atlas_3547__x320_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame006__GRH74664.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 74665,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074665__atlas_3547__x384_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame007__GRH74665.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 74666,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074666__atlas_3547__x448_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame008__GRH74666.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 74667,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074667__atlas_3547__x512_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame009__GRH74667.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 74668,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074668__atlas_3547__x576_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame010__GRH74668.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 74669,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074669__atlas_3547__x640_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame011__GRH74669.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 74670,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074670__atlas_3547__x704_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame012__GRH74670.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 74671,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074671__atlas_3547__x768_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame013__GRH74671.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 74672,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074672__atlas_3547__x832_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame014__GRH74672.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 74673,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074673__atlas_3547__x896_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame015__GRH74673.png"
+        },
+        {
+          "frame_number": 16,
+          "grh": 74674,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074674__atlas_3547__x960_y128_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/02_spell_fx__src145__topGRH74683__frame016__GRH74674.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 246,
+      "kind": "eot_aura",
+      "source_id": 5,
+      "top_grh": 20054,
+      "detail": "EOT5 Aura=20054:-65536:5:0",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20054,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020054__atlas_3__x0_y352_w96_h96.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/03_eot_aura__src5__topGRH20054__frame001__GRH20054.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 246,
+      "kind": "eot_client_effect",
+      "source_id": 4,
+      "top_grh": 74708,
+      "detail": "EOT5->Effect4",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74708,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074708__atlas_113__x224_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/04_eot_client_effect__src4__topGRH74708__frame001__GRH74708.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 246,
+      "kind": "cooldown_effect",
+      "source_id": 4,
+      "top_grh": 74708,
+      "detail": "cdeffectid->Effect4",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74708,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074708__atlas_113__x224_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/246_Provocar/05_cooldown_effect__src4__topGRH74708__frame001__GRH74708.png"
+        }
+      ]
+    }
+  ]
+}

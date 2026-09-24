@@ -1,0 +1,49 @@
+{
+  "spell_id": 229,
+  "name": "Devorador del Inframundo (NPCs) (Área)",
+  "fields": {
+    "nombre": "Devorador del Inframundo (NPCs) (Área)",
+    "desc": "Causa de 25 a 40 puntos de daño sobre la víctima.",
+    "palabrasmagicas": "IGNÎS XAR",
+    "hechizeromsg": "Has lanzado una llamarada infernal sobre",
+    "targetmsg": "lanzó una llamarada infernal sobre ti.",
+    "propiomsg": "Has lanzado una llamarada infernal sobre ti.",
+    "en_name": "Underworld's Devourer (NPCs) (Area)",
+    "en_desc": "Causes 25 to 40 hit points to the target.",
+    "en_hechizeromsg": "You casted Hellish Blaze on",
+    "en_targetmsg": "has casted Hellish Blaze on you.",
+    "en_propiomsg": "Casted Hellish Blaze on yourself.",
+    "tipo": "5",
+    "target": "4",
+    "wav": "242",
+    "fxgrh": "0",
+    "loops": "0",
+    "subehp": "2",
+    "minhp": "25",
+    "maxhp": "40",
+    "iconoindex": "35696",
+    "minskill": "100",
+    "manarequerido": "1000",
+    "starequerido": "175",
+    "areaafecta": "1",
+    "arearadio": "4",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 229,
+      "kind": "icon",
+      "source_id": 35696,
+      "top_grh": 35696,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35696,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035696__atlas_108__x384_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/229_Devorador_del_Inframundo_NPCs_Area/01_icon__src35696__topGRH35696__frame001__GRH35696.png"
+        }
+      ]
+    }
+  ]
+}

@@ -42,9 +42,21 @@ public class AOCharacterRenderer : MonoBehaviour
     float combatTime;
     float combatDuration = 0.22f;
 
+    // v0.26.8: estado visual independiente para casteo/canalización.
+    bool castingAnimating;
+    bool castingLoop;
+    float castingTime;
+    float castingDuration = 0.42f;
+    float castingFps = 10f;
+    DirectionVisual[] castingDirections;
+    float castingHeadOffsetX;
+    float castingHeadOffsetY;
+    float castingBodyShiftX;
+
     public int Heading => heading;
     public bool Walking => walking;
     public bool CombatAnimating => combatAnimating;
+    public bool CastingAnimating => castingAnimating;
 
     public int CurrentBodyFrameCount =>
         CountFrames(
@@ -141,6 +153,49 @@ public class AOCharacterRenderer : MonoBehaviour
         RefreshSprites();
     }
 
+    public void PlayCastAnimation(
+        DirectionVisual[] overrideDirections,
+        float fps,
+        float duration,
+        float headX = 0f,
+        float headY = 0f,
+        float bodyX = 0f,
+        bool loop = false)
+    {
+        castingDirections = overrideDirections;
+        castingFps = Mathf.Max(1f, fps);
+        castingDuration = Mathf.Max(0.08f, duration);
+        castingLoop = loop;
+        castingTime = 0f;
+        castingHeadOffsetX = headX;
+        castingHeadOffsetY = headY;
+        castingBodyShiftX = bodyX;
+        castingAnimating = true;
+
+        if (castingDirections != null)
+            ApplyCastOffsets();
+
+        RefreshSprites();
+    }
+
+    public void PlayGenericCast(float duration = 0.42f, float fps = 12f)
+    {
+        PlayCastAnimation(null, fps, duration, 0f, 0f, 0f, false);
+    }
+
+    public void StopCastAnimation()
+    {
+        if (!castingAnimating && castingDirections == null)
+            return;
+
+        castingAnimating = false;
+        castingLoop = false;
+        castingTime = 0f;
+        castingDirections = null;
+        ApplyOffsets();
+        RefreshSprites();
+    }
+
     void Awake()
     {
         EnsureRenderers();
@@ -172,6 +227,24 @@ public class AOCharacterRenderer : MonoBehaviour
             {
                 combatAnimating = false;
                 combatTime = 0f;
+            }
+        }
+
+        if (castingAnimating)
+        {
+            castingTime += Time.deltaTime;
+
+            if (!castingLoop &&
+                castingTime >= castingDuration)
+            {
+                castingAnimating = false;
+                castingTime = 0f;
+                castingDirections = null;
+                ApplyOffsets();
+            }
+            else if (castingLoop && castingDuration > 0f)
+            {
+                castingTime = Mathf.Repeat(castingTime, castingDuration);
             }
         }
 
@@ -383,6 +456,37 @@ public class AOCharacterRenderer : MonoBehaviour
             Vector3.zero;
     }
 
+    void ApplyCastOffsets()
+    {
+        EnsureRenderers();
+
+        bodyRenderer.transform.localPosition =
+            new Vector3(castingBodyShiftX, 0f, 0f);
+
+        headRenderer.transform.localPosition =
+            new Vector3(castingHeadOffsetX, castingHeadOffsetY, 0f);
+
+        helmetRenderer.transform.localPosition =
+            new Vector3(castingHeadOffsetX, castingHeadOffsetY, 0f);
+
+        weaponRenderer.transform.localPosition = Vector3.zero;
+        shieldRenderer.transform.localPosition = Vector3.zero;
+    }
+
+    DirectionVisual CurrentCast()
+    {
+        if (castingDirections == null)
+            return null;
+
+        foreach (DirectionVisual d in castingDirections)
+        {
+            if (d != null && d.heading == heading)
+                return d;
+        }
+
+        return null;
+    }
+
     DirectionVisual Current()
     {
         if (directions == null)
@@ -527,6 +631,25 @@ public class AOCharacterRenderer : MonoBehaviour
         if (targetLength <= 1)
             return 0;
 
+        if (castingAnimating)
+        {
+            float castPhase;
+            if (castingLoop)
+            {
+                float cycleFrames = Mathf.Max(1f, targetLength);
+                castPhase = Mathf.Repeat(castingTime * castingFps / cycleFrames, 1f);
+            }
+            else
+            {
+                castPhase = Mathf.Clamp01(castingTime / Mathf.Max(0.01f, castingDuration));
+            }
+
+            return Mathf.Clamp(
+                Mathf.FloorToInt(castPhase * targetLength),
+                0,
+                targetLength - 1);
+        }
+
         if (combatAnimating)
         {
             float attackPhase =
@@ -591,6 +714,20 @@ public class AOCharacterRenderer : MonoBehaviour
 
         if (d == null)
             return;
+
+        if (castingAnimating && castingDirections != null)
+        {
+            DirectionVisual c = CurrentCast();
+            if (c != null)
+            {
+                bodyRenderer.sprite = Pick(c.body);
+                headRenderer.sprite = Pick(c.head);
+                helmetRenderer.sprite = Pick(c.helmet);
+                weaponRenderer.sprite = Pick(c.weapon);
+                shieldRenderer.sprite = Pick(c.shield);
+                return;
+            }
+        }
 
         DirectionVisual e =
             CurrentEquipment();

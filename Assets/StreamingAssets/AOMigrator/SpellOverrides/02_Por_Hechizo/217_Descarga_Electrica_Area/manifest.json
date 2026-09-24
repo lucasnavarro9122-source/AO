@@ -1,0 +1,151 @@
+{
+  "spell_id": 217,
+  "name": "Descarga Eléctrica (Área)",
+  "fields": {
+    "nombre": "Descarga Eléctrica (Área)",
+    "desc": "Causa de 70 a 80 puntos de daño sobre la víctima.",
+    "palabrasmagicas": "T'HY KOOOL",
+    "hechizeromsg": "Has lanzado Descarga Eléctrica sobre",
+    "targetmsg": "lanzó Descarga Eléctrica sobre vos.",
+    "propiomsg": "Has lanzado Descarga Eléctrica sobre ti.",
+    "en_name": "Electric Discharge (Area)",
+    "en_desc": "Causes 70 to 80 hit points to the victim.",
+    "en_hechizeromsg": "You casted Electric Discharge on",
+    "en_targetmsg": "has casted Electric Discharge on you.",
+    "en_propiomsg": "Casted Electric Discharge on yourself.",
+    "tipo": "5",
+    "wav": "520",
+    "fxgrh": "11",
+    "loops": "0",
+    "subehp": "2",
+    "minhp": "70",
+    "maxhp": "80",
+    "minskill": "85",
+    "manarequerido": "460",
+    "starequerido": "100",
+    "iconoindex": "35713",
+    "target": "4",
+    "needstaff": "1",
+    "staffaffected": "1",
+    "areaafecta": "1",
+    "arearadio": "22",
+    "nowiki": "1",
+    "targeteffecttype": "2"
+  },
+  "resources": [
+    {
+      "spell_id": 217,
+      "kind": "icon",
+      "source_id": 35713,
+      "top_grh": 35713,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35713,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035713__atlas_108__x416_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/01_icon__src35713__topGRH35713__frame001__GRH35713.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 217,
+      "kind": "spell_fx",
+      "source_id": 11,
+      "top_grh": 221,
+      "detail": "FXgrh FX11->Anim221",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 206,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000206__atlas_3450__x0_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/02_spell_fx__src11__topGRH221__frame001__GRH206.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 207,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000207__atlas_3450__x128_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/02_spell_fx__src11__topGRH221__frame002__GRH207.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 208,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000208__atlas_3450__x256_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/02_spell_fx__src11__topGRH221__frame003__GRH208.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 209,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000209__atlas_3450__x384_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/02_spell_fx__src11__topGRH221__frame004__GRH209.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 210,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000210__atlas_3450__x0_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/02_spell_fx__src11__topGRH221__frame005__GRH210.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 211,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000211__atlas_3450__x128_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/02_spell_fx__src11__topGRH221__frame006__GRH211.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 212,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000212__atlas_3450__x256_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/02_spell_fx__src11__topGRH221__frame007__GRH212.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 213,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000213__atlas_3450__x384_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/02_spell_fx__src11__topGRH221__frame008__GRH213.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 214,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000214__atlas_3450__x0_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/02_spell_fx__src11__topGRH221__frame009__GRH214.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 215,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000215__atlas_3450__x128_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/02_spell_fx__src11__topGRH221__frame010__GRH215.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 216,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000216__atlas_3450__x256_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/02_spell_fx__src11__topGRH221__frame011__GRH216.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 217,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000217__atlas_3450__x384_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/02_spell_fx__src11__topGRH221__frame012__GRH217.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 218,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000218__atlas_3450__x0_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/02_spell_fx__src11__topGRH221__frame013__GRH218.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 219,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000219__atlas_3450__x128_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/02_spell_fx__src11__topGRH221__frame014__GRH219.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 220,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000220__atlas_3450__x256_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/217_Descarga_Electrica_Area/02_spell_fx__src11__topGRH221__frame015__GRH220.png"
+        }
+      ]
+    }
+  ]
+}

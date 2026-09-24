@@ -43,7 +43,7 @@ public class AOMagicEffectRuntimeV129 : MonoBehaviour
                 Tick(a); if(a.ticksRemaining>0)a.ticksRemaining--; a.nextTickAt=now+Mathf.Max(.04f,a.def.tickTimeMs/1000f);
             }
             if(now>=a.expiresAt || (a.ticksRemaining==0&&NeedsTicks(a.def))){
-                active.RemoveAt(i);changed=true;
+                AOSpellPersistentVisualV130.StopEffect(gameObject,a.id);active.RemoveAt(i);changed=true;
             }
         }
         if(manualSpeedUntil>0f&&now>=manualSpeedUntil){manualSpeedUntil=0f;manualSpeedMultiplier=1f;changed=true;}
@@ -59,13 +59,14 @@ public class AOMagicEffectRuntimeV129 : MonoBehaviour
             ActiveEffect old=active[i]; if(old==null||old.def==null)continue;
             bool same=old.id==id;
             bool sameShared=d.sharedTypeId>0&&old.def.sharedTypeId==d.sharedTypeId&&(d.limit==5||old.def.limit==5);
-            if((same||sameShared)&&d.overrideExisting){active.RemoveAt(i);}
+            if((same||sameShared)&&d.overrideExisting){AOSpellPersistentVisualV130.StopEffect(gameObject,old.id);active.RemoveAt(i);}
             else if((same||sameShared)&&!d.overrideExisting)return false;
         }
         ActiveEffect a=new ActiveEffect{ id=id,def=d,caster=caster,ticksRemaining=d.ticks>0?d.ticks:(NeedsTicks(d)?1:-1) };
         float duration=Mathf.Max(.1f,d.DurationSeconds);
         a.expiresAt=Time.time+duration;a.nextTickAt=Time.time+Mathf.Max(.04f,d.tickTimeMs/1000f);
         active.Add(a);
+        AOSpellPersistentVisualV130.ApplyEffect(gameObject,id,duration);
         if(d.type==15){protection=Mathf.Max(protection,Mathf.Abs(Roll(d.tickPowerMin,d.tickPowerMax)));}
         if(d.type==16&&d.npcId>0&&rpg!=null){
             AOSummonDatabaseV129.SummonDef form=AOSummonDatabaseV129.Get(d.npcId);
@@ -86,6 +87,7 @@ public class AOMagicEffectRuntimeV129 : MonoBehaviour
 
     void Tick(ActiveEffect a){
         var d=a.def;
+        AOSpellPersistentVisualV130.PlayTick(gameObject,a.id);
         if(d.type!=10 &&
            rpg!=null &&
            (d.tickManaConsumption>0 ||
@@ -139,7 +141,7 @@ public class AOMagicEffectRuntimeV129 : MonoBehaviour
         AOMagicEffectRuntimeV129 dst=target.GetComponent<AOMagicEffectRuntimeV129>();
         if(dst==null)dst=target.gameObject.AddComponent<AOMagicEffectRuntimeV129>();
         foreach(ActiveEffect a in active.ToArray()){
-            if(a!=null&&a.def!=null&&a.def.type==8&&a.def.applyEffectId>0)dst.ApplyEffect(a.def.applyEffectId,caster);
+            if(a!=null&&a.def!=null&&a.def.type==8){AOSpellPersistentVisualV130.PlayOnHit(target.gameObject,a.id);if(a.def.applyEffectId>0)dst.ApplyEffect(a.def.applyEffectId,caster);}
         }
     }
 
@@ -148,22 +150,22 @@ public class AOMagicEffectRuntimeV129 : MonoBehaviour
     }
 
     public bool RemoveOneDebuff(){
-        for(int i=0;i<active.Count;i++){ActiveEffect a=active[i];if(a!=null&&a.def!=null&&(a.def.buffType==2||a.def.buffType==4)){active.RemoveAt(i);Recalculate();return true;}}
+        for(int i=0;i<active.Count;i++){ActiveEffect a=active[i];if(a!=null&&a.def!=null&&(a.def.buffType==2||a.def.buffType==4)){AOSpellPersistentVisualV130.StopEffect(gameObject,a.id);active.RemoveAt(i);Recalculate();return true;}}
         return false;
     }
 
     public bool StealOneBuffTo(AOMagicEffectRuntimeV129 receiver,AOPlayerCombatV09 caster){
         if(receiver==null)return false;
-        for(int i=0;i<active.Count;i++){ActiveEffect a=active[i];if(a!=null&&a.def!=null&&(a.def.buffType==1||a.def.buffType==5)){int id=a.id;active.RemoveAt(i);Recalculate();return receiver.ApplyEffect(id,caster);}}
+        for(int i=0;i<active.Count;i++){ActiveEffect a=active[i];if(a!=null&&a.def!=null&&(a.def.buffType==1||a.def.buffType==5)){int id=a.id;AOSpellPersistentVisualV130.StopEffect(gameObject,id);active.RemoveAt(i);Recalculate();return receiver.ApplyEffect(id,caster);}}
         return false;
     }
 
     public void RemoveDebuffs(){
-        for(int i=active.Count-1;i>=0;i--)if(active[i]!=null&&active[i].def!=null&&(active[i].def.buffType==2||active[i].def.buffType==4))active.RemoveAt(i);
+        for(int i=active.Count-1;i>=0;i--)if(active[i]!=null&&active[i].def!=null&&(active[i].def.buffType==2||active[i].def.buffType==4)){AOSpellPersistentVisualV130.StopEffect(gameObject,active[i].id);active.RemoveAt(i);}
         Recalculate();
     }
 
-    public void ClearAll(){active.Clear();protection=0f;Recalculate();}
+    public void ClearAll(){active.Clear();AOSpellPersistentVisualV130.ClearAll(gameObject);protection=0f;Recalculate();}
 
     bool HasProtectionEffect(){foreach(var a in active)if(a!=null&&a.def!=null&&a.def.type==15)return true;return false;}
 

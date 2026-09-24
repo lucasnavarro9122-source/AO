@@ -1,0 +1,61 @@
+{
+  "spell_id": 250,
+  "name": "Danza de Flechas",
+  "fields": {
+    "nombre": "Danza de Flechas",
+    "desc": "Dispara varias flechas en una dirección",
+    "palabrasmagicas": "",
+    "hechizeromsg": "Has lanzado Danza de Flechas",
+    "targetmsg": "",
+    "propiomsg": "Has lanzado Danza de Flechas sobre ti.",
+    "en_name": "Arrow Dance",
+    "en_desc": "Fire multiple arrows to target direction",
+    "en_hechizeromsg": "",
+    "en_targetmsg": "",
+    "en_propiomsg": "",
+    "tipo": "9",
+    "wav": "0",
+    "starequerido": "5000",
+    "iconoindex": "74692",
+    "target": "4",
+    "cdeffectid": "14",
+    "cooldown": "30",
+    "requireweapontype": "3",
+    "targeteffecttype": "2",
+    "isskill": "1",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 250,
+      "kind": "icon",
+      "source_id": 74692,
+      "top_grh": 74692,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74692,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074692__atlas_113__x224_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/250_Danza_de_Flechas/01_icon__src74692__topGRH74692__frame001__GRH74692.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 250,
+      "kind": "cooldown_effect",
+      "source_id": 14,
+      "top_grh": 74692,
+      "detail": "cdeffectid->Effect14",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74692,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074692__atlas_113__x224_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/250_Danza_de_Flechas/02_cooldown_effect__src14__topGRH74692__frame001__GRH74692.png"
+        }
+      ]
+    }
+  ]
+}

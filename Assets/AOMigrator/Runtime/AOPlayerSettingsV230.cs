@@ -10,12 +10,24 @@ public enum AOGameAction
 {
     MoveUp, MoveDown, MoveLeft, MoveRight, Interact,
     Attack, AttackAlternate, PickUp, Inventory, Map,
-    Quests, Character, QuickSave, QuickLoad
+    Quests, Character, QuickSave, QuickLoad,
+    WorldCommand, Stop, Meditate, Spell1, Spell2, Spell3, Spell4,
+    Consumable1, Consumable2, Consumable3, Consumable4
 }
 
-public static class AOPlayerSettingsV230
+public static partial class AOPlayerSettingsV230
 {
-    const string Prefix = "AO.PlayerSettings.v1.";
+    #if UNITY_EDITOR
+    public static string TestPrefixOverride;
+#endif
+    static string Prefix {
+        get {
+#if UNITY_EDITOR
+            if (!string.IsNullOrEmpty(TestPrefixOverride)) return TestPrefixOverride;
+#endif
+            return "AO.PlayerSettings.v1.";
+        }
+    }
     static bool initialized;
     static float effects = 1f;
     static float footsteps = 1f;
@@ -33,7 +45,9 @@ public static class AOPlayerSettingsV230
         KeyCode.W, KeyCode.S, KeyCode.A, KeyCode.D,
         KeyCode.E, KeyCode.LeftControl, KeyCode.Space,
         KeyCode.G, KeyCode.I, KeyCode.M, KeyCode.Q,
-        KeyCode.F9, KeyCode.F1, KeyCode.F3
+        KeyCode.F9, KeyCode.F1, KeyCode.F3,
+        KeyCode.None, KeyCode.X, KeyCode.B, KeyCode.F5, KeyCode.F6, KeyCode.F7, KeyCode.F8,
+        KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4
     };
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
@@ -81,7 +95,7 @@ public static class AOPlayerSettingsV230
         Ensure(); music = value; SaveBool("music", music);
         AOAudioV190.RefreshMusicPreference();
     } }
-    public static bool ArrowMovement { get { Ensure(); return arrowMovement; } set {
+    public static bool ArrowMovement { get { Ensure(); return !IsMoba && arrowMovement; } set {
         Ensure();
         if (value && !CanEnableArrowMovement()) return;
         arrowMovement = value;
@@ -122,85 +136,6 @@ public static class AOPlayerSettingsV230
         PlayerPrefs.Save();
     }
 
-    public static KeyCode Key(AOGameAction action)
-    {
-        Ensure();
-        int index = (int)action;
-        if (index < 0 || index >= defaults.Length) return KeyCode.None;
-        KeyCode result = (KeyCode)PlayerPrefs.GetInt(Prefix + "key." + index,
-            (int)defaults[index]);
-        return ValidKey(result) ? result : defaults[index];
-    }
-
-    public static string KeyName(AOGameAction action)
-    {
-        KeyCode key = Key(action);
-        switch (key)
-        {
-            case KeyCode.LeftControl: return "Ctrl izquierdo";
-            case KeyCode.RightControl: return "Ctrl derecho";
-            case KeyCode.UpArrow: return "Flecha arriba";
-            case KeyCode.DownArrow: return "Flecha abajo";
-            case KeyCode.LeftArrow: return "Flecha izquierda";
-            case KeyCode.RightArrow: return "Flecha derecha";
-            default: return key.ToString().Replace("Alpha", "");
-        }
-    }
-
-    public static bool SetKey(AOGameAction action, KeyCode key, out string error)
-    {
-        Ensure();
-        error = "";
-        if (!ValidKey(key))
-        {
-            error = "Tecla no admitida. Usá letras, números, flechas, Ctrl, Espacio, Tab o F1-F12.";
-            return false;
-        }
-        if (arrowMovement && IsArrow(key) && key != MovementArrow(action))
-        {
-            error = "Desactivá «Flechas alternativas» para usar esa tecla aquí.";
-            return false;
-        }
-        foreach (AOGameAction other in Enum.GetValues(typeof(AOGameAction)))
-            if (other != action && Key(other) == key)
-            {
-                error = "Esa tecla ya está asignada a " + ActionName(other) + ".";
-                return false;
-            }
-        PlayerPrefs.SetInt(Prefix + "key." + (int)action, (int)key);
-        PlayerPrefs.Save();
-        return true;
-    }
-
-    public static void RestoreKeys()
-    {
-        foreach (AOGameAction action in Enum.GetValues(typeof(AOGameAction)))
-            PlayerPrefs.DeleteKey(Prefix + "key." + (int)action);
-        PlayerPrefs.Save();
-    }
-
-    public static string ActionName(AOGameAction action)
-    {
-        switch (action)
-        {
-            case AOGameAction.MoveUp: return "Mover arriba";
-            case AOGameAction.MoveDown: return "Mover abajo";
-            case AOGameAction.MoveLeft: return "Mover izquierda";
-            case AOGameAction.MoveRight: return "Mover derecha";
-            case AOGameAction.Interact: return "Interactuar";
-            case AOGameAction.Attack: return "Atacar";
-            case AOGameAction.AttackAlternate: return "Atacar alternativo";
-            case AOGameAction.PickUp: return "Recoger";
-            case AOGameAction.Inventory: return "Inventario";
-            case AOGameAction.Map: return "Mapa";
-            case AOGameAction.Quests: return "Misiones";
-            case AOGameAction.Character: return "Personaje";
-            case AOGameAction.QuickSave: return "Guardar";
-            case AOGameAction.QuickLoad: return "Cargar";
-            default: return action.ToString();
-        }
-    }
-
     static bool IsArrow(KeyCode key) => key == KeyCode.UpArrow ||
         key == KeyCode.DownArrow || key == KeyCode.LeftArrow ||
         key == KeyCode.RightArrow;
@@ -222,12 +157,15 @@ public static class AOPlayerSettingsV230
         foreach (AOGameAction action in Enum.GetValues(typeof(AOGameAction)))
         {
             KeyCode key = Key(action);
-            if (IsArrow(key) && key != MovementArrow(action)) return false;
+            if (ActionEnabled(action) && IsArrow(key) && key != MovementArrow(action)) return false;
         }
         return true;
     }
 
-    static bool ValidKey(KeyCode key) =>
+    static bool ValidKey(KeyCode key) => key == KeyCode.None ||
+        (key >= KeyCode.Mouse0 && key <= KeyCode.Mouse4) ||
+        key == KeyCode.LeftShift || key == KeyCode.RightShift ||
+        key == KeyCode.LeftAlt || key == KeyCode.RightAlt ||
         (key >= KeyCode.A && key <= KeyCode.Z) ||
         (key >= KeyCode.Alpha0 && key <= KeyCode.Alpha9) ||
         (key >= KeyCode.F1 && key <= KeyCode.F12) ||
@@ -236,6 +174,7 @@ public static class AOPlayerSettingsV230
 
     public static bool Held(AOGameAction action)
     {
+        if (!ActionEnabled(action)) return false;
         if (PhysicalHeld(Key(action))) return true;
         if (!ArrowMovement) return false;
         switch (action)
@@ -248,11 +187,13 @@ public static class AOPlayerSettingsV230
         }
     }
 
-    public static bool Pressed(AOGameAction action) => PhysicalPressed(Key(action));
+    public static bool Pressed(AOGameAction action) => ActionEnabled(action) && PhysicalPressed(Key(action));
 
     static bool PhysicalHeld(KeyCode code)
     {
+        if (code == KeyCode.None) return false;
 #if ENABLE_INPUT_SYSTEM
+        if (code >= KeyCode.Mouse0 && code <= KeyCode.Mouse4) return MouseButton(code)?.isPressed ?? false;
         InputKey key = ToInputKey(code);
         return Keyboard.current != null && key != InputKey.None &&
             Keyboard.current[key].isPressed;
@@ -263,7 +204,9 @@ public static class AOPlayerSettingsV230
 
     static bool PhysicalPressed(KeyCode code)
     {
+        if (code == KeyCode.None) return false;
 #if ENABLE_INPUT_SYSTEM
+        if (code >= KeyCode.Mouse0 && code <= KeyCode.Mouse4) return MouseButton(code)?.wasPressedThisFrame ?? false;
         InputKey key = ToInputKey(code);
         return Keyboard.current != null && key != InputKey.None &&
             Keyboard.current[key].wasPressedThisFrame;
@@ -273,6 +216,18 @@ public static class AOPlayerSettingsV230
     }
 
 #if ENABLE_INPUT_SYSTEM
+    static UnityEngine.InputSystem.Controls.ButtonControl MouseButton(KeyCode code)
+    {
+        var mouse=Mouse.current;if(mouse==null)return null;
+        switch(code) {
+            case KeyCode.Mouse0:return mouse.leftButton;
+            case KeyCode.Mouse1:return mouse.rightButton;
+            case KeyCode.Mouse2:return mouse.middleButton;
+            case KeyCode.Mouse3:return mouse.backButton;
+            case KeyCode.Mouse4:return mouse.forwardButton;
+            default:return null;
+        }
+    }
     static InputKey ToInputKey(KeyCode code)
     {
         if (code >= KeyCode.Alpha0 && code <= KeyCode.Alpha9)

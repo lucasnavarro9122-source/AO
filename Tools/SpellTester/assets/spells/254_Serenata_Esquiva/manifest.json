@@ -1,0 +1,198 @@
+{
+  "spell_id": 254,
+  "name": "Serenata Esquiva",
+  "fields": {
+    "nombre": "Serenata Esquiva",
+    "desc": "Aumenta la evasión al crear un escudo sonoro que ayuda al personaje a esquivar los ataques entrantes con gracia.",
+    "palabrasmagicas": "",
+    "hechizeromsg": "Has iniciado la Serenata Esquiva",
+    "targetmsg": "",
+    "propiomsg": "Has iniciado la Serenata Esquiva.",
+    "en_name": "Evasive Serenade",
+    "en_desc": "Increases evasion by creating a sonorous shield that helps the character dodge incoming attacks with grace.",
+    "en_hechizeromsg": "",
+    "en_targetmsg": "",
+    "en_propiomsg": "",
+    "tipo": "2",
+    "wav": "0",
+    "starequerido": "5000",
+    "iconoindex": "74724",
+    "target": "1",
+    "manarequerido": "50",
+    "autolanzar": "1",
+    "cooldown": "40",
+    "cdeffectid": "22",
+    "eotid": "25",
+    "cancelactiveeffect": "1",
+    "targeteffecttype": "1",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 254,
+      "kind": "icon",
+      "source_id": 74724,
+      "top_grh": 74724,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74724,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074724__atlas_113__x224_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/01_icon__src74724__topGRH74724__frame001__GRH74724.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 254,
+      "kind": "eot_tickfx",
+      "source_id": 148,
+      "top_grh": 31144,
+      "detail": "EOT25 FX148->Anim31144",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 31111,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031111__atlas_3547__x0_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame001__GRH31111.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 31112,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031112__atlas_3547__x64_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame002__GRH31112.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 31113,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031113__atlas_3547__x128_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame003__GRH31113.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 31114,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031114__atlas_3547__x192_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame004__GRH31114.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 31115,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031115__atlas_3547__x256_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame005__GRH31115.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 31116,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031116__atlas_3547__x320_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame006__GRH31116.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 31117,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031117__atlas_3547__x384_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame007__GRH31117.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 31118,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031118__atlas_3547__x448_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame008__GRH31118.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 31119,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031119__atlas_3547__x512_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame009__GRH31119.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 31120,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031120__atlas_3547__x576_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame010__GRH31120.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 31121,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031121__atlas_3547__x640_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame011__GRH31121.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 31122,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031122__atlas_3547__x704_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame012__GRH31122.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 31123,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031123__atlas_3547__x768_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame013__GRH31123.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 31124,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031124__atlas_3547__x832_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame014__GRH31124.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 31125,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031125__atlas_3547__x896_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame015__GRH31125.png"
+        },
+        {
+          "frame_number": 16,
+          "grh": 31126,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031126__atlas_3547__x960_y320_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/02_eot_tickfx__src148__topGRH31144__frame016__GRH31126.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 254,
+      "kind": "eot_client_effect",
+      "source_id": 22,
+      "top_grh": 74724,
+      "detail": "EOT25->Effect22",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74724,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074724__atlas_113__x224_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/03_eot_client_effect__src22__topGRH74724__frame001__GRH74724.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 254,
+      "kind": "eot_client_effect",
+      "source_id": 24,
+      "top_grh": 74720,
+      "detail": "EOT27->Effect24",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74720,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074720__atlas_113__x96_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/04_eot_client_effect__src24__topGRH74720__frame001__GRH74720.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 254,
+      "kind": "cooldown_effect",
+      "source_id": 22,
+      "top_grh": 74724,
+      "detail": "cdeffectid->Effect22",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74724,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074724__atlas_113__x224_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/254_Serenata_Esquiva/05_cooldown_effect__src22__topGRH74724__frame001__GRH74724.png"
+        }
+      ]
+    }
+  ]
+}

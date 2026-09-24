@@ -1,0 +1,153 @@
+{
+  "version": "v269",
+  "source": "Recursos-master uploaded by user",
+  "soundId": 158,
+  "levelTableSource": "Tabla original compatible del server AO20 (2020 a dic-2025, e_Meditaciones), aprobada por Cerebro el 24/09. Detalle: docs/claude/contenido/meditacion_fx_original.md. Igual para ciudadano y criminal (no hay arte criminal publico). Nivel 47+ = levelMaxFx.",
+  "levelMaxFx": 120,
+  "levelTable": [
+    { "minLevel": 1, "maxLevel": 14, "fx": 115, "fxCriminal": 115 },
+    { "minLevel": 15, "maxLevel": 24, "fx": 116, "fxCriminal": 116 },
+    { "minLevel": 25, "maxLevel": 35, "fx": 117, "fxCriminal": 117 },
+    { "minLevel": 36, "maxLevel": 44, "fx": 118, "fxCriminal": 118 },
+    { "minLevel": 45, "maxLevel": 46, "fx": 119, "fxCriminal": 119 }
+  ],
+  "levelTableNoDisponible": {
+    "nota": "NO DISPONIBLE PUBLICAMENTE: Recursos-master/Dat/Meditaciones.dat usa los FX 153-172, que no existen en ninguna version publica (fxs.ind llega a 150). No se usa; queda solo como referencia.",
+    "ciudadano": "1-12:153, 13-17:155, 18-24:157, 25-28:159, 29-32:161, 33-36:163, 37-39:165, 40-42:167, 43-44:169, 45-46:171, Max:120",
+    "criminal": "1-12:154, 13-17:156, 18-24:158, 25-28:160, 29-32:162, 33-36:164, 37-39:166, 40-42:168, 43-44:170, 45-46:172, Max:120"
+  },
+  "entries": [
+    {
+      "fx": 115,
+      "label": "Pequeña violeta",
+      "minLevel": 1,
+      "maxLevel": 14,
+      "durationMs": 555,
+      "pixelsPerUnit": 32,
+      "yOffset": 0.0,
+      "scale": 1.0,
+      "frames": [
+        "fx_115/frame_01.png",
+        "fx_115/frame_02.png",
+        "fx_115/frame_03.png",
+        "fx_115/frame_04.png",
+        "fx_115/frame_05.png",
+        "fx_115/frame_06.png",
+        "fx_115/frame_07.png",
+        "fx_115/frame_08.png",
+        "fx_115/frame_09.png",
+        "fx_115/frame_10.png"
+      ]
+    },
+    {
+      "fx": 116,
+      "label": "Mediana violeta",
+      "minLevel": 15,
+      "maxLevel": 24,
+      "durationMs": 555,
+      "pixelsPerUnit": 32,
+      "yOffset": 0.0,
+      "scale": 1.0,
+      "frames": [
+        "fx_116/frame_01.png",
+        "fx_116/frame_02.png",
+        "fx_116/frame_03.png",
+        "fx_116/frame_04.png",
+        "fx_116/frame_05.png",
+        "fx_116/frame_06.png",
+        "fx_116/frame_07.png",
+        "fx_116/frame_08.png",
+        "fx_116/frame_09.png",
+        "fx_116/frame_10.png"
+      ]
+    },
+    {
+      "fx": 117,
+      "label": "Grande azul",
+      "minLevel": 25,
+      "maxLevel": 35,
+      "durationMs": 555,
+      "pixelsPerUnit": 32,
+      "yOffset": 0.0,
+      "scale": 1.0,
+      "frames": [
+        "fx_117/frame_01.png",
+        "fx_117/frame_02.png",
+        "fx_117/frame_03.png",
+        "fx_117/frame_04.png",
+        "fx_117/frame_05.png",
+        "fx_117/frame_06.png",
+        "fx_117/frame_07.png",
+        "fx_117/frame_08.png",
+        "fx_117/frame_09.png",
+        "fx_117/frame_10.png"
+      ]
+    },
+    {
+      "fx": 118,
+      "label": "XL amarilla",
+      "minLevel": 36,
+      "maxLevel": 44,
+      "durationMs": 555,
+      "pixelsPerUnit": 32,
+      "yOffset": 0.0,
+      "scale": 1.0,
+      "frames": [
+        "fx_118/frame_01.png",
+        "fx_118/frame_02.png",
+        "fx_118/frame_03.png",
+        "fx_118/frame_04.png",
+        "fx_118/frame_05.png",
+        "fx_118/frame_06.png",
+        "fx_118/frame_07.png",
+        "fx_118/frame_08.png",
+        "fx_118/frame_09.png",
+        "fx_118/frame_10.png"
+      ]
+    },
+    {
+      "fx": 119,
+      "label": "XXL amarilla",
+      "minLevel": 45,
+      "maxLevel": 46,
+      "durationMs": 555,
+      "pixelsPerUnit": 32,
+      "yOffset": 0.0,
+      "scale": 1.0,
+      "frames": [
+        "fx_119/frame_01.png",
+        "fx_119/frame_02.png",
+        "fx_119/frame_03.png",
+        "fx_119/frame_04.png",
+        "fx_119/frame_05.png",
+        "fx_119/frame_06.png",
+        "fx_119/frame_07.png",
+        "fx_119/frame_08.png",
+        "fx_119/frame_09.png",
+        "fx_119/frame_10.png"
+      ]
+    },
+    {
+      "fx": 120,
+      "label": "XXL espada gris",
+      "minLevel": 47,
+      "maxLevel": 999,
+      "durationMs": 1111,
+      "pixelsPerUnit": 32,
+      "yOffset": 0.0,
+      "scale": 1.0,
+      "frames": [
+        "fx_120/frame_01.png",
+        "fx_120/frame_02.png",
+        "fx_120/frame_03.png",
+        "fx_120/frame_04.png",
+        "fx_120/frame_05.png",
+        "fx_120/frame_06.png",
+        "fx_120/frame_07.png",
+        "fx_120/frame_08.png",
+        "fx_120/frame_09.png",
+        "fx_120/frame_10.png"
+      ]
+    }
+  ]
+}

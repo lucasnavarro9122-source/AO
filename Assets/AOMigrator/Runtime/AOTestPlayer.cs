@@ -93,6 +93,7 @@ public class AOTestPlayer : MonoBehaviour
 
     void Awake()
     {
+        if (GetComponent<AOActionBarV260>() == null) gameObject.AddComponent<AOActionBarV260>();
         markerRenderer = GetComponent<SpriteRenderer>();
         FindCharacter();
         world = UnityEngine.Object.FindFirstObjectByType<AOWorldManagerV07>();
@@ -143,11 +144,14 @@ public class AOTestPlayer : MonoBehaviour
                 ? 1f
                 : magicEffects.SpeedMultiplier;
 
+            // Normaliza la velocidad: una diagonal recorre sqrt(2) tiles,
+            // por lo que tarda proporcionalmente más que un paso cardinal.
+            float stepDistance = Mathf.Max(1f, Vector3.Distance(moveFrom, moveTo));
             moveTime +=
                 Time.deltaTime /
                 Mathf.Max(
                     0.02f,
-                    moveDuration /
+                    (moveDuration * stepDistance) /
                     Mathf.Max(
                         0.25f,
                         speed));
@@ -167,14 +171,15 @@ public class AOTestPlayer : MonoBehaviour
                 // Si la tecla sigue presionada, encadenamos el siguiente tile
                 // sin detener la animación. Esto replica mejor el flujo de AO,
                 // donde Moving continúa y Body/Weapon/Shield mantienen fase.
-                int chainedHeading =
+                Vector2Int chainedMove =
                     AOInterfaceV0101.InputCaptured
-                    ? 0
-                    : ReadHeading();
+                    ? Vector2Int.zero
+                    : ReadMoveVector();
 
-                if (chainedHeading != 0 &&
-                    TryStep(
-                        chainedHeading,
+                if (chainedMove != Vector2Int.zero &&
+                    TryStepVector(
+                        chainedMove.x,
+                        chainedMove.y,
                         true))
                 {
                     return;
@@ -187,32 +192,60 @@ public class AOTestPlayer : MonoBehaviour
             return;
         }
 
-        int requested = ReadHeading();
+        Vector2Int requested = ReadMoveVector();
 
-        if (requested != 0)
-            TryStep(
-                requested,
+        if (requested != Vector2Int.zero)
+            TryStepVector(
+                requested.x,
+                requested.y,
                 false);
     }
 
-    bool TryStep(
-        int requestedHeading,
+    public bool StepFromControls(int direction)
+    {
+        if (direction == AOGridMap.NORTH) return StepVectorFromControls(0, -1);
+        if (direction == AOGridMap.EAST) return StepVectorFromControls(1, 0);
+        if (direction == AOGridMap.SOUTH) return StepVectorFromControls(0, 1);
+        if (direction == AOGridMap.WEST) return StepVectorFromControls(-1, 0);
+        return false;
+    }
+
+    // Entrada común para mouse/pathfinding y controles de teclado.
+    public bool StepVectorFromControls(int dx, int dy)
+    {
+        if (!enabled || moving || map == null || AOInterfaceV0101.InputCaptured || AOOnlineClientV240.InputBlocked) return false;
+        return TryStepVector(dx, dy, false);
+    }
+
+    public void InteractFromControls() { if (enabled && !AOInterfaceV0101.InputCaptured) Interact(); }
+
+    bool TryStepVector(
+        int dx,
+        int dy,
         bool preserveWalkPhase)
     {
-        heading = requestedHeading;
+        dx = Mathf.Clamp(dx, -1, 1);
+        dy = Mathf.Clamp(dy, -1, 1);
+        if (dx == 0 && dy == 0) return false;
+
+        heading = FacingHeading(dx, dy);
         if (character != null)
             character.SetHeading(heading);
 
-        int nx = tileX;
-        int ny = tileY;
+        int nx = tileX + dx;
+        int ny = tileY + dy;
 
-        if (heading == AOGridMap.NORTH) ny--;
-        else if (heading == AOGridMap.EAST) nx++;
-        else if (heading == AOGridMap.SOUTH) ny++;
-        else if (heading == AOGridMap.WEST) nx--;
+        bool blocked = !map.CanStep(tileX, tileY, nx, ny) ||
+            AOInteractionRegistry.IsBlocked(nx, ny);
 
-        if (!map.CanEnter(nx, ny, heading) ||
-            AOInteractionRegistry.IsBlocked(nx, ny))
+        // Una diagonal tampoco puede pasar entre dos objetos dinámicos.
+        if (!blocked && dx != 0 && dy != 0)
+        {
+            blocked = AOInteractionRegistry.IsBlocked(tileX + dx, tileY) ||
+                AOInteractionRegistry.IsBlocked(tileX, tileY + dy);
+        }
+
+        if (blocked)
         {
             if (character != null &&
                 !preserveWalkPhase)
@@ -240,6 +273,22 @@ public class AOTestPlayer : MonoBehaviour
             world == null ? "" : world.CurrentZone);
 
         return true;
+    }
+
+    int FacingHeading(int dx, int dy)
+    {
+        // Los gráficos actuales son de 4 direcciones. En diagonal mantenemos
+        // la dirección previa si coincide con uno de los dos ejes; si no,
+        // priorizamos norte/sur. El desplazamiento sigue siendo diagonal real.
+        if (dx == 0) return dy > 0 ? AOGridMap.SOUTH : AOGridMap.NORTH;
+        if (dy == 0) return dx > 0 ? AOGridMap.EAST : AOGridMap.WEST;
+
+        if (heading == AOGridMap.EAST && dx > 0) return heading;
+        if (heading == AOGridMap.WEST && dx < 0) return heading;
+        if (heading == AOGridMap.SOUTH && dy > 0) return heading;
+        if (heading == AOGridMap.NORTH && dy < 0) return heading;
+
+        return dy > 0 ? AOGridMap.SOUTH : AOGridMap.NORTH;
     }
 
     void Interact()
@@ -371,17 +420,19 @@ public class AOTestPlayer : MonoBehaviour
             character.UpdateSorting(baseOrder);
     }
 
-    int ReadHeading()
+    Vector2Int ReadMoveVector()
     {
-        if (AOPlayerSettingsV230.Held(AOGameAction.MoveUp))
-            return AOGridMap.NORTH;
-        if (AOPlayerSettingsV230.Held(AOGameAction.MoveRight))
-            return AOGridMap.EAST;
-        if (AOPlayerSettingsV230.Held(AOGameAction.MoveDown))
-            return AOGridMap.SOUTH;
-        if (AOPlayerSettingsV230.Held(AOGameAction.MoveLeft))
-            return AOGridMap.WEST;
-        return 0;
+        int x = 0;
+        int y = 0;
+
+        if (AOPlayerSettingsV230.Held(AOGameAction.MoveLeft)) x--;
+        if (AOPlayerSettingsV230.Held(AOGameAction.MoveRight)) x++;
+        if (AOPlayerSettingsV230.Held(AOGameAction.MoveUp)) y--;
+        if (AOPlayerSettingsV230.Held(AOGameAction.MoveDown)) y++;
+
+        return new Vector2Int(
+            Mathf.Clamp(x, -1, 1),
+            Mathf.Clamp(y, -1, 1));
     }
 
     bool PressedInteract()
@@ -389,6 +440,7 @@ public class AOTestPlayer : MonoBehaviour
         return AOPlayerSettingsV230.Pressed(AOGameAction.Interact);
     }
 
+#if UNITY_EDITOR // debug only: hidden in player builds
     void OnGUI()
     {
         if (AOOnlineClientV240.InputBlocked) return;
@@ -417,4 +469,5 @@ public class AOTestPlayer : MonoBehaviour
                 style);
         }
     }
+#endif
 }

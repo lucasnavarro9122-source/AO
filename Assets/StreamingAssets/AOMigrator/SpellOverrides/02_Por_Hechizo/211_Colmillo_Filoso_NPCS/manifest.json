@@ -1,0 +1,109 @@
+{
+  "spell_id": 211,
+  "name": "Colmillo Filoso (NPCS)",
+  "fields": {
+    "nombre": "Colmillo Filoso (NPCS)",
+    "desc": "Causa 40 a 60 puntos de daño a la víctima.",
+    "palabrasmagicas": "Keskin Dis",
+    "hechizeromsg": "Has lanzado un colmillo filoso sobre",
+    "targetmsg": "te lanzó un colmillo filoso.",
+    "propiomsg": "Has lanzado un colmillo filoso sobre ti.",
+    "en_name": "Sharp Fang (NPCS)",
+    "en_desc": "Causes 40 to 60 hit points to the target.",
+    "en_hechizeromsg": "You casted Sharp Fang on",
+    "en_targetmsg": "has casted Sharp Fang on you.",
+    "en_propiomsg": "Casted Sharp Fang on yourself.",
+    "tipo": "1",
+    "wav": "19",
+    "subehp": "2",
+    "minhp": "35",
+    "maxhp": "45",
+    "fxgrh": "86",
+    "loops": "0",
+    "minskill": "20",
+    "manarequerido": "30",
+    "starequerido": "5",
+    "iconoindex": "35727",
+    "target": "3",
+    "particleviaje": "204",
+    "nowiki": "1",
+    "targeteffecttype": "2"
+  },
+  "resources": [
+    {
+      "spell_id": 211,
+      "kind": "icon",
+      "source_id": 35727,
+      "top_grh": 35727,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35727,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035727__atlas_108__x352_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/211_Colmillo_Filoso_NPCS/01_icon__src35727__topGRH35727__frame001__GRH35727.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 211,
+      "kind": "spell_fx",
+      "source_id": 86,
+      "top_grh": 4832,
+      "detail": "FXgrh FX86->Anim4832",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 4826,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_004826__atlas_1457__x0_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/211_Colmillo_Filoso_NPCS/02_spell_fx__src86__topGRH4832__frame001__GRH4826.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 4827,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_004827__atlas_1457__x32_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/211_Colmillo_Filoso_NPCS/02_spell_fx__src86__topGRH4832__frame002__GRH4827.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 4828,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_004828__atlas_1457__x64_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/211_Colmillo_Filoso_NPCS/02_spell_fx__src86__topGRH4832__frame003__GRH4828.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 4829,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_004829__atlas_1457__x96_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/211_Colmillo_Filoso_NPCS/02_spell_fx__src86__topGRH4832__frame004__GRH4829.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 4830,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_004830__atlas_1457__x128_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/211_Colmillo_Filoso_NPCS/02_spell_fx__src86__topGRH4832__frame005__GRH4830.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 4831,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_004831__atlas_1457__x160_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/211_Colmillo_Filoso_NPCS/02_spell_fx__src86__topGRH4832__frame006__GRH4831.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 211,
+      "kind": "particleviaje",
+      "source_id": 204,
+      "top_grh": 32374,
+      "detail": "particleviaje Particle204 Torch",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32374,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032374__atlas_126__x0_y0_w16_h16.png",
+          "spell_copy": "02_Por_Hechizo/211_Colmillo_Filoso_NPCS/03_particleviaje__src204__topGRH32374__frame001__GRH32374.png"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "spell_id": 202,
+  "name": "Gloria del Bufón",
+  "fields": {
+    "nombre": "Gloria del Bufón",
+    "desc": "Causa 120 a 140 puntos de daño a la víctima.",
+    "palabrasmagicas": "BÜFHËNIÜM",
+    "hechizeromsg": "Has lanzado un gloría del bufón",
+    "targetmsg": "lanzó la gloria del bufón sobre ti.",
+    "en_name": "Jester's Glory",
+    "en_desc": "Causes 120 to 140 hit points to the target.",
+    "en_hechizeromsg": "You casted Jester's Glory on",
+    "en_targetmsg": "has casted Jester's Glory on you",
+    "targeteffecttype": "2",
+    "tipo": "1",
+    "wav": "87",
+    "subehp": "1",
+    "particle": "231",
+    "timeparticula": "30",
+    "minhp": "120",
+    "maxhp": "140",
+    "minskill": "100",
+    "manarequerido": "10",
+    "starequerido": "2",
+    "target": "3",
+    "iconoindex": "35684",
+    "particleviaje": "196",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 202,
+      "kind": "icon",
+      "source_id": 35684,
+      "top_grh": 35684,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35684,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035684__atlas_108__x0_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/202_Gloria_del_Bufon/01_icon__src35684__topGRH35684__frame001__GRH35684.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 202,
+      "kind": "particle",
+      "source_id": 231,
+      "top_grh": 35454,
+      "detail": "particle Particle231 Bufon Real",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35454,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035454__atlas_92__x0_y512_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/202_Gloria_del_Bufon/02_particle__src231__topGRH35454__frame001__GRH35454.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 202,
+      "kind": "particleviaje",
+      "source_id": 196,
+      "top_grh": 19986,
+      "detail": "particleviaje Particle196 Flecha",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 19986,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_019986__atlas_3__x352_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/202_Gloria_del_Bufon/03_particleviaje__src196__topGRH19986__frame001__GRH19986.png"
+        }
+      ]
+    }
+  ]
+}

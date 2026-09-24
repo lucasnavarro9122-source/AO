@@ -1,0 +1,117 @@
+{
+  "version": "0.26.7",
+  "entries": [
+    {
+      "spellId": 1,
+      "name": "Dardo Mágico",
+      "speed": 9.0,
+      "range": 9.0,
+      "hitRadius": 0.38,
+      "visualScale": 1.0
+    },
+    {
+      "spellId": 2,
+      "name": "Flecha Mágica",
+      "speed": 12.0,
+      "range": 11.0,
+      "hitRadius": 0.3,
+      "visualScale": 1.0
+    },
+    {
+      "spellId": 3,
+      "name": "Misil Mágico",
+      "speed": 9.0,
+      "range": 10.0,
+      "hitRadius": 0.4,
+      "visualScale": 1.0
+    },
+    {
+      "spellId": 6,
+      "name": "Petrificar",
+      "speed": 7.5,
+      "range": 8.5,
+      "hitRadius": 0.42,
+      "visualScale": 1.0
+    },
+    {
+      "spellId": 43,
+      "name": "Flecha Eléctrica",
+      "speed": 12.0,
+      "range": 11.0,
+      "hitRadius": 0.32,
+      "visualScale": 1.0
+    },
+    {
+      "spellId": 55,
+      "name": "Lamento de la Banshee",
+      "speed": 8.0,
+      "range": 9.5,
+      "hitRadius": 0.48,
+      "visualScale": 1.0
+    },
+    {
+      "spellId": 201,
+      "name": "Maldición del Bufón",
+      "speed": 8.5,
+      "range": 10.0,
+      "hitRadius": 0.42,
+      "visualScale": 1.0
+    },
+    {
+      "spellId": 202,
+      "name": "Gloria del Bufón",
+      "speed": 8.5,
+      "range": 10.0,
+      "hitRadius": 0.42,
+      "visualScale": 1.0
+    },
+    {
+      "spellId": 204,
+      "name": "Ira de ReyarB",
+      "speed": 9.5,
+      "range": 10.0,
+      "hitRadius": 0.42,
+      "visualScale": 1.0
+    },
+    {
+      "spellId": 205,
+      "name": "Flecha (NPCS)",
+      "speed": 12.0,
+      "range": 11.0,
+      "hitRadius": 0.3,
+      "visualScale": 1.0
+    },
+    {
+      "spellId": 209,
+      "name": "Flecha Scramer (NPCS)",
+      "speed": 12.0,
+      "range": 11.0,
+      "hitRadius": 0.3,
+      "visualScale": 1.0
+    },
+    {
+      "spellId": 211,
+      "name": "Colmillo Filoso (NPCS)",
+      "speed": 11.0,
+      "range": 10.5,
+      "hitRadius": 0.34,
+      "visualScale": 1.0
+    },
+    {
+      "spellId": 267,
+      "name": "Ataque de Veneno (NPCS)",
+      "speed": 10.0,
+      "range": 10.0,
+      "hitRadius": 0.36,
+      "visualScale": 1.0
+    },
+    {
+      "spellId": 291,
+      "name": "Onda Mágica",
+      "speed": 8.5,
+      "range": 9.5,
+      "hitRadius": 0.46,
+      "visualScale": 1.0
+    }
+  ]
+}

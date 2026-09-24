@@ -1,0 +1,63 @@
+{
+  "spell_id": 213,
+  "name": "Muro de Espinas (Área)",
+  "fields": {
+    "nombre": "Muro de Espinas (Área)",
+    "desc": "Impide el movimiento de criaturas o jugadores en aproximadamente cuatro tiles.",
+    "palabrasmagicas": "Yusasro Daementio",
+    "hechizeromsg": "Has lanzado Muro de espinas sobre",
+    "targetmsg": "te ha inmovilizado.",
+    "propiomsg": "Te has inmovilizado.",
+    "en_name": "Wall of Thorns (Area)",
+    "en_desc": "Blocks players and creatures from moving in a four tile area.",
+    "en_hechizeromsg": "You casted Wall of Thorns on",
+    "en_targetmsg": "has immobilized you.",
+    "en_propiomsg": "You are immobilized.",
+    "tipo": "5",
+    "wav": "253",
+    "paraliza": "1",
+    "particle": "92",
+    "timeparticula": "40",
+    "iconoindex": "35717",
+    "minskill": "100",
+    "manarequerido": "1800",
+    "starequerido": "250",
+    "target": "4",
+    "areaafecta": "1",
+    "arearadio": "22",
+    "duration": "15",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 213,
+      "kind": "icon",
+      "source_id": 35717,
+      "top_grh": 35717,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35717,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035717__atlas_108__x32_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/213_Muro_de_Espinas_Area/01_icon__src35717__topGRH35717__frame001__GRH35717.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 213,
+      "kind": "particle",
+      "source_id": 92,
+      "top_grh": 20108,
+      "detail": "particle Particle92 Seismo",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20108,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020108__atlas_8__x128_y352_w160_h64.png",
+          "spell_copy": "02_Por_Hechizo/213_Muro_de_Espinas_Area/02_particle__src92__topGRH20108__frame001__GRH20108.png"
+        }
+      ]
+    }
+  ]
+}

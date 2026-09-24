@@ -1,0 +1,119 @@
+{
+  "spell_id": 204,
+  "name": "Ira de ReyarB",
+  "fields": {
+    "nombre": "Ira de ReyarB",
+    "desc": "Causa muerte inmediata es para GMs.",
+    "palabrasmagicas": "VICHOCHAU",
+    "hechizeromsg": "Has lanzado Ira de ReyarB sobre",
+    "targetmsg": "lanzó Ira de ReyarB sobre vos.",
+    "en_name": "ReyarB's Wrath",
+    "en_desc": "Kills GMs instantly.",
+    "en_hechizeromsg": "You casted ReyarB's Wrath on",
+    "en_targetmsg": "has casted ReyarB's Wrath on you.",
+    "targeteffecttype": "2",
+    "tipo": "1",
+    "wav": "16",
+    "fxgrh": "15",
+    "loops": "0",
+    "subehp": "2",
+    "minhp": "10000",
+    "maxhp": "10000",
+    "minskill": "100",
+    "manarequerido": "0",
+    "starequerido": "2",
+    "target": "3",
+    "iconoindex": "35684",
+    "particleviaje": "186",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 204,
+      "kind": "icon",
+      "source_id": 35684,
+      "top_grh": 35684,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35684,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035684__atlas_108__x0_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/204_Ira_de_ReyarB/01_icon__src35684__topGRH35684__frame001__GRH35684.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 204,
+      "kind": "spell_fx",
+      "source_id": 15,
+      "top_grh": 275,
+      "detail": "FXgrh FX15->Anim275",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 266,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000266__atlas_405__x0_y0_w15_h15.png",
+          "spell_copy": "02_Por_Hechizo/204_Ira_de_ReyarB/02_spell_fx__src15__topGRH275__frame001__GRH266.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 267,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000267__atlas_405__x15_y0_w15_h15.png",
+          "spell_copy": "02_Por_Hechizo/204_Ira_de_ReyarB/02_spell_fx__src15__topGRH275__frame002__GRH267.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 268,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000268__atlas_405__x30_y0_w15_h15.png",
+          "spell_copy": "02_Por_Hechizo/204_Ira_de_ReyarB/02_spell_fx__src15__topGRH275__frame003__GRH268.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 269,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000269__atlas_405__x45_y0_w15_h15.png",
+          "spell_copy": "02_Por_Hechizo/204_Ira_de_ReyarB/02_spell_fx__src15__topGRH275__frame004__GRH269.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 270,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000270__atlas_405__x60_y0_w15_h15.png",
+          "spell_copy": "02_Por_Hechizo/204_Ira_de_ReyarB/02_spell_fx__src15__topGRH275__frame005__GRH270.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 271,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000271__atlas_405__x75_y0_w15_h15.png",
+          "spell_copy": "02_Por_Hechizo/204_Ira_de_ReyarB/02_spell_fx__src15__topGRH275__frame006__GRH271.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 272,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000272__atlas_405__x90_y0_w15_h15.png",
+          "spell_copy": "02_Por_Hechizo/204_Ira_de_ReyarB/02_spell_fx__src15__topGRH275__frame007__GRH272.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 273,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000273__atlas_405__x105_y0_w15_h15.png",
+          "spell_copy": "02_Por_Hechizo/204_Ira_de_ReyarB/02_spell_fx__src15__topGRH275__frame008__GRH273.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 204,
+      "kind": "particleviaje",
+      "source_id": 186,
+      "top_grh": 19986,
+      "detail": "particleviaje Particle186 Misil Magico Viaje",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 19986,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_019986__atlas_3__x352_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/204_Ira_de_ReyarB/03_particleviaje__src186__topGRH19986__frame001__GRH19986.png"
+        }
+      ]
+    }
+  ]
+}

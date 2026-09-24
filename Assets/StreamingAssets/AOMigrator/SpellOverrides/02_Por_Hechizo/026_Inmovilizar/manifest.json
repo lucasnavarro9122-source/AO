@@ -1,0 +1,145 @@
+{
+  "spell_id": 26,
+  "name": "Inmovilizar",
+  "fields": {
+    "nombre": "Inmovilizar",
+    "desc": "Impide que la víctima se mueva durante un periodo de tiempo menor que Paralizar.",
+    "palabrasmagicas": "Är Prop s'uo",
+    "hechizeromsg": "Has inmovilizado a",
+    "targetmsg": "te ha inmovilizado.",
+    "propiomsg": "Te has inmovilizado.",
+    "en_name": "Immobilize",
+    "en_desc": "Prevents the victim from moving for a shorter time than Paralyze.",
+    "en_hechizeromsg": "You immobilized",
+    "en_targetmsg": "You have been immobilized by",
+    "en_propiomsg": "You are immobilized.",
+    "targeteffecttype": "2",
+    "tipo": "2",
+    "wav": "16",
+    "fxgrh": "12",
+    "loops": "0",
+    "inmoviliza": "1",
+    "iconoindex": "32417",
+    "duration": "20",
+    "minskill": "60",
+    "manarequerido": "300",
+    "starequerido": "45",
+    "target": "3"
+  },
+  "resources": [
+    {
+      "spell_id": 26,
+      "kind": "icon",
+      "source_id": 32417,
+      "top_grh": 32417,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32417,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032417__atlas_107__x288_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/01_icon__src32417__topGRH32417__frame001__GRH32417.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 26,
+      "kind": "spell_fx",
+      "source_id": 12,
+      "top_grh": 237,
+      "detail": "FXgrh FX12->Anim237",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 222,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000222__atlas_3449__x0_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/02_spell_fx__src12__topGRH237__frame001__GRH222.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 223,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000223__atlas_3449__x128_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/02_spell_fx__src12__topGRH237__frame002__GRH223.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 224,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000224__atlas_3449__x256_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/02_spell_fx__src12__topGRH237__frame003__GRH224.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 225,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000225__atlas_3449__x384_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/02_spell_fx__src12__topGRH237__frame004__GRH225.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 226,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000226__atlas_3449__x0_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/02_spell_fx__src12__topGRH237__frame005__GRH226.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 227,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000227__atlas_3449__x128_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/02_spell_fx__src12__topGRH237__frame006__GRH227.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 228,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000228__atlas_3449__x256_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/02_spell_fx__src12__topGRH237__frame007__GRH228.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 229,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000229__atlas_3449__x384_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/02_spell_fx__src12__topGRH237__frame008__GRH229.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 230,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000230__atlas_3449__x0_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/02_spell_fx__src12__topGRH237__frame009__GRH230.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 231,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000231__atlas_3449__x128_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/02_spell_fx__src12__topGRH237__frame010__GRH231.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 232,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000232__atlas_3449__x256_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/02_spell_fx__src12__topGRH237__frame011__GRH232.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 233,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000233__atlas_3449__x384_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/02_spell_fx__src12__topGRH237__frame012__GRH233.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 234,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000234__atlas_3449__x0_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/02_spell_fx__src12__topGRH237__frame013__GRH234.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 235,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000235__atlas_3449__x128_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/02_spell_fx__src12__topGRH237__frame014__GRH235.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 236,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000236__atlas_3449__x256_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/026_Inmovilizar/02_spell_fx__src12__topGRH237__frame015__GRH236.png"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "spell_id": 274,
+  "name": "Afilar",
+  "fields": {
+    "nombre": "Afilar",
+    "desc": "Aumenta el filo de tu arma",
+    "palabrasmagicas": "",
+    "hechizeromsg": "",
+    "targetmsg": "",
+    "propiomsg": "",
+    "tipo": "2",
+    "autolanzar": "1",
+    "wav": "0",
+    "fxgrh": "0",
+    "starequerido": "5000",
+    "timeparticula": "0",
+    "iconoindex": "74718",
+    "target": "1",
+    "cooldown": "5",
+    "cdeffectid": "39",
+    "eotid": "49",
+    "isskill": "1",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 274,
+      "kind": "icon",
+      "source_id": 74718,
+      "top_grh": 74718,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74718,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074718__atlas_113__x32_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/274_Afilar/01_icon__src74718__topGRH74718__frame001__GRH74718.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 274,
+      "kind": "eot_client_effect",
+      "source_id": 39,
+      "top_grh": 74718,
+      "detail": "EOT49->Effect39",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74718,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074718__atlas_113__x32_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/274_Afilar/02_eot_client_effect__src39__topGRH74718__frame001__GRH74718.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 274,
+      "kind": "cooldown_effect",
+      "source_id": 39,
+      "top_grh": 74718,
+      "detail": "cdeffectid->Effect39",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74718,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074718__atlas_113__x32_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/274_Afilar/03_cooldown_effect__src39__topGRH74718__frame001__GRH74718.png"
+        }
+      ]
+    }
+  ]
+}

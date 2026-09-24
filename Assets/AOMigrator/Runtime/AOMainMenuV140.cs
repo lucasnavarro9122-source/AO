@@ -631,9 +631,10 @@ public class AOMainMenuV140 : MonoBehaviour
         Time.timeScale = 1f;
 
         AOOnlineClientV240.StartSession();
+        AOAudioV190.RefreshMusicPreference();
 
         AOInterfaceV0101.PushMessage(
-            "Bienvenido. F1 guardar | F3 cargar | Q misiones");
+            "Bienvenido. " + AOPlayerSettingsV230.KeyName(AOGameAction.Quests) + " misiones | Ajustes > Controles: AO / MOBA");
     }
 
     void OnDisable()

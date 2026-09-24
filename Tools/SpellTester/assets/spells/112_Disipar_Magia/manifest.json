@@ -1,0 +1,105 @@
+{
+  "spell_id": 112,
+  "name": "Disipar Magia",
+  "fields": {
+    "nombre": "Disipar Magia",
+    "desc": "Cura los estados de daño negativo del objetivo.",
+    "palabrasmagicas": "Protego",
+    "hechizeromsg": "Has disipado la magia en",
+    "targetmsg": "te ha sanado, ahora te sientes mejor.",
+    "propiomsg": "Te has sanado y te sientes mejor.",
+    "en_name": "Dispel Magic",
+    "en_desc": "Removes harmful status effects from the target.",
+    "en_hechizeromsg": "You dispelled magic on",
+    "en_targetmsg": "has healed you and you feel better.",
+    "en_propiomsg": "You've been healed and you feel better.",
+    "tipo": "8",
+    "wav": "239",
+    "particle": "49",
+    "timeparticula": "1",
+    "sanacion": "1",
+    "minskill": "100",
+    "manarequerido": "750",
+    "starequerido": "250",
+    "iconoindex": "35731",
+    "target": "1",
+    "targeteffecttype": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 112,
+      "kind": "icon",
+      "source_id": 35731,
+      "top_grh": 35731,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35731,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035731__atlas_108__x480_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/112_Disipar_Magia/01_icon__src35731__topGRH35731__frame001__GRH35731.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 112,
+      "kind": "particle",
+      "source_id": 49,
+      "top_grh": 20038,
+      "detail": "particle Particle49 sim_explight",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20038,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020038__atlas_3__x160_y160_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/112_Disipar_Magia/02_particle__src49__topGRH20038__frame001__GRH20038.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 112,
+      "kind": "particle",
+      "source_id": 49,
+      "top_grh": 20039,
+      "detail": "particle Particle49 sim_explight",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20039,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020039__atlas_3__x224_y160_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/112_Disipar_Magia/03_particle__src49__topGRH20039__frame001__GRH20039.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 112,
+      "kind": "particle",
+      "source_id": 49,
+      "top_grh": 20040,
+      "detail": "particle Particle49 sim_explight",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20040,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020040__atlas_3__x288_y160_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/112_Disipar_Magia/04_particle__src49__topGRH20040__frame001__GRH20040.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 112,
+      "kind": "particle",
+      "source_id": 49,
+      "top_grh": 20041,
+      "detail": "particle Particle49 sim_explight",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20041,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020041__atlas_3__x352_y160_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/112_Disipar_Magia/05_particle__src49__topGRH20041__frame001__GRH20041.png"
+        }
+      ]
+    }
+  ]
+}

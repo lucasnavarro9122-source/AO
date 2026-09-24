@@ -1,0 +1,88 @@
+{
+  "spell_id": 281,
+  "name": "Veneno 1",
+  "fields": {
+    "nombre": "Veneno 1",
+    "desc": "Aplica veneno en el arma, al golper un enemigo aplica veneno en cada golpe",
+    "palabrasmagicas": "",
+    "hechizeromsg": "",
+    "targetmsg": "",
+    "propiomsg": "",
+    "tipo": "2",
+    "autolanzar": "1",
+    "wav": "0",
+    "fxgrh": "0",
+    "starequerido": "5000",
+    "timeparticula": "0",
+    "iconoindex": "49017",
+    "target": "1",
+    "cooldown": "10",
+    "cdeffectid": "7",
+    "eotid": "45",
+    "isskill": "1",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 281,
+      "kind": "icon",
+      "source_id": 49017,
+      "top_grh": 49017,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 49017,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_049017__atlas_104__x64_y288_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/281_Veneno_1/01_icon__src49017__topGRH49017__frame001__GRH49017.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 281,
+      "kind": "eot_client_effect",
+      "source_id": 7,
+      "top_grh": 74690,
+      "detail": "EOT45->Effect7",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74690,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074690__atlas_113__x160_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/281_Veneno_1/02_eot_client_effect__src7__topGRH74690__frame001__GRH74690.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 281,
+      "kind": "eot_client_effect",
+      "source_id": 9,
+      "top_grh": 74689,
+      "detail": "EOT41->Effect9",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74689,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074689__atlas_113__x128_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/281_Veneno_1/03_eot_client_effect__src9__topGRH74689__frame001__GRH74689.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 281,
+      "kind": "cooldown_effect",
+      "source_id": 7,
+      "top_grh": 74690,
+      "detail": "cdeffectid->Effect7",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74690,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074690__atlas_113__x160_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/281_Veneno_1/04_cooldown_effect__src7__topGRH74690__frame001__GRH74690.png"
+        }
+      ]
+    }
+  ]
+}

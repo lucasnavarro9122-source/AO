@@ -1,0 +1,1148 @@
+{
+  "version": "0.13.1",
+  "spells": [
+    {
+      "spellId": 1,
+      "name": "Dardo Mágico",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particleviaje",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 2,
+      "name": "Flecha Mágica",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particleviaje",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 3,
+      "name": "Misil Mágico",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particleviaje",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 4,
+      "name": "Aliento de Dragón",
+      "eotId": 0,
+      "resourceKinds": [
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 5,
+      "name": "Aturdición",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 6,
+      "name": "Petrificar",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle",
+        "particleviaje"
+      ]
+    },
+    {
+      "spellId": 11,
+      "name": "Curar veneno",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 12,
+      "name": "Curar heridas leves",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 13,
+      "name": "Curar heridas graves",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 14,
+      "name": "Resucitar",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 15,
+      "name": "Detectar Invisibilidad",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 21,
+      "name": "Celeridad",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 22,
+      "name": "Fuerza",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 23,
+      "name": "Partitura de la Armonía",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 24,
+      "name": "Invisibilidad",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 25,
+      "name": "Paralizar",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 26,
+      "name": "Inmovilizar",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 27,
+      "name": "Remover Parálisis",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 32,
+      "name": "Incinerar",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 41,
+      "name": "Tormenta de Fuego",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 42,
+      "name": "Partículas Tóxicas",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 43,
+      "name": "Flecha Eléctrica",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particleviaje",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 44,
+      "name": "Materializar: Bebida",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 45,
+      "name": "Materializar: Comida",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 46,
+      "name": "Portal Planar",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 51,
+      "name": "Descarga Eléctrica",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 52,
+      "name": "Ráfaga Ígnea",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 53,
+      "name": "Apocalipsis",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 54,
+      "name": "Implosión",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle",
+        "spell_fx_direct_grh_fallback"
+      ]
+    },
+    {
+      "spellId": 55,
+      "name": "Lamento de la Banshee",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle",
+        "particleviaje"
+      ]
+    },
+    {
+      "spellId": 56,
+      "name": "Juicio Final",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 57,
+      "name": "Ralentizar",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 58,
+      "name": "TESTEO GRHS",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 100,
+      "name": "Maldición de Kraken",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 101,
+      "name": "Heroísmo",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 111,
+      "name": "Muro de Espinas",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 112,
+      "name": "Disipar Magia",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 113,
+      "name": "Rafaga de Espinas",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 121,
+      "name": "Partitura Maldita",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 122,
+      "name": "Palabra Mortal",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 131,
+      "name": "Destierro",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 132,
+      "name": "Oración Divina",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 133,
+      "name": "Plegaria",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 141,
+      "name": "Vacío Abisal",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 142,
+      "name": "Puntazo Incapacitador",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 151,
+      "name": "Grito Sanador",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 152,
+      "name": "Frenesí Berserker",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 154,
+      "name": "Invisibilidad",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 201,
+      "name": "Maldición del Bufón",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle",
+        "particleviaje"
+      ]
+    },
+    {
+      "spellId": 202,
+      "name": "Gloria del Bufón",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle",
+        "particleviaje"
+      ]
+    },
+    {
+      "spellId": 203,
+      "name": "Remover Parálisis (NPCS)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 204,
+      "name": "Ira de ReyarB",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particleviaje",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 205,
+      "name": "Flecha (NPCS)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particleviaje",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 206,
+      "name": "Incinerar (NPCS)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 207,
+      "name": "Apocalipsis (NPCS)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 208,
+      "name": "Partículas Tóxicas (NPCS)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 209,
+      "name": "Flecha Scramer (NPCS)",
+      "eotId": 13,
+      "resourceKinds": [
+        "eot_client_effect",
+        "icon",
+        "particleviaje",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 210,
+      "name": "Colmillo Venenoso (NPCS)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 211,
+      "name": "Colmillo Filoso (NPCS)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particleviaje",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 213,
+      "name": "Muro de Espinas (Área)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 214,
+      "name": "Apocalipsis (Área)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 215,
+      "name": "Aliento de Dragón (Área)",
+      "eotId": 0,
+      "resourceKinds": [
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 216,
+      "name": "Incinerar (Área)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 217,
+      "name": "Descarga Eléctrica (Área)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 218,
+      "name": "Partitura Maldita (Area)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 219,
+      "name": "Destierro (Área)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 220,
+      "name": "Partitura Maldita (Area)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 221,
+      "name": "Ira de Chicken (AreaGMs)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 229,
+      "name": "Devorador del Inframundo (NPCs) (Área)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 231,
+      "name": "Explosión de Fuego (ÁREA) (NPCs)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 234,
+      "name": "Lluvia de flechas de Arquero Capturado (NPCS)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 236,
+      "name": "Implosión (NPCs)",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle",
+        "spell_fx_direct_grh_fallback"
+      ]
+    },
+    {
+      "spellId": 237,
+      "name": "Grito de Guerra",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particle"
+      ]
+    },
+    {
+      "spellId": 242,
+      "name": "Restauración 3",
+      "eotId": 1,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "eot_tickfx",
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 243,
+      "name": "Putrefacción",
+      "eotId": 2,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 244,
+      "name": "Falange",
+      "eotId": 3,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "eot_onhitfx",
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 245,
+      "name": "Corte Extendido",
+      "eotId": 0,
+      "resourceKinds": [
+        "cooldown_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 246,
+      "name": "Provocar",
+      "eotId": 5,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_aura",
+        "eot_client_effect",
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 248,
+      "name": "Flecha Cargada",
+      "eotId": 11,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 249,
+      "name": "Aullido Ensordecedor (NPCS)",
+      "eotId": 0,
+      "resourceKinds": [
+        "cooldown_effect",
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 250,
+      "name": "Danza de Flechas",
+      "eotId": 0,
+      "resourceKinds": [
+        "cooldown_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 251,
+      "name": "Partitura de Regeneración",
+      "eotId": 18,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "eot_tickfx",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 252,
+      "name": "Eco Veloz",
+      "eotId": 21,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "eot_tickfx",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 253,
+      "name": "Golpes Rápidos",
+      "eotId": 24,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 254,
+      "name": "Serenata Esquiva",
+      "eotId": 25,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "eot_tickfx",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 255,
+      "name": "Precisión Armónica",
+      "eotId": 26,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "eot_tickfx",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 256,
+      "name": "Cañonazo",
+      "eotId": 20,
+      "resourceKinds": [
+        "eot_client_effect",
+        "eot_onhitfx",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 257,
+      "name": "Protección Divina 3",
+      "eotId": 29,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 258,
+      "name": "Forma de Lobo",
+      "eotId": 30,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 259,
+      "name": "Forma de Oso",
+      "eotId": 31,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 260,
+      "name": "Penitencia",
+      "eotId": 32,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 261,
+      "name": "Recrecimiento",
+      "eotId": 33,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 262,
+      "name": "Forma de Espíritu del Bosque",
+      "eotId": 34,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 263,
+      "name": "Bendición",
+      "eotId": 0,
+      "resourceKinds": [
+        "cooldown_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 264,
+      "name": "Robar Magia",
+      "eotId": 0,
+      "resourceKinds": [
+        "cooldown_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 265,
+      "name": "Desplazamiento Veloz",
+      "eotId": 35,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 266,
+      "name": "Desgarro",
+      "eotId": 36,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 267,
+      "name": "Ataque de Veneno (NPCS)",
+      "eotId": 38,
+      "resourceKinds": [
+        "eot_client_effect",
+        "icon",
+        "particleviaje",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 268,
+      "name": "Restauración 1",
+      "eotId": 39,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "eot_tickfx",
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 269,
+      "name": "Restauración 2",
+      "eotId": 40,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "eot_tickfx",
+        "icon",
+        "spell_fx"
+      ]
+    },
+    {
+      "spellId": 270,
+      "name": "Protección Divina 1",
+      "eotId": 43,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 271,
+      "name": "Protección Divina 2",
+      "eotId": 44,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 272,
+      "name": "Acelerar Mascotas",
+      "eotId": 35,
+      "resourceKinds": [
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 273,
+      "name": "Mejorar Ataque de Mascotas",
+      "eotId": 48,
+      "resourceKinds": [
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 274,
+      "name": "Afilar",
+      "eotId": 49,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 275,
+      "name": "Afilar Avanzado",
+      "eotId": 50,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 276,
+      "name": "Afilar Superior",
+      "eotId": 51,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 277,
+      "name": "Refuerzo",
+      "eotId": 52,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 278,
+      "name": "Refuerzo Avanzado",
+      "eotId": 53,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 279,
+      "name": "Refuerzo Superior",
+      "eotId": 54,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 280,
+      "name": "Protección de Tute",
+      "eotId": 55,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 281,
+      "name": "Veneno 1",
+      "eotId": 45,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 282,
+      "name": "Veneno 2",
+      "eotId": 46,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 283,
+      "name": "Veneno 3",
+      "eotId": 14,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 284,
+      "name": "Veneno de mana",
+      "eotId": 16,
+      "resourceKinds": [
+        "cooldown_effect",
+        "eot_client_effect",
+        "icon"
+      ]
+    },
+    {
+      "spellId": 285,
+      "name": "Receta Poción de Vida",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 286,
+      "name": "Receta Poción de Maná",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 287,
+      "name": "Receta Poción de Fuerza",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 288,
+      "name": "Receta Poción de Agilidad",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 289,
+      "name": "Receta Poción de Energia",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 290,
+      "name": "Receta Poción de Veneno",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon"
+      ]
+    },
+    {
+      "spellId": 291,
+      "name": "Onda Mágica",
+      "eotId": 0,
+      "resourceKinds": [
+        "icon",
+        "particleviaje",
+        "spell_fx"
+      ]
+    }
+  ]
+}

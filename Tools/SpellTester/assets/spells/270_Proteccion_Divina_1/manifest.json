@@ -1,0 +1,74 @@
+{
+  "spell_id": 270,
+  "name": "Protección Divina 1",
+  "fields": {
+    "nombre": "Protección Divina 1",
+    "desc": "Crea un escudo que previene el daño recibido",
+    "palabrasmagicas": "TOLLI AH TEYO",
+    "hechizeromsg": "Has tirado protección a",
+    "targetmsg": "te ha tirado protección.",
+    "propiomsg": "Te has tirado protección.",
+    "targeteffecttype": "1",
+    "tipo": "2",
+    "wav": "1111",
+    "fxgrh": "0",
+    "timeparticula": "0",
+    "iconoindex": "74696",
+    "target": "3",
+    "manarequerido": "250",
+    "starequerido": "5000",
+    "cooldown": "30",
+    "cdeffectid": "26",
+    "minskill": "55",
+    "eotid": "43",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 270,
+      "kind": "icon",
+      "source_id": 74696,
+      "top_grh": 74696,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74696,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074696__atlas_113__x352_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/270_Proteccion_Divina_1/01_icon__src74696__topGRH74696__frame001__GRH74696.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 270,
+      "kind": "eot_client_effect",
+      "source_id": 26,
+      "top_grh": 74696,
+      "detail": "EOT43->Effect26",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74696,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074696__atlas_113__x352_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/270_Proteccion_Divina_1/02_eot_client_effect__src26__topGRH74696__frame001__GRH74696.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 270,
+      "kind": "cooldown_effect",
+      "source_id": 26,
+      "top_grh": 74696,
+      "detail": "cdeffectid->Effect26",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74696,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074696__atlas_113__x352_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/270_Proteccion_Divina_1/03_cooldown_effect__src26__topGRH74696__frame001__GRH74696.png"
+        }
+      ]
+    }
+  ]
+}

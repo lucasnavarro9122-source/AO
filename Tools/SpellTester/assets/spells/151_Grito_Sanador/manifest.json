@@ -1,0 +1,63 @@
+{
+  "spell_id": 151,
+  "name": "Grito Sanador",
+  "fields": {
+    "nombre": "Grito Sanador",
+    "desc": "Cura el envenenamiento del usuario.",
+    "palabrasmagicas": "AGHH c'ORp!",
+    "hechizeromsg": "Has curado a",
+    "targetmsg": "te ha curado del envenenamiento.",
+    "propiomsg": "Te has curado del envenenamiento.",
+    "en_name": "Healing Scream",
+    "en_desc": "Cures the target from poison",
+    "en_hechizeromsg": "You have cured",
+    "en_targetmsg": "has cured your poison",
+    "en_propiomsg": "You are cured from poison.",
+    "requiredhp": "50",
+    "tipo": "2",
+    "wav": "239",
+    "particle": "75",
+    "timeparticula": "20",
+    "curaveneno": "1",
+    "minskill": "100",
+    "manarequerido": "0",
+    "starequerido": "50",
+    "iconoindex": "35731",
+    "target": "1",
+    "autolanzar": "1",
+    "nowiki": "1",
+    "targeteffecttype": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 151,
+      "kind": "icon",
+      "source_id": 35731,
+      "top_grh": 35731,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35731,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035731__atlas_108__x480_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/151_Grito_Sanador/01_icon__src35731__topGRH35731__frame001__GRH35731.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 151,
+      "kind": "particle",
+      "source_id": 75,
+      "top_grh": 20017,
+      "detail": "particle Particle75 Joanna",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20017,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020017__atlas_3__x288_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/151_Grito_Sanador/02_particle__src75__topGRH20017__frame001__GRH20017.png"
+        }
+      ]
+    }
+  ]
+}

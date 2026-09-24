@@ -1,0 +1,80 @@
+{
+  "spell_id": 132,
+  "name": "Oración Divina",
+  "fields": {
+    "nombre": "Oración Divina",
+    "desc": "Cura 60 a 85 puntos de vida y elimina efectos negativos del objetivo.",
+    "palabrasmagicas": "San'TDivI´N",
+    "hechizeromsg": "Has lanzado Oración Divina sobre",
+    "targetmsg": "lanzó Oración Divina sobre vos.",
+    "propiomsg": "Has lanzado Oración Divina sobre ti.",
+    "en_name": "Divine Prayer",
+    "en_desc": "Restores 60 to 85 health points and removes debuffs from the target",
+    "en_hechizeromsg": "You casted Divine Prayer on",
+    "en_targetmsg": "Casted Divine Prayer on you",
+    "en_propiomsg": "You casted Divine Prayer on yourself",
+    "tipo": "8",
+    "wav": "256",
+    "particle": "124",
+    "timeparticula": "25",
+    "subehp": "1",
+    "minhp": "60",
+    "maxhp": "85",
+    "minskill": "100",
+    "sanacion": "1",
+    "manarequerido": "1000",
+    "starequerido": "250",
+    "iconoindex": "32446",
+    "removerparalisis": "1",
+    "target": "1",
+    "targeteffecttype": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 132,
+      "kind": "icon",
+      "source_id": 32446,
+      "top_grh": 32446,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32446,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032446__atlas_107__x64_y96_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/132_Oracion_Divina/01_icon__src32446__topGRH32446__frame001__GRH32446.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 132,
+      "kind": "particle",
+      "source_id": 124,
+      "top_grh": 20027,
+      "detail": "particle Particle124 Pregonar",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20027,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020027__atlas_3__x96_y96_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/132_Oracion_Divina/02_particle__src124__topGRH20027__frame001__GRH20027.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 132,
+      "kind": "particle",
+      "source_id": 124,
+      "top_grh": 20026,
+      "detail": "particle Particle124 Pregonar",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20026,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020026__atlas_3__x64_y96_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/132_Oracion_Divina/03_particle__src124__topGRH20026__frame001__GRH20026.png"
+        }
+      ]
+    }
+  ]
+}

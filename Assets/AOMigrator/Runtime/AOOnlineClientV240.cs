@@ -21,6 +21,8 @@ public class AOOnlineClientV240 : MonoBehaviour
         public string appearance, speech;
         public float speechUntil;
         public Vector3 target;
+        public AOMeditationVisualV269 meditation;
+        public int meditationFx, castSeq = -1;
     }
     static AOOnlineClientV240 instance;
     static bool protectUntilRestored;
@@ -49,6 +51,9 @@ public class AOOnlineClientV240 : MonoBehaviour
     TcpClient socket;
     NetworkStream stream;
     AOTestPlayer player;
+    AOActionBarV260 actionBar;
+    int castSeq, castSpell;
+    static int pendingFlightMs, pendingFlightFrame = -1;
     AOWorldManagerV07 world;
     AOSaveGameV140 save;
     Camera gameCamera;
@@ -139,14 +144,24 @@ public class AOOnlineClientV240 : MonoBehaviour
     {
         if (!SupportsNpcSpell(spell)) return false;
         var tile = npc.GetComponent<AONPCMovementV08>();
-        return tile != null && Request(new AOCoopMessage { type = "cast", spell = spell, target = npc.NetworkId, x = tile.TileX, y = tile.TileY });
+        return tile != null && Request(new AOCoopMessage { type = "cast", spell = spell, target = npc.NetworkId, x = tile.TileX, y = tile.TileY, amount = TakeSkillShotFlightMs() });
     }
+    // Call right before the skill shot hit is applied, so the server counts the cooldown from the launch.
+    public static void SetSkillShotFlight(float seconds) { pendingFlightMs = Mathf.Clamp(Mathf.RoundToInt(seconds * 1000f), 0, 1500); pendingFlightFrame = Time.frameCount; }
+    static int TakeSkillShotFlightMs() { int ms = pendingFlightFrame == Time.frameCount ? pendingFlightMs : 0; pendingFlightMs = 0; pendingFlightFrame = -1; return ms; }
+    // Local cast animation, shown to the rest of the room via the next position update.
+    public static void NotifyLocalCast(int spell) { if (!Connected) return; instance.castSeq++; instance.castSpell = spell; instance.nextPosition = 0; }
     public static bool CastArea(int spell, int x, int y) => SupportsNpcSpell(spell) && Request(new AOCoopMessage { type = "cast", spell = spell, x = x, y = y });
-    static bool SupportsNpcSpell(int spell)
+    // Same filter as CoopRoom.Cast; no message, so callers can check before spending mana.
+    public static bool CanCastNpcSpell(int spell)
     {
         var s=AOSpellDatabaseV120.Get(spell);
-        if(s!=null && (s.materializeObject>0 || (s.eotId==0 && s.stealBuff==0 && s.speed<=0 &&
-            (s.raiseHp!=0||s.paralyze!=0||s.immobilize!=0||s.removeParalysis!=0||s.poison!=0||s.incinerate!=0||s.curePoison!=0||s.removeDebuff!=0))))return true;
+        return s!=null && (s.materializeObject>0 || (s.eotId==0 && s.stealBuff==0 && s.speed<=0 &&
+            (s.raiseHp!=0||s.paralyze!=0||s.immobilize!=0||s.removeParalysis!=0||s.poison!=0||s.incinerate!=0||s.curePoison!=0||s.removeDebuff!=0)));
+    }
+    static bool SupportsNpcSpell(int spell)
+    {
+        if(CanCastNpcSpell(spell))return true;
         AOInterfaceV0101.PushMessage("Ese efecto sobre criaturas todavía no está disponible en la alpha cooperativa.");return false;
     }
     static bool Request(AOCoopMessage message, bool transaction = false)
@@ -243,8 +258,16 @@ public class AOOnlineClientV240 : MonoBehaviour
         return new AOCoopPlayer { map = world.CurrentMapNumber, x = player.TileX, y = player.TileY, heading = player.Heading,
             attack = c.AttackPower, evasion = c.EvasionPower, defense = c.Defense, minHit = r.MinHit, maxHit = r.MaxHit,
             strength = r.Strength, damageModifier = r.GetDamageModifier(i), maxMana = r.MaxMana,
+            meditationFx = LocalMeditationFx(r), castSpell = castSpell, castSeq = castSeq,
             pets = UnityEngine.Object.FindObjectsByType<AOSummonedPetV129>(FindObjectsSortMode.None).Where(p => !p.Stored).Select(p => new AOCoopPet {
                 id = p.GetInstanceID(), npc = p.NpcIndex, x = p.TileX, y = p.TileY, heading = p.GetComponent<AOCharacterRenderer>().Heading }).ToArray() };
+    }
+    int LocalMeditationFx(AOPlayerRPGV11 r)
+    {
+        var magic = player.GetComponent<AOPlayerMagicV120>();
+        if (magic == null || !magic.IsMeditating) return 0;
+        var visual = player.GetComponent<AOMeditationVisualV269>();
+        return visual != null && visual.ActiveFx > 0 ? visual.ActiveFx : AOMeditationVisualV269.FxForLevel(r.Level, false);
     }
     void Update()
     {
@@ -356,7 +379,7 @@ public class AOOnlineClientV240 : MonoBehaviour
                 if (a != null) Destroy(a.root); a = CreateAvatar(p); if (a == null) continue;
                 a.appearance = appearance; avatars[p.id] = a;
             }
-            a.state = p; MoveAvatar(a,p.x,p.y,p.heading);
+            a.state = p; MoveAvatar(a,p.x,p.y,p.heading); ApplyAvatarEffects(a,p);
             foreach (var pet in p.pets ?? new AOCoopPet[0])
             {
                 string key = p.id+":"+pet.id; petsSeen.Add(key);
@@ -372,6 +395,19 @@ public class AOOnlineClientV240 : MonoBehaviour
         }
         foreach (var id in avatars.Keys.Where(id=>!seen.Contains(id)).ToArray()) { Destroy(avatars[id].root); avatars.Remove(id); }
         foreach (var key in remotePets.Keys.Where(k=>!petsSeen.Contains(k)).ToArray()) { Destroy(remotePets[key].root); remotePets.Remove(key); }
+    }
+    void ApplyAvatarEffects(Avatar a,AOCoopPlayer p)
+    {
+        int fx=p.dead?0:p.meditationFx;
+        if(fx!=a.meditationFx)
+        {
+            if(a.meditation==null)a.meditation=a.root.AddComponent<AOMeditationVisualV269>();
+            if(fx>0)a.meditation.BeginFx(fx);else a.meditation.End();
+            a.meditationFx=fx;
+        }
+        // castSeq -1 = first sighting: remember it without replaying an old cast.
+        if(a.castSeq>=0&&p.castSeq!=a.castSeq&&!p.dead)AOCastAnimationRuntimeV268.PlayPlayer(a.root,p.castSpell>0?AOSpellDatabaseV120.Get(p.castSpell):null);
+        a.castSeq=p.castSeq;
     }
     void MoveAvatar(Avatar a,int x,int y,int heading)
     {
@@ -394,6 +430,15 @@ public class AOOnlineClientV240 : MonoBehaviour
         }
         return new Avatar {root=root,visual=visual,state=p,target=root.transform.position};
     }
+    // Beside the hotbar (above it if there is no room) so 4:3 screens do not cover Q/W/E.
+    Rect GroupButtonRect()
+    {
+        if(actionBar==null&&player!=null)actionBar=player.GetComponent<AOActionBarV260>();
+        if(actionBar==null||!actionBar.ShowBarPublic())return new Rect(10,Screen.height-33,130,26);
+        var b=actionBar.GetBarRectGUI();
+        if(b.width<=0)return new Rect(10,Screen.height-33,130,26);
+        return b.xMax+146<=Screen.width?new Rect(b.xMax+8,b.yMax-26,130,26):new Rect(b.x,b.y-32,130,26);
+    }
     void OnGUI()
     {
         if (!sessionStarted || !AOMainMenuV140.SessionActive) return;
@@ -413,11 +458,12 @@ public class AOOnlineClientV240 : MonoBehaviour
         else
         {
             GUI.depth=-20;
-            if(GUI.Button(new Rect(10,Screen.height-33,130,26),"Grupo ("+players.Length+"/11)"))showGroup=!showGroup;
+            var groupButton=GroupButtonRect();
+            if(GUI.Button(groupButton,"Grupo ("+players.Length+"/11)"))showGroup=!showGroup;
             if(showGroup)
             {
                 float w=Mathf.Min(420,Screen.width-20),h=Mathf.Min(380,Screen.height-50);
-                var panel=new Rect(10,Mathf.Max(8,Screen.height-h-42),w,h);
+                var panel=new Rect(Mathf.Clamp(groupButton.x,10,Mathf.Max(10,Screen.width-w-10)),Mathf.Max(8,groupButton.y-h-8),w,h);
                 GUI.color=new Color(.08f,.07f,.05f,1f);GUI.DrawTexture(panel,Texture2D.whiteTexture);GUI.color=Color.white;
                 GUILayout.BeginArea(panel,GUI.skin.box);
                 groupScroll=GUILayout.BeginScrollView(groupScroll);

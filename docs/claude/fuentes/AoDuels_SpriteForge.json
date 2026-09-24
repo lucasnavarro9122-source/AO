@@ -1,0 +1,4056 @@
+{
+ "id": "00000000-0000-0000-0000-0000040d0e15",
+ "revision": 0,
+ "last_node_id": 72,
+ "last_link_id": 101,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "MarkdownNote",
+   "pos": [
+    20,
+    20
+   ],
+   "size": [
+    1100,
+    100
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "MarkdownNote",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "# AoDuels · SpriteForge  —  8 frames de animacion desde 1 imagen\n\n## Como se usa (3 pasos)\n\n**1.** En el grupo violeta **2 · TU PERSONAJE**, en el nodo *Cargar Imagen*,\nhace click en **choose file to upload** y subi el frame de tu personaje.\n\n**2.** En el grupo rosa **3 · QUE ANIMACION QUERES**, en el nodo\n*PROMPT POSITIVO*, cambia SOLO la primera linea:\n\n```\nANIMACION / ANIMATION:  caminando de perfil hacia la derecha (walk cycle)\n```\n\npor lo que quieras, por ejemplo:\n- `atacando con la espada de derecha a izquierda (attack swing)`\n- `muriendo, cayendo hacia atras al suelo (death animation)`\n- `quieto respirando, animacion de idle`\n- `lanzando un hechizo con las dos manos (cast spell)`\n\nEscribilo tambien en ingles entre parentesis: el modelo entiende\nmucho mejor el ingles.\n\n**3.** Apreta **Run**. Tarda ~2-4 min.\n\n## Que te devuelve (carpeta `output/AoDuels/`)\n\n| Archivo | Que es |\n|---|---|\n| `00_hoja_cruda_xxxxx_.png` | La hoja 4x2 tal cual la genero la IA, fondo verde |\n| `frame_xxxxx_.png` (x8) | Los 8 frames sueltos, 512x512, **fondo transparente** |\n| `01_spritesheet_unity_xxxxx_.png` | Hoja 2048x1024 con alpha, lista para Unity |\n| `02_preview_xxxxx_.webp` | La animacion armada a 8 fps para chequear que quede bien |\n\n## En Unity\n\n`01_spritesheet_unity` -> Inspector:\nTexture Type **Sprite (2D and UI)** · Sprite Mode **Multiple** ·\nFilter Mode **Point (no filter)** · Compression **None** ->\n**Sprite Editor** -> Slice -> Type **Grid By Cell Size** -> **512 x 512** -> Slice -> Apply.\n\nDespues seleccionas los 8 sprites y los arrastras a la escena:\nUnity crea solo el Animation Clip.\n\n## Si algo sale mal\n\n- **Sale un personaje distinto en cada celda** -> subi una imagen de\n  referencia mas clara, de cuerpo entero y fondo liso.\n- **Quedan bordes verdes** -> es normal en 1-2 frames; se arregla en\n  Photoshop/GIMP o Krita con Select > Color Range.\n- **Nodo en rojo al cargar** -> te falta ese modelo. Ver el PDF.\n- **Querés que salga mas barato** -> bajá `steps` de 20 a 12 en el KSampler.\n"
+   ],
+   "title": "LEEME PRIMERO"
+  },
+  {
+   "id": 2,
+   "type": "UNETLoader",
+   "pos": [
+    40,
+    200
+   ],
+   "size": [
+    400,
+    106
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "slot_index": 0,
+     "links": [
+      1
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "qwen_image_edit_2511_bf16.safetensors",
+    "default"
+   ],
+   "title": "1a · Modelo Qwen-Image-Edit"
+  },
+  {
+   "id": 3,
+   "type": "CLIPLoader",
+   "pos": [
+    40,
+    350
+   ],
+   "size": [
+    400,
+    130
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "slot_index": 0,
+     "links": [
+      4,
+      5
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+    "qwen_image",
+    "default"
+   ],
+   "title": "1b · Text encoder"
+  },
+  {
+   "id": 4,
+   "type": "VAELoader",
+   "pos": [
+    40,
+    520
+   ],
+   "size": [
+    400,
+    60
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "slot_index": 0,
+     "links": [
+      6,
+      13
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "qwen_image_vae.safetensors"
+   ],
+   "title": "1c · VAE"
+  },
+  {
+   "id": 5,
+   "type": "LoadBackgroundRemovalModel",
+   "pos": [
+    40,
+    620
+   ],
+   "size": [
+    330,
+    58
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "bg_model",
+     "type": "BACKGROUND_REMOVAL",
+     "slot_index": 0,
+     "links": [
+      16,
+      23,
+      30,
+      37,
+      44,
+      51,
+      58,
+      65
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadBackgroundRemovalModel",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "birefnet.safetensors"
+   ],
+   "title": "1d · Modelo quita-fondos"
+  },
+  {
+   "id": 6,
+   "type": "ModelSamplingAuraFlow",
+   "pos": [
+    40,
+    700
+   ],
+   "size": [
+    330,
+    58
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "slot_index": 0,
+     "links": [
+      2
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ModelSamplingAuraFlow",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    3.1
+   ]
+  },
+  {
+   "id": 7,
+   "type": "CFGNorm",
+   "pos": [
+    40,
+    790
+   ],
+   "size": [
+    330,
+    82
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "slot_index": 0,
+     "links": [
+      3
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CFGNorm",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    1.0,
+    false
+   ]
+  },
+  {
+   "id": 8,
+   "type": "LoadImage",
+   "pos": [
+    540,
+    200
+   ],
+   "size": [
+    340,
+    320
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      7
+     ]
+    },
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 1,
+     "links": null
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoadImage",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "SUBI_TU_PERSONAJE_ACA.png",
+    "image"
+   ],
+   "title": "2 · TU PERSONAJE (subir aca)"
+  },
+  {
+   "id": 9,
+   "type": "ImageScaleToMaxDimension",
+   "pos": [
+    540,
+    540
+   ],
+   "size": [
+    330,
+    82
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      8
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageScaleToMaxDimension",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "lanczos",
+    1024
+   ],
+   "title": "2b · normalizar tamaño"
+  },
+  {
+   "id": 10,
+   "type": "TextEncodeQwenImageEditPlus",
+   "pos": [
+    970,
+    200
+   ],
+   "size": [
+    460,
+    380
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 4
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 6,
+     "shape": 7
+    },
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 8,
+     "shape": 7
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": null,
+     "shape": 7
+    },
+    {
+     "name": "image3",
+     "type": "IMAGE",
+     "link": null,
+     "shape": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      9
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "TextEncodeQwenImageEditPlus",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "ANIMACION / ANIMATION:  caminando de perfil hacia la derecha (walk cycle)\n\nSprite sheet of the EXACT SAME character as the reference image, drawn 8 times in a 4 x 2 grid (4 columns, 2 rows). The 8 cells are the 8 consecutive keyframes of one single looping animation of the character caminando de perfil hacia la derecha (walk cycle), in order, read left to right then top to bottom.\n\nCHARACTER LOCK: identical character in all 8 cells. Same face, same hair, same outfit, same armor, same weapon, same colour palette, same body proportions, same line weight, same shading style, same art style as the reference image. Only the POSE changes from cell to cell.\n\nCAMERA LOCK: same isometric 3/4 top-down game camera angle in all 8 cells, same distance, same zoom. Full body visible in every cell, nothing cropped.\n\nLAYOUT: one single character per cell, centred in its cell, exactly the same scale in all 8 cells, feet resting on the same horizontal baseline within each cell. Even spacing, no character touching another cell.\n\nCRITICAL BACKGROUND REQUIREMENT: the entire background must be solid flat chroma key green, EXACT hex #00FF00, in every cell and between cells. NO gradients, NO noise, NO texture, NO ground, NO ground shadow, NO drop shadow, NO glow, NO grid lines, NO borders, NO panel dividers, NO frames, NO text, NO numbers, NO labels, NO watermark.\n\nClean crisp game sprite art, sharp edges, high detail, readable silhouette."
+   ],
+   "title": "3 · PROMPT POSITIVO  (edita la 1a linea)"
+  },
+  {
+   "id": 11,
+   "type": "TextEncodeQwenImageEditPlus",
+   "pos": [
+    970,
+    610
+   ],
+   "size": [
+    460,
+    240
+   ],
+   "flags": {},
+   "order": 10,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 5
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": null,
+     "shape": 7
+    },
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": null,
+     "shape": 7
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": null,
+     "shape": 7
+    },
+    {
+     "name": "image3",
+     "type": "IMAGE",
+     "link": null,
+     "shape": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "CONDITIONING",
+     "type": "CONDITIONING",
+     "slot_index": 0,
+     "links": [
+      10
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "TextEncodeQwenImageEditPlus",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "different characters, several different designs, character sheet with variations, inconsistent outfit, inconsistent colors, changing art style, changing camera angle, changing scale, text, numbers, labels, captions, watermark, signature, borders, frames, grid lines, panel dividers, outlines around cells, ground shadow, drop shadow, floor, terrain, scenery, gradient background, textured background, white background, transparent checkerboard, cropped body, cut off head, cut off limbs, out of frame, blurry, motion blur, low quality, jpeg artifacts, deformed, extra limbs, missing limbs, bad anatomy"
+   ],
+   "title": "3b · PROMPT NEGATIVO (no hace falta tocarlo)"
+  },
+  {
+   "id": 12,
+   "type": "EmptySD3LatentImage",
+   "pos": [
+    1500,
+    200
+   ],
+   "size": [
+    300,
+    106
+   ],
+   "flags": {},
+   "order": 11,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "slot_index": 0,
+     "links": [
+      11
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "EmptySD3LatentImage",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    2048,
+    1024,
+    1
+   ],
+   "title": "4a · Lienzo de la hoja (2048x1024)"
+  },
+  {
+   "id": 13,
+   "type": "KSampler",
+   "pos": [
+    1500,
+    350
+   ],
+   "size": [
+    300,
+    262
+   ],
+   "flags": {},
+   "order": 12,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 3
+    },
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "link": 9
+    },
+    {
+     "name": "negative",
+     "type": "CONDITIONING",
+     "link": 10
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 11
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "slot_index": 0,
+     "links": [
+      12
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSampler",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    864213570009511,
+    "randomize",
+    20,
+    4.0,
+    "euler",
+    "simple",
+    1.0
+   ],
+   "title": "4b · Generador"
+  },
+  {
+   "id": 14,
+   "type": "VAEDecode",
+   "pos": [
+    1840,
+    350
+   ],
+   "size": [
+    210,
+    46
+   ],
+   "flags": {},
+   "order": 13,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 12
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 13
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      14,
+      15,
+      22,
+      29,
+      36,
+      43,
+      50,
+      57,
+      64
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 15,
+   "type": "SaveImage",
+   "pos": [
+    1840,
+    440
+   ],
+   "size": [
+    330,
+    300
+   ],
+   "flags": {},
+   "order": 14,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 14
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "AoDuels/00_hoja_cruda"
+   ],
+   "title": "4c · hoja cruda (fondo verde)"
+  },
+  {
+   "id": 16,
+   "type": "ImageCrop",
+   "pos": [
+    40,
+    900
+   ],
+   "size": [
+    250,
+    130
+   ],
+   "flags": {},
+   "order": 15,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 15
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      17,
+      20
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageCrop",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    512,
+    512,
+    0,
+    0
+   ],
+   "title": "frame 1 · recorte"
+  },
+  {
+   "id": 17,
+   "type": "RemoveBackground",
+   "pos": [
+    40,
+    1050
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 16,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "bg_removal_model",
+     "type": "BACKGROUND_REMOVAL",
+     "link": 16
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 17
+    }
+   ],
+   "outputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      18
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RemoveBackground",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "quitar fondo 1"
+  },
+  {
+   "id": 18,
+   "type": "GrowMask",
+   "pos": [
+    40,
+    1105
+   ],
+   "size": [
+    250,
+    82
+   ],
+   "flags": {},
+   "order": 17,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 18
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      19
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "GrowMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    -1,
+    true
+   ],
+   "title": "encoger 1px 1"
+  },
+  {
+   "id": 19,
+   "type": "InvertMask",
+   "pos": [
+    40,
+    1195
+   ],
+   "size": [
+    210,
+    26
+   ],
+   "flags": {},
+   "order": 18,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 19
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      21
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "InvertMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "invertir 1"
+  },
+  {
+   "id": 20,
+   "type": "JoinImageWithAlpha",
+   "pos": [
+    40,
+    1240
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 19,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 20
+    },
+    {
+     "name": "alpha",
+     "type": "MASK",
+     "link": 21
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      71,
+      87
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "JoinImageWithAlpha",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "alpha 1"
+  },
+  {
+   "id": 21,
+   "type": "ImageCrop",
+   "pos": [
+    400,
+    900
+   ],
+   "size": [
+    250,
+    130
+   ],
+   "flags": {},
+   "order": 20,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 22
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      24,
+      27
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageCrop",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    512,
+    512,
+    512,
+    0
+   ],
+   "title": "frame 2 · recorte"
+  },
+  {
+   "id": 22,
+   "type": "RemoveBackground",
+   "pos": [
+    400,
+    1050
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 21,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "bg_removal_model",
+     "type": "BACKGROUND_REMOVAL",
+     "link": 23
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 24
+    }
+   ],
+   "outputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      25
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RemoveBackground",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "quitar fondo 2"
+  },
+  {
+   "id": 23,
+   "type": "GrowMask",
+   "pos": [
+    400,
+    1105
+   ],
+   "size": [
+    250,
+    82
+   ],
+   "flags": {},
+   "order": 22,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 25
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      26
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "GrowMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    -1,
+    true
+   ],
+   "title": "encoger 1px 2"
+  },
+  {
+   "id": 24,
+   "type": "InvertMask",
+   "pos": [
+    400,
+    1195
+   ],
+   "size": [
+    210,
+    26
+   ],
+   "flags": {},
+   "order": 23,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 26
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      28
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "InvertMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "invertir 2"
+  },
+  {
+   "id": 25,
+   "type": "JoinImageWithAlpha",
+   "pos": [
+    400,
+    1240
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 24,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 27
+    },
+    {
+     "name": "alpha",
+     "type": "MASK",
+     "link": 28
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      72,
+      88
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "JoinImageWithAlpha",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "alpha 2"
+  },
+  {
+   "id": 26,
+   "type": "ImageCrop",
+   "pos": [
+    760,
+    900
+   ],
+   "size": [
+    250,
+    130
+   ],
+   "flags": {},
+   "order": 25,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 29
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      31,
+      34
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageCrop",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    512,
+    512,
+    1024,
+    0
+   ],
+   "title": "frame 3 · recorte"
+  },
+  {
+   "id": 27,
+   "type": "RemoveBackground",
+   "pos": [
+    760,
+    1050
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 26,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "bg_removal_model",
+     "type": "BACKGROUND_REMOVAL",
+     "link": 30
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 31
+    }
+   ],
+   "outputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      32
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RemoveBackground",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "quitar fondo 3"
+  },
+  {
+   "id": 28,
+   "type": "GrowMask",
+   "pos": [
+    760,
+    1105
+   ],
+   "size": [
+    250,
+    82
+   ],
+   "flags": {},
+   "order": 27,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 32
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      33
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "GrowMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    -1,
+    true
+   ],
+   "title": "encoger 1px 3"
+  },
+  {
+   "id": 29,
+   "type": "InvertMask",
+   "pos": [
+    760,
+    1195
+   ],
+   "size": [
+    210,
+    26
+   ],
+   "flags": {},
+   "order": 28,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 33
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      35
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "InvertMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "invertir 3"
+  },
+  {
+   "id": 30,
+   "type": "JoinImageWithAlpha",
+   "pos": [
+    760,
+    1240
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 29,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 34
+    },
+    {
+     "name": "alpha",
+     "type": "MASK",
+     "link": 35
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      74,
+      90
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "JoinImageWithAlpha",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "alpha 3"
+  },
+  {
+   "id": 31,
+   "type": "ImageCrop",
+   "pos": [
+    1120,
+    900
+   ],
+   "size": [
+    250,
+    130
+   ],
+   "flags": {},
+   "order": 30,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 36
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      38,
+      41
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageCrop",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    512,
+    512,
+    1536,
+    0
+   ],
+   "title": "frame 4 · recorte"
+  },
+  {
+   "id": 32,
+   "type": "RemoveBackground",
+   "pos": [
+    1120,
+    1050
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 31,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "bg_removal_model",
+     "type": "BACKGROUND_REMOVAL",
+     "link": 37
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 38
+    }
+   ],
+   "outputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      39
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RemoveBackground",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "quitar fondo 4"
+  },
+  {
+   "id": 33,
+   "type": "GrowMask",
+   "pos": [
+    1120,
+    1105
+   ],
+   "size": [
+    250,
+    82
+   ],
+   "flags": {},
+   "order": 32,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 39
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      40
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "GrowMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    -1,
+    true
+   ],
+   "title": "encoger 1px 4"
+  },
+  {
+   "id": 34,
+   "type": "InvertMask",
+   "pos": [
+    1120,
+    1195
+   ],
+   "size": [
+    210,
+    26
+   ],
+   "flags": {},
+   "order": 33,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 40
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      42
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "InvertMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "invertir 4"
+  },
+  {
+   "id": 35,
+   "type": "JoinImageWithAlpha",
+   "pos": [
+    1120,
+    1240
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 34,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 41
+    },
+    {
+     "name": "alpha",
+     "type": "MASK",
+     "link": 42
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      76,
+      92
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "JoinImageWithAlpha",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "alpha 4"
+  },
+  {
+   "id": 36,
+   "type": "ImageCrop",
+   "pos": [
+    40,
+    1360
+   ],
+   "size": [
+    250,
+    130
+   ],
+   "flags": {},
+   "order": 35,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 43
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      45,
+      48
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageCrop",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    512,
+    512,
+    0,
+    512
+   ],
+   "title": "frame 5 · recorte"
+  },
+  {
+   "id": 37,
+   "type": "RemoveBackground",
+   "pos": [
+    40,
+    1510
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 36,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "bg_removal_model",
+     "type": "BACKGROUND_REMOVAL",
+     "link": 44
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 45
+    }
+   ],
+   "outputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      46
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RemoveBackground",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "quitar fondo 5"
+  },
+  {
+   "id": 38,
+   "type": "GrowMask",
+   "pos": [
+    40,
+    1565
+   ],
+   "size": [
+    250,
+    82
+   ],
+   "flags": {},
+   "order": 37,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 46
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      47
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "GrowMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    -1,
+    true
+   ],
+   "title": "encoger 1px 5"
+  },
+  {
+   "id": 39,
+   "type": "InvertMask",
+   "pos": [
+    40,
+    1655
+   ],
+   "size": [
+    210,
+    26
+   ],
+   "flags": {},
+   "order": 38,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 47
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      49
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "InvertMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "invertir 5"
+  },
+  {
+   "id": 40,
+   "type": "JoinImageWithAlpha",
+   "pos": [
+    40,
+    1700
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 39,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 48
+    },
+    {
+     "name": "alpha",
+     "type": "MASK",
+     "link": 49
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      78,
+      93
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "JoinImageWithAlpha",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "alpha 5"
+  },
+  {
+   "id": 41,
+   "type": "ImageCrop",
+   "pos": [
+    400,
+    1360
+   ],
+   "size": [
+    250,
+    130
+   ],
+   "flags": {},
+   "order": 40,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 50
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      52,
+      55
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageCrop",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    512,
+    512,
+    512,
+    512
+   ],
+   "title": "frame 6 · recorte"
+  },
+  {
+   "id": 42,
+   "type": "RemoveBackground",
+   "pos": [
+    400,
+    1510
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 41,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "bg_removal_model",
+     "type": "BACKGROUND_REMOVAL",
+     "link": 51
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 52
+    }
+   ],
+   "outputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      53
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RemoveBackground",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "quitar fondo 6"
+  },
+  {
+   "id": 43,
+   "type": "GrowMask",
+   "pos": [
+    400,
+    1565
+   ],
+   "size": [
+    250,
+    82
+   ],
+   "flags": {},
+   "order": 42,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 53
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      54
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "GrowMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    -1,
+    true
+   ],
+   "title": "encoger 1px 6"
+  },
+  {
+   "id": 44,
+   "type": "InvertMask",
+   "pos": [
+    400,
+    1655
+   ],
+   "size": [
+    210,
+    26
+   ],
+   "flags": {},
+   "order": 43,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 54
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      56
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "InvertMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "invertir 6"
+  },
+  {
+   "id": 45,
+   "type": "JoinImageWithAlpha",
+   "pos": [
+    400,
+    1700
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 44,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 55
+    },
+    {
+     "name": "alpha",
+     "type": "MASK",
+     "link": 56
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      80,
+      94
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "JoinImageWithAlpha",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "alpha 6"
+  },
+  {
+   "id": 46,
+   "type": "ImageCrop",
+   "pos": [
+    760,
+    1360
+   ],
+   "size": [
+    250,
+    130
+   ],
+   "flags": {},
+   "order": 45,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 57
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      59,
+      62
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageCrop",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    512,
+    512,
+    1024,
+    512
+   ],
+   "title": "frame 7 · recorte"
+  },
+  {
+   "id": 47,
+   "type": "RemoveBackground",
+   "pos": [
+    760,
+    1510
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 46,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "bg_removal_model",
+     "type": "BACKGROUND_REMOVAL",
+     "link": 58
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 59
+    }
+   ],
+   "outputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      60
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RemoveBackground",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "quitar fondo 7"
+  },
+  {
+   "id": 48,
+   "type": "GrowMask",
+   "pos": [
+    760,
+    1565
+   ],
+   "size": [
+    250,
+    82
+   ],
+   "flags": {},
+   "order": 47,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 60
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      61
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "GrowMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    -1,
+    true
+   ],
+   "title": "encoger 1px 7"
+  },
+  {
+   "id": 49,
+   "type": "InvertMask",
+   "pos": [
+    760,
+    1655
+   ],
+   "size": [
+    210,
+    26
+   ],
+   "flags": {},
+   "order": 48,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 61
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      63
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "InvertMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "invertir 7"
+  },
+  {
+   "id": 50,
+   "type": "JoinImageWithAlpha",
+   "pos": [
+    760,
+    1700
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 49,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 62
+    },
+    {
+     "name": "alpha",
+     "type": "MASK",
+     "link": 63
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      82,
+      96
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "JoinImageWithAlpha",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "alpha 7"
+  },
+  {
+   "id": 51,
+   "type": "ImageCrop",
+   "pos": [
+    1120,
+    1360
+   ],
+   "size": [
+    250,
+    130
+   ],
+   "flags": {},
+   "order": 50,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 64
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      66,
+      69
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageCrop",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    512,
+    512,
+    1536,
+    512
+   ],
+   "title": "frame 8 · recorte"
+  },
+  {
+   "id": 52,
+   "type": "RemoveBackground",
+   "pos": [
+    1120,
+    1510
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 51,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "bg_removal_model",
+     "type": "BACKGROUND_REMOVAL",
+     "link": 65
+    },
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 66
+    }
+   ],
+   "outputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      67
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RemoveBackground",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "quitar fondo 8"
+  },
+  {
+   "id": 53,
+   "type": "GrowMask",
+   "pos": [
+    1120,
+    1565
+   ],
+   "size": [
+    250,
+    82
+   ],
+   "flags": {},
+   "order": 52,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 67
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      68
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "GrowMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    -1,
+    true
+   ],
+   "title": "encoger 1px 8"
+  },
+  {
+   "id": 54,
+   "type": "InvertMask",
+   "pos": [
+    1120,
+    1655
+   ],
+   "size": [
+    210,
+    26
+   ],
+   "flags": {},
+   "order": 53,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 68
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MASK",
+     "type": "MASK",
+     "slot_index": 0,
+     "links": [
+      70
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "InvertMask",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "invertir 8"
+  },
+  {
+   "id": 55,
+   "type": "JoinImageWithAlpha",
+   "pos": [
+    1120,
+    1700
+   ],
+   "size": [
+    250,
+    46
+   ],
+   "flags": {},
+   "order": 54,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image",
+     "type": "IMAGE",
+     "link": 69
+    },
+    {
+     "name": "alpha",
+     "type": "MASK",
+     "link": 70
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      84,
+      98
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "JoinImageWithAlpha",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "alpha 8"
+  },
+  {
+   "id": 56,
+   "type": "ImageBatch",
+   "pos": [
+    1560,
+    970
+   ],
+   "size": [
+    210,
+    46
+   ],
+   "flags": {},
+   "order": 55,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 71
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 72
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      73
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageBatch",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "batch 2"
+  },
+  {
+   "id": 57,
+   "type": "ImageBatch",
+   "pos": [
+    1560,
+    1040
+   ],
+   "size": [
+    210,
+    46
+   ],
+   "flags": {},
+   "order": 56,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 73
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 74
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      75
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageBatch",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "batch 3"
+  },
+  {
+   "id": 58,
+   "type": "ImageBatch",
+   "pos": [
+    1560,
+    1110
+   ],
+   "size": [
+    210,
+    46
+   ],
+   "flags": {},
+   "order": 57,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 75
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 76
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      77
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageBatch",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "batch 4"
+  },
+  {
+   "id": 59,
+   "type": "ImageBatch",
+   "pos": [
+    1560,
+    1180
+   ],
+   "size": [
+    210,
+    46
+   ],
+   "flags": {},
+   "order": 58,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 77
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 78
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      79
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageBatch",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "batch 5"
+  },
+  {
+   "id": 60,
+   "type": "ImageBatch",
+   "pos": [
+    1560,
+    1250
+   ],
+   "size": [
+    210,
+    46
+   ],
+   "flags": {},
+   "order": 59,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 79
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 80
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      81
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageBatch",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "batch 6"
+  },
+  {
+   "id": 61,
+   "type": "ImageBatch",
+   "pos": [
+    1560,
+    1320
+   ],
+   "size": [
+    210,
+    46
+   ],
+   "flags": {},
+   "order": 60,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 81
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 82
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      83
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageBatch",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "batch 7"
+  },
+  {
+   "id": 62,
+   "type": "ImageBatch",
+   "pos": [
+    1560,
+    1390
+   ],
+   "size": [
+    210,
+    46
+   ],
+   "flags": {},
+   "order": 61,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 83
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 84
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      85,
+      86
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageBatch",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [],
+   "title": "batch 8"
+  },
+  {
+   "id": 63,
+   "type": "SaveImage",
+   "pos": [
+    1850,
+    900
+   ],
+   "size": [
+    330,
+    300
+   ],
+   "flags": {},
+   "order": 62,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 85
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "AoDuels/frame"
+   ],
+   "title": "6a · 8 PNG transparentes"
+  },
+  {
+   "id": 64,
+   "type": "SaveAnimatedWEBP",
+   "pos": [
+    1850,
+    1230
+   ],
+   "size": [
+    330,
+    300
+   ],
+   "flags": {},
+   "order": 63,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 86
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveAnimatedWEBP",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "AoDuels/02_preview",
+    8.0,
+    true,
+    90,
+    "default"
+   ],
+   "title": "6b · preview animado 8 fps"
+  },
+  {
+   "id": 65,
+   "type": "ImageStitch",
+   "pos": [
+    1560,
+    1770
+   ],
+   "size": [
+    280,
+    130
+   ],
+   "flags": {},
+   "order": 64,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 87
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 88,
+     "shape": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      89
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageStitch",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "right",
+    false,
+    0,
+    "white"
+   ],
+   "title": "fila 1 · +2"
+  },
+  {
+   "id": 66,
+   "type": "ImageStitch",
+   "pos": [
+    1560,
+    1920
+   ],
+   "size": [
+    280,
+    130
+   ],
+   "flags": {},
+   "order": 65,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 89
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 90,
+     "shape": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      91
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageStitch",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "right",
+    false,
+    0,
+    "white"
+   ],
+   "title": "fila 1 · +3"
+  },
+  {
+   "id": 67,
+   "type": "ImageStitch",
+   "pos": [
+    1560,
+    2070
+   ],
+   "size": [
+    280,
+    130
+   ],
+   "flags": {},
+   "order": 66,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 91
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 92,
+     "shape": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      99
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageStitch",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "right",
+    false,
+    0,
+    "white"
+   ],
+   "title": "fila 1 · +4"
+  },
+  {
+   "id": 68,
+   "type": "ImageStitch",
+   "pos": [
+    1870,
+    1770
+   ],
+   "size": [
+    280,
+    130
+   ],
+   "flags": {},
+   "order": 67,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 93
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 94,
+     "shape": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      95
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageStitch",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "right",
+    false,
+    0,
+    "white"
+   ],
+   "title": "fila 2 · +2"
+  },
+  {
+   "id": 69,
+   "type": "ImageStitch",
+   "pos": [
+    1870,
+    1920
+   ],
+   "size": [
+    280,
+    130
+   ],
+   "flags": {},
+   "order": 68,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 95
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 96,
+     "shape": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      97
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageStitch",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "right",
+    false,
+    0,
+    "white"
+   ],
+   "title": "fila 2 · +3"
+  },
+  {
+   "id": 70,
+   "type": "ImageStitch",
+   "pos": [
+    1870,
+    2070
+   ],
+   "size": [
+    280,
+    130
+   ],
+   "flags": {},
+   "order": 69,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 97
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 98,
+     "shape": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      100
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageStitch",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "right",
+    false,
+    0,
+    "white"
+   ],
+   "title": "fila 2 · +4"
+  },
+  {
+   "id": 71,
+   "type": "ImageStitch",
+   "pos": [
+    1560,
+    2100
+   ],
+   "size": [
+    280,
+    130
+   ],
+   "flags": {},
+   "order": 70,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "image1",
+     "type": "IMAGE",
+     "link": 99
+    },
+    {
+     "name": "image2",
+     "type": "IMAGE",
+     "link": 100,
+     "shape": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "slot_index": 0,
+     "links": [
+      101
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ImageStitch",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "down",
+    false,
+    0,
+    "white"
+   ],
+   "title": "hoja 4x2 final"
+  },
+  {
+   "id": 72,
+   "type": "SaveImage",
+   "pos": [
+    1870,
+    2100
+   ],
+   "size": [
+    330,
+    300
+   ],
+   "flags": {},
+   "order": 71,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 101
+    }
+   ],
+   "outputs": [],
+   "properties": {
+    "Node name for S&R": "SaveImage",
+    "cnr_id": "comfy-core",
+    "ver": "0.3.72"
+   },
+   "widgets_values": [
+    "AoDuels/01_spritesheet_unity"
+   ],
+   "title": "6c · SPRITESHEET PARA UNITY"
+  }
+ ],
+ "links": [
+  [
+   1,
+   2,
+   0,
+   6,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   6,
+   0,
+   7,
+   0,
+   "MODEL"
+  ],
+  [
+   3,
+   7,
+   0,
+   13,
+   0,
+   "MODEL"
+  ],
+  [
+   4,
+   3,
+   0,
+   10,
+   0,
+   "CLIP"
+  ],
+  [
+   5,
+   3,
+   0,
+   11,
+   0,
+   "CLIP"
+  ],
+  [
+   6,
+   4,
+   0,
+   10,
+   1,
+   "VAE"
+  ],
+  [
+   7,
+   8,
+   0,
+   9,
+   0,
+   "IMAGE"
+  ],
+  [
+   8,
+   9,
+   0,
+   10,
+   2,
+   "IMAGE"
+  ],
+  [
+   9,
+   10,
+   0,
+   13,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   10,
+   11,
+   0,
+   13,
+   2,
+   "CONDITIONING"
+  ],
+  [
+   11,
+   12,
+   0,
+   13,
+   3,
+   "LATENT"
+  ],
+  [
+   12,
+   13,
+   0,
+   14,
+   0,
+   "LATENT"
+  ],
+  [
+   13,
+   4,
+   0,
+   14,
+   1,
+   "VAE"
+  ],
+  [
+   14,
+   14,
+   0,
+   15,
+   0,
+   "IMAGE"
+  ],
+  [
+   15,
+   14,
+   0,
+   16,
+   0,
+   "IMAGE"
+  ],
+  [
+   16,
+   5,
+   0,
+   17,
+   0,
+   "BACKGROUND_REMOVAL"
+  ],
+  [
+   17,
+   16,
+   0,
+   17,
+   1,
+   "IMAGE"
+  ],
+  [
+   18,
+   17,
+   0,
+   18,
+   0,
+   "MASK"
+  ],
+  [
+   19,
+   18,
+   0,
+   19,
+   0,
+   "MASK"
+  ],
+  [
+   20,
+   16,
+   0,
+   20,
+   0,
+   "IMAGE"
+  ],
+  [
+   21,
+   19,
+   0,
+   20,
+   1,
+   "MASK"
+  ],
+  [
+   22,
+   14,
+   0,
+   21,
+   0,
+   "IMAGE"
+  ],
+  [
+   23,
+   5,
+   0,
+   22,
+   0,
+   "BACKGROUND_REMOVAL"
+  ],
+  [
+   24,
+   21,
+   0,
+   22,
+   1,
+   "IMAGE"
+  ],
+  [
+   25,
+   22,
+   0,
+   23,
+   0,
+   "MASK"
+  ],
+  [
+   26,
+   23,
+   0,
+   24,
+   0,
+   "MASK"
+  ],
+  [
+   27,
+   21,
+   0,
+   25,
+   0,
+   "IMAGE"
+  ],
+  [
+   28,
+   24,
+   0,
+   25,
+   1,
+   "MASK"
+  ],
+  [
+   29,
+   14,
+   0,
+   26,
+   0,
+   "IMAGE"
+  ],
+  [
+   30,
+   5,
+   0,
+   27,
+   0,
+   "BACKGROUND_REMOVAL"
+  ],
+  [
+   31,
+   26,
+   0,
+   27,
+   1,
+   "IMAGE"
+  ],
+  [
+   32,
+   27,
+   0,
+   28,
+   0,
+   "MASK"
+  ],
+  [
+   33,
+   28,
+   0,
+   29,
+   0,
+   "MASK"
+  ],
+  [
+   34,
+   26,
+   0,
+   30,
+   0,
+   "IMAGE"
+  ],
+  [
+   35,
+   29,
+   0,
+   30,
+   1,
+   "MASK"
+  ],
+  [
+   36,
+   14,
+   0,
+   31,
+   0,
+   "IMAGE"
+  ],
+  [
+   37,
+   5,
+   0,
+   32,
+   0,
+   "BACKGROUND_REMOVAL"
+  ],
+  [
+   38,
+   31,
+   0,
+   32,
+   1,
+   "IMAGE"
+  ],
+  [
+   39,
+   32,
+   0,
+   33,
+   0,
+   "MASK"
+  ],
+  [
+   40,
+   33,
+   0,
+   34,
+   0,
+   "MASK"
+  ],
+  [
+   41,
+   31,
+   0,
+   35,
+   0,
+   "IMAGE"
+  ],
+  [
+   42,
+   34,
+   0,
+   35,
+   1,
+   "MASK"
+  ],
+  [
+   43,
+   14,
+   0,
+   36,
+   0,
+   "IMAGE"
+  ],
+  [
+   44,
+   5,
+   0,
+   37,
+   0,
+   "BACKGROUND_REMOVAL"
+  ],
+  [
+   45,
+   36,
+   0,
+   37,
+   1,
+   "IMAGE"
+  ],
+  [
+   46,
+   37,
+   0,
+   38,
+   0,
+   "MASK"
+  ],
+  [
+   47,
+   38,
+   0,
+   39,
+   0,
+   "MASK"
+  ],
+  [
+   48,
+   36,
+   0,
+   40,
+   0,
+   "IMAGE"
+  ],
+  [
+   49,
+   39,
+   0,
+   40,
+   1,
+   "MASK"
+  ],
+  [
+   50,
+   14,
+   0,
+   41,
+   0,
+   "IMAGE"
+  ],
+  [
+   51,
+   5,
+   0,
+   42,
+   0,
+   "BACKGROUND_REMOVAL"
+  ],
+  [
+   52,
+   41,
+   0,
+   42,
+   1,
+   "IMAGE"
+  ],
+  [
+   53,
+   42,
+   0,
+   43,
+   0,
+   "MASK"
+  ],
+  [
+   54,
+   43,
+   0,
+   44,
+   0,
+   "MASK"
+  ],
+  [
+   55,
+   41,
+   0,
+   45,
+   0,
+   "IMAGE"
+  ],
+  [
+   56,
+   44,
+   0,
+   45,
+   1,
+   "MASK"
+  ],
+  [
+   57,
+   14,
+   0,
+   46,
+   0,
+   "IMAGE"
+  ],
+  [
+   58,
+   5,
+   0,
+   47,
+   0,
+   "BACKGROUND_REMOVAL"
+  ],
+  [
+   59,
+   46,
+   0,
+   47,
+   1,
+   "IMAGE"
+  ],
+  [
+   60,
+   47,
+   0,
+   48,
+   0,
+   "MASK"
+  ],
+  [
+   61,
+   48,
+   0,
+   49,
+   0,
+   "MASK"
+  ],
+  [
+   62,
+   46,
+   0,
+   50,
+   0,
+   "IMAGE"
+  ],
+  [
+   63,
+   49,
+   0,
+   50,
+   1,
+   "MASK"
+  ],
+  [
+   64,
+   14,
+   0,
+   51,
+   0,
+   "IMAGE"
+  ],
+  [
+   65,
+   5,
+   0,
+   52,
+   0,
+   "BACKGROUND_REMOVAL"
+  ],
+  [
+   66,
+   51,
+   0,
+   52,
+   1,
+   "IMAGE"
+  ],
+  [
+   67,
+   52,
+   0,
+   53,
+   0,
+   "MASK"
+  ],
+  [
+   68,
+   53,
+   0,
+   54,
+   0,
+   "MASK"
+  ],
+  [
+   69,
+   51,
+   0,
+   55,
+   0,
+   "IMAGE"
+  ],
+  [
+   70,
+   54,
+   0,
+   55,
+   1,
+   "MASK"
+  ],
+  [
+   71,
+   20,
+   0,
+   56,
+   0,
+   "IMAGE"
+  ],
+  [
+   72,
+   25,
+   0,
+   56,
+   1,
+   "IMAGE"
+  ],
+  [
+   73,
+   56,
+   0,
+   57,
+   0,
+   "IMAGE"
+  ],
+  [
+   74,
+   30,
+   0,
+   57,
+   1,
+   "IMAGE"
+  ],
+  [
+   75,
+   57,
+   0,
+   58,
+   0,
+   "IMAGE"
+  ],
+  [
+   76,
+   35,
+   0,
+   58,
+   1,
+   "IMAGE"
+  ],
+  [
+   77,
+   58,
+   0,
+   59,
+   0,
+   "IMAGE"
+  ],
+  [
+   78,
+   40,
+   0,
+   59,
+   1,
+   "IMAGE"
+  ],
+  [
+   79,
+   59,
+   0,
+   60,
+   0,
+   "IMAGE"
+  ],
+  [
+   80,
+   45,
+   0,
+   60,
+   1,
+   "IMAGE"
+  ],
+  [
+   81,
+   60,
+   0,
+   61,
+   0,
+   "IMAGE"
+  ],
+  [
+   82,
+   50,
+   0,
+   61,
+   1,
+   "IMAGE"
+  ],
+  [
+   83,
+   61,
+   0,
+   62,
+   0,
+   "IMAGE"
+  ],
+  [
+   84,
+   55,
+   0,
+   62,
+   1,
+   "IMAGE"
+  ],
+  [
+   85,
+   62,
+   0,
+   63,
+   0,
+   "IMAGE"
+  ],
+  [
+   86,
+   62,
+   0,
+   64,
+   0,
+   "IMAGE"
+  ],
+  [
+   87,
+   20,
+   0,
+   65,
+   0,
+   "IMAGE"
+  ],
+  [
+   88,
+   25,
+   0,
+   65,
+   1,
+   "IMAGE"
+  ],
+  [
+   89,
+   65,
+   0,
+   66,
+   0,
+   "IMAGE"
+  ],
+  [
+   90,
+   30,
+   0,
+   66,
+   1,
+   "IMAGE"
+  ],
+  [
+   91,
+   66,
+   0,
+   67,
+   0,
+   "IMAGE"
+  ],
+  [
+   92,
+   35,
+   0,
+   67,
+   1,
+   "IMAGE"
+  ],
+  [
+   93,
+   40,
+   0,
+   68,
+   0,
+   "IMAGE"
+  ],
+  [
+   94,
+   45,
+   0,
+   68,
+   1,
+   "IMAGE"
+  ],
+  [
+   95,
+   68,
+   0,
+   69,
+   0,
+   "IMAGE"
+  ],
+  [
+   96,
+   50,
+   0,
+   69,
+   1,
+   "IMAGE"
+  ],
+  [
+   97,
+   69,
+   0,
+   70,
+   0,
+   "IMAGE"
+  ],
+  [
+   98,
+   55,
+   0,
+   70,
+   1,
+   "IMAGE"
+  ],
+  [
+   99,
+   67,
+   0,
+   71,
+   0,
+   "IMAGE"
+  ],
+  [
+   100,
+   70,
+   0,
+   71,
+   1,
+   "IMAGE"
+  ],
+  [
+   101,
+   71,
+   0,
+   72,
+   0,
+   "IMAGE"
+  ]
+ ],
+ "groups": [
+  {
+   "id": 1,
+   "title": "1 · MODELOS  (no tocar)",
+   "bounding": [
+    20,
+    150,
+    460,
+    760
+   ],
+   "color": "#3f789e",
+   "font_size": 24,
+   "flags": {}
+  },
+  {
+   "id": 2,
+   "title": "2 · TU PERSONAJE  ->  SUBI LA IMAGEN ACA",
+   "bounding": [
+    520,
+    150,
+    390,
+    520
+   ],
+   "color": "#a1309b",
+   "font_size": 24,
+   "flags": {}
+  },
+  {
+   "id": 3,
+   "title": "3 · QUE ANIMACION QUERES  ->  EDITA LA 1a LINEA",
+   "bounding": [
+    950,
+    150,
+    500,
+    760
+   ],
+   "color": "#a1309b",
+   "font_size": 24,
+   "flags": {}
+  },
+  {
+   "id": 4,
+   "title": "4 · GENERACION DE LA HOJA",
+   "bounding": [
+    1490,
+    150,
+    720,
+    620
+   ],
+   "color": "#3f789e",
+   "font_size": 24,
+   "flags": {}
+  },
+  {
+   "id": 5,
+   "title": "5 · CORTE EN 8 FRAMES  +  FONDO TRANSPARENTE",
+   "bounding": [
+    20,
+    840,
+    1450,
+    940
+   ],
+   "color": "#4a7a4a",
+   "font_size": 24,
+   "flags": {}
+  },
+  {
+   "id": 6,
+   "title": "6 · SALIDAS PARA UNITY",
+   "bounding": [
+    1520,
+    840,
+    700,
+    640
+   ],
+   "color": "#b58b2a",
+   "font_size": 24,
+   "flags": {}
+  },
+  {
+   "id": 7,
+   "title": "7 · RE-ARMADO DE LA HOJA CON ALPHA",
+   "bounding": [
+    1520,
+    1560,
+    700,
+    700
+   ],
+   "color": "#b58b2a",
+   "font_size": 24,
+   "flags": {}
+  }
+ ],
+ "config": {},
+ "extra": {
+  "ds": {
+   "scale": 0.55,
+   "offset": [
+    120,
+    80
+   ]
+  }
+ },
+ "version": 0.4
+}

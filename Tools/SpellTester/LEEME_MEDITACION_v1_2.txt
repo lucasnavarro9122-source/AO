@@ -1,0 +1,32 @@
+AO SPELL TESTER v1.2 - MEDITACIÓN ORIGINAL
+
+Esta versión parte de AO_Spell_Tester_v1.
+
+CAMBIOS
+- Se eliminó del tester la canalización / CastAnimation de NPCs añadida en v1.1.
+- Se agregó una pestaña MEDITACIÓN (B).
+- Incluye las 15 combinaciones de meditación compuesta definidas por el cliente original.
+- Secuencia original: FX de inicio -> FX loop infinito -> FX de inicio en reversa al cerrar.
+- Incluye el sonido original de meditación WAV 158 y se reproduce en loop mientras meditás.
+- B activa/desactiva la meditación.
+- Se agregó una barra de maná simulada para observar el efecto mientras recuperás maná.
+
+IMPORTANTE
+El cliente original NO decide qué variante corresponde al nivel/skill. El servidor envía el número de FX.
+Por eso el tester permite seleccionar las 15 variantes originales por FX sin inventar umbrales de nivel.
+
+FUENTES ORIGINALES CRUZADAS
+- CODIGO/Protocol.bas -> HandleMeditateToggle
+- CODIGO/Animations.bas -> StartFx / ChangeToClip
+- CODIGO/Recursos.bas -> AddComposedMetitation / LoadComposedFx
+- Recursos/init/FXs.ini
+- Recursos/init/graficos.ini
+- Recursos/Graficos/7106.png y 7107.png
+- Recursos/wav/158.wav
+
+USO
+1. Abrí index.html.
+2. Entrá en MEDITACIÓN (B).
+3. Elegí una variante.
+4. Tocá MEDITAR o la tecla B.
+5. Vas a ver inicio, loop y cierre original.

@@ -1,0 +1,273 @@
+{
+  "spell_id": 113,
+  "name": "Rafaga de Espinas",
+  "fields": {
+    "nombre": "Rafaga de Espinas",
+    "desc": "Causa 138 a 144 puntos de daño.",
+    "palabrasmagicas": "Volatio'Nih",
+    "hechizeromsg": "Has lanzado Rafaga de espinas sobre",
+    "targetmsg": "lanzo Rafaga de espinas sobre vos.",
+    "propiomsg": "Has lanzado Rafaga de viento sobre ti.",
+    "en_name": "Flurry of Thorns",
+    "en_desc": "Causes 138 to 144 hit points to the target.",
+    "en_hechizeromsg": "You casted Flurry of Thorns on",
+    "en_targetmsg": "casted Flurry of Thorns on you.",
+    "en_propiomsg": "You casted Flurry of Thorns on yourself.",
+    "targeteffecttype": "2",
+    "tipo": "1",
+    "target": "3",
+    "wav": "138",
+    "particle": "191",
+    "timeparticula": "30",
+    "subehp": "2",
+    "minhp": "100",
+    "maxhp": "144",
+    "iconoindex": "35729",
+    "minskill": "100",
+    "manarequerido": "1200",
+    "starequerido": "190",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 113,
+      "kind": "icon",
+      "source_id": 35729,
+      "top_grh": 35729,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35729,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035729__atlas_108__x416_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/01_icon__src35729__topGRH35729__frame001__GRH35729.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 113,
+      "kind": "particle",
+      "source_id": 191,
+      "top_grh": 20110,
+      "detail": "particle Particle191 Fire",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20110,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020110__atlas_9__x0_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/02_particle__src191__topGRH20110__frame001__GRH20110.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 113,
+      "kind": "particle",
+      "source_id": 191,
+      "top_grh": 20111,
+      "detail": "particle Particle191 Fire",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20111,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020111__atlas_9__x128_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/03_particle__src191__topGRH20111__frame001__GRH20111.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 113,
+      "kind": "particle",
+      "source_id": 191,
+      "top_grh": 20112,
+      "detail": "particle Particle191 Fire",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20112,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020112__atlas_9__x256_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/04_particle__src191__topGRH20112__frame001__GRH20112.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 113,
+      "kind": "particle",
+      "source_id": 191,
+      "top_grh": 20113,
+      "detail": "particle Particle191 Fire",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20113,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020113__atlas_9__x384_y0_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/05_particle__src191__topGRH20113__frame001__GRH20113.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 113,
+      "kind": "particle",
+      "source_id": 191,
+      "top_grh": 20114,
+      "detail": "particle Particle191 Fire",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20114,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020114__atlas_9__x0_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/06_particle__src191__topGRH20114__frame001__GRH20114.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 113,
+      "kind": "particle",
+      "source_id": 191,
+      "top_grh": 20115,
+      "detail": "particle Particle191 Fire",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20115,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020115__atlas_9__x128_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/07_particle__src191__topGRH20115__frame001__GRH20115.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 113,
+      "kind": "particle",
+      "source_id": 191,
+      "top_grh": 20116,
+      "detail": "particle Particle191 Fire",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20116,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020116__atlas_9__x256_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/08_particle__src191__topGRH20116__frame001__GRH20116.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 113,
+      "kind": "particle",
+      "source_id": 191,
+      "top_grh": 20117,
+      "detail": "particle Particle191 Fire",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20117,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020117__atlas_9__x384_y128_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/09_particle__src191__topGRH20117__frame001__GRH20117.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 113,
+      "kind": "particle",
+      "source_id": 191,
+      "top_grh": 20118,
+      "detail": "particle Particle191 Fire",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20118,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020118__atlas_9__x0_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/10_particle__src191__topGRH20118__frame001__GRH20118.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 113,
+      "kind": "particle",
+      "source_id": 191,
+      "top_grh": 20119,
+      "detail": "particle Particle191 Fire",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20119,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020119__atlas_9__x128_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/11_particle__src191__topGRH20119__frame001__GRH20119.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 113,
+      "kind": "particle",
+      "source_id": 191,
+      "top_grh": 20120,
+      "detail": "particle Particle191 Fire",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20120,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020120__atlas_9__x256_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/12_particle__src191__topGRH20120__frame001__GRH20120.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 113,
+      "kind": "particle",
+      "source_id": 191,
+      "top_grh": 20121,
+      "detail": "particle Particle191 Fire",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20121,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020121__atlas_9__x384_y256_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/13_particle__src191__topGRH20121__frame001__GRH20121.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 113,
+      "kind": "particle",
+      "source_id": 191,
+      "top_grh": 20122,
+      "detail": "particle Particle191 Fire",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20122,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020122__atlas_9__x0_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/14_particle__src191__topGRH20122__frame001__GRH20122.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 113,
+      "kind": "particle",
+      "source_id": 191,
+      "top_grh": 20123,
+      "detail": "particle Particle191 Fire",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20123,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020123__atlas_9__x128_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/15_particle__src191__topGRH20123__frame001__GRH20123.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 113,
+      "kind": "particle",
+      "source_id": 191,
+      "top_grh": 20124,
+      "detail": "particle Particle191 Fire",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20124,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020124__atlas_9__x256_y384_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/113_Rafaga_de_Espinas/16_particle__src191__topGRH20124__frame001__GRH20124.png"
+        }
+      ]
+    }
+  ]
+}

@@ -130,6 +130,32 @@ public class AOGridMap : MonoBehaviour
         return true;
     }
 
+    // Movimiento 8-direcciones. Para una diagonal se validan tanto el destino
+    // como las dos casillas ortogonales contiguas, evitando atravesar esquinas.
+    public bool CanStep(int fromX, int fromY, int toX, int toY)
+    {
+        int dx = toX - fromX;
+        int dy = toY - fromY;
+        if (dx == 0 && dy == 0) return false;
+        if (Mathf.Abs(dx) > 1 || Mathf.Abs(dy) > 1) return false;
+
+        int horizontal = dx > 0 ? EAST : dx < 0 ? WEST : 0;
+        int vertical = dy > 0 ? SOUTH : dy < 0 ? NORTH : 0;
+
+        if (horizontal == 0) return CanEnter(toX, toY, vertical);
+        if (vertical == 0) return CanEnter(toX, toY, horizontal);
+
+        // El destino debe aceptar la entrada por los dos ejes.
+        if (!CanEnter(toX, toY, horizontal) || !CanEnter(toX, toY, vertical))
+            return false;
+
+        // No permitir cortar una esquina bloqueada.
+        if (!CanEnter(fromX + dx, fromY, horizontal)) return false;
+        if (!CanEnter(fromX, fromY + dy, vertical)) return false;
+
+        return true;
+    }
+
     // Aproxima LegalWalkNPC del servidor AO20 para esta etapa local:
     // límites, bloqueo direccional, POSINVALIDA y afinidad agua/tierra/lava.
     // TileExit y ocupación dinámica se controlan desde AONPCMovementV08.
@@ -171,6 +197,43 @@ public class AOGridMap : MonoBehaviour
             return false;
 
         return true;
+    }
+
+
+    // Colisión para proyectiles: respeta paredes/bloqueos direccionales,
+    // árboles y objetos sólidos, pero no bloquea por agua.
+    public bool ProjectileBlockedBetween(int fromX,int fromY,int toX,int toY,bool npcsBlock=true)
+    {
+        if(!InBounds(toX,toY)) return true;
+        int flags=GetFlags(toX,toY);
+        if((flags & FLAG_TREE)!=0) return true;
+        int trigger=GetTrigger(toX,toY);
+        if(trigger==TRIGGER_INVALID_POSITION||trigger==TRIGGER_BLOCK_15||trigger==TRIGGER_WORKER_ONLY) return true;
+        if(AOInteractionRegistry.IsBlocked(toX,toY,npcsBlock)) return true;
+
+        int dx=Mathf.Clamp(toX-fromX,-1,1);
+        int dy=Mathf.Clamp(toY-fromY,-1,1);
+        int horizontal=dx>0?EAST:dx<0?WEST:0;
+        int vertical=dy>0?SOUTH:dy<0?NORTH:0;
+        if(horizontal!=0 && (flags & (1 << (horizontal-1)))!=0) return true;
+        if(vertical!=0 && (flags & (1 << (vertical-1)))!=0) return true;
+
+        if(dx!=0&&dy!=0)
+        {
+            int hx=fromX+dx,hy=fromY;
+            int vx=fromX,vy=fromY+dy;
+            if(InBounds(hx,hy))
+            {
+                int hf=GetFlags(hx,hy);
+                if((hf&FLAG_TREE)!=0||AOInteractionRegistry.IsBlocked(hx,hy,npcsBlock)||(hf&(1<<(horizontal-1)))!=0) return true;
+            }
+            if(InBounds(vx,vy))
+            {
+                int vf=GetFlags(vx,vy);
+                if((vf&FLAG_TREE)!=0||AOInteractionRegistry.IsBlocked(vx,vy,npcsBlock)||(vf&(1<<(vertical-1)))!=0) return true;
+            }
+        }
+        return false;
     }
 
     public Vector3 TileToWorld(int x, int y)

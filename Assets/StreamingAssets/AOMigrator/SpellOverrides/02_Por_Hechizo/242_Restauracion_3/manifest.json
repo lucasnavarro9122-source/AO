@@ -1,0 +1,291 @@
+{
+  "spell_id": 242,
+  "name": "Restauración 3",
+  "fields": {
+    "nombre": "Restauración 3",
+    "desc": "Restaura vida en el tiempo.",
+    "palabrasmagicas": "CRP SNC ET",
+    "hechizeromsg": "Has sanado a",
+    "targetmsg": "lanzó sanación sobre ti.",
+    "en_name": "Test heal",
+    "en_desc": "Restore health over time.",
+    "en_hechizeromsg": "You Restored",
+    "en_targetmsg": "You are restoring a little by",
+    "en_propiomsg": "You are restoring yourself a little.",
+    "targeteffecttype": "1",
+    "tipo": "2",
+    "wav": "17",
+    "fxgrh": "143",
+    "subehp": "1",
+    "minhp": "0",
+    "maxhp": "0",
+    "minskill": "90",
+    "manarequerido": "300",
+    "starequerido": "5000",
+    "target": "3",
+    "iconoindex": "32473",
+    "timeparticula": "20",
+    "cdeffectid": "1",
+    "eotid": "1",
+    "isbindable": "1",
+    "cooldown": "40",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 242,
+      "kind": "icon",
+      "source_id": 32473,
+      "top_grh": 32473,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32473,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032473__atlas_107__x160_y160_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/01_icon__src32473__topGRH32473__frame001__GRH32473.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 242,
+      "kind": "spell_fx",
+      "source_id": 143,
+      "top_grh": 74681,
+      "detail": "FXgrh FX143->Anim74681",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74627,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074627__atlas_3547__x0_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame001__GRH74627.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 74628,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074628__atlas_3547__x64_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame002__GRH74628.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 74629,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074629__atlas_3547__x128_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame003__GRH74629.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 74630,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074630__atlas_3547__x192_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame004__GRH74630.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 74631,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074631__atlas_3547__x256_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame005__GRH74631.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 74632,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074632__atlas_3547__x320_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame006__GRH74632.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 74633,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074633__atlas_3547__x384_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame007__GRH74633.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 74634,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074634__atlas_3547__x448_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame008__GRH74634.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 74635,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074635__atlas_3547__x512_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame009__GRH74635.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 74636,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074636__atlas_3547__x576_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame010__GRH74636.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 74637,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074637__atlas_3547__x640_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame011__GRH74637.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 74638,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074638__atlas_3547__x704_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame012__GRH74638.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 74639,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074639__atlas_3547__x768_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame013__GRH74639.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 74640,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074640__atlas_3547__x832_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame014__GRH74640.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 74641,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074641__atlas_3547__x896_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame015__GRH74641.png"
+        },
+        {
+          "frame_number": 16,
+          "grh": 74642,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074642__atlas_3547__x960_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/02_spell_fx__src143__topGRH74681__frame016__GRH74642.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 242,
+      "kind": "eot_tickfx",
+      "source_id": 144,
+      "top_grh": 74682,
+      "detail": "EOT1 FX144->Anim74682",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74643,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074643__atlas_3547__x0_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame001__GRH74643.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 74644,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074644__atlas_3547__x64_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame002__GRH74644.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 74645,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074645__atlas_3547__x128_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame003__GRH74645.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 74646,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074646__atlas_3547__x192_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame004__GRH74646.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 74647,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074647__atlas_3547__x256_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame005__GRH74647.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 74648,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074648__atlas_3547__x320_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame006__GRH74648.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 74649,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074649__atlas_3547__x384_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame007__GRH74649.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 74650,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074650__atlas_3547__x448_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame008__GRH74650.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 74651,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074651__atlas_3547__x512_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame009__GRH74651.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 74652,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074652__atlas_3547__x576_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame010__GRH74652.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 74653,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074653__atlas_3547__x640_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame011__GRH74653.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 74654,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074654__atlas_3547__x704_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame012__GRH74654.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 74655,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074655__atlas_3547__x768_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame013__GRH74655.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 74656,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074656__atlas_3547__x832_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame014__GRH74656.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 74657,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074657__atlas_3547__x896_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame015__GRH74657.png"
+        },
+        {
+          "frame_number": 16,
+          "grh": 74658,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074658__atlas_3547__x960_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/03_eot_tickfx__src144__topGRH74682__frame016__GRH74658.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 242,
+      "kind": "eot_client_effect",
+      "source_id": 1,
+      "top_grh": 32473,
+      "detail": "EOT1->Effect1",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32473,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032473__atlas_107__x160_y160_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/04_eot_client_effect__src1__topGRH32473__frame001__GRH32473.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 242,
+      "kind": "cooldown_effect",
+      "source_id": 1,
+      "top_grh": 32473,
+      "detail": "cdeffectid->Effect1",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32473,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032473__atlas_107__x160_y160_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/242_Restauracion_3/05_cooldown_effect__src1__topGRH32473__frame001__GRH32473.png"
+        }
+      ]
+    }
+  ]
+}

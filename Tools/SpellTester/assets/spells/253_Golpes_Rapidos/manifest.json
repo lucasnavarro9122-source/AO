@@ -1,0 +1,77 @@
+{
+  "spell_id": 253,
+  "name": "Golpes Rápidos",
+  "fields": {
+    "nombre": "Golpes Rápidos",
+    "desc": "Los próximos 3 ataques que realices golpean varias veces en por cada ataque reduciendo el daño de cada golpe.",
+    "palabrasmagicas": "",
+    "hechizeromsg": "",
+    "targetmsg": "",
+    "propiomsg": "",
+    "en_name": "Kick blows",
+    "en_desc": "your next 3 attacks with hand or knuckle with deal multiple blows with lower damage each.",
+    "en_hechizeromsg": "",
+    "en_targetmsg": "",
+    "en_propiomsg": "",
+    "tipo": "2",
+    "wav": "0",
+    "starequerido": "5000",
+    "iconoindex": "74697",
+    "target": "1",
+    "manarequerido": "200",
+    "autolanzar": "1",
+    "cooldown": "30",
+    "cdeffectid": "21",
+    "eotid": "24",
+    "isskill": "1",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 253,
+      "kind": "icon",
+      "source_id": 74697,
+      "top_grh": 74697,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74697,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074697__atlas_113__x384_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/253_Golpes_Rapidos/01_icon__src74697__topGRH74697__frame001__GRH74697.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 253,
+      "kind": "eot_client_effect",
+      "source_id": 21,
+      "top_grh": 74697,
+      "detail": "EOT24->Effect21",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74697,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074697__atlas_113__x384_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/253_Golpes_Rapidos/02_eot_client_effect__src21__topGRH74697__frame001__GRH74697.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 253,
+      "kind": "cooldown_effect",
+      "source_id": 21,
+      "top_grh": 74697,
+      "detail": "cdeffectid->Effect21",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74697,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074697__atlas_113__x384_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/253_Golpes_Rapidos/03_cooldown_effect__src21__topGRH74697__frame001__GRH74697.png"
+        }
+      ]
+    }
+  ]
+}

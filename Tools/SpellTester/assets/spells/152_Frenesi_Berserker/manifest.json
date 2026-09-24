@@ -1,0 +1,63 @@
+{
+  "spell_id": 152,
+  "name": "Frenesí Berserker",
+  "fields": {
+    "nombre": "Frenesí Berserker",
+    "desc": "Remueve la paralisis.",
+    "palabrasmagicas": "¡AAAAAAAGHRRRR!",
+    "hechizeromsg": "Le has removido la parálisis a",
+    "targetmsg": "te ha removido la parálisis.",
+    "propiomsg": "Entras en un estado de frenesí y destruyes la parálisis.",
+    "en_name": "Berserker's Frenzy",
+    "en_desc": "Removes paralysis",
+    "en_hechizeromsg": "You removed paralysis from",
+    "en_targetmsg": "got rid of your paralysis",
+    "en_propiomsg": "You go into a frenzy, destroying paralysis.",
+    "requiredhp": "150",
+    "tipo": "2",
+    "wav": "255",
+    "particle": "132",
+    "timeparticula": "40",
+    "removerparalisis": "1",
+    "minskill": "1",
+    "manarequerido": "0",
+    "starequerido": "500",
+    "iconoindex": "35720",
+    "target": "3",
+    "autolanzar": "1",
+    "nowiki": "1",
+    "targeteffecttype": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 152,
+      "kind": "icon",
+      "source_id": 35720,
+      "top_grh": 35720,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35720,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035720__atlas_108__x128_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/152_Frenesi_Berserker/01_icon__src35720__topGRH35720__frame001__GRH35720.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 152,
+      "kind": "particle",
+      "source_id": 132,
+      "top_grh": 19986,
+      "detail": "particle Particle132 Paz Elfica",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 19986,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_019986__atlas_3__x352_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/152_Frenesi_Berserker/02_particle__src132__topGRH19986__frame001__GRH19986.png"
+        }
+      ]
+    }
+  ]
+}

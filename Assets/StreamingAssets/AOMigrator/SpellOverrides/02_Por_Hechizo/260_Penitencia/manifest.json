@@ -1,0 +1,74 @@
+{
+  "spell_id": 260,
+  "name": "Penitencia",
+  "fields": {
+    "nombre": "Penitencia",
+    "desc": "Aumenta el daño del próximo ataque que reciba el objetivo",
+    "palabrasmagicas": "TLAZO TLA' PALLI",
+    "targetmsg": "lanzó Penitencia sobre vos.",
+    "hechizeromsg": "Has lanzado Penitencia sobre",
+    "targeteffecttype": "2",
+    "tipo": "2",
+    "autolanzar": "0",
+    "wav": "0",
+    "fxgrh": "0",
+    "timeparticula": "0",
+    "manarequerido": "350",
+    "starequerido": "5000",
+    "iconoindex": "74713",
+    "minskill": "70",
+    "target": "3",
+    "cooldown": "30",
+    "cdeffectid": "29",
+    "eotid": "32",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 260,
+      "kind": "icon",
+      "source_id": 74713,
+      "top_grh": 74713,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74713,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074713__atlas_113__x384_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/260_Penitencia/01_icon__src74713__topGRH74713__frame001__GRH74713.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 260,
+      "kind": "eot_client_effect",
+      "source_id": 29,
+      "top_grh": 74713,
+      "detail": "EOT32->Effect29",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74713,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074713__atlas_113__x384_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/260_Penitencia/02_eot_client_effect__src29__topGRH74713__frame001__GRH74713.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 260,
+      "kind": "cooldown_effect",
+      "source_id": 29,
+      "top_grh": 74713,
+      "detail": "cdeffectid->Effect29",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74713,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074713__atlas_113__x384_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/260_Penitencia/03_cooldown_effect__src29__topGRH74713__frame001__GRH74713.png"
+        }
+      ]
+    }
+  ]
+}

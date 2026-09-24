@@ -1,0 +1,76 @@
+{
+  "spell_id": 201,
+  "name": "Maldición del Bufón",
+  "fields": {
+    "nombre": "Maldición del Bufón",
+    "desc": "Causa 180 a 220 puntos daño a la víctima.",
+    "palabrasmagicas": "BÜFHÖNIÜM",
+    "hechizeromsg": "Has lanzado una maldición del bufon",
+    "targetmsg": "lanzó maldición del bufon sobre ti.",
+    "en_name": "Jester's Curse",
+    "en_desc": "Causes 180 to 220 hit points to the victim",
+    "en_hechizeromsg": "You casted Jester's Curse on",
+    "en_targetmsg": "has casted Jester's Curse on you",
+    "tipo": "1",
+    "wav": "100",
+    "subehp": "2",
+    "particle": "232",
+    "timeparticula": "30",
+    "minhp": "180",
+    "maxhp": "220",
+    "minskill": "100",
+    "manarequerido": "10",
+    "starequerido": "2",
+    "target": "3",
+    "iconoindex": "35684",
+    "particleviaje": "196",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 201,
+      "kind": "icon",
+      "source_id": 35684,
+      "top_grh": 35684,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35684,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035684__atlas_108__x0_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/201_Maldicion_del_Bufon/01_icon__src35684__topGRH35684__frame001__GRH35684.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 201,
+      "kind": "particle",
+      "source_id": 232,
+      "top_grh": 35454,
+      "detail": "particle Particle232 Bufon Real",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35454,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035454__atlas_92__x0_y512_w128_h128.png",
+          "spell_copy": "02_Por_Hechizo/201_Maldicion_del_Bufon/02_particle__src232__topGRH35454__frame001__GRH35454.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 201,
+      "kind": "particleviaje",
+      "source_id": 196,
+      "top_grh": 19986,
+      "detail": "particleviaje Particle196 Flecha",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 19986,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_019986__atlas_3__x352_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/201_Maldicion_del_Bufon/03_particleviaje__src196__topGRH19986__frame001__GRH19986.png"
+        }
+      ]
+    }
+  ]
+}

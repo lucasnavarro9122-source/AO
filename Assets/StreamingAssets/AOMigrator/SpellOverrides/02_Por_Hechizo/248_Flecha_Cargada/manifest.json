@@ -1,0 +1,84 @@
+{
+  "spell_id": 248,
+  "name": "Flecha Cargada",
+  "fields": {
+    "nombre": "Flecha Cargada",
+    "desc": "Empuja a un enemigo",
+    "palabrasmagicas": "",
+    "hechizeromsg": "",
+    "targetmsg": "te ha empuja",
+    "requireweapontype": "3",
+    "targeteffecttype": "2",
+    "propiomsg": "",
+    "en_name": "Charged Arrow",
+    "en_desc": "",
+    "en_hechizeromsg": "Push enemies away.",
+    "en_targetmsg": "h",
+    "en_propiomsg": "",
+    "tipo": "10",
+    "skilltype": "1",
+    "minhp": "40",
+    "maxhp": "60",
+    "subehp": "2",
+    "wav": "",
+    "fxgrh": "0",
+    "timeparticula": "0",
+    "manarequerido": "0",
+    "starequerido": "5000",
+    "iconoindex": "74691",
+    "target": "3",
+    "cooldown": "30",
+    "cdeffectid": "13",
+    "eotid": "11",
+    "isskill": "1",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 248,
+      "kind": "icon",
+      "source_id": 74691,
+      "top_grh": 74691,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74691,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074691__atlas_113__x192_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/248_Flecha_Cargada/01_icon__src74691__topGRH74691__frame001__GRH74691.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 248,
+      "kind": "eot_client_effect",
+      "source_id": 4,
+      "top_grh": 74708,
+      "detail": "EOT12->Effect4",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74708,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074708__atlas_113__x224_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/248_Flecha_Cargada/02_eot_client_effect__src4__topGRH74708__frame001__GRH74708.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 248,
+      "kind": "cooldown_effect",
+      "source_id": 13,
+      "top_grh": 74691,
+      "detail": "cdeffectid->Effect13",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74691,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074691__atlas_113__x192_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/248_Flecha_Cargada/03_cooldown_effect__src13__topGRH74691__frame001__GRH74691.png"
+        }
+      ]
+    }
+  ]
+}

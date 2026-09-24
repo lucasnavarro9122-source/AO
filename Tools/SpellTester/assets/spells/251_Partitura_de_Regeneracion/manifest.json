@@ -1,0 +1,423 @@
+{
+  "spell_id": 251,
+  "name": "Partitura de Regeneración",
+  "fields": {
+    "nombre": "Partitura de Regeneración",
+    "desc": "Canta una canción regenerativa que recupera tu mana y el de tus aliados",
+    "palabrasmagicas": "",
+    "hechizeromsg": "Has iniciado la partitura de regeneración",
+    "targetmsg": "",
+    "propiomsg": "Has iniciado la partitura de regeneración.",
+    "en_name": "Regeneration Score",
+    "en_desc": "Sing a song that regenerates your mana",
+    "en_hechizeromsg": "",
+    "en_targetmsg": "",
+    "en_propiomsg": "",
+    "tipo": "2",
+    "wav": "0",
+    "starequerido": "5000",
+    "iconoindex": "74685",
+    "target": "1",
+    "manarequerido": "200",
+    "autolanzar": "1",
+    "cooldown": "40",
+    "cdeffectid": "12",
+    "eotid": "18",
+    "cancelactiveeffect": "1",
+    "targeteffecttype": "1",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 251,
+      "kind": "icon",
+      "source_id": 74685,
+      "top_grh": 74685,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74685,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074685__atlas_113__x0_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/01_icon__src74685__topGRH74685__frame001__GRH74685.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 251,
+      "kind": "eot_tickfx",
+      "source_id": 149,
+      "top_grh": 31145,
+      "detail": "EOT18 FX149->Anim31145",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 31127,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031127__atlas_3547__x0_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame001__GRH31127.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 31128,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031128__atlas_3547__x64_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame002__GRH31128.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 31129,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031129__atlas_3547__x128_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame003__GRH31129.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 31130,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031130__atlas_3547__x192_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame004__GRH31130.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 31131,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031131__atlas_3547__x256_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame005__GRH31131.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 31132,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031132__atlas_3547__x320_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame006__GRH31132.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 31133,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031133__atlas_3547__x384_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame007__GRH31133.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 31134,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031134__atlas_3547__x448_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame008__GRH31134.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 31135,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031135__atlas_3547__x512_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame009__GRH31135.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 31136,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031136__atlas_3547__x576_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame010__GRH31136.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 31137,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031137__atlas_3547__x640_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame011__GRH31137.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 31138,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031138__atlas_3547__x704_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame012__GRH31138.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 31139,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031139__atlas_3547__x768_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame013__GRH31139.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 31140,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031140__atlas_3547__x832_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame014__GRH31140.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 31141,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031141__atlas_3547__x896_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame015__GRH31141.png"
+        },
+        {
+          "frame_number": 16,
+          "grh": 31142,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031142__atlas_3547__x960_y384_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/02_eot_tickfx__src149__topGRH31145__frame016__GRH31142.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 251,
+      "kind": "eot_client_effect",
+      "source_id": 12,
+      "top_grh": 74685,
+      "detail": "EOT18->Effect12",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74685,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074685__atlas_113__x0_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/03_eot_client_effect__src12__topGRH74685__frame001__GRH74685.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 251,
+      "kind": "eot_tickfx",
+      "source_id": 147,
+      "top_grh": 31143,
+      "detail": "EOT17 FX147->Anim31143",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 31095,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031095__atlas_3547__x0_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame001__GRH31095.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 31096,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031096__atlas_3547__x64_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame002__GRH31096.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 31097,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031097__atlas_3547__x128_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame003__GRH31097.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 31098,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031098__atlas_3547__x192_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame004__GRH31098.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 31099,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031099__atlas_3547__x256_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame005__GRH31099.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 31100,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031100__atlas_3547__x320_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame006__GRH31100.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 31101,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031101__atlas_3547__x384_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame007__GRH31101.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 31102,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031102__atlas_3547__x448_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame008__GRH31102.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 31103,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031103__atlas_3547__x512_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame009__GRH31103.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 31104,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031104__atlas_3547__x576_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame010__GRH31104.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 31105,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031105__atlas_3547__x640_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame011__GRH31105.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 31106,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031106__atlas_3547__x704_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame012__GRH31106.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 31107,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031107__atlas_3547__x768_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame013__GRH31107.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 31108,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031108__atlas_3547__x832_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame014__GRH31108.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 31109,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031109__atlas_3547__x896_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame015__GRH31109.png"
+        },
+        {
+          "frame_number": 16,
+          "grh": 31110,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031110__atlas_3547__x960_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/04_eot_tickfx__src147__topGRH31143__frame016__GRH31110.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 251,
+      "kind": "eot_client_effect",
+      "source_id": 11,
+      "top_grh": 74686,
+      "detail": "EOT17->Effect11",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74686,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074686__atlas_113__x32_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/05_eot_client_effect__src11__topGRH74686__frame001__GRH74686.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 251,
+      "kind": "eot_tickfx",
+      "source_id": 147,
+      "top_grh": 31143,
+      "detail": "EOT59 FX147->Anim31143",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 31095,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031095__atlas_3547__x0_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame001__GRH31095.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 31096,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031096__atlas_3547__x64_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame002__GRH31096.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 31097,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031097__atlas_3547__x128_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame003__GRH31097.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 31098,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031098__atlas_3547__x192_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame004__GRH31098.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 31099,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031099__atlas_3547__x256_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame005__GRH31099.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 31100,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031100__atlas_3547__x320_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame006__GRH31100.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 31101,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031101__atlas_3547__x384_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame007__GRH31101.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 31102,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031102__atlas_3547__x448_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame008__GRH31102.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 31103,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031103__atlas_3547__x512_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame009__GRH31103.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 31104,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031104__atlas_3547__x576_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame010__GRH31104.png"
+        },
+        {
+          "frame_number": 11,
+          "grh": 31105,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031105__atlas_3547__x640_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame011__GRH31105.png"
+        },
+        {
+          "frame_number": 12,
+          "grh": 31106,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031106__atlas_3547__x704_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame012__GRH31106.png"
+        },
+        {
+          "frame_number": 13,
+          "grh": 31107,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031107__atlas_3547__x768_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame013__GRH31107.png"
+        },
+        {
+          "frame_number": 14,
+          "grh": 31108,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031108__atlas_3547__x832_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame014__GRH31108.png"
+        },
+        {
+          "frame_number": 15,
+          "grh": 31109,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031109__atlas_3547__x896_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame015__GRH31109.png"
+        },
+        {
+          "frame_number": 16,
+          "grh": 31110,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_031110__atlas_3547__x960_y256_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/06_eot_tickfx__src147__topGRH31143__frame016__GRH31110.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 251,
+      "kind": "eot_client_effect",
+      "source_id": 11,
+      "top_grh": 74686,
+      "detail": "EOT59->Effect11",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74686,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074686__atlas_113__x32_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/07_eot_client_effect__src11__topGRH74686__frame001__GRH74686.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 251,
+      "kind": "cooldown_effect",
+      "source_id": 12,
+      "top_grh": 74685,
+      "detail": "cdeffectid->Effect12",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74685,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074685__atlas_113__x0_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/251_Partitura_de_Regeneracion/08_cooldown_effect__src12__topGRH74685__frame001__GRH74685.png"
+        }
+      ]
+    }
+  ]
+}

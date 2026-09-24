@@ -1,0 +1,81 @@
+{
+  "spell_id": 100,
+  "name": "Maldición de Kraken",
+  "fields": {
+    "nombre": "Maldición de Kraken",
+    "desc": "Causa 90 a 100 puntos de daño a la víctima.",
+    "palabrasmagicas": "IRAC'THER",
+    "hechizeromsg": "Has lanzado Maldición de Krakeno sobre",
+    "targetmsg": "lanzó Maldición de Kraken sobre vos.",
+    "propiomsg": "Has lanzado Maldición de Kraken sobre ti.",
+    "en_name": "Kraken's Curse",
+    "en_desc": "Causes 90 to 100 hit points to the target.",
+    "en_hechizeromsg": "You casted Kraken's Curse on",
+    "en_targetmsg": "casted Kraken's Curse on you.",
+    "en_propiomsg": "You've casted Kraken's Curse on yourself",
+    "targeteffecttype": "2",
+    "tipo": "1",
+    "wav": "234",
+    "loops": "0",
+    "resis": "1",
+    "particle": "189",
+    "timeparticula": "20",
+    "subehp": "2",
+    "minhp": "135",
+    "maxhp": "175",
+    "antirm": "1",
+    "minskill": "100",
+    "manarequerido": "640",
+    "starequerido": "60",
+    "iconoindex": "35713",
+    "target": "3",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 100,
+      "kind": "icon",
+      "source_id": 35713,
+      "top_grh": 35713,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35713,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035713__atlas_108__x416_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/100_Maldicion_de_Kraken/01_icon__src35713__topGRH35713__frame001__GRH35713.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 100,
+      "kind": "particle",
+      "source_id": 189,
+      "top_grh": 19976,
+      "detail": "particle Particle189 GolpeIracundo",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 19976,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_019976__atlas_3__x32_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/100_Maldicion_de_Kraken/02_particle__src189__topGRH19976__frame001__GRH19976.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 100,
+      "kind": "particle",
+      "source_id": 189,
+      "top_grh": 19992,
+      "detail": "particle Particle189 GolpeIracundo",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 19992,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_019992__atlas_3__x32_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/100_Maldicion_de_Kraken/03_particle__src189__topGRH19992__frame001__GRH19992.png"
+        }
+      ]
+    }
+  ]
+}

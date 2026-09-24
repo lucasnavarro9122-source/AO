@@ -182,6 +182,21 @@ public class AOInventoryV10 : MonoBehaviour
         return IsEquipped(itemIndex);
     }
 
+    public bool UseConsumableById(int itemId)
+    {
+        if (AOInterfaceV0101.InputCaptured || AOOnlineClientV240.InputBlocked) return false;
+        var item = AOItemDatabaseV10.Get(itemId);
+        if (item == null || !item.Consumable) return false;
+        for (int i = 0; i < slots.Length; i++) if (slots[i] != null && slots[i].itemIndex == itemId && slots[i].amount > 0)
+        {
+            int previous = selectedSlot; selectedSlot = i;
+            // AO original (use key + UseInvItem): a successful use ends meditation.
+            try { bool used = TryUseSelectedConsumable(); if (used) GetComponent<AOPlayerMagicV120>()?.InterruptMeditation(); return used; }
+            finally { selectedSlot = previous; AOOnlineClientV240.Checkpoint(false); }
+        }
+        AOInterfaceV0101.PushMessage("No te queda " + item.name + "."); return false;
+    }
+
     public void UseOrToggleSelected()
     {
         AOPlayerCombatV09 combatState =
@@ -194,6 +209,14 @@ public class AOInventoryV10 : MonoBehaviour
                 "Estás muerto. No podés usar ni equipar objetos.");
             return;
         }
+
+        // AO original (UserItemClick): mouse use is ignored while meditating.
+        AOPlayerMagicV120 magicState =
+            GetComponent<AOPlayerMagicV120>();
+
+        if (magicState != null &&
+            magicState.IsMeditating)
+            return;
 
         AOItemDatabaseV10.ItemDef item =
             GetSelectedItem();

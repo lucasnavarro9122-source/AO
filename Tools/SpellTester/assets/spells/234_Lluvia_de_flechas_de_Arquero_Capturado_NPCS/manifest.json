@@ -1,0 +1,48 @@
+{
+  "spell_id": 234,
+  "name": "Lluvia de flechas de Arquero Capturado (NPCS)",
+  "fields": {
+    "nombre": "Lluvia de flechas de Arquero Capturado (NPCS)",
+    "desc": "Causa 50 a 70 puntos de daño a la víctima.",
+    "palabrasmagicas": "Keskin Dis",
+    "hechizeromsg": "Has lanzado una lluvia de flechas",
+    "targetmsg": "te lanzó una lluvia de flechas.",
+    "propiomsg": "Has lanzado una lluvia de flechas.",
+    "en_name": "Captured Archer's Arrow Rain (NPCs)",
+    "en_desc": "Causes 50 to 70 hit points to the target.",
+    "en_hechizeromsg": "You casted Arrow Rain on",
+    "en_targetmsg": "has casted Arrow Rain on you.",
+    "en_propiomsg": "You casted Arrow Rain.",
+    "tipo": "1",
+    "wav": "19",
+    "subehp": "2",
+    "minhp": "50",
+    "maxhp": "70",
+    "minskill": "20",
+    "manarequerido": "30",
+    "starequerido": "5",
+    "target": "4",
+    "areaafecta": "1",
+    "arearadio": "22",
+    "iconoindex": "32447",
+    "nowiki": "1",
+    "targeteffecttype": "2"
+  },
+  "resources": [
+    {
+      "spell_id": 234,
+      "kind": "icon",
+      "source_id": 32447,
+      "top_grh": 32447,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32447,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032447__atlas_107__x96_y96_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/234_Lluvia_de_flechas_de_Arquero_Capturado_NPCS/01_icon__src32447__topGRH32447__frame001__GRH32447.png"
+        }
+      ]
+    }
+  ]
+}

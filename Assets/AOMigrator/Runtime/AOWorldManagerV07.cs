@@ -1813,6 +1813,7 @@ public partial class AOWorldManagerV07 : MonoBehaviour
             (grh >= 26767 && grh <= 26782);
     }
 
+#if UNITY_EDITOR // debug only: hidden in player builds
     void OnGUI()
     {
         if (AOOnlineClientV240.InputBlocked) return;
@@ -1868,4 +1869,5 @@ public partial class AOWorldManagerV07 : MonoBehaviour
                 style);
         }
     }
+#endif
 }

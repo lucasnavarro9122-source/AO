@@ -95,12 +95,16 @@ public static class AOInteractionRegistry
         return null;
     }
 
-    public static bool IsBlocked(int x, int y)
+    public static bool IsBlocked(int x, int y) => IsBlocked(x, y, true);
+
+    // npcsBlock=false: NPC bodies do not count (skill shots resolve NPC hits by radius).
+    public static bool IsBlocked(int x, int y, bool npcsBlock)
     {
         if (!byTile.TryGetValue(Key(x, y), out var list)) return false;
         Clean(list);
         for (int i = 0; i < list.Count; i++)
-            if (list[i] != null && list[i].isActiveAndEnabled && list[i].BlocksTile)
+            if (list[i] != null && list[i].isActiveAndEnabled && list[i].BlocksTile &&
+                (npcsBlock || list[i].GetComponent<AONPCCombatV09>() == null))
                 return true;
         return false;
     }

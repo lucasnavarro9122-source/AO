@@ -1,0 +1,93 @@
+{
+  "spell_id": 131,
+  "name": "Destierro",
+  "fields": {
+    "nombre": "Destierro",
+    "desc": "Causa 125 a 135 puntos de daño.",
+    "palabrasmagicas": "Vai'O Dsh'm",
+    "hechizeromsg": "Has lanzado Destierro sobre",
+    "targetmsg": "lanzó Destierro sobre vos.",
+    "propiomsg": "Has lanzado Destierro sobre ti.",
+    "en_name": "Banishment",
+    "en_desc": "Causes 125 to 135 hit points to the target",
+    "en_hechizeromsg": "You casted Banishment on",
+    "en_targetmsg": "casted Banishment on you.",
+    "en_propiomsg": "Casted Banishment on yourself.",
+    "targeteffecttype": "2",
+    "tipo": "1",
+    "target": "3",
+    "wav": "520",
+    "particle": "195",
+    "timeparticula": "30",
+    "subehp": "2",
+    "minhp": "125",
+    "maxhp": "135",
+    "iconoindex": "32423",
+    "minskill": "100",
+    "manarequerido": "1100",
+    "starequerido": "190",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 131,
+      "kind": "icon",
+      "source_id": 32423,
+      "top_grh": 32423,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32423,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032423__atlas_107__x96_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/131_Destierro/01_icon__src32423__topGRH32423__frame001__GRH32423.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 131,
+      "kind": "particle",
+      "source_id": 195,
+      "top_grh": 20033,
+      "detail": "particle Particle195 Magicnitia",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20033,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020033__atlas_3__x320_y96_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/131_Destierro/02_particle__src195__topGRH20033__frame001__GRH20033.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 131,
+      "kind": "particle",
+      "source_id": 195,
+      "top_grh": 20034,
+      "detail": "particle Particle195 Magicnitia",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20034,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020034__atlas_3__x384_y96_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/131_Destierro/03_particle__src195__topGRH20034__frame001__GRH20034.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 131,
+      "kind": "particle",
+      "source_id": 195,
+      "top_grh": 20035,
+      "detail": "particle Particle195 Magicnitia",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20035,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020035__atlas_3__x448_y96_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/131_Destierro/04_particle__src195__topGRH20035__frame001__GRH20035.png"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,74 @@
+{
+  "spell_id": 278,
+  "name": "Refuerzo Avanzado",
+  "fields": {
+    "nombre": "Refuerzo Avanzado",
+    "desc": "Refuerza tu equipo para aumentar su defensa",
+    "palabrasmagicas": "",
+    "hechizeromsg": "",
+    "targetmsg": "",
+    "propiomsg": "",
+    "tipo": "2",
+    "autolanzar": "1",
+    "wav": "0",
+    "fxgrh": "0",
+    "starequerido": "5000",
+    "timeparticula": "0",
+    "iconoindex": "74719",
+    "target": "1",
+    "cooldown": "5",
+    "cdeffectid": "40",
+    "eotid": "53",
+    "requireshield": "1",
+    "isskill": "1",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 278,
+      "kind": "icon",
+      "source_id": 74719,
+      "top_grh": 74719,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74719,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074719__atlas_113__x64_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/278_Refuerzo_Avanzado/01_icon__src74719__topGRH74719__frame001__GRH74719.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 278,
+      "kind": "eot_client_effect",
+      "source_id": 40,
+      "top_grh": 74719,
+      "detail": "EOT53->Effect40",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74719,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074719__atlas_113__x64_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/278_Refuerzo_Avanzado/02_eot_client_effect__src40__topGRH74719__frame001__GRH74719.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 278,
+      "kind": "cooldown_effect",
+      "source_id": 40,
+      "top_grh": 74719,
+      "detail": "cdeffectid->Effect40",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74719,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074719__atlas_113__x64_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/278_Refuerzo_Avanzado/03_cooldown_effect__src40__topGRH74719__frame001__GRH74719.png"
+        }
+      ]
+    }
+  ]
+}

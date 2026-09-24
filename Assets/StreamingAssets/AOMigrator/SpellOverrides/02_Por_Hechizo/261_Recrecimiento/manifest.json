@@ -1,0 +1,75 @@
+{
+  "spell_id": 261,
+  "name": "Recrecimiento",
+  "fields": {
+    "nombre": "Recrecimiento",
+    "desc": "Aumenta el la vida que recuperas de cualquier fuente (hechizos curativos, pociones, etc.)",
+    "palabrasmagicas": "TLI'X PAN LI",
+    "propiomsg": "Has lanzado Recrecimiento sobre ti.",
+    "targetmsg": "lanzó Recrecimiento sobre vos.",
+    "hechizeromsg": "Has lanzado Recrecimiento sobre",
+    "targeteffecttype": "1",
+    "requiretransform": "655",
+    "tipo": "2",
+    "autolanzar": "0",
+    "wav": "0",
+    "fxgrh": "0",
+    "timeparticula": "0",
+    "manarequerido": "400",
+    "starequerido": "20",
+    "iconoindex": "74694",
+    "target": "3",
+    "cooldown": "15",
+    "cdeffectid": "30",
+    "eotid": "33",
+    "isbindable": "1",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 261,
+      "kind": "icon",
+      "source_id": 74694,
+      "top_grh": 74694,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74694,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074694__atlas_113__x288_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/261_Recrecimiento/01_icon__src74694__topGRH74694__frame001__GRH74694.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 261,
+      "kind": "eot_client_effect",
+      "source_id": 30,
+      "top_grh": 74694,
+      "detail": "EOT33->Effect30",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74694,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074694__atlas_113__x288_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/261_Recrecimiento/02_eot_client_effect__src30__topGRH74694__frame001__GRH74694.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 261,
+      "kind": "cooldown_effect",
+      "source_id": 30,
+      "top_grh": 74694,
+      "detail": "cdeffectid->Effect30",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74694,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074694__atlas_113__x288_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/261_Recrecimiento/03_cooldown_effect__src30__topGRH74694__frame001__GRH74694.png"
+        }
+      ]
+    }
+  ]
+}

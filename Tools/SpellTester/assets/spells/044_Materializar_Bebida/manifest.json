@@ -1,0 +1,42 @@
+{
+  "spell_id": 44,
+  "name": "Materializar: Bebida",
+  "fields": {
+    "nombre": "Materializar: Bebida",
+    "desc": "Este hechizo puede crear bebida a partir de su lanzamiento.",
+    "palabrasmagicas": "Sunt Aquum",
+    "hechizeromsg": "Has creado algo de bebida.",
+    "en_name": "Materialize: Drink",
+    "en_desc": "When casted, a water bottle appears on the ground.",
+    "en_hechizeromsg": "You created a drink.",
+    "tipo": "3",
+    "wav": "130",
+    "fxgrh": "0",
+    "loops": "0",
+    "minskill": "100",
+    "manarequerido": "500",
+    "starequerido": "120",
+    "iconoindex": "32430",
+    "materializaobj": "43",
+    "materializacant": "1",
+    "target": "4",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 44,
+      "kind": "icon",
+      "source_id": 32430,
+      "top_grh": 32430,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32430,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032430__atlas_107__x320_y32_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/044_Materializar_Bebida/01_icon__src32430__topGRH32430__frame001__GRH32430.png"
+        }
+      ]
+    }
+  ]
+}

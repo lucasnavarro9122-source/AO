@@ -1,0 +1,43 @@
+{
+  "spell_id": 46,
+  "name": "Portal Planar",
+  "fields": {
+    "nombre": "Portal Planar",
+    "desc": "El hechizo Portal planar crea un teleport a una dimensión intermundia.",
+    "palabrasmagicas": "Opercure Dimentia",
+    "hechizeromsg": "Has creado un Portal interplanar.",
+    "en_name": "Plane Portal",
+    "en_desc": "This spell creates a portal that teleports you to the teleport hub.",
+    "en_hechizeromsg": "You've created a Plane Portal.",
+    "fxgrh": "0",
+    "loops": "0",
+    "minskill": "100",
+    "manarequerido": "1500",
+    "starequerido": "350",
+    "target": "4",
+    "iconoindex": "35733",
+    "tipo": "6",
+    "teleport": "1",
+    "teleportmap": "281",
+    "teleportx": "50",
+    "teleporty": "50",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 46,
+      "kind": "icon",
+      "source_id": 35733,
+      "top_grh": 35733,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35733,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035733__atlas_108__x32_y96_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/046_Portal_Planar/01_icon__src35733__topGRH35733__frame001__GRH35733.png"
+        }
+      ]
+    }
+  ]
+}

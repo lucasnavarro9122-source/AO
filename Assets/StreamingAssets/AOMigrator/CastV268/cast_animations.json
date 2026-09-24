@@ -1,0 +1,705 @@
+{
+  "version": "0.26.8",
+  "source": "Recursos-master original npcs.dat + cuerpos.dat + graficos.ini/moldes.ini",
+  "npcs": [
+    {
+      "npcIndex": 640,
+      "name": "Dragón Negro Legendario",
+      "castBody": 4393
+    },
+    {
+      "npcIndex": 641,
+      "name": "Araña New",
+      "castBody": 865
+    },
+    {
+      "npcIndex": 655,
+      "name": "Espíritu del bosque",
+      "castBody": 4252
+    },
+    {
+      "npcIndex": 668,
+      "name": "Scramer Pícaro",
+      "castBody": 4347
+    },
+    {
+      "npcIndex": 754,
+      "name": "Espíritu Poseído",
+      "castBody": 4248
+    },
+    {
+      "npcIndex": 755,
+      "name": "Gigantor",
+      "castBody": 4243
+    },
+    {
+      "npcIndex": 1308,
+      "name": "Bisporus",
+      "castBody": 4260
+    },
+    {
+      "npcIndex": 1309,
+      "name": "Niscalo",
+      "castBody": 4258
+    },
+    {
+      "npcIndex": 1310,
+      "name": "Comatus",
+      "castBody": 4256
+    },
+    {
+      "npcIndex": 1326,
+      "name": "Espíritu del bosque",
+      "castBody": 4252
+    },
+    {
+      "npcIndex": 1355,
+      "name": "Scramer Pícaron",
+      "castBody": 4347
+    },
+    {
+      "npcIndex": 1369,
+      "name": "Hiena Marrón",
+      "castBody": 4180
+    },
+    {
+      "npcIndex": 1370,
+      "name": "Hiena Gris",
+      "castBody": 4177
+    },
+    {
+      "npcIndex": 1402,
+      "name": "Papa Noel",
+      "castBody": 4133
+    },
+    {
+      "npcIndex": 1403,
+      "name": "Muñeco de Nieve",
+      "castBody": 4131
+    }
+  ],
+  "bodies": [
+    {
+      "bodyId": 865,
+      "fps": 10.0,
+      "headOffsetX": 0,
+      "headOffsetY": 0,
+      "bodyOffsetX": 16,
+      "bodyOffsetY": 64,
+      "directions": [
+        {
+          "heading": 1,
+          "frames": [
+            "Frames/body_865/h1/f01.png",
+            "Frames/body_865/h1/f02.png",
+            "Frames/body_865/h1/f03.png",
+            "Frames/body_865/h1/f04.png",
+            "Frames/body_865/h1/f05.png"
+          ]
+        },
+        {
+          "heading": 2,
+          "frames": [
+            "Frames/body_865/h2/f01.png",
+            "Frames/body_865/h2/f02.png",
+            "Frames/body_865/h2/f03.png",
+            "Frames/body_865/h2/f04.png",
+            "Frames/body_865/h2/f05.png"
+          ]
+        },
+        {
+          "heading": 3,
+          "frames": [
+            "Frames/body_865/h3/f01.png",
+            "Frames/body_865/h3/f02.png",
+            "Frames/body_865/h3/f03.png",
+            "Frames/body_865/h3/f04.png",
+            "Frames/body_865/h3/f05.png"
+          ]
+        },
+        {
+          "heading": 4,
+          "frames": [
+            "Frames/body_865/h4/f01.png",
+            "Frames/body_865/h4/f02.png",
+            "Frames/body_865/h4/f03.png",
+            "Frames/body_865/h4/f04.png",
+            "Frames/body_865/h4/f05.png"
+          ]
+        }
+      ]
+    },
+    {
+      "bodyId": 4131,
+      "fps": 10.0,
+      "headOffsetX": 0,
+      "headOffsetY": -2,
+      "bodyOffsetX": 0,
+      "bodyOffsetY": 0,
+      "directions": [
+        {
+          "heading": 1,
+          "frames": [
+            "Frames/body_4131/h1/f01.png",
+            "Frames/body_4131/h1/f02.png",
+            "Frames/body_4131/h1/f03.png",
+            "Frames/body_4131/h1/f04.png",
+            "Frames/body_4131/h1/f05.png"
+          ]
+        },
+        {
+          "heading": 2,
+          "frames": [
+            "Frames/body_4131/h2/f01.png",
+            "Frames/body_4131/h2/f02.png",
+            "Frames/body_4131/h2/f03.png",
+            "Frames/body_4131/h2/f04.png",
+            "Frames/body_4131/h2/f05.png"
+          ]
+        },
+        {
+          "heading": 3,
+          "frames": [
+            "Frames/body_4131/h3/f01.png",
+            "Frames/body_4131/h3/f02.png",
+            "Frames/body_4131/h3/f03.png",
+            "Frames/body_4131/h3/f04.png",
+            "Frames/body_4131/h3/f05.png"
+          ]
+        },
+        {
+          "heading": 4,
+          "frames": [
+            "Frames/body_4131/h4/f01.png",
+            "Frames/body_4131/h4/f02.png",
+            "Frames/body_4131/h4/f03.png",
+            "Frames/body_4131/h4/f04.png",
+            "Frames/body_4131/h4/f05.png"
+          ]
+        }
+      ]
+    },
+    {
+      "bodyId": 4133,
+      "fps": 6.25,
+      "headOffsetX": 0,
+      "headOffsetY": -2,
+      "bodyOffsetX": 0,
+      "bodyOffsetY": 0,
+      "directions": [
+        {
+          "heading": 1,
+          "frames": [
+            "Frames/body_4133/h1/f01.png",
+            "Frames/body_4133/h1/f02.png",
+            "Frames/body_4133/h1/f03.png",
+            "Frames/body_4133/h1/f04.png",
+            "Frames/body_4133/h1/f05.png"
+          ]
+        },
+        {
+          "heading": 2,
+          "frames": [
+            "Frames/body_4133/h2/f01.png",
+            "Frames/body_4133/h2/f02.png",
+            "Frames/body_4133/h2/f03.png",
+            "Frames/body_4133/h2/f04.png",
+            "Frames/body_4133/h2/f05.png"
+          ]
+        },
+        {
+          "heading": 3,
+          "frames": [
+            "Frames/body_4133/h3/f01.png",
+            "Frames/body_4133/h3/f02.png",
+            "Frames/body_4133/h3/f03.png",
+            "Frames/body_4133/h3/f04.png",
+            "Frames/body_4133/h3/f05.png"
+          ]
+        },
+        {
+          "heading": 4,
+          "frames": [
+            "Frames/body_4133/h4/f01.png",
+            "Frames/body_4133/h4/f02.png",
+            "Frames/body_4133/h4/f03.png",
+            "Frames/body_4133/h4/f04.png",
+            "Frames/body_4133/h4/f05.png"
+          ]
+        }
+      ]
+    },
+    {
+      "bodyId": 4177,
+      "fps": 14.286,
+      "headOffsetX": 0,
+      "headOffsetY": 0,
+      "bodyOffsetX": 0,
+      "bodyOffsetY": 0,
+      "directions": [
+        {
+          "heading": 1,
+          "frames": [
+            "Frames/body_4177/h1/f01.png",
+            "Frames/body_4177/h1/f02.png",
+            "Frames/body_4177/h1/f03.png",
+            "Frames/body_4177/h1/f04.png",
+            "Frames/body_4177/h1/f05.png"
+          ]
+        },
+        {
+          "heading": 2,
+          "frames": [
+            "Frames/body_4177/h2/f01.png",
+            "Frames/body_4177/h2/f02.png",
+            "Frames/body_4177/h2/f03.png",
+            "Frames/body_4177/h2/f04.png",
+            "Frames/body_4177/h2/f05.png"
+          ]
+        },
+        {
+          "heading": 3,
+          "frames": [
+            "Frames/body_4177/h3/f01.png",
+            "Frames/body_4177/h3/f02.png",
+            "Frames/body_4177/h3/f03.png",
+            "Frames/body_4177/h3/f04.png",
+            "Frames/body_4177/h3/f05.png"
+          ]
+        },
+        {
+          "heading": 4,
+          "frames": [
+            "Frames/body_4177/h4/f01.png",
+            "Frames/body_4177/h4/f02.png",
+            "Frames/body_4177/h4/f03.png",
+            "Frames/body_4177/h4/f04.png",
+            "Frames/body_4177/h4/f05.png"
+          ]
+        }
+      ]
+    },
+    {
+      "bodyId": 4180,
+      "fps": 8.0,
+      "headOffsetX": 0,
+      "headOffsetY": 0,
+      "bodyOffsetX": 0,
+      "bodyOffsetY": 0,
+      "directions": [
+        {
+          "heading": 1,
+          "frames": [
+            "Frames/body_4180/h1/f01.png",
+            "Frames/body_4180/h1/f02.png",
+            "Frames/body_4180/h1/f03.png",
+            "Frames/body_4180/h1/f04.png",
+            "Frames/body_4180/h1/f05.png"
+          ]
+        },
+        {
+          "heading": 2,
+          "frames": [
+            "Frames/body_4180/h2/f01.png",
+            "Frames/body_4180/h2/f02.png",
+            "Frames/body_4180/h2/f03.png",
+            "Frames/body_4180/h2/f04.png",
+            "Frames/body_4180/h2/f05.png"
+          ]
+        },
+        {
+          "heading": 3,
+          "frames": [
+            "Frames/body_4180/h3/f01.png",
+            "Frames/body_4180/h3/f02.png",
+            "Frames/body_4180/h3/f03.png",
+            "Frames/body_4180/h3/f04.png",
+            "Frames/body_4180/h3/f05.png"
+          ]
+        },
+        {
+          "heading": 4,
+          "frames": [
+            "Frames/body_4180/h4/f01.png",
+            "Frames/body_4180/h4/f02.png",
+            "Frames/body_4180/h4/f03.png",
+            "Frames/body_4180/h4/f04.png",
+            "Frames/body_4180/h4/f05.png"
+          ]
+        }
+      ]
+    },
+    {
+      "bodyId": 4243,
+      "fps": 8.0,
+      "headOffsetX": 0,
+      "headOffsetY": -64,
+      "bodyOffsetX": 0,
+      "bodyOffsetY": 0,
+      "directions": [
+        {
+          "heading": 1,
+          "frames": [
+            "Frames/body_4243/h1/f01.png",
+            "Frames/body_4243/h1/f02.png",
+            "Frames/body_4243/h1/f03.png",
+            "Frames/body_4243/h1/f04.png"
+          ]
+        },
+        {
+          "heading": 2,
+          "frames": [
+            "Frames/body_4243/h2/f01.png",
+            "Frames/body_4243/h2/f02.png",
+            "Frames/body_4243/h2/f03.png",
+            "Frames/body_4243/h2/f04.png"
+          ]
+        },
+        {
+          "heading": 3,
+          "frames": [
+            "Frames/body_4243/h3/f01.png",
+            "Frames/body_4243/h3/f02.png",
+            "Frames/body_4243/h3/f03.png",
+            "Frames/body_4243/h3/f04.png"
+          ]
+        },
+        {
+          "heading": 4,
+          "frames": [
+            "Frames/body_4243/h4/f01.png",
+            "Frames/body_4243/h4/f02.png",
+            "Frames/body_4243/h4/f03.png",
+            "Frames/body_4243/h4/f04.png"
+          ]
+        }
+      ]
+    },
+    {
+      "bodyId": 4248,
+      "fps": 8.0,
+      "headOffsetX": 0,
+      "headOffsetY": 0,
+      "bodyOffsetX": 0,
+      "bodyOffsetY": 0,
+      "directions": [
+        {
+          "heading": 1,
+          "frames": [
+            "Frames/body_4248/h1/f01.png",
+            "Frames/body_4248/h1/f02.png",
+            "Frames/body_4248/h1/f03.png",
+            "Frames/body_4248/h1/f04.png"
+          ]
+        },
+        {
+          "heading": 2,
+          "frames": [
+            "Frames/body_4248/h2/f01.png",
+            "Frames/body_4248/h2/f02.png",
+            "Frames/body_4248/h2/f03.png",
+            "Frames/body_4248/h2/f04.png"
+          ]
+        },
+        {
+          "heading": 3,
+          "frames": [
+            "Frames/body_4248/h3/f01.png",
+            "Frames/body_4248/h3/f02.png",
+            "Frames/body_4248/h3/f03.png",
+            "Frames/body_4248/h3/f04.png"
+          ]
+        },
+        {
+          "heading": 4,
+          "frames": [
+            "Frames/body_4248/h4/f01.png",
+            "Frames/body_4248/h4/f02.png",
+            "Frames/body_4248/h4/f03.png",
+            "Frames/body_4248/h4/f04.png"
+          ]
+        }
+      ]
+    },
+    {
+      "bodyId": 4252,
+      "fps": 8.0,
+      "headOffsetX": 0,
+      "headOffsetY": 0,
+      "bodyOffsetX": 0,
+      "bodyOffsetY": 0,
+      "directions": [
+        {
+          "heading": 1,
+          "frames": [
+            "Frames/body_4252/h1/f01.png",
+            "Frames/body_4252/h1/f02.png",
+            "Frames/body_4252/h1/f03.png",
+            "Frames/body_4252/h1/f04.png"
+          ]
+        },
+        {
+          "heading": 2,
+          "frames": [
+            "Frames/body_4252/h2/f01.png",
+            "Frames/body_4252/h2/f02.png",
+            "Frames/body_4252/h2/f03.png",
+            "Frames/body_4252/h2/f04.png"
+          ]
+        },
+        {
+          "heading": 3,
+          "frames": [
+            "Frames/body_4252/h3/f01.png",
+            "Frames/body_4252/h3/f02.png",
+            "Frames/body_4252/h3/f03.png",
+            "Frames/body_4252/h3/f04.png"
+          ]
+        },
+        {
+          "heading": 4,
+          "frames": [
+            "Frames/body_4252/h4/f01.png",
+            "Frames/body_4252/h4/f02.png",
+            "Frames/body_4252/h4/f03.png",
+            "Frames/body_4252/h4/f04.png"
+          ]
+        }
+      ]
+    },
+    {
+      "bodyId": 4256,
+      "fps": 8.0,
+      "headOffsetX": 0,
+      "headOffsetY": -32,
+      "bodyOffsetX": 0,
+      "bodyOffsetY": 0,
+      "directions": [
+        {
+          "heading": 1,
+          "frames": [
+            "Frames/body_4256/h1/f01.png",
+            "Frames/body_4256/h1/f02.png",
+            "Frames/body_4256/h1/f03.png",
+            "Frames/body_4256/h1/f04.png"
+          ]
+        },
+        {
+          "heading": 2,
+          "frames": [
+            "Frames/body_4256/h2/f01.png",
+            "Frames/body_4256/h2/f02.png",
+            "Frames/body_4256/h2/f03.png",
+            "Frames/body_4256/h2/f04.png"
+          ]
+        },
+        {
+          "heading": 3,
+          "frames": [
+            "Frames/body_4256/h3/f01.png",
+            "Frames/body_4256/h3/f02.png",
+            "Frames/body_4256/h3/f03.png",
+            "Frames/body_4256/h3/f04.png"
+          ]
+        },
+        {
+          "heading": 4,
+          "frames": [
+            "Frames/body_4256/h4/f01.png",
+            "Frames/body_4256/h4/f02.png",
+            "Frames/body_4256/h4/f03.png",
+            "Frames/body_4256/h4/f04.png"
+          ]
+        }
+      ]
+    },
+    {
+      "bodyId": 4258,
+      "fps": 8.0,
+      "headOffsetX": 0,
+      "headOffsetY": -64,
+      "bodyOffsetX": 0,
+      "bodyOffsetY": 0,
+      "directions": [
+        {
+          "heading": 1,
+          "frames": [
+            "Frames/body_4258/h1/f01.png",
+            "Frames/body_4258/h1/f02.png",
+            "Frames/body_4258/h1/f03.png",
+            "Frames/body_4258/h1/f04.png"
+          ]
+        },
+        {
+          "heading": 2,
+          "frames": [
+            "Frames/body_4258/h2/f01.png",
+            "Frames/body_4258/h2/f02.png",
+            "Frames/body_4258/h2/f03.png",
+            "Frames/body_4258/h2/f04.png"
+          ]
+        },
+        {
+          "heading": 3,
+          "frames": [
+            "Frames/body_4258/h3/f01.png",
+            "Frames/body_4258/h3/f02.png",
+            "Frames/body_4258/h3/f03.png",
+            "Frames/body_4258/h3/f04.png"
+          ]
+        },
+        {
+          "heading": 4,
+          "frames": [
+            "Frames/body_4258/h4/f01.png",
+            "Frames/body_4258/h4/f02.png",
+            "Frames/body_4258/h4/f03.png",
+            "Frames/body_4258/h4/f04.png"
+          ]
+        }
+      ]
+    },
+    {
+      "bodyId": 4260,
+      "fps": 8.0,
+      "headOffsetX": 0,
+      "headOffsetY": -32,
+      "bodyOffsetX": 0,
+      "bodyOffsetY": 0,
+      "directions": [
+        {
+          "heading": 1,
+          "frames": [
+            "Frames/body_4260/h1/f01.png",
+            "Frames/body_4260/h1/f02.png",
+            "Frames/body_4260/h1/f03.png",
+            "Frames/body_4260/h1/f04.png"
+          ]
+        },
+        {
+          "heading": 2,
+          "frames": [
+            "Frames/body_4260/h2/f01.png",
+            "Frames/body_4260/h2/f02.png",
+            "Frames/body_4260/h2/f03.png",
+            "Frames/body_4260/h2/f04.png"
+          ]
+        },
+        {
+          "heading": 3,
+          "frames": [
+            "Frames/body_4260/h3/f01.png",
+            "Frames/body_4260/h3/f02.png",
+            "Frames/body_4260/h3/f03.png",
+            "Frames/body_4260/h3/f04.png"
+          ]
+        },
+        {
+          "heading": 4,
+          "frames": [
+            "Frames/body_4260/h4/f01.png",
+            "Frames/body_4260/h4/f02.png",
+            "Frames/body_4260/h4/f03.png",
+            "Frames/body_4260/h4/f04.png"
+          ]
+        }
+      ]
+    },
+    {
+      "bodyId": 4347,
+      "fps": 8.0,
+      "headOffsetX": 0,
+      "headOffsetY": 10,
+      "bodyOffsetX": 0,
+      "bodyOffsetY": 0,
+      "directions": [
+        {
+          "heading": 1,
+          "frames": [
+            "Frames/body_4347/h1/f01.png",
+            "Frames/body_4347/h1/f02.png",
+            "Frames/body_4347/h1/f03.png"
+          ]
+        },
+        {
+          "heading": 2,
+          "frames": [
+            "Frames/body_4347/h2/f01.png",
+            "Frames/body_4347/h2/f02.png",
+            "Frames/body_4347/h2/f03.png"
+          ]
+        },
+        {
+          "heading": 3,
+          "frames": [
+            "Frames/body_4347/h3/f01.png",
+            "Frames/body_4347/h3/f02.png",
+            "Frames/body_4347/h3/f03.png"
+          ]
+        },
+        {
+          "heading": 4,
+          "frames": [
+            "Frames/body_4347/h4/f01.png",
+            "Frames/body_4347/h4/f02.png",
+            "Frames/body_4347/h4/f03.png"
+          ]
+        }
+      ]
+    },
+    {
+      "bodyId": 4393,
+      "fps": 12.0,
+      "headOffsetX": 0,
+      "headOffsetY": 32,
+      "bodyOffsetX": 0,
+      "bodyOffsetY": 32,
+      "directions": [
+        {
+          "heading": 1,
+          "frames": [
+            "Frames/body_4393/h1/f01.png",
+            "Frames/body_4393/h1/f02.png",
+            "Frames/body_4393/h1/f03.png",
+            "Frames/body_4393/h1/f04.png",
+            "Frames/body_4393/h1/f05.png",
+            "Frames/body_4393/h1/f06.png"
+          ]
+        },
+        {
+          "heading": 2,
+          "frames": [
+            "Frames/body_4393/h2/f01.png",
+            "Frames/body_4393/h2/f02.png",
+            "Frames/body_4393/h2/f03.png",
+            "Frames/body_4393/h2/f04.png",
+            "Frames/body_4393/h2/f05.png",
+            "Frames/body_4393/h2/f06.png"
+          ]
+        },
+        {
+          "heading": 3,
+          "frames": [
+            "Frames/body_4393/h3/f01.png",
+            "Frames/body_4393/h3/f02.png",
+            "Frames/body_4393/h3/f03.png",
+            "Frames/body_4393/h3/f04.png",
+            "Frames/body_4393/h3/f05.png",
+            "Frames/body_4393/h3/f06.png"
+          ]
+        },
+        {
+          "heading": 4,
+          "frames": [
+            "Frames/body_4393/h4/f01.png",
+            "Frames/body_4393/h4/f02.png",
+            "Frames/body_4393/h4/f03.png",
+            "Frames/body_4393/h4/f04.png",
+            "Frames/body_4393/h4/f05.png",
+            "Frames/body_4393/h4/f06.png"
+          ]
+        }
+      ]
+    }
+  ]
+}

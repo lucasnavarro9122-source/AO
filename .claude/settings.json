@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "deny": [
+      "Read(./Builds/**)",
+      "Read(./Library/**)",
+      "Read(./Temp/**)",
+      "Read(./Logs/**)",
+      "Read(./obj/**)",
+      "Read(./bin/**)",
+      "Read(./OnlineServer/obj/**)",
+      "Read(./OnlineServer/bin/**)",
+      "Read(./AO_Migrator_Backup_*/**)",
+      "Read(./MigrationReports/editor-recovery-*/**)",
+      "Read(./ProjectSettings.zip)",
+      "Read(**/room-key.txt)"
+    ]
+  },
+  "skillOverrides": {
+    "cv": "off",
+    "fluxed-reventa": "off",
+    "pinokio": "off",
+    "gepeto": "off",
+    "llm-security": "off"
+  },
+  "enabledPlugins": {
+    "marketing@knowledge-work-plugins": false,
+    "finance@knowledge-work-plugins": false,
+    "data@knowledge-work-plugins": false,
+    "design@knowledge-work-plugins": false,
+    "productivity@knowledge-work-plugins": false
+  }
+}

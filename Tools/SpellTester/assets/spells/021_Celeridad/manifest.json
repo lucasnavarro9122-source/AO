@@ -1,0 +1,80 @@
+{
+  "spell_id": 21,
+  "name": "Celeridad",
+  "fields": {
+    "nombre": "Celeridad",
+    "desc": "Aumenta la agilidad del objetivo.",
+    "palabrasmagicas": "YUP A'INC",
+    "hechizeromsg": "Has lanzado Celeridad sobre",
+    "targetmsg": "ha lanzado Celeridad sobre ti.",
+    "propiomsg": "Has lanzado Celeridad sobre ti.",
+    "en_name": "Celerity",
+    "en_desc": "Increases the agility of the target.",
+    "en_hechizeromsg": "You casted Celerity on",
+    "en_targetmsg": "has casted Celerity on you.",
+    "en_propiomsg": "You casted Celerity on yourself.",
+    "tipo": "1",
+    "wav": "17",
+    "subeag": "1",
+    "duration": "54",
+    "minag": "2",
+    "maxag": "5",
+    "fxgrh": "0",
+    "loops": "0",
+    "minskill": "35",
+    "manarequerido": "40",
+    "starequerido": "20",
+    "iconoindex": "35754",
+    "target": "1",
+    "particle": "165",
+    "timeparticula": "1",
+    "targeteffecttype": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 21,
+      "kind": "icon",
+      "source_id": 35754,
+      "top_grh": 35754,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35754,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035754__atlas_108__x192_y128_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/021_Celeridad/01_icon__src35754__topGRH35754__frame001__GRH35754.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 21,
+      "kind": "particle",
+      "source_id": 165,
+      "top_grh": 20027,
+      "detail": "particle Particle165 Celeridad",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20027,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020027__atlas_3__x96_y96_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/021_Celeridad/02_particle__src165__topGRH20027__frame001__GRH20027.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 21,
+      "kind": "particle",
+      "source_id": 165,
+      "top_grh": 20022,
+      "detail": "particle Particle165 Celeridad",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 20022,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_020022__atlas_3__x448_y64_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/021_Celeridad/03_particle__src165__topGRH20022__frame001__GRH20022.png"
+        }
+      ]
+    }
+  ]
+}

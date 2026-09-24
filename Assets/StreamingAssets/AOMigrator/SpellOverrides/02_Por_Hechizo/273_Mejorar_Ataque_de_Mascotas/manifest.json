@@ -1,0 +1,57 @@
+{
+  "spell_id": 273,
+  "name": "Mejorar Ataque de Mascotas",
+  "fields": {
+    "nombre": "Mejorar Ataque de Mascotas",
+    "desc": "aumenta el daño realizado por tus mascotas",
+    "palabrasmagicas": "",
+    "hechizeromsg": "",
+    "targetmsg": "",
+    "propiomsg": "",
+    "targeteffecttype": "1",
+    "tipo": "2",
+    "wav": "1111",
+    "fxgrh": "0",
+    "timeparticula": "0",
+    "autolanzar": "1",
+    "iconoindex": "74696",
+    "manarequerido": "200",
+    "target": "5",
+    "cooldown": "20",
+    "cdeffectid": "48",
+    "eotid": "48",
+    "nowiki": "1"
+  },
+  "resources": [
+    {
+      "spell_id": 273,
+      "kind": "icon",
+      "source_id": 74696,
+      "top_grh": 74696,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 74696,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_074696__atlas_113__x352_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/273_Mejorar_Ataque_de_Mascotas/01_icon__src74696__topGRH74696__frame001__GRH74696.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 273,
+      "kind": "eot_client_effect",
+      "source_id": 2,
+      "top_grh": 32474,
+      "detail": "EOT48->Effect2",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 32474,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_032474__atlas_107__x192_y160_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/273_Mejorar_Ataque_de_Mascotas/02_eot_client_effect__src2__topGRH32474__frame001__GRH32474.png"
+        }
+      ]
+    }
+  ]
+}

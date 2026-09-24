@@ -95,12 +95,13 @@ public partial class AOInterfaceV0101
 
         Event current = Event.current;
         if (topDialog == TopDialog.Settings && bindingAction.HasValue &&
-            current != null && current.type == EventType.KeyDown)
+            current != null && (current.type == EventType.KeyDown || current.type == EventType.MouseDown))
         {
             if (current.keyCode == KeyCode.Escape)
                 settingsStatus = "Cambio cancelado.";
             else if (AOPlayerSettingsV230.SetKey(bindingAction.Value,
-                         current.keyCode, out string error))
+                         current.type == EventType.MouseDown ? KeyCode.Mouse0 + current.button : current.keyCode,
+                         out string error))
                 settingsStatus = "Tecla actualizada.";
             else
                 settingsStatus = error;
@@ -135,10 +136,10 @@ public partial class AOInterfaceV0101
         if (topDialog == TopDialog.Manual)
         {
             GUI.Label(R(294, 260, 440, 105),
-                "Mover: " + AOPlayerSettingsV230.KeyName(AOGameAction.MoveUp) +
+                (AOPlayerSettingsV230.IsMoba ? "MOBA: " + AOPlayerSettingsV230.KeyName(AOGameAction.WorldCommand) + " mover/atacar" : "AO · Mover: " + AOPlayerSettingsV230.KeyName(AOGameAction.MoveUp) +
                 "/" + AOPlayerSettingsV230.KeyName(AOGameAction.MoveLeft) +
                 "/" + AOPlayerSettingsV230.KeyName(AOGameAction.MoveDown) +
-                "/" + AOPlayerSettingsV230.KeyName(AOGameAction.MoveRight) +
+                "/" + AOPlayerSettingsV230.KeyName(AOGameAction.MoveRight)) +
                 "   ·   Interactuar: " + AOPlayerSettingsV230.KeyName(AOGameAction.Interact) + "\n" +
                 "Inventario: " + AOPlayerSettingsV230.KeyName(AOGameAction.Inventory) +
                 "   ·   Mapa: " + AOPlayerSettingsV230.KeyName(AOGameAction.Map) +
@@ -181,7 +182,7 @@ public partial class AOInterfaceV0101
         GUI.Box(R(170, 88, 684, 594), "");
         GUI.Label(R(204, 112, 610, 34), "AJUSTES");
 
-        string[] tabs = { "JUEGO", "AUDIO", "VIDEO", "TECLAS" };
+        string[] tabs = { "JUEGO", "AUDIO", "VIDEO", "CONTROLES" };
         for (int i = 0; i < tabs.Length; i++)
         {
             if (AOAudioV190.Clicked(GUI.Button(R(202 + i * 153, 158, 145, 38),
@@ -202,7 +203,7 @@ public partial class AOInterfaceV0101
         }
 
         if (!string.IsNullOrEmpty(settingsStatus))
-            GUI.Label(R(203, 604, 472, 31), settingsStatus);
+            GUI.Label(R(203, 604, 472, 53), settingsStatus, new GUIStyle(GUI.skin.label) { wordWrap = true, fontSize = Mathf.Max(10, Mathf.RoundToInt(14 * scale)) });
         if (AOAudioV190.Clicked(GUI.Button(R(687, 627, 133, 35), "Cerrar")))
         {
             bindingAction = null;
@@ -212,8 +213,11 @@ public partial class AOInterfaceV0101
 
     void DrawGameplaySettings()
     {
+        bool previousEnabled = GUI.enabled;
+        GUI.enabled = previousEnabled && !AOPlayerSettingsV230.IsMoba;
         bool arrows = GUI.Toggle(R(208, 226, 545, 38),
-            AOPlayerSettingsV230.ArrowMovement, "Flechas alternativas para mover");
+            AOPlayerSettingsV230.ArrowMovement, "Flechas alternativas para mover (AO)");
+        GUI.enabled = previousEnabled;
         if (arrows != AOPlayerSettingsV230.ArrowMovement)
         {
             AOPlayerSettingsV230.ArrowMovement = arrows;
@@ -252,7 +256,7 @@ public partial class AOInterfaceV0101
             AOPlayerSettingsV230.Ambient, value => AOPlayerSettingsV230.Ambient = value);
 
         bool music = GUI.Toggle(R(208, 505, 545, 38),
-            AOPlayerSettingsV230.Music, "Música de mapas");
+            AOPlayerSettingsV230.Music, "Música de inicio y mapas");
         if (music != AOPlayerSettingsV230.Music)
             AOPlayerSettingsV230.Music = music;
         GUI.Label(R(208, 548, 585, 31),
@@ -293,45 +297,7 @@ public partial class AOInterfaceV0101
             "para el ejecutable del juego.");
     }
 
-    void DrawControlSettings()
-    {
-        int first = controlsPage * 7;
-        int count = System.Enum.GetValues(typeof(AOGameAction)).Length;
-        for (int row = 0; row < 7 && first + row < count; row++)
-        {
-            AOGameAction action = (AOGameAction)(first + row);
-            float y = 209 + row * 50;
-            GUI.Label(R(208, y, 390, 36),
-                AOPlayerSettingsV230.ActionName(action));
-            string value = bindingAction == action
-                ? "Presioná una tecla..."
-                : AOPlayerSettingsV230.KeyName(action);
-            if (AOAudioV190.Clicked(GUI.Button(R(560, y, 250, 37), value)))
-            {
-                bindingAction = action;
-                settingsStatus = "Escape cancela el cambio.";
-            }
-        }
-
-        if (AOAudioV190.Clicked(GUI.Button(R(208, 569, 110, 34), "Anterior")))
-        {
-            controlsPage = 0;
-            bindingAction = null;
-        }
-        GUI.Label(R(325, 571, 145, 30), (controlsPage + 1) + " / 2");
-        if (AOAudioV190.Clicked(GUI.Button(R(441, 569, 110, 34), "Siguiente")))
-        {
-            controlsPage = 1;
-            bindingAction = null;
-        }
-        if (AOAudioV190.Clicked(GUI.Button(R(584, 569, 226, 34),
-                "Restablecer teclas")))
-        {
-            AOPlayerSettingsV230.RestoreKeys();
-            bindingAction = null;
-            settingsStatus = "Teclas originales de esta versión restauradas.";
-        }
-    }
+    void DrawControlSettings() { DrawControlProfiles(); }
 
     string DialogTitle()
     {

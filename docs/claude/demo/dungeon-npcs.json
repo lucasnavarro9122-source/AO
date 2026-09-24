@@ -1,0 +1,3297 @@
+{
+ "version": "fase1-2026-09-24",
+ "autor": "Contenido y Fidelidad AO",
+ "fuente": "ao-org AO20: Recursos-master/Dat (npcs.dat, obj.dat, Hechizos.dat, Balance.dat) + argentum-online-server-master (SistemaCombate.bas, modHechizos.bas, Trabajo.bas, intervalos.ini, Example.Configuracion.ini). Drops: Resources/AOMigrator/LootV180/npc_loot.json",
+ "reglas": "Stats de NPC y clases sin cambios. Solo eleccion, ubicacion, cantidad y respawn. Multiplicadores de EXP/oro = config de servidor (ExpMult/OroMult), requieren OK de Lucas.",
+ "tablaExp": {
+  "1": 500,
+  "2": 750,
+  "3": 1125,
+  "4": 1687,
+  "5": 2531,
+  "6": 3796,
+  "7": 5695,
+  "8": 8542,
+  "9": 12814,
+  "10": 19221,
+  "11": 28832,
+  "12": 43248,
+  "13": 71360,
+  "14": 99904,
+  "15": 139866,
+  "16": 195813,
+  "17": 274138,
+  "18": 383793,
+  "19": 537311,
+  "20": 752235,
+  "21": 1053130,
+  "22": 1474382,
+  "23": 2064135,
+  "24": 2889789,
+  "25": 4450275,
+  "26": 5562844,
+  "27": 6953555,
+  "28": 8691944,
+  "29": 10864930,
+  "30": 13581163
+ },
+ "multiplicadorExpPropuesto": {
+  "tipo": "por tramo de nivel (nuevo; el original solo tiene ExpMult global)",
+  "tramos": {
+   "1-9": 1,
+   "10-14": 2,
+   "15-19": 7,
+   "20-23": 17,
+   "24-26": 30,
+   "27-29": 44
+  }
+ },
+ "pisos": [
+  {
+   "id": "P1",
+   "nombre": "Madriguera",
+   "nivelRecomendado": [
+    1,
+    4
+   ],
+   "origen": "Dungeon Newbie (mapas 37, 167, 168, 264)",
+   "respawnComunesSeg": 20,
+   "npcVivos": 16,
+   "grupos": {
+    "tamano": "3-4",
+    "separacionMinTiles": 16,
+    "zonaSeguraEntradaTiles": 8,
+    "nota": "Coordenadas exactas: las fija el builder (arquitectura.md) sobre el recorte de mapa de Arte. Centros de grupo a >=16 tiles (NPCVisionRange 14x12). Respawn en su zona y nunca a <5 tiles de un jugador."
+   },
+   "npcs": [
+    {
+     "npcIndex": 935,
+     "nombre": "Serpiente Collet",
+     "nivelNpc": 2,
+     "vida": 30,
+     "golpe": [
+      5,
+      9
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 30,
+     "evasion": 25,
+     "resistenciaMagica": 0,
+     "magicDef": 0,
+     "exp": 36,
+     "oro": 6,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": 1,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 167,
+       "nombre": "Dungeon Newbie Sur",
+       "cantidad": 15
+      }
+     ],
+     "cantidad": 4,
+     "rol": "comun",
+     "respawnSeg": 20
+    },
+    {
+     "npcIndex": 509,
+     "nombre": "Escorpión",
+     "nivelNpc": 2,
+     "vida": 30,
+     "golpe": [
+      6,
+      10
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 30,
+     "evasion": 10,
+     "resistenciaMagica": 0,
+     "magicDef": 0,
+     "exp": 30,
+     "oro": 9,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": 2,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 101,
+       "nombre": "Desierto",
+       "cantidad": 11
+      },
+      {
+       "mapa": 15,
+       "nombre": "Desierto",
+       "cantidad": 10
+      },
+      {
+       "mapa": 16,
+       "nombre": "Desierto",
+       "cantidad": 10
+      }
+     ],
+     "cantidad": 3,
+     "rol": "comun",
+     "respawnSeg": 20
+    },
+    {
+     "npcIndex": 506,
+     "nombre": "Murciélago",
+     "nivelNpc": 2,
+     "vida": 15,
+     "golpe": [
+      1,
+      3
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 30,
+     "evasion": 10,
+     "resistenciaMagica": 0,
+     "magicDef": 0,
+     "exp": 18,
+     "oro": 3,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 86,
+       "nombre": "Bosque Central",
+       "cantidad": 13
+      },
+      {
+       "mapa": 160,
+       "nombre": "Bosque este de Banderbill.",
+       "cantidad": 10
+      },
+      {
+       "mapa": 168,
+       "nombre": "Dungeon Newbie Central.",
+       "cantidad": 10
+      }
+     ],
+     "cantidad": 3,
+     "rol": "comun",
+     "respawnSeg": 20
+    },
+    {
+     "npcIndex": 511,
+     "nombre": "Rata",
+     "nivelNpc": 2,
+     "vida": 15,
+     "golpe": [
+      2,
+      5
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 10,
+     "evasion": 10,
+     "resistenciaMagica": 0,
+     "magicDef": 0,
+     "exp": 18,
+     "oro": 5,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 176,
+       "nombre": "Ducto de escape.",
+       "cantidad": 13
+      },
+      {
+       "mapa": 168,
+       "nombre": "Dungeon Newbie Central.",
+       "cantidad": 11
+      },
+      {
+       "mapa": 8,
+       "nombre": "Bosque oeste de Ullathorpe",
+       "cantidad": 6
+      }
+     ],
+     "cantidad": 2,
+     "rol": "comun",
+     "respawnSeg": 20
+    },
+    {
+     "npcIndex": 113,
+     "nombre": "Serpiente Bicefala",
+     "nivelNpc": 5,
+     "vida": 125,
+     "golpe": [
+      8,
+      15
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 20,
+     "evasion": 20,
+     "resistenciaMagica": 5,
+     "magicDef": 0,
+     "exp": 100,
+     "oro": 25,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": 1,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 558,
+       "nombre": "Penthar",
+       "cantidad": 3
+      },
+      {
+       "mapa": 561,
+       "nombre": "Penthar",
+       "cantidad": 3
+      },
+      {
+       "mapa": 841,
+       "nombre": "Penthar",
+       "cantidad": 3
+      }
+     ],
+     "cantidad": 2,
+     "rol": "fondo",
+     "respawnSeg": 20
+    },
+    {
+     "npcIndex": 500,
+     "nombre": "Lobo",
+     "nivelNpc": 6,
+     "vida": 60,
+     "golpe": [
+      10,
+      15
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 80,
+     "evasion": 50,
+     "resistenciaMagica": 0,
+     "magicDef": 0,
+     "exp": 72,
+     "oro": 0,
+     "intervaloAtaqueMs": 1800,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": null,
+     "drops": {
+      "siempre": [
+       {
+        "obj": 414,
+        "nombre": "Piel de Lobo Salvaje",
+        "cant": 1
+       }
+      ],
+      "azar": {
+       "prob": "1/5",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 264,
+       "nombre": "Dungeon Newbie",
+       "cantidad": 20
+      },
+      {
+       "mapa": 37,
+       "nombre": "Newbie Dungeon",
+       "cantidad": 10
+      },
+      {
+       "mapa": 167,
+       "nombre": "Dungeon Newbie Sur",
+       "cantidad": 5
+      }
+     ],
+     "cantidad": 2,
+     "rol": "fondo",
+     "respawnSeg": 20
+    }
+   ],
+   "jefe": {
+    "npcIndex": 965,
+    "nombre": "Wolfang",
+    "nivelNpc": 6,
+    "vida": 250,
+    "golpe": [
+     20,
+     25
+    ],
+    "defensa": 0,
+    "defensaMagica": 0,
+    "poderAtaque": 100,
+    "evasion": 40,
+    "resistenciaMagica": 0,
+    "magicDef": 0,
+    "exp": 250,
+    "oro": 150,
+    "intervaloAtaqueMs": 2000,
+    "intervaloHechizoMs": null,
+    "hechizos": [],
+    "veneno": null,
+    "drops": {
+     "siempre": [
+      {
+       "obj": 414,
+       "nombre": "Piel de Lobo Salvaje",
+       "cant": 3
+      }
+     ],
+     "azar": {
+      "prob": "1/1",
+      "uno_de": []
+     }
+    },
+    "mapasOriginales": [
+     {
+      "mapa": 167,
+      "nombre": "Dungeon Newbie Sur",
+      "cantidad": 1
+     },
+     {
+      "mapa": 264,
+      "nombre": "Dungeon Newbie",
+      "cantidad": 1
+     },
+     {
+      "mapa": 37,
+      "nombre": "Newbie Dungeon",
+      "cantidad": 1
+     }
+    ],
+    "cantidad": 1,
+    "rol": "jefe",
+    "respawnSeg": 60
+   },
+   "mapId": 1011,
+   "zonas": [
+    {
+     "zona": "G1",
+     "ordenRecorrido": 1,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 935,
+       "cantidad": 2
+      },
+      {
+       "npcIndex": 506,
+       "cantidad": 2
+      }
+     ]
+    },
+    {
+     "zona": "G2",
+     "ordenRecorrido": 2,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 509,
+       "cantidad": 2
+      },
+      {
+       "npcIndex": 511,
+       "cantidad": 2
+      }
+     ]
+    },
+    {
+     "zona": "G3",
+     "ordenRecorrido": 3,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 935,
+       "cantidad": 2
+      },
+      {
+       "npcIndex": 506,
+       "cantidad": 1
+      },
+      {
+       "npcIndex": 509,
+       "cantidad": 1
+      }
+     ]
+    },
+    {
+     "zona": "G4",
+     "ordenRecorrido": 4,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 113,
+       "cantidad": 2
+      }
+     ]
+    },
+    {
+     "zona": "G5",
+     "ordenRecorrido": 5,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 500,
+       "cantidad": 2
+      }
+     ]
+    },
+    {
+     "zona": "JEFE",
+     "ordenRecorrido": 6,
+     "salaTiles": "12x12",
+     "pasilloDesdeUltimoGrupoTiles": 16,
+     "npcs": [
+      {
+       "npcIndex": 965,
+       "cantidad": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P2",
+   "nombre": "Cementerio",
+   "nivelRecomendado": [
+    4,
+    10
+   ],
+   "origen": "Cementerio de Nix (mapa 4)",
+   "respawnComunesSeg": 30,
+   "npcVivos": 14,
+   "grupos": {
+    "tamano": "3-4",
+    "separacionMinTiles": 16,
+    "zonaSeguraEntradaTiles": 8,
+    "nota": "Coordenadas exactas: las fija el builder (arquitectura.md) sobre el recorte de mapa de Arte. Centros de grupo a >=16 tiles (NPCVisionRange 14x12). Respawn en su zona y nunca a <5 tiles de un jugador."
+   },
+   "npcs": [
+    {
+     "npcIndex": 514,
+     "nombre": "Esqueleto",
+     "nivelNpc": 7,
+     "vida": 350,
+     "golpe": [
+      12,
+      15
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 30,
+     "evasion": 30,
+     "resistenciaMagica": 17,
+     "magicDef": 0,
+     "exp": 385,
+     "oro": 35,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 12,
+       "nombre": "Bosque Este de Ullathorpe",
+       "cantidad": 8
+      },
+      {
+       "mapa": 4,
+       "nombre": "Cementerio de Nix",
+       "cantidad": 3
+      }
+     ],
+     "cantidad": 4,
+     "rol": "comun",
+     "respawnSeg": 30
+    },
+    {
+     "npcIndex": 946,
+     "nombre": "Esqueleto Vigía",
+     "nivelNpc": 9,
+     "vida": 400,
+     "golpe": [
+      13,
+      18
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 30,
+     "evasion": 40,
+     "resistenciaMagica": 23,
+     "magicDef": 0,
+     "exp": 480,
+     "oro": 36,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 4,
+       "nombre": "Cementerio de Nix",
+       "cantidad": 3
+      }
+     ],
+     "cantidad": 4,
+     "rol": "comun",
+     "respawnSeg": 30
+    },
+    {
+     "npcIndex": 945,
+     "nombre": "Esqueleto Guerrero",
+     "nivelNpc": 7,
+     "vida": 600,
+     "golpe": [
+      10,
+      25
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 30,
+     "evasion": 30,
+     "resistenciaMagica": 17,
+     "magicDef": 0,
+     "exp": 690,
+     "oro": 57,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 4,
+       "nombre": "Cementerio de Nix",
+       "cantidad": 4
+      }
+     ],
+     "cantidad": 3,
+     "rol": "comun",
+     "respawnSeg": 30
+    },
+    {
+     "npcIndex": 507,
+     "nombre": "Zombie",
+     "nivelNpc": 8,
+     "vida": 500,
+     "golpe": [
+      20,
+      30
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 150,
+     "evasion": 35,
+     "resistenciaMagica": 20,
+     "magicDef": 0,
+     "exp": 625,
+     "oro": 40,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 12,
+       "nombre": "Bosque Este de Ullathorpe",
+       "cantidad": 6
+      },
+      {
+       "mapa": 116,
+       "nombre": "Dungeon Marabel.",
+       "cantidad": 5
+      },
+      {
+       "mapa": 4,
+       "nombre": "Cementerio de Nix",
+       "cantidad": 5
+      }
+     ],
+     "cantidad": 3,
+     "rol": "fondo",
+     "respawnSeg": 30
+    }
+   ],
+   "jefe": {
+    "npcIndex": 563,
+    "nombre": "Humano No-Muerto",
+    "nivelNpc": 17,
+    "vida": 1000,
+    "golpe": [
+     45,
+     50
+    ],
+    "defensa": 0,
+    "defensaMagica": 0,
+    "poderAtaque": 105,
+    "evasion": 120,
+    "resistenciaMagica": 43,
+    "magicDef": 10,
+    "exp": 1200,
+    "oro": 110,
+    "intervaloAtaqueMs": 2000,
+    "intervaloHechizoMs": null,
+    "hechizos": [],
+    "veneno": null,
+    "drops": {
+     "siempre": [],
+     "azar": {
+      "prob": "1/1",
+      "uno_de": []
+     }
+    },
+    "mapasOriginales": [
+     {
+      "mapa": 4,
+      "nombre": "Cementerio de Nix",
+      "cantidad": 2
+     }
+    ],
+    "cantidad": 1,
+    "rol": "jefe",
+    "respawnSeg": 180
+   },
+   "mapId": 1012,
+   "zonas": [
+    {
+     "zona": "G1",
+     "ordenRecorrido": 1,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 514,
+       "cantidad": 2
+      },
+      {
+       "npcIndex": 946,
+       "cantidad": 1
+      }
+     ]
+    },
+    {
+     "zona": "G2",
+     "ordenRecorrido": 2,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 514,
+       "cantidad": 2
+      },
+      {
+       "npcIndex": 946,
+       "cantidad": 1
+      }
+     ]
+    },
+    {
+     "zona": "G3",
+     "ordenRecorrido": 3,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 946,
+       "cantidad": 2
+      },
+      {
+       "npcIndex": 945,
+       "cantidad": 1
+      }
+     ]
+    },
+    {
+     "zona": "G4",
+     "ordenRecorrido": 4,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 945,
+       "cantidad": 2
+      }
+     ]
+    },
+    {
+     "zona": "G5",
+     "ordenRecorrido": 5,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 507,
+       "cantidad": 3
+      }
+     ]
+    },
+    {
+     "zona": "JEFE",
+     "ordenRecorrido": 6,
+     "salaTiles": "12x12",
+     "pasilloDesdeUltimoGrupoTiles": 16,
+     "npcs": [
+      {
+       "npcIndex": 563,
+       "cantidad": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P3",
+   "nombre": "Mausoleo",
+   "nivelRecomendado": [
+    10,
+    15
+   ],
+   "origen": "Mausoleo (mapa 392)",
+   "respawnComunesSeg": 45,
+   "npcVivos": 10,
+   "grupos": {
+    "tamano": "3-4",
+    "separacionMinTiles": 16,
+    "zonaSeguraEntradaTiles": 8,
+    "nota": "Coordenadas exactas: las fija el builder (arquitectura.md) sobre el recorte de mapa de Arte. Centros de grupo a >=16 tiles (NPCVisionRange 14x12). Respawn en su zona y nunca a <5 tiles de un jugador."
+   },
+   "npcs": [
+    {
+     "npcIndex": 1002,
+     "nombre": "Esqueleto Mágico",
+     "nivelNpc": 11,
+     "vida": 2000,
+     "golpe": [
+      20,
+      35
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 125,
+     "evasion": 50,
+     "resistenciaMagica": 20,
+     "magicDef": 0,
+     "exp": 2600,
+     "oro": 200,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": 2000,
+     "hechizos": [
+      {
+       "id": 2,
+       "nombre": "Flecha Mágica",
+       "dano": [
+        18,
+        25
+       ]
+      }
+     ],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 392,
+       "nombre": "Mausoleo",
+       "cantidad": 3
+      }
+     ],
+     "cantidad": 4,
+     "rol": "comun",
+     "respawnSeg": 45
+    },
+    {
+     "npcIndex": 1003,
+     "nombre": "Liche Menor",
+     "nivelNpc": 13,
+     "vida": 2200,
+     "golpe": [
+      30,
+      40
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 125,
+     "evasion": 75,
+     "resistenciaMagica": 33,
+     "magicDef": 0,
+     "exp": 2750,
+     "oro": 242,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 392,
+       "nombre": "Mausoleo",
+       "cantidad": 4
+      }
+     ],
+     "cantidad": 3,
+     "rol": "comun",
+     "respawnSeg": 45
+    },
+    {
+     "npcIndex": 1001,
+     "nombre": "Esqueleto Dragón",
+     "nivelNpc": 14,
+     "vida": 2500,
+     "golpe": [
+      45,
+      60
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 111,
+     "evasion": 76,
+     "resistenciaMagica": 35,
+     "magicDef": 0,
+     "exp": 3000,
+     "oro": 300,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 392,
+       "nombre": "Mausoleo",
+       "cantidad": 6
+      }
+     ],
+     "cantidad": 3,
+     "rol": "fondo",
+     "respawnSeg": 45
+    }
+   ],
+   "jefe": {
+    "npcIndex": 524,
+    "nombre": "Guardián del Mausoleo",
+    "nivelNpc": 17,
+    "vida": 5000,
+    "golpe": [
+     70,
+     145
+    ],
+    "defensa": 0,
+    "defensaMagica": 0,
+    "poderAtaque": 300,
+    "evasion": 120,
+    "resistenciaMagica": 35,
+    "magicDef": 10,
+    "exp": 6500,
+    "oro": 500,
+    "intervaloAtaqueMs": 2000,
+    "intervaloHechizoMs": null,
+    "hechizos": [],
+    "veneno": null,
+    "drops": {
+     "siempre": [
+      {
+       "obj": 2649,
+       "nombre": "Anillo de Oro",
+       "cant": 1
+      }
+     ],
+     "azar": {
+      "prob": "1/1",
+      "uno_de": []
+     }
+    },
+    "mapasOriginales": [
+     {
+      "mapa": 392,
+      "nombre": "Mausoleo",
+      "cantidad": 1
+     }
+    ],
+    "cantidad": 1,
+    "rol": "jefe",
+    "respawnSeg": 120
+   },
+   "mapId": 1013,
+   "zonas": [
+    {
+     "zona": "G1",
+     "ordenRecorrido": 1,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 1002,
+       "cantidad": 2
+      }
+     ]
+    },
+    {
+     "zona": "G2",
+     "ordenRecorrido": 2,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 1002,
+       "cantidad": 2
+      },
+      {
+       "npcIndex": 1003,
+       "cantidad": 1
+      }
+     ]
+    },
+    {
+     "zona": "G3",
+     "ordenRecorrido": 3,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 1003,
+       "cantidad": 2
+      }
+     ]
+    },
+    {
+     "zona": "G4",
+     "ordenRecorrido": 4,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 1001,
+       "cantidad": 3
+      }
+     ]
+    },
+    {
+     "zona": "JEFE",
+     "ordenRecorrido": 5,
+     "salaTiles": "12x12",
+     "pasilloDesdeUltimoGrupoTiles": 16,
+     "npcs": [
+      {
+       "npcIndex": 524,
+       "cantidad": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P4",
+   "nombre": "Piramide",
+   "nivelRecomendado": [
+    15,
+    20
+   ],
+   "origen": "Piramide (mapas 564, 567)",
+   "respawnComunesSeg": 60,
+   "npcVivos": 12,
+   "grupos": {
+    "tamano": "3-4",
+    "separacionMinTiles": 16,
+    "zonaSeguraEntradaTiles": 8,
+    "nota": "Coordenadas exactas: las fija el builder (arquitectura.md) sobre el recorte de mapa de Arte. Centros de grupo a >=16 tiles (NPCVisionRange 14x12). Respawn en su zona y nunca a <5 tiles de un jugador."
+   },
+   "npcs": [
+    {
+     "npcIndex": 1223,
+     "nombre": "Escorpión",
+     "nivelNpc": 7,
+     "vida": 500,
+     "golpe": [
+      40,
+      60
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 60,
+     "evasion": 30,
+     "resistenciaMagica": 0,
+     "magicDef": 0,
+     "exp": 550,
+     "oro": 75,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 564,
+       "nombre": "Pirámide",
+       "cantidad": 5
+      },
+      {
+       "mapa": 565,
+       "nombre": "Pirámide",
+       "cantidad": 2
+      },
+      {
+       "mapa": 567,
+       "nombre": "Pirámide",
+       "cantidad": 2
+      }
+     ],
+     "cantidad": 4,
+     "rol": "comun",
+     "respawnSeg": 60
+    },
+    {
+     "npcIndex": 1224,
+     "nombre": "Escorpión Califa",
+     "nivelNpc": 13,
+     "vida": 1500,
+     "golpe": [
+      50,
+      65
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 100,
+     "evasion": 75,
+     "resistenciaMagica": 0,
+     "magicDef": 0,
+     "exp": 1800,
+     "oro": 180,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": 3,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 564,
+       "nombre": "Pirámide",
+       "cantidad": 5
+      },
+      {
+       "mapa": 567,
+       "nombre": "Pirámide",
+       "cantidad": 2
+      }
+     ],
+     "cantidad": 3,
+     "rol": "comun",
+     "respawnSeg": 60
+    },
+    {
+     "npcIndex": 647,
+     "nombre": "Escarabajo",
+     "nivelNpc": 17,
+     "vida": 2000,
+     "golpe": [
+      60,
+      75
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 120,
+     "evasion": 120,
+     "resistenciaMagica": 0,
+     "magicDef": 0,
+     "exp": 2500,
+     "oro": 220,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 564,
+       "nombre": "Pirámide",
+       "cantidad": 6
+      },
+      {
+       "mapa": 567,
+       "nombre": "Pirámide",
+       "cantidad": 2
+      }
+     ],
+     "cantidad": 3,
+     "rol": "comun",
+     "respawnSeg": 60
+    },
+    {
+     "npcIndex": 646,
+     "nombre": "Escarabajo Gigante",
+     "nivelNpc": 20,
+     "vida": 3000,
+     "golpe": [
+      80,
+      120
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 160,
+     "evasion": 140,
+     "resistenciaMagica": 0,
+     "magicDef": 0,
+     "exp": 3900,
+     "oro": 315,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 564,
+       "nombre": "Pirámide",
+       "cantidad": 5
+      },
+      {
+       "mapa": 567,
+       "nombre": "Pirámide",
+       "cantidad": 2
+      }
+     ],
+     "cantidad": 2,
+     "rol": "fondo",
+     "respawnSeg": 60
+    }
+   ],
+   "jefe": {
+    "npcIndex": 645,
+    "nombre": "Momia",
+    "nivelNpc": 28,
+    "vida": 5000,
+    "golpe": [
+     110,
+     150
+    ],
+    "defensa": 0,
+    "defensaMagica": 0,
+    "poderAtaque": 160,
+    "evasion": 180,
+    "resistenciaMagica": 0,
+    "magicDef": 0,
+    "exp": 7000,
+    "oro": 500,
+    "intervaloAtaqueMs": 2000,
+    "intervaloHechizoMs": null,
+    "hechizos": [],
+    "veneno": null,
+    "drops": {
+     "siempre": [],
+     "azar": {
+      "prob": "1/1",
+      "uno_de": []
+     }
+    },
+    "mapasOriginales": [
+     {
+      "mapa": 564,
+      "nombre": "Pirámide",
+      "cantidad": 4
+     },
+     {
+      "mapa": 567,
+      "nombre": "Pirámide",
+      "cantidad": 1
+     }
+    ],
+    "cantidad": 1,
+    "rol": "jefe",
+    "respawnSeg": 300
+   },
+   "mapId": 1014,
+   "zonas": [
+    {
+     "zona": "G1",
+     "ordenRecorrido": 1,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 1223,
+       "cantidad": 2
+      },
+      {
+       "npcIndex": 1224,
+       "cantidad": 1
+      }
+     ]
+    },
+    {
+     "zona": "G2",
+     "ordenRecorrido": 2,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 1223,
+       "cantidad": 2
+      },
+      {
+       "npcIndex": 1224,
+       "cantidad": 1
+      }
+     ]
+    },
+    {
+     "zona": "G3",
+     "ordenRecorrido": 3,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 647,
+       "cantidad": 2
+      },
+      {
+       "npcIndex": 1224,
+       "cantidad": 1
+      }
+     ]
+    },
+    {
+     "zona": "G4",
+     "ordenRecorrido": 4,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 647,
+       "cantidad": 1
+      },
+      {
+       "npcIndex": 646,
+       "cantidad": 2
+      }
+     ]
+    },
+    {
+     "zona": "JEFE",
+     "ordenRecorrido": 5,
+     "salaTiles": "12x12",
+     "pasilloDesdeUltimoGrupoTiles": 16,
+     "npcs": [
+      {
+       "npcIndex": 645,
+       "cantidad": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P5",
+   "nombre": "Nido de aranas",
+   "nivelRecomendado": [
+    20,
+    24
+   ],
+   "origen": "Catacumbas Lvl2 (mapas 291-293)",
+   "respawnComunesSeg": 60,
+   "npcVivos": 12,
+   "grupos": {
+    "tamano": "3-4",
+    "separacionMinTiles": 16,
+    "zonaSeguraEntradaTiles": 8,
+    "nota": "Coordenadas exactas: las fija el builder (arquitectura.md) sobre el recorte de mapa de Arte. Centros de grupo a >=16 tiles (NPCVisionRange 14x12). Respawn en su zona y nunca a <5 tiles de un jugador."
+   },
+   "npcs": [
+    {
+     "npcIndex": 970,
+     "nombre": "Araña Nociva",
+     "nivelNpc": 16,
+     "vida": 2200,
+     "golpe": [
+      95,
+      110
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 150,
+     "evasion": 80,
+     "resistenciaMagica": 40,
+     "magicDef": 10,
+     "exp": 2530,
+     "oro": 242,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": 6,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 292,
+       "nombre": "Catacumbas Lvl2",
+       "cantidad": 2
+      },
+      {
+       "mapa": 291,
+       "nombre": "Catacumbas Lvl2",
+       "cantidad": 1
+      }
+     ],
+     "cantidad": 3,
+     "rol": "comun",
+     "respawnSeg": 60
+    },
+    {
+     "npcIndex": 975,
+     "nombre": "Araña Venenosa",
+     "nivelNpc": 16,
+     "vida": 2350,
+     "golpe": [
+      95,
+      115
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 150,
+     "evasion": 85,
+     "resistenciaMagica": 40,
+     "magicDef": 10,
+     "exp": 2585,
+     "oro": 282,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": 4,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 292,
+       "nombre": "Catacumbas Lvl2",
+       "cantidad": 2
+      },
+      {
+       "mapa": 293,
+       "nombre": "Catacumbas Lvl2",
+       "cantidad": 2
+      },
+      {
+       "mapa": 291,
+       "nombre": "Catacumbas Lvl2",
+       "cantidad": 1
+      }
+     ],
+     "cantidad": 3,
+     "rol": "comun",
+     "respawnSeg": 60
+    },
+    {
+     "npcIndex": 977,
+     "nombre": "Araña Poison",
+     "nivelNpc": 17,
+     "vida": 2500,
+     "golpe": [
+      110,
+      120
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 150,
+     "evasion": 100,
+     "resistenciaMagica": 43,
+     "magicDef": 10,
+     "exp": 2750,
+     "oro": 300,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": 1,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 291,
+       "nombre": "Catacumbas Lvl2",
+       "cantidad": 2
+      },
+      {
+       "mapa": 293,
+       "nombre": "Catacumbas Lvl2",
+       "cantidad": 2
+      }
+     ],
+     "cantidad": 2,
+     "rol": "comun",
+     "respawnSeg": 60
+    },
+    {
+     "npcIndex": 973,
+     "nombre": "Viuda Negra",
+     "nivelNpc": 18,
+     "vida": 2800,
+     "golpe": [
+      115,
+      125
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 150,
+     "evasion": 105,
+     "resistenciaMagica": 45,
+     "magicDef": 10,
+     "exp": 3220,
+     "oro": 308,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": 6,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 291,
+       "nombre": "Catacumbas Lvl2",
+       "cantidad": 2
+      },
+      {
+       "mapa": 293,
+       "nombre": "Catacumbas Lvl2",
+       "cantidad": 1
+      }
+     ],
+     "cantidad": 2,
+     "rol": "fondo",
+     "respawnSeg": 60
+    },
+    {
+     "npcIndex": 978,
+     "nombre": "Latrodectus",
+     "nivelNpc": 22,
+     "vida": 3000,
+     "golpe": [
+      120,
+      135
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 150,
+     "evasion": 115,
+     "resistenciaMagica": 55,
+     "magicDef": 5,
+     "exp": 3600,
+     "oro": 300,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": 6,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 291,
+       "nombre": "Catacumbas Lvl2",
+       "cantidad": 2
+      }
+     ],
+     "cantidad": 2,
+     "rol": "fondo",
+     "respawnSeg": 60
+    }
+   ],
+   "jefe": {
+    "npcIndex": 979,
+    "nombre": "Mutante Arácnido",
+    "nivelNpc": 13,
+    "vida": 7000,
+    "golpe": [
+     150,
+     220
+    ],
+    "defensa": 0,
+    "defensaMagica": 0,
+    "poderAtaque": 150,
+    "evasion": 135,
+    "resistenciaMagica": 33,
+    "magicDef": 0,
+    "exp": 9100,
+    "oro": 350,
+    "intervaloAtaqueMs": 2000,
+    "intervaloHechizoMs": null,
+    "hechizos": [],
+    "veneno": 10,
+    "drops": {
+     "siempre": [],
+     "azar": {
+      "prob": "1/1",
+      "uno_de": []
+     }
+    },
+    "mapasOriginales": [
+     {
+      "mapa": 293,
+      "nombre": "Catacumbas Lvl2",
+      "cantidad": 1
+     }
+    ],
+    "cantidad": 1,
+    "rol": "jefe",
+    "respawnSeg": 300
+   },
+   "mapId": 1015,
+   "zonas": [
+    {
+     "zona": "G1",
+     "ordenRecorrido": 1,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 970,
+       "cantidad": 2
+      },
+      {
+       "npcIndex": 975,
+       "cantidad": 1
+      }
+     ]
+    },
+    {
+     "zona": "G2",
+     "ordenRecorrido": 2,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 975,
+       "cantidad": 2
+      },
+      {
+       "npcIndex": 970,
+       "cantidad": 1
+      }
+     ]
+    },
+    {
+     "zona": "G3",
+     "ordenRecorrido": 3,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 977,
+       "cantidad": 2
+      }
+     ]
+    },
+    {
+     "zona": "G4",
+     "ordenRecorrido": 4,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 973,
+       "cantidad": 2
+      }
+     ]
+    },
+    {
+     "zona": "G5",
+     "ordenRecorrido": 5,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 978,
+       "cantidad": 2
+      }
+     ]
+    },
+    {
+     "zona": "JEFE",
+     "ordenRecorrido": 6,
+     "salaTiles": "12x12",
+     "pasilloDesdeUltimoGrupoTiles": 16,
+     "npcs": [
+      {
+       "npcIndex": 979,
+       "cantidad": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P6",
+   "nombre": "Torre de Veriil",
+   "nivelRecomendado": [
+    24,
+    27
+   ],
+   "origen": "Dungeon Veriil / Nueva Esperanza (mapas 111-114, 140-142)",
+   "respawnComunesSeg": 90,
+   "npcVivos": 10,
+   "grupos": {
+    "tamano": "3-4",
+    "separacionMinTiles": 16,
+    "zonaSeguraEntradaTiles": 8,
+    "nota": "Coordenadas exactas: las fija el builder (arquitectura.md) sobre el recorte de mapa de Arte. Centros de grupo a >=16 tiles (NPCVisionRange 14x12). Respawn en su zona y nunca a <5 tiles de un jugador."
+   },
+   "npcs": [
+    {
+     "npcIndex": 557,
+     "nombre": "Liche",
+     "nivelNpc": 22,
+     "vida": 2000,
+     "golpe": [
+      120,
+      170
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 220,
+     "evasion": 150,
+     "resistenciaMagica": 45,
+     "magicDef": 5,
+     "exp": 2800,
+     "oro": 380,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": null,
+     "hechizos": [],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/1",
+       "uno_de": []
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 116,
+       "nombre": "Dungeon Marabel.",
+       "cantidad": 7
+      },
+      {
+       "mapa": 115,
+       "nombre": "Dungeon Marabel.",
+       "cantidad": 6
+      },
+      {
+       "mapa": 113,
+       "nombre": "Nueva Esperanza",
+       "cantidad": 3
+      }
+     ],
+     "cantidad": 4,
+     "rol": "comun",
+     "respawnSeg": 90
+    },
+    {
+     "npcIndex": 533,
+     "nombre": "Mago Malvado",
+     "nivelNpc": 22,
+     "vida": 3000,
+     "golpe": [
+      100,
+      115
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 200,
+     "evasion": 150,
+     "resistenciaMagica": 55,
+     "magicDef": 5,
+     "exp": 4400,
+     "oro": 600,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": 4000,
+     "hechizos": [
+      {
+       "id": 41,
+       "nombre": "Tormenta de Fuego",
+       "dano": [
+        45,
+        55
+       ]
+      },
+      {
+       "id": 25,
+       "nombre": "Paralizar",
+       "dano": null
+      }
+     ],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/20",
+       "uno_de": [
+        {
+         "obj": 1239,
+         "nombre": "Sombrero de Aprendiz",
+         "cant": 1
+        }
+       ]
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 113,
+       "nombre": "Nueva Esperanza",
+       "cantidad": 4
+      },
+      {
+       "mapa": 111,
+       "nombre": "Nueva Esperanza",
+       "cantidad": 2
+      },
+      {
+       "mapa": 114,
+       "nombre": " Isla Nueva Esperanza",
+       "cantidad": 2
+      }
+     ],
+     "cantidad": 4,
+     "rol": "comun",
+     "respawnSeg": 90
+    },
+    {
+     "npcIndex": 555,
+     "nombre": "Orco Brujo",
+     "nivelNpc": 24,
+     "vida": 2500,
+     "golpe": [
+      90,
+      210
+     ],
+     "defensa": 0,
+     "defensaMagica": 0,
+     "poderAtaque": 200,
+     "evasion": 165,
+     "resistenciaMagica": 60,
+     "magicDef": 5,
+     "exp": 7000,
+     "oro": 300,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": 2000,
+     "hechizos": [
+      {
+       "id": 43,
+       "nombre": "Flecha Eléctrica",
+       "dano": [
+        25,
+        35
+       ]
+      }
+     ],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/20",
+       "uno_de": [
+        {
+         "obj": 1800,
+         "nombre": "Vara de Fresno",
+         "cant": 1
+        }
+       ]
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 111,
+       "nombre": "Nueva Esperanza",
+       "cantidad": 4
+      },
+      {
+       "mapa": 113,
+       "nombre": "Nueva Esperanza",
+       "cantidad": 4
+      },
+      {
+       "mapa": 114,
+       "nombre": " Isla Nueva Esperanza",
+       "cantidad": 3
+      }
+     ],
+     "cantidad": 2,
+     "rol": "elite",
+     "respawnSeg": 90
+    }
+   ],
+   "jefe": {
+    "npcIndex": 540,
+    "nombre": "Medusa",
+    "nivelNpc": 23,
+    "vida": 7000,
+    "golpe": [
+     115,
+     160
+    ],
+    "defensa": 0,
+    "defensaMagica": 0,
+    "poderAtaque": 220,
+    "evasion": 155,
+    "resistenciaMagica": 57,
+    "magicDef": 5,
+    "exp": 11250,
+    "oro": 350,
+    "intervaloAtaqueMs": 2000,
+    "intervaloHechizoMs": 7000,
+    "hechizos": [
+     {
+      "id": 51,
+      "nombre": "Descarga Eléctrica",
+      "dano": [
+       69,
+       77
+      ]
+     },
+     {
+      "id": 26,
+      "nombre": "Inmovilizar",
+      "dano": null
+     }
+    ],
+    "veneno": null,
+    "drops": {
+     "siempre": [],
+     "azar": {
+      "prob": "1/100",
+      "uno_de": [
+       {
+        "obj": 1149,
+        "nombre": "Pendiente del Experto",
+        "cant": 1
+       }
+      ]
+     }
+    },
+    "mapasOriginales": [
+     {
+      "mapa": 142,
+      "nombre": " Dungeon Veriil.",
+      "cantidad": 2
+     },
+     {
+      "mapa": 144,
+      "nombre": "Cercanías Minas de Oro",
+      "cantidad": 2
+     },
+     {
+      "mapa": 48,
+      "nombre": "Deadly Room",
+      "cantidad": 2
+     }
+    ],
+    "cantidad": 1,
+    "rol": "jefe",
+    "respawnSeg": 480
+   },
+   "mapId": 1016,
+   "zonas": [
+    {
+     "zona": "G1",
+     "ordenRecorrido": 1,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 557,
+       "cantidad": 2
+      },
+      {
+       "npcIndex": 533,
+       "cantidad": 1
+      }
+     ]
+    },
+    {
+     "zona": "G2",
+     "ordenRecorrido": 2,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 533,
+       "cantidad": 2
+      },
+      {
+       "npcIndex": 557,
+       "cantidad": 1
+      }
+     ]
+    },
+    {
+     "zona": "G3",
+     "ordenRecorrido": 3,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 557,
+       "cantidad": 1
+      },
+      {
+       "npcIndex": 533,
+       "cantidad": 1
+      },
+      {
+       "npcIndex": 555,
+       "cantidad": 1
+      }
+     ]
+    },
+    {
+     "zona": "G4",
+     "ordenRecorrido": 4,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 555,
+       "cantidad": 1
+      }
+     ]
+    },
+    {
+     "zona": "JEFE",
+     "ordenRecorrido": 5,
+     "salaTiles": "12x12",
+     "pasilloDesdeUltimoGrupoTiles": 16,
+     "npcs": [
+      {
+       "npcIndex": 540,
+       "cantidad": 1
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "P7",
+   "nombre": "Guarida del Dragon",
+   "nivelRecomendado": [
+    27,
+    30
+   ],
+   "origen": "Dungeon Dragon (mapa 391) + Limbo de los Justos (mapa 314, jefe)",
+   "respawnComunesSeg": 120,
+   "npcVivos": 8,
+   "grupos": {
+    "tamano": "3-4",
+    "separacionMinTiles": 16,
+    "zonaSeguraEntradaTiles": 8,
+    "nota": "Coordenadas exactas: las fija el builder (arquitectura.md) sobre el recorte de mapa de Arte. Centros de grupo a >=16 tiles (NPCVisionRange 14x12). Respawn en su zona y nunca a <5 tiles de un jugador."
+   },
+   "npcs": [
+    {
+     "npcIndex": 595,
+     "nombre": "Pequeño Dragón Azul",
+     "nivelNpc": 25,
+     "vida": 6500,
+     "golpe": [
+      105,
+      115
+     ],
+     "defensa": 10,
+     "defensaMagica": 0,
+     "poderAtaque": 200,
+     "evasion": 120,
+     "resistenciaMagica": 20,
+     "magicDef": 5,
+     "exp": 8450,
+     "oro": 650,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": 8000,
+     "hechizos": [
+      {
+       "id": 41,
+       "nombre": "Tormenta de Fuego",
+       "dano": [
+        45,
+        55
+       ]
+      }
+     ],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/125",
+       "uno_de": [
+        {
+         "obj": 1663,
+         "nombre": "Tormenta de Fuego",
+         "cant": 1
+        }
+       ]
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 391,
+       "nombre": "Dungeon Dragon",
+       "cantidad": 1
+      }
+     ],
+     "cantidad": 4,
+     "rol": "comun",
+     "respawnSeg": 120
+    },
+    {
+     "npcIndex": 587,
+     "nombre": "Pequeño Dragón Rojo",
+     "nivelNpc": 25,
+     "vida": 5000,
+     "golpe": [
+      110,
+      120
+     ],
+     "defensa": 10,
+     "defensaMagica": 0,
+     "poderAtaque": 200,
+     "evasion": 120,
+     "resistenciaMagica": 20,
+     "magicDef": 5,
+     "exp": 6750,
+     "oro": 450,
+     "intervaloAtaqueMs": 2000,
+     "intervaloHechizoMs": 8000,
+     "hechizos": [
+      {
+       "id": 41,
+       "nombre": "Tormenta de Fuego",
+       "dano": [
+        45,
+        55
+       ]
+      }
+     ],
+     "veneno": null,
+     "drops": {
+      "siempre": [],
+      "azar": {
+       "prob": "1/100",
+       "uno_de": [
+        {
+         "obj": 1663,
+         "nombre": "Tormenta de Fuego",
+         "cant": 1
+        }
+       ]
+      }
+     },
+     "mapasOriginales": [
+      {
+       "mapa": 391,
+       "nombre": "Dungeon Dragon",
+       "cantidad": 3
+      },
+      {
+       "mapa": 115,
+       "nombre": "Dungeon Marabel.",
+       "cantidad": 1
+      }
+     ],
+     "cantidad": 4,
+     "rol": "comun",
+     "respawnSeg": 120
+    }
+   ],
+   "jefe": {
+    "npcIndex": 544,
+    "nombre": "Vytaiz",
+    "nivelNpc": 27,
+    "vida": 20000,
+    "golpe": [
+     160,
+     180
+    ],
+    "defensa": 20,
+    "defensaMagica": 0,
+    "poderAtaque": 500,
+    "evasion": 175,
+    "resistenciaMagica": 25,
+    "magicDef": 10,
+    "exp": 35000,
+    "oro": 2000,
+    "intervaloAtaqueMs": 2000,
+    "intervaloHechizoMs": 1500,
+    "hechizos": [
+     {
+      "id": 25,
+      "nombre": "Paralizar",
+      "dano": null
+     },
+     {
+      "id": 206,
+      "nombre": "Incinerar (NPCS)",
+      "dano": null
+     }
+    ],
+    "veneno": null,
+    "drops": {
+     "siempre": [],
+     "azar": {
+      "prob": "1/300",
+      "uno_de": [
+       {
+        "obj": 2236,
+        "nombre": "Insignia Roja",
+        "cant": 1
+       },
+       {
+        "obj": 2237,
+        "nombre": "Insignia Azul",
+        "cant": 1
+       }
+      ]
+     }
+    },
+    "mapasOriginales": [
+     {
+      "mapa": 314,
+      "nombre": "Limbo de los Justos",
+      "cantidad": 1
+     }
+    ],
+    "cantidad": 1,
+    "rol": "jefe",
+    "respawnSeg": 360
+   },
+   "mapId": 1017,
+   "zonas": [
+    {
+     "zona": "G1",
+     "ordenRecorrido": 1,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 595,
+       "cantidad": 2
+      }
+     ]
+    },
+    {
+     "zona": "G2",
+     "ordenRecorrido": 2,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 587,
+       "cantidad": 2
+      }
+     ]
+    },
+    {
+     "zona": "G3",
+     "ordenRecorrido": 3,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 595,
+       "cantidad": 2
+      }
+     ]
+    },
+    {
+     "zona": "G4",
+     "ordenRecorrido": 4,
+     "radioSpawnTiles": 3,
+     "npcs": [
+      {
+       "npcIndex": 587,
+       "cantidad": 2
+      }
+     ]
+    },
+    {
+     "zona": "JEFE",
+     "ordenRecorrido": 5,
+     "salaTiles": "12x12",
+     "pasilloDesdeUltimoGrupoTiles": 16,
+     "npcs": [
+      {
+       "npcIndex": 544,
+       "cantidad": 1
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "tiempoPorNivel": {
+  "Guerrero": [
+   {
+    "nivel": 1,
+    "piso": "P1",
+    "min_x1": 2.2,
+    "mult": 1,
+    "min_demo": 2.2,
+    "acum_h_demo": 0.04
+   },
+   {
+    "nivel": 2,
+    "piso": "P1",
+    "min_x1": 2.6,
+    "mult": 1,
+    "min_demo": 2.6,
+    "acum_h_demo": 0.08
+   },
+   {
+    "nivel": 3,
+    "piso": "P1",
+    "min_x1": 3.6,
+    "mult": 1,
+    "min_demo": 3.6,
+    "acum_h_demo": 0.14
+   },
+   {
+    "nivel": 4,
+    "piso": "P2",
+    "min_x1": 2.1,
+    "mult": 1,
+    "min_demo": 2.1,
+    "acum_h_demo": 0.18
+   },
+   {
+    "nivel": 5,
+    "piso": "P2",
+    "min_x1": 1.9,
+    "mult": 1,
+    "min_demo": 1.9,
+    "acum_h_demo": 0.21
+   },
+   {
+    "nivel": 6,
+    "piso": "P2",
+    "min_x1": 2.6,
+    "mult": 1,
+    "min_demo": 2.6,
+    "acum_h_demo": 0.25
+   },
+   {
+    "nivel": 7,
+    "piso": "P2",
+    "min_x1": 3.6,
+    "mult": 1,
+    "min_demo": 3.6,
+    "acum_h_demo": 0.31
+   },
+   {
+    "nivel": 8,
+    "piso": "P2",
+    "min_x1": 5.0,
+    "mult": 1,
+    "min_demo": 5.0,
+    "acum_h_demo": 0.39
+   },
+   {
+    "nivel": 9,
+    "piso": "P2",
+    "min_x1": 6.9,
+    "mult": 1,
+    "min_demo": 6.9,
+    "acum_h_demo": 0.51
+   },
+   {
+    "nivel": 10,
+    "piso": "P3",
+    "min_x1": 8.5,
+    "mult": 2,
+    "min_demo": 4.2,
+    "acum_h_demo": 0.58
+   },
+   {
+    "nivel": 11,
+    "piso": "P3",
+    "min_x1": 11.6,
+    "mult": 2,
+    "min_demo": 5.8,
+    "acum_h_demo": 0.68
+   },
+   {
+    "nivel": 12,
+    "piso": "P3",
+    "min_x1": 15.9,
+    "mult": 2,
+    "min_demo": 8.0,
+    "acum_h_demo": 0.81
+   },
+   {
+    "nivel": 13,
+    "piso": "P3",
+    "min_x1": 24.0,
+    "mult": 2,
+    "min_demo": 12.0,
+    "acum_h_demo": 1.01
+   },
+   {
+    "nivel": 14,
+    "piso": "P3",
+    "min_x1": 30.5,
+    "mult": 2,
+    "min_demo": 15.2,
+    "acum_h_demo": 1.26
+   },
+   {
+    "nivel": 15,
+    "piso": "P4",
+    "min_x1": 52.9,
+    "mult": 7,
+    "min_demo": 7.6,
+    "acum_h_demo": 1.39
+   },
+   {
+    "nivel": 16,
+    "piso": "P4",
+    "min_x1": 69.1,
+    "mult": 7,
+    "min_demo": 9.9,
+    "acum_h_demo": 1.55
+   },
+   {
+    "nivel": 17,
+    "piso": "P4",
+    "min_x1": 91.5,
+    "mult": 7,
+    "min_demo": 13.1,
+    "acum_h_demo": 1.77
+   },
+   {
+    "nivel": 18,
+    "piso": "P4",
+    "min_x1": 123.8,
+    "mult": 7,
+    "min_demo": 17.7,
+    "acum_h_demo": 2.07
+   },
+   {
+    "nivel": 19,
+    "piso": "P4",
+    "min_x1": 171.3,
+    "mult": 7,
+    "min_demo": 24.5,
+    "acum_h_demo": 2.47
+   },
+   {
+    "nivel": 20,
+    "piso": "P5",
+    "min_x1": 205.9,
+    "mult": 17,
+    "min_demo": 12.1,
+    "acum_h_demo": 2.68
+   },
+   {
+    "nivel": 21,
+    "piso": "P5",
+    "min_x1": 275.7,
+    "mult": 17,
+    "min_demo": 16.2,
+    "acum_h_demo": 2.95
+   },
+   {
+    "nivel": 22,
+    "piso": "P5",
+    "min_x1": 371.2,
+    "mult": 17,
+    "min_demo": 21.8,
+    "acum_h_demo": 3.31
+   },
+   {
+    "nivel": 23,
+    "piso": "P5",
+    "min_x1": 520.5,
+    "mult": 17,
+    "min_demo": 30.6,
+    "acum_h_demo": 3.82
+   },
+   {
+    "nivel": 24,
+    "piso": "P5",
+    "min_x1": 731.5,
+    "mult": 30,
+    "min_demo": 24.4,
+    "acum_h_demo": 4.23
+   },
+   {
+    "nivel": 25,
+    "piso": "P6",
+    "min_x1": 922.6,
+    "mult": 30,
+    "min_demo": 30.8,
+    "acum_h_demo": 4.74
+   },
+   {
+    "nivel": 26,
+    "piso": "P6",
+    "min_x1": 1104.2,
+    "mult": 30,
+    "min_demo": 36.8,
+    "acum_h_demo": 5.35
+   },
+   {
+    "nivel": 27,
+    "piso": "P7",
+    "min_x1": 1328.1,
+    "mult": 44,
+    "min_demo": 30.2,
+    "acum_h_demo": 5.86
+   },
+   {
+    "nivel": 28,
+    "piso": "P7",
+    "min_x1": 1588.6,
+    "mult": 44,
+    "min_demo": 36.1,
+    "acum_h_demo": 6.46
+   },
+   {
+    "nivel": 29,
+    "piso": "P7",
+    "min_x1": 1896.9,
+    "mult": 44,
+    "min_demo": 43.1,
+    "acum_h_demo": 7.18
+   }
+  ],
+  "Mago": [
+   {
+    "nivel": 1,
+    "piso": "P1",
+    "min_x1": 1.8,
+    "mult": 1,
+    "min_demo": 1.8,
+    "acum_h_demo": 0.03
+   },
+   {
+    "nivel": 2,
+    "piso": "P1",
+    "min_x1": 2.5,
+    "mult": 1,
+    "min_demo": 2.5,
+    "acum_h_demo": 0.07
+   },
+   {
+    "nivel": 3,
+    "piso": "P1",
+    "min_x1": 3.5,
+    "mult": 1,
+    "min_demo": 3.5,
+    "acum_h_demo": 0.13
+   },
+   {
+    "nivel": 4,
+    "piso": "P2",
+    "min_x1": 1.7,
+    "mult": 1,
+    "min_demo": 1.7,
+    "acum_h_demo": 0.16
+   },
+   {
+    "nivel": 5,
+    "piso": "P2",
+    "min_x1": 2.4,
+    "mult": 1,
+    "min_demo": 2.4,
+    "acum_h_demo": 0.2
+   },
+   {
+    "nivel": 6,
+    "piso": "P2",
+    "min_x1": 3.0,
+    "mult": 1,
+    "min_demo": 3.0,
+    "acum_h_demo": 0.25
+   },
+   {
+    "nivel": 7,
+    "piso": "P2",
+    "min_x1": 4.2,
+    "mult": 1,
+    "min_demo": 4.2,
+    "acum_h_demo": 0.32
+   },
+   {
+    "nivel": 8,
+    "piso": "P2",
+    "min_x1": 5.9,
+    "mult": 1,
+    "min_demo": 5.9,
+    "acum_h_demo": 0.42
+   },
+   {
+    "nivel": 9,
+    "piso": "P2",
+    "min_x1": 8.3,
+    "mult": 1,
+    "min_demo": 8.3,
+    "acum_h_demo": 0.55
+   },
+   {
+    "nivel": 10,
+    "piso": "P3",
+    "min_x1": 10.0,
+    "mult": 2,
+    "min_demo": 5.0,
+    "acum_h_demo": 0.64
+   },
+   {
+    "nivel": 11,
+    "piso": "P3",
+    "min_x1": 14.2,
+    "mult": 2,
+    "min_demo": 7.1,
+    "acum_h_demo": 0.76
+   },
+   {
+    "nivel": 12,
+    "piso": "P3",
+    "min_x1": 20.3,
+    "mult": 2,
+    "min_demo": 10.2,
+    "acum_h_demo": 0.92
+   },
+   {
+    "nivel": 13,
+    "piso": "P3",
+    "min_x1": 32.1,
+    "mult": 2,
+    "min_demo": 16.0,
+    "acum_h_demo": 1.19
+   },
+   {
+    "nivel": 14,
+    "piso": "P3",
+    "min_x1": 43.1,
+    "mult": 2,
+    "min_demo": 21.5,
+    "acum_h_demo": 1.55
+   },
+   {
+    "nivel": 15,
+    "piso": "P4",
+    "min_x1": 68.4,
+    "mult": 7,
+    "min_demo": 9.8,
+    "acum_h_demo": 1.71
+   },
+   {
+    "nivel": 16,
+    "piso": "P4",
+    "min_x1": 93.8,
+    "mult": 7,
+    "min_demo": 13.4,
+    "acum_h_demo": 1.94
+   },
+   {
+    "nivel": 17,
+    "piso": "P4",
+    "min_x1": 122.9,
+    "mult": 7,
+    "min_demo": 17.6,
+    "acum_h_demo": 2.23
+   },
+   {
+    "nivel": 18,
+    "piso": "P4",
+    "min_x1": 170.8,
+    "mult": 7,
+    "min_demo": 24.4,
+    "acum_h_demo": 2.64
+   },
+   {
+    "nivel": 19,
+    "piso": "P4",
+    "min_x1": 238.1,
+    "mult": 7,
+    "min_demo": 34.0,
+    "acum_h_demo": 3.2
+   },
+   {
+    "nivel": 20,
+    "piso": "P5",
+    "min_x1": 337.5,
+    "mult": 17,
+    "min_demo": 19.9,
+    "acum_h_demo": 3.53
+   },
+   {
+    "nivel": 21,
+    "piso": "P5",
+    "min_x1": 469.0,
+    "mult": 17,
+    "min_demo": 27.6,
+    "acum_h_demo": 3.99
+   },
+   {
+    "nivel": 22,
+    "piso": "P5",
+    "min_x1": 658.9,
+    "mult": 17,
+    "min_demo": 38.8,
+    "acum_h_demo": 4.64
+   },
+   {
+    "nivel": 23,
+    "piso": "P5",
+    "min_x1": 936.9,
+    "mult": 17,
+    "min_demo": 55.1,
+    "acum_h_demo": 5.56
+   },
+   {
+    "nivel": 24,
+    "piso": "P6",
+    "min_x1": 944.6,
+    "mult": 30,
+    "min_demo": 31.5,
+    "acum_h_demo": 6.08
+   },
+   {
+    "nivel": 25,
+    "piso": "P6",
+    "min_x1": 1410.0,
+    "mult": 30,
+    "min_demo": 47.0,
+    "acum_h_demo": 6.87
+   },
+   {
+    "nivel": 26,
+    "piso": "P6",
+    "min_x1": 1722.7,
+    "mult": 30,
+    "min_demo": 57.4,
+    "acum_h_demo": 7.82
+   },
+   {
+    "nivel": 27,
+    "piso": "P7",
+    "min_x1": 2219.6,
+    "mult": 44,
+    "min_demo": 50.4,
+    "acum_h_demo": 8.66
+   },
+   {
+    "nivel": 28,
+    "piso": "P7",
+    "min_x1": 2713.8,
+    "mult": 44,
+    "min_demo": 61.7,
+    "acum_h_demo": 9.69
+   },
+   {
+    "nivel": 29,
+    "piso": "P7",
+    "min_x1": 3325.3,
+    "mult": 44,
+    "min_demo": 75.6,
+    "acum_h_demo": 10.95
+   }
+  ],
+  "Clerigo": [
+   {
+    "nivel": 1,
+    "piso": "P1",
+    "min_x1": 2.4,
+    "mult": 1,
+    "min_demo": 2.4,
+    "acum_h_demo": 0.04
+   },
+   {
+    "nivel": 2,
+    "piso": "P1",
+    "min_x1": 3.0,
+    "mult": 1,
+    "min_demo": 3.0,
+    "acum_h_demo": 0.09
+   },
+   {
+    "nivel": 3,
+    "piso": "P1",
+    "min_x1": 4.1,
+    "mult": 1,
+    "min_demo": 4.1,
+    "acum_h_demo": 0.16
+   },
+   {
+    "nivel": 4,
+    "piso": "P2",
+    "min_x1": 2.7,
+    "mult": 1,
+    "min_demo": 2.7,
+    "acum_h_demo": 0.21
+   },
+   {
+    "nivel": 5,
+    "piso": "P2",
+    "min_x1": 3.2,
+    "mult": 1,
+    "min_demo": 3.2,
+    "acum_h_demo": 0.26
+   },
+   {
+    "nivel": 6,
+    "piso": "P2",
+    "min_x1": 4.4,
+    "mult": 1,
+    "min_demo": 4.4,
+    "acum_h_demo": 0.33
+   },
+   {
+    "nivel": 7,
+    "piso": "P2",
+    "min_x1": 5.7,
+    "mult": 1,
+    "min_demo": 5.7,
+    "acum_h_demo": 0.43
+   },
+   {
+    "nivel": 8,
+    "piso": "P2",
+    "min_x1": 7.1,
+    "mult": 1,
+    "min_demo": 7.1,
+    "acum_h_demo": 0.55
+   },
+   {
+    "nivel": 9,
+    "piso": "P2",
+    "min_x1": 10.0,
+    "mult": 1,
+    "min_demo": 10.0,
+    "acum_h_demo": 0.71
+   },
+   {
+    "nivel": 10,
+    "piso": "P3",
+    "min_x1": 13.1,
+    "mult": 2,
+    "min_demo": 6.6,
+    "acum_h_demo": 0.82
+   },
+   {
+    "nivel": 11,
+    "piso": "P3",
+    "min_x1": 18.3,
+    "mult": 2,
+    "min_demo": 9.2,
+    "acum_h_demo": 0.97
+   },
+   {
+    "nivel": 12,
+    "piso": "P3",
+    "min_x1": 24.5,
+    "mult": 2,
+    "min_demo": 12.3,
+    "acum_h_demo": 1.18
+   },
+   {
+    "nivel": 13,
+    "piso": "P3",
+    "min_x1": 39.4,
+    "mult": 2,
+    "min_demo": 19.7,
+    "acum_h_demo": 1.51
+   },
+   {
+    "nivel": 14,
+    "piso": "P3",
+    "min_x1": 50.4,
+    "mult": 2,
+    "min_demo": 25.2,
+    "acum_h_demo": 1.93
+   },
+   {
+    "nivel": 15,
+    "piso": "P4",
+    "min_x1": 76.5,
+    "mult": 7,
+    "min_demo": 10.9,
+    "acum_h_demo": 2.11
+   },
+   {
+    "nivel": 16,
+    "piso": "P4",
+    "min_x1": 102.3,
+    "mult": 7,
+    "min_demo": 14.6,
+    "acum_h_demo": 2.35
+   },
+   {
+    "nivel": 17,
+    "piso": "P4",
+    "min_x1": 137.7,
+    "mult": 7,
+    "min_demo": 19.7,
+    "acum_h_demo": 2.68
+   },
+   {
+    "nivel": 18,
+    "piso": "P4",
+    "min_x1": 188.8,
+    "mult": 7,
+    "min_demo": 27.0,
+    "acum_h_demo": 3.13
+   },
+   {
+    "nivel": 19,
+    "piso": "P4",
+    "min_x1": 261.3,
+    "mult": 7,
+    "min_demo": 37.3,
+    "acum_h_demo": 3.75
+   },
+   {
+    "nivel": 20,
+    "piso": "P5",
+    "min_x1": 345.6,
+    "mult": 17,
+    "min_demo": 20.3,
+    "acum_h_demo": 4.09
+   },
+   {
+    "nivel": 21,
+    "piso": "P5",
+    "min_x1": 474.2,
+    "mult": 17,
+    "min_demo": 27.9,
+    "acum_h_demo": 4.56
+   },
+   {
+    "nivel": 22,
+    "piso": "P5",
+    "min_x1": 673.1,
+    "mult": 17,
+    "min_demo": 39.6,
+    "acum_h_demo": 5.22
+   },
+   {
+    "nivel": 23,
+    "piso": "P5",
+    "min_x1": 953.0,
+    "mult": 17,
+    "min_demo": 56.1,
+    "acum_h_demo": 6.15
+   },
+   {
+    "nivel": 24,
+    "piso": "P6",
+    "min_x1": 1033.1,
+    "mult": 30,
+    "min_demo": 34.4,
+    "acum_h_demo": 6.73
+   },
+   {
+    "nivel": 25,
+    "piso": "P5",
+    "min_x1": 1857.5,
+    "mult": 30,
+    "min_demo": 61.9,
+    "acum_h_demo": 7.76
+   },
+   {
+    "nivel": 26,
+    "piso": "P5",
+    "min_x1": 2347.4,
+    "mult": 30,
+    "min_demo": 78.2,
+    "acum_h_demo": 9.06
+   },
+   {
+    "nivel": 27,
+    "piso": "P5",
+    "min_x1": 3013.8,
+    "mult": 44,
+    "min_demo": 68.5,
+    "acum_h_demo": 10.2
+   },
+   {
+    "nivel": 28,
+    "piso": "P5",
+    "min_x1": 3888.8,
+    "mult": 44,
+    "min_demo": 88.4,
+    "acum_h_demo": 11.68
+   },
+   {
+    "nivel": 29,
+    "piso": "P6",
+    "min_x1": 4325.0,
+    "mult": 44,
+    "min_demo": 98.3,
+    "acum_h_demo": 13.31
+   }
+  ],
+  "Cazador": [
+   {
+    "nivel": 1,
+    "piso": "P1",
+    "min_x1": 2.7,
+    "mult": 1,
+    "min_demo": 2.7,
+    "acum_h_demo": 0.05
+   },
+   {
+    "nivel": 2,
+    "piso": "P1",
+    "min_x1": 3.3,
+    "mult": 1,
+    "min_demo": 3.3,
+    "acum_h_demo": 0.1
+   },
+   {
+    "nivel": 3,
+    "piso": "P1",
+    "min_x1": 4.4,
+    "mult": 1,
+    "min_demo": 4.4,
+    "acum_h_demo": 0.17
+   },
+   {
+    "nivel": 4,
+    "piso": "P2",
+    "min_x1": 2.9,
+    "mult": 1,
+    "min_demo": 2.9,
+    "acum_h_demo": 0.22
+   },
+   {
+    "nivel": 5,
+    "piso": "P2",
+    "min_x1": 2.2,
+    "mult": 1,
+    "min_demo": 2.2,
+    "acum_h_demo": 0.26
+   },
+   {
+    "nivel": 6,
+    "piso": "P2",
+    "min_x1": 3.0,
+    "mult": 1,
+    "min_demo": 3.0,
+    "acum_h_demo": 0.31
+   },
+   {
+    "nivel": 7,
+    "piso": "P2",
+    "min_x1": 4.1,
+    "mult": 1,
+    "min_demo": 4.1,
+    "acum_h_demo": 0.38
+   },
+   {
+    "nivel": 8,
+    "piso": "P2",
+    "min_x1": 5.6,
+    "mult": 1,
+    "min_demo": 5.6,
+    "acum_h_demo": 0.47
+   },
+   {
+    "nivel": 9,
+    "piso": "P2",
+    "min_x1": 7.8,
+    "mult": 1,
+    "min_demo": 7.8,
+    "acum_h_demo": 0.6
+   },
+   {
+    "nivel": 10,
+    "piso": "P3",
+    "min_x1": 9.9,
+    "mult": 2,
+    "min_demo": 5.0,
+    "acum_h_demo": 0.68
+   },
+   {
+    "nivel": 11,
+    "piso": "P3",
+    "min_x1": 13.6,
+    "mult": 2,
+    "min_demo": 6.8,
+    "acum_h_demo": 0.8
+   },
+   {
+    "nivel": 12,
+    "piso": "P3",
+    "min_x1": 18.7,
+    "mult": 2,
+    "min_demo": 9.3,
+    "acum_h_demo": 0.95
+   },
+   {
+    "nivel": 13,
+    "piso": "P3",
+    "min_x1": 28.0,
+    "mult": 2,
+    "min_demo": 14.0,
+    "acum_h_demo": 1.19
+   },
+   {
+    "nivel": 14,
+    "piso": "P3",
+    "min_x1": 35.6,
+    "mult": 2,
+    "min_demo": 17.8,
+    "acum_h_demo": 1.48
+   },
+   {
+    "nivel": 15,
+    "piso": "P4",
+    "min_x1": 60.4,
+    "mult": 7,
+    "min_demo": 8.6,
+    "acum_h_demo": 1.63
+   },
+   {
+    "nivel": 16,
+    "piso": "P4",
+    "min_x1": 78.9,
+    "mult": 7,
+    "min_demo": 11.3,
+    "acum_h_demo": 1.81
+   },
+   {
+    "nivel": 17,
+    "piso": "P4",
+    "min_x1": 104.2,
+    "mult": 7,
+    "min_demo": 14.9,
+    "acum_h_demo": 2.06
+   },
+   {
+    "nivel": 18,
+    "piso": "P4",
+    "min_x1": 133.2,
+    "mult": 7,
+    "min_demo": 19.0,
+    "acum_h_demo": 2.38
+   },
+   {
+    "nivel": 19,
+    "piso": "P4",
+    "min_x1": 182.3,
+    "mult": 7,
+    "min_demo": 26.0,
+    "acum_h_demo": 2.81
+   },
+   {
+    "nivel": 20,
+    "piso": "P5",
+    "min_x1": 214.7,
+    "mult": 17,
+    "min_demo": 12.6,
+    "acum_h_demo": 3.02
+   },
+   {
+    "nivel": 21,
+    "piso": "P5",
+    "min_x1": 286.7,
+    "mult": 17,
+    "min_demo": 16.9,
+    "acum_h_demo": 3.31
+   },
+   {
+    "nivel": 22,
+    "piso": "P5",
+    "min_x1": 388.5,
+    "mult": 17,
+    "min_demo": 22.9,
+    "acum_h_demo": 3.69
+   },
+   {
+    "nivel": 23,
+    "piso": "P5",
+    "min_x1": 544.8,
+    "mult": 17,
+    "min_demo": 32.0,
+    "acum_h_demo": 4.22
+   },
+   {
+    "nivel": 24,
+    "piso": "P6",
+    "min_x1": 731.1,
+    "mult": 30,
+    "min_demo": 24.4,
+    "acum_h_demo": 4.63
+   },
+   {
+    "nivel": 25,
+    "piso": "P6",
+    "min_x1": 1062.1,
+    "mult": 30,
+    "min_demo": 35.4,
+    "acum_h_demo": 5.22
+   },
+   {
+    "nivel": 26,
+    "piso": "P6",
+    "min_x1": 1271.8,
+    "mult": 30,
+    "min_demo": 42.4,
+    "acum_h_demo": 5.92
+   },
+   {
+    "nivel": 27,
+    "piso": "P7",
+    "min_x1": 1526.3,
+    "mult": 44,
+    "min_demo": 34.7,
+    "acum_h_demo": 6.5
+   },
+   {
+    "nivel": 28,
+    "piso": "P7",
+    "min_x1": 1828.1,
+    "mult": 44,
+    "min_demo": 41.5,
+    "acum_h_demo": 7.19
+   },
+   {
+    "nivel": 29,
+    "piso": "P7",
+    "min_x1": 2188.3,
+    "mult": 44,
+    "min_demo": 49.7,
+    "acum_h_demo": 8.02
+   }
+  ]
+ },
+ "disenoMapa": {
+  "tamanoUtil": "~70x70 dentro de 100x100",
+  "zonaSeguraEntradaTiles": 8,
+  "recorrido": "circuito sin volver sobre los pasos, ~150 tiles, ~35 s",
+  "caminarMsPorTile": 210,
+  "escaleraSiguientePiso": "alcanzable sin matar al jefe",
+  "cartel": "Nivel recomendado X-Y en cada escalera"
+ },
+ "supuestosModelo": {
+  "razas": "Humano (FUE19 AGI19 INT18 CON20); mago Gnomo (FUE16 AGI21 INT22 CON18)",
+  "skills": "uso (tope ~2.5*nivel) + 40% de puntos al skill de ataque (mago 60% a Magia)",
+  "segundosEntreMuertes": 4,
+  "exposicionGolpes": {
+   "cuerpoACuerpo": 1.0,
+   "arco": 0.6,
+   "hechizo": 0.35,
+   "nota": "segun el modo de ataque elegido (el de mas dano por segundo)"
+  },
+  "farmeableSolo": "dano recibido <=30 PV/s y golpe max tras armadura <=50% de la vida (mago 100%)",
+  "pocion": "roja 27 PV, 18 oro, 380 ms",
+  "modeloReproducible": "docs/claude/demo/modelo_progresion.py (--check compara con tiempoPorNivel)"
+ }
+}

@@ -1,0 +1,130 @@
+{
+  "spell_id": 3,
+  "name": "Misil Mágico",
+  "fields": {
+    "nombre": "Misil Mágico",
+    "desc": "Causa 35 a 45 puntos de daño a la víctima.",
+    "palabrasmagicas": "VAX IN TAR",
+    "hechizeromsg": "Has lanzado Misil Mágico sobre",
+    "targetmsg": "lanzó Misil Mágico sobre ti.",
+    "en_name": "Magic Missile",
+    "en_desc": "Deals 35 to 45 hit points to the victim.",
+    "en_hechizeromsg": "You casted Magic Missile on",
+    "en_targetmsg": "casted Magic Missile on you.",
+    "targeteffecttype": "2",
+    "tipo": "1",
+    "wav": "16",
+    "fxgrh": "10",
+    "loops": "0",
+    "subehp": "2",
+    "minhp": "35",
+    "maxhp": "45",
+    "minskill": "33",
+    "manarequerido": "45",
+    "starequerido": "20",
+    "target": "3",
+    "iconoindex": "35688",
+    "particleviaje": "186"
+  },
+  "resources": [
+    {
+      "spell_id": 3,
+      "kind": "icon",
+      "source_id": 35688,
+      "top_grh": 35688,
+      "detail": "IconoIndex",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 35688,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_035688__atlas_108__x128_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/003_Misil_Magico/01_icon__src35688__topGRH35688__frame001__GRH35688.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 3,
+      "kind": "spell_fx",
+      "source_id": 10,
+      "top_grh": 205,
+      "detail": "FXgrh FX10->Anim205",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 195,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000195__atlas_3452__x0_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/003_Misil_Magico/02_spell_fx__src10__topGRH205__frame001__GRH195.png"
+        },
+        {
+          "frame_number": 2,
+          "grh": 196,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000196__atlas_3452__x64_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/003_Misil_Magico/02_spell_fx__src10__topGRH205__frame002__GRH196.png"
+        },
+        {
+          "frame_number": 3,
+          "grh": 197,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000197__atlas_3452__x128_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/003_Misil_Magico/02_spell_fx__src10__topGRH205__frame003__GRH197.png"
+        },
+        {
+          "frame_number": 4,
+          "grh": 198,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000198__atlas_3452__x192_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/003_Misil_Magico/02_spell_fx__src10__topGRH205__frame004__GRH198.png"
+        },
+        {
+          "frame_number": 5,
+          "grh": 199,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000199__atlas_3452__x256_y0_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/003_Misil_Magico/02_spell_fx__src10__topGRH205__frame005__GRH199.png"
+        },
+        {
+          "frame_number": 6,
+          "grh": 200,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000200__atlas_3452__x0_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/003_Misil_Magico/02_spell_fx__src10__topGRH205__frame006__GRH200.png"
+        },
+        {
+          "frame_number": 7,
+          "grh": 201,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000201__atlas_3452__x64_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/003_Misil_Magico/02_spell_fx__src10__topGRH205__frame007__GRH201.png"
+        },
+        {
+          "frame_number": 8,
+          "grh": 202,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000202__atlas_3452__x128_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/003_Misil_Magico/02_spell_fx__src10__topGRH205__frame008__GRH202.png"
+        },
+        {
+          "frame_number": 9,
+          "grh": 203,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000203__atlas_3452__x192_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/003_Misil_Magico/02_spell_fx__src10__topGRH205__frame009__GRH203.png"
+        },
+        {
+          "frame_number": 10,
+          "grh": 204,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_000204__atlas_3452__x256_y64_w64_h64.png",
+          "spell_copy": "02_Por_Hechizo/003_Misil_Magico/02_spell_fx__src10__topGRH205__frame010__GRH204.png"
+        }
+      ]
+    },
+    {
+      "spell_id": 3,
+      "kind": "particleviaje",
+      "source_id": 186,
+      "top_grh": 19986,
+      "detail": "particleviaje Particle186 Misil Magico Viaje",
+      "frames": [
+        {
+          "frame_number": 1,
+          "grh": 19986,
+          "central_image": "01_Texturas_GRH_Unicas/GRH_019986__atlas_3__x352_y0_w32_h32.png",
+          "spell_copy": "02_Por_Hechizo/003_Misil_Magico/03_particleviaje__src186__topGRH19986__frame001__GRH19986.png"
+        }
+      ]
+    }
+  ]
+}
