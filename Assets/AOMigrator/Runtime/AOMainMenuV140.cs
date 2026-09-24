@@ -60,6 +60,9 @@ public class AOMainMenuV140 : MonoBehaviour
     float loadingGameStartedAt;
     bool exitNextFrame;
     bool showEntrance = true;
+    bool showOnlineSetup;
+    string onlineAddress = "";
+    string onlineKey = "";
 
     Rect window =
         new Rect(
@@ -85,6 +88,7 @@ public class AOMainMenuV140 : MonoBehaviour
         visible = true;
         SessionActive = false;
         showEntrance = true;
+        onlineAddress = AOOnlineClientV240.SavedAddress;
 
         RefreshSelection();
 
@@ -326,32 +330,65 @@ public class AOMainMenuV140 : MonoBehaviour
                 new Rect(0f, 715f / 1024f, 856f / 1024f,
                          309f / 1024f), true);
 
-        Rect panel = new Rect(277, 326, 470, 350);
+        Rect panel = new Rect(277, showOnlineSetup ? 290 : 326,
+            470, showOnlineSetup ? 405 : 350);
         if (entranceFrame != null)
             GUI.DrawTexture(panel, entranceFrame, ScaleMode.StretchToFill,
                             true);
         else
             GUI.Box(panel, GUIContent.none);
 
-        GUI.Label(new Rect(310, 353, 404, 40), "INGRESAR",
+        GUI.Label(new Rect(310, showOnlineSetup ? 316 : 353, 404, 40),
+            showOnlineSetup ? "SALA PRIVADA" : "INGRESAR",
                   selectionTitle);
-        GUI.Label(new Rect(315, 405, 394, 38),
-                  "Modo local", selectionDetails);
-        GUI.Label(new Rect(315, 438, 394, 40),
-                  "El servidor de cuentas todavía no está conectado.",
-                  selectionHint);
-
-        if (AOAudioV190.Clicked(GUI.Button(new Rect(350, 496, 324, 54),
-                "JUGAR SIN CONEXIÓN", entrancePrimary)))
-            showEntrance = false;
-
-        if (AOAudioV190.Clicked(GUI.Button(new Rect(390, 574, 244, 43),
-                "SALIR", entranceSecondary)))
-            exitNextFrame = true;
-
-        GUI.Label(new Rect(305, 633, 414, 24),
-                  "Cuenta online: requiere servidor.",
-                  selectionHint);
+        if (showOnlineSetup)
+        {
+            GUI.Label(new Rect(315, 378, 394, 27),
+                "IP de Tailscale del anfitrión", selectionHint);
+            onlineAddress = GUI.TextField(new Rect(338, 408, 348, 36),
+                onlineAddress, 253);
+            GUI.Label(new Rect(315, 465, 394, 27),
+                "Clave de sala", selectionHint);
+            onlineKey = GUI.PasswordField(new Rect(338, 494, 348, 36),
+                onlineKey, '*', 128);
+            if (AOAudioV190.Clicked(GUI.Button(new Rect(350, 549, 324, 48),
+                    "CONECTAR", entrancePrimary)))
+            {
+                if (AOOnlineClientV240.Prepare(onlineAddress, onlineKey,
+                        out string onlineError))
+                {
+                    showEntrance = false;
+                    status = "Sala online seleccionada.";
+                }
+                else status = onlineError;
+            }
+            if (AOAudioV190.Clicked(GUI.Button(new Rect(390, 608, 244, 40),
+                    "VOLVER", entranceSecondary)))
+                showOnlineSetup = false;
+            GUI.Label(new Rect(302, 657, 420, 28), status, selectionHint);
+        }
+        else
+        {
+            GUI.Label(new Rect(315, 405, 394, 38),
+                "Elegí cómo jugar", selectionDetails);
+            if (AOAudioV190.Clicked(GUI.Button(new Rect(350, 467, 324, 49),
+                    "JUGAR SIN CONEXIÓN", entrancePrimary)))
+            {
+                AOOnlineClientV240.UseLocalMode();
+                showEntrance = false;
+            }
+            if (AOAudioV190.Clicked(GUI.Button(new Rect(350, 526, 324, 49),
+                    "JUGAR CON AMIGOS", entrancePrimary)))
+            {
+                showOnlineSetup = true;
+                status = "";
+            }
+            if (AOAudioV190.Clicked(GUI.Button(new Rect(390, 593, 244, 43),
+                    "SALIR", entranceSecondary)))
+                exitNextFrame = true;
+            GUI.Label(new Rect(305, 644, 414, 24),
+                "Sala privada: hasta 10 jugadores.", selectionHint);
+        }
 
         GUI.enabled = oldEnabled;
         GUI.color = oldColor;
@@ -403,7 +440,8 @@ public class AOMainMenuV140 : MonoBehaviour
                 status = "Personaje seleccionado.";
 
             GUI.Label(new Rect(386, 568, 254, 26),
-                      "PERSONAJE LOCAL", selectionTitle);
+                      AOOnlineClientV240.Requested ? "SALA PRIVADA" : "PERSONAJE LOCAL",
+                      selectionTitle);
             GUI.Label(new Rect(390, 605, 246, 62),
                       selectionSummary, selectionDetails);
         }
@@ -417,7 +455,8 @@ public class AOMainMenuV140 : MonoBehaviour
 
         GUI.Label(new Rect(213, 668, 600, 29),
             string.IsNullOrEmpty(status)
-                ? "Modo local: un espacio disponible."
+                ? (AOOnlineClientV240.Requested
+                    ? "Conexión al elegir JUGAR." : "Modo local: un espacio disponible.")
                 : status,
             selectionHint);
 
@@ -567,6 +606,7 @@ public class AOMainMenuV140 : MonoBehaviour
         instance.visible = true;
         SessionActive = false;
         instance.showEntrance = false;
+        AOOnlineClientV240.UseLocalMode();
 
         instance.RefreshSelection();
 
@@ -589,6 +629,8 @@ public class AOMainMenuV140 : MonoBehaviour
         SessionActive = true;
 
         Time.timeScale = 1f;
+
+        AOOnlineClientV240.StartSession();
 
         AOInterfaceV0101.PushMessage(
             "Bienvenido. F1 guardar | F3 cargar | Q misiones");

@@ -742,6 +742,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                 speechText = clean.Replace('\r', ' ').Replace('\n', ' ');
                 speechUntil = Time.unscaledTime + 5f +
                     0.06f * speechText.Length;
+                AOOnlineClientV240.SendChat(clean);
             }
         }
 
