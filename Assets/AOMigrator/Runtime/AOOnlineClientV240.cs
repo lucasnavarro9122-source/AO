@@ -243,7 +243,7 @@ public class AOOnlineClientV240 : MonoBehaviour
                 myId = message.id;
                 connected = true;
                 connecting = false;
-                AOInterfaceV0101.PushMessage("Conectado. Sala privada de hasta 10 jugadores.");
+                AOInterfaceV0101.PushMessage("Conectado. Sala privada: vos y hasta 10 amigos.");
             }
             else if (message.type == "state") ApplyState(message.players);
             else if (message.type == "chat" && message.id != myId)

@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json;
 
 // Small private-room relay for the Unity migration. It does not run AO20 rules.
-const int maxPlayers = 10;
+const int maxPlayers = 11; // Anfitrión y hasta diez amigos.
 const int maxLineBytes = 2048;
 const int port = 7777;
 var json = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
@@ -90,7 +90,7 @@ void Handle(TcpClient socket)
             {
                 if (peers.Count >= maxPlayers)
                 {
-                    SendRaw(stream, new Wire { type = "error", text = "Sala completa (10/10)." });
+                    SendRaw(stream, new Wire { type = "error", text = "Sala completa (11/11)." });
                     return;
                 }
                 int id = ++nextId;
