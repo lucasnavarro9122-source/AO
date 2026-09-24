@@ -34,3 +34,11 @@ Próxima validación: dos PC reales conectadas por Tailscale. Crear personajes d
 ## Actualizaciones
 
 Conservar `Release/Server/Saves`, `room-key.txt` y las identidades de PlayerPrefs. Sustituir cliente y servidor juntos; todos necesitan protocolo 2. El paquete de protocolo 1 queda como respaldo y no se conecta a esta sala.
+
+## Corrección 0.25.1: tableros de misiones inmóviles
+
+El servidor interpretaba el modo de movimiento 0 como movimiento aleatorio. Se respetan ahora los modos estacionarios 0, 1 y 3 tanto al caminar al azar como al perseguir objetivos. Los siete tableros de misiones del catálogo usan modo 0. Al cargar un mundo anterior, los NPC estacionarios recuperan posición y orientación originales.
+
+`Tools/test_static_npcs.py` verifica que los tres modos permanezcan inmóviles, que los NPC con recorridos sí caminen y que se reparen guardados desplazados sin alterar personajes. Compilación sin errores ni advertencias. Servidor publicado y activo; tablero de Ullathorpe restaurado en 60,56. Los dos personajes guardados y la clave de sala se conservaron exactamente. Respaldo previo en `Release/Server-backup-before-v251-20260923-232422`.
+
+El cliente 0.25 y su ZIP siguen siendo compatibles: protocolo 2. Esta corrección requiere solamente actualizar el servidor.

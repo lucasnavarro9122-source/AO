@@ -424,7 +424,7 @@ sealed class CoopRoom
                 if(n.state.x==x&&n.state.y==y){n.route++;n.nextMove+=Math.Max(0,Int(point,"waitMs"));}
                 else MoveToward(map,n,x,y);
             }
-            else if(Now>=n.immobileUntil&&Int(n.source,"movement")!=1&&Int(n.source,"movement")!=3&&random.Next(3)==0)
+            else if(Now>=n.immobileUntil&&!IsStationary(n)&&random.Next(3)==0)
             {int h=random.Next(1,5);Move(map,n,h);}
         }
     }
@@ -438,8 +438,12 @@ sealed class CoopRoom
         int h=Heading(x-n.state.x,y-n.state.y);
         if(!Move(map,n,h)){int other=Math.Abs(x-n.state.x)>=Math.Abs(y-n.state.y)?(y>n.state.y?3:1):(x>n.state.x?2:4);Move(map,n,other);}
     }
+    // Imported modes 0 (no movement), 1 (static), and 3 (fixed position)
+    // cannot wander or pursue a target. Combat in range still works.
+    static bool IsStationary(NpcRecord n) => Int(n.source,"movement") is 0 or 1 or 3;
     bool Move(MapRecord map,NpcRecord n,int heading)
     {
+        if(IsStationary(n))return false;
         int x=n.state.x+(heading==2?1:heading==4?-1:0),y=n.state.y+(heading==3?1:heading==1?-1:0);
         if(!ValidPosition(map.id,x,y))return false;
         int flags=map.flags.GetValueOrDefault(y*101+x),trigger=map.triggers.GetValueOrDefault(y*101+x);
@@ -470,7 +474,15 @@ sealed class CoopRoom
     void BindMap(MapRecord map)
     {
         map.source=templates[map.id];
-        foreach(var n in map.npcs)n.source=map.source["npcs"]![n.state.id-1]!.AsObject();
+        foreach(var n in map.npcs)
+        {
+            n.source=map.source["npcs"]![n.state.id-1]!.AsObject();
+            if(!IsStationary(n))continue;
+            // Repair positions persisted by older servers that moved scenery NPCs.
+            int x=Int(n.source,"x"),y=Int(n.source,"y"),heading=Math.Clamp(Int(n.source,"heading"),1,4);
+            if(n.state.x!=x||n.state.y!=y||n.state.heading!=heading)
+            {n.state.x=x;n.state.y=y;n.state.heading=heading;dirty=true;}
+        }
         if(map.source["grid"] != null)
         {
             using var packed=new MemoryStream(Convert.FromBase64String(Text(map.source,"grid")));
