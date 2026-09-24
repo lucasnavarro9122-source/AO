@@ -601,6 +601,7 @@ public class AOCombatFeedbackV113 : MonoBehaviour
 
     void OnGUI()
     {
+        if (AOOnlineClientV240.InputBlocked) return;
         if (floating.Count == 0)
             return;
 

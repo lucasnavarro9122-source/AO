@@ -16,6 +16,7 @@ public class AOSummonedPetV129 : MonoBehaviour
     }
 
     void Update(){
+        if (AOOnlineClientV240.InputBlocked) return;
         if(stored)return;if(owner==null||grid==null){Destroy(gameObject);return;}if(Time.time>=expiresAt){Destroy(gameObject);return;}if(Time.time<nextThink)return;
         AOMagicEffectRuntimeV129 localEffects=GetComponent<AOMagicEffectRuntimeV129>();float speed=localEffects==null?1f:localEffects.SpeedMultiplier;nextThink=Time.time+.45f/Mathf.Max(.25f,speed);
         AONPCCombatV09 target=NearestEnemy(7);
@@ -24,6 +25,7 @@ public class AOSummonedPetV129 : MonoBehaviour
     }
 
     void Attack(AONPCCombatV09 target){
+        if (AOOnlineClientV240.Requested) { AOOnlineClientV240.PetAttack(this, target); AOCombatFeedbackV113.PlayAttack(visual,visual.Heading,0); return; }
         if(target==null||!target.IsAlive)return;int raw=UnityEngine.Random.Range(Mathf.Max(1,def.minHit),Mathf.Max(def.minHit,def.maxHit)+1);
         AOMagicEffectRuntimeV129 fx=GetComponent<AOMagicEffectRuntimeV129>();if(fx!=null)raw=fx.ModifyOutgoingPhysical(raw);
         target.TakeDamage(raw,ownerCombat);AOCombatFeedbackV113.PlayAttack(visual,visual.Heading,0);

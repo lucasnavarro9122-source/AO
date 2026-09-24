@@ -191,6 +191,7 @@ public partial class AOCityUIV130 : MonoBehaviour
 
     void OnGUI()
     {
+        if (AOOnlineClientV240.InputBlocked) return;
         if (mode ==
             Mode.None)
             return;

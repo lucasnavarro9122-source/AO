@@ -294,6 +294,7 @@ public class AODeathRespawnV160 : MonoBehaviour
 
     void OnGUI()
     {
+        if (AOOnlineClientV240.InputBlocked) return;
         if (!AOMainMenuV140.SessionActive ||
             combat == null ||
             !combat.IsDead)

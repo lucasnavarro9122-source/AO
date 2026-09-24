@@ -519,6 +519,7 @@ public class AOCityBankV130 : MonoBehaviour
 
     public void Save()
     {
+        if (AOOnlineClientV240.ProtectLocalSave) return;
         try
         {
             Ensure();

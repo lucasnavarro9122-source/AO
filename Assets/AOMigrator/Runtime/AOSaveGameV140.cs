@@ -102,6 +102,7 @@ public class AOSaveGameV140 : MonoBehaviour
     [Serializable]
     public class SaveData
     {
+        public AOCoopItem[] coopItems;
         public int schemaVersion =
             SCHEMA_VERSION;
 
@@ -287,6 +288,7 @@ public class AOSaveGameV140 : MonoBehaviour
     public bool SaveGame(
         bool notify)
     {
+        if (AOOnlineClientV240.ProtectLocalSave) return AOOnlineClientV240.Checkpoint(notify);
         try
         {
             FindReferences();
@@ -374,6 +376,7 @@ public class AOSaveGameV140 : MonoBehaviour
     public bool LoadGame(
         bool notify)
     {
+        if (AOOnlineClientV240.ProtectLocalSave) { if (notify) AOInterfaceV0101.PushMessage("La partida online se recupera al reconectar."); return false; }
         try
         {
             FindReferences();
@@ -688,11 +691,30 @@ public class AOSaveGameV140 : MonoBehaviour
             BackupPath);
     }
 
+    public string CaptureOnline()
+    {
+        FindReferences();
+        if (!ReadyForSave()) return null;
+        return JsonUtility.ToJson(Capture());
+    }
+
+    public bool ApplyOnline(string json)
+    {
+        FindReferences();
+        if (!ReadyForSave()) return false;
+        var data = JsonUtility.FromJson<SaveData>(json);
+        if (data == null || data.world == null || data.inventory == null) return false;
+        Apply(data);
+        AOOnlineClientV240.RestorePendingItems(data.coopItems);
+        return true;
+    }
+
     SaveData Capture()
     {
         SaveData data =
             new SaveData();
 
+        data.coopItems = AOOnlineClientV240.CapturePendingItems();
         data.savedAtUtc =
             DateTime.UtcNow.ToString(
                 "o");

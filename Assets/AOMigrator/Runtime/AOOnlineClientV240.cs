@@ -2,377 +2,465 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Sockets;
 using System.Text;
+using System.Security.Cryptography;
 using System.Threading;
 using UnityEngine;
 
-// Private-room presence and local chat. AO20 combat and inventory remain local.
+// The room owns shared NPCs, rewards, doors and character checkpoints.
+// Local saves are used only as the first import, and are never overwritten online.
 public class AOOnlineClientV240 : MonoBehaviour
 {
-    [Serializable]
-    class Wire
-    {
-        public string type;
-        public int version;
-        public string key;
-        public int id;
-        public string name;
-        public int map;
-        public int x;
-        public int y;
-        public int heading;
-        public int race;
-        public int gender;
-        public int head;
-        public string text;
-        public PeerState[] players;
-    }
-
-    [Serializable]
-    class PeerState
-    {
-        public int id;
-        public string name;
-        public int map;
-        public int x;
-        public int y;
-        public int heading;
-        public int race;
-        public int gender;
-        public int head;
-    }
-
     class Avatar
     {
         public GameObject root;
         public AOCharacterRenderer visual;
-        public string name;
-        public string speech;
+        public AOCoopPlayer state;
+        public string appearance, speech;
         public float speechUntil;
         public Vector3 target;
     }
-
     static AOOnlineClientV240 instance;
+    static bool protectUntilRestored;
+#if UNITY_EDITOR
+    public static int TestPortOverride;
+    public static void BeginIsolatedTest(int port) { TestPortOverride=port; protectUntilRestored=true; }
+    public static int TestRemotePlayers => instance == null ? 0 : instance.avatars.Count;
+    public static int TestNpcCount => instance == null ? 0 : instance.npcs.Count;
+    public static void TestShowGroup() { if(instance!=null)instance.showGroup=true; }
+#endif
+    string localBeforeOnline;
+    Vector2 groupScroll;
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+    static void ResetOnlineStatics() { instance = null; protectUntilRestored = false;
+#if UNITY_EDITOR
+        TestPortOverride=0;
+#endif
+    }
     readonly ConcurrentQueue<string> incoming = new ConcurrentQueue<string>();
     readonly Dictionary<int, Avatar> avatars = new Dictionary<int, Avatar>();
+    readonly Dictionary<string, Avatar> remotePets = new Dictionary<string, Avatar>();
+    readonly Dictionary<int, AONPCCombatV09> npcs = new Dictionary<int, AONPCCombatV09>();
+    readonly Dictionary<int, AOLootPickupV09> drops = new Dictionary<int, AOLootPickupV09>();
+    readonly List<AOCoopItem> pendingItems = new List<AOCoopItem>();
     readonly object writeGate = new object();
     TcpClient socket;
     NetworkStream stream;
-    Thread reader;
     AOTestPlayer player;
     AOWorldManagerV07 world;
+    AOSaveGameV140 save;
     Camera gameCamera;
-    bool connecting;
-    bool connected;
-    bool requested;
-    bool shuttingDown;
-    string address;
-    string roomKey;
-    int myId;
-    float nextPosition;
+    bool connected, connecting, requested, sessionStarted, restored, showGroup;
+    string address, roomKey, status = "", pendingRequest;
+    int myId, generation, cachedMap;
+    long acknowledged;
+    float nextPosition, nextCheckpoint, transactionAt;
+    AOCoopPlayer[] players = new AOCoopPlayer[0];
+    AOCoopMessage latestState;
+    AOCoopStock[] stocks = new AOCoopStock[0];
+    public static bool GroupOpen => instance != null && instance.showGroup;
 
-    public static bool Connected => instance != null && instance.connected;
+    public static bool Connected => instance != null && instance.connected && instance.restored;
     public static bool Requested => instance != null && instance.requested;
+    public static bool ProtectLocalSave => protectUntilRestored || (instance != null && instance.sessionStarted)
+#if UNITY_EDITOR
+        || TestPortOverride>0
+#endif
+        ;
+    public static bool InputBlocked => instance != null && instance.sessionStarted && (!Connected || !string.IsNullOrEmpty(instance.pendingRequest));
     public static string SavedAddress => PlayerPrefs.GetString("AO.Online.Address", "127.0.0.1");
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
     static void Bootstrap()
     {
+        Application.runInBackground = true;
         if (instance != null) return;
-        GameObject root = new GameObject("AO Online Client");
-        instance = root.AddComponent<AOOnlineClientV240>();
+        instance = new GameObject("AO Online Client").AddComponent<AOOnlineClientV240>();
     }
-
     public static bool Prepare(string host, string secret, out string error)
     {
-        error = "";
-        host = (host ?? "").Trim();
-        secret = (secret ?? "").Trim();
-        if (host.Length == 0 || host.Length > 253 ||
-            !System.Text.RegularExpressions.Regex.IsMatch(host,
-                @"^[a-zA-Z0-9][a-zA-Z0-9.\-]*$"))
-        {
-            error = "Dirección inválida. Usá IP de Tailscale o nombre de equipo.";
-            return false;
-        }
-        if (secret.Length < 24 || secret.Length > 128)
-        {
-            error = "Pegá la clave de sala del servidor.";
-            return false;
-        }
+        error = ""; host = (host ?? "").Trim(); secret = (secret ?? "").Trim();
+        if (host.Length == 0 || host.Length > 253 || !System.Text.RegularExpressions.Regex.IsMatch(host, @"^[a-zA-Z0-9][a-zA-Z0-9.\-]*$"))
+        { error = "Dirección inválida. Usá IP de Tailscale o nombre de equipo."; return false; }
+        if (secret.Length < 24 || secret.Length > 128) { error = "Pegá la clave de sala del servidor."; return false; }
         if (instance == null) Bootstrap();
-        instance.address = host;
-        instance.roomKey = secret;
-        instance.requested = true;
-        PlayerPrefs.SetString("AO.Online.Address", host);
-        PlayerPrefs.Save();
-        return true;
+        instance.address = host; instance.roomKey = secret; instance.requested = true;
+#if UNITY_EDITOR
+        if(TestPortOverride>0)return true;
+#endif
+        PlayerPrefs.SetString("AO.Online.Address", host); PlayerPrefs.Save(); return true;
     }
-
     public static void UseLocalMode()
     {
         if (instance == null) return;
-        instance.requested = false;
-        instance.Disconnect();
+        Checkpoint(false); instance.Disconnect();
+        if (!string.IsNullOrEmpty(instance.localBeforeOnline) && instance.save != null) instance.save.ApplyOnline(instance.localBeforeOnline);
+        instance.localBeforeOnline = null; protectUntilRestored = false; instance.requested = instance.sessionStarted = false;
+        instance.pendingItems.Clear();
     }
-
-    public static void StartSession()
-    {
-        if (instance != null && instance.requested)
-            instance.Connect();
-    }
-
+    public static void StartSession() { if (Requested) { instance.sessionStarted = true; protectUntilRestored = true; instance.Connect(); } }
     public static void SendChat(string text)
     {
-        if (instance == null || !instance.connected) return;
-        text = (text ?? "").Trim();
-        if (text.Length == 0) return;
-        if (text.Length > 160) text = text.Substring(0, 160);
-        instance.Send(new Wire { type = "chat", text = text });
+        if (Connected) instance.Send(new AOCoopMessage { type = "chat", text = Short(text, 160) });
     }
-
+    public static bool Checkpoint(bool notify)
+    {
+        if (!Connected || instance.world == null || instance.world.IsLoading) return false;
+        instance.SendSnapshot(new AOCoopMessage { type = "sync" });
+        if (notify) AOInterfaceV0101.PushMessage("Guardado enviado al anfitrión.");
+        return true;
+    }
+    public static AOCoopItem[] CapturePendingItems() => instance != null && ProtectLocalSave ? instance.pendingItems.ToArray() : null;
+    public static void RestorePendingItems(AOCoopItem[] items)
+    { if (instance == null) return; instance.pendingItems.Clear(); if (items != null) instance.pendingItems.AddRange(items.Where(i => i != null && i.item > 0 && i.amount > 0)); }
+    public static void Attack(AONPCCombatV09 npc) { if (npc != null) Request(new AOCoopMessage { type = "attack", target = npc.NetworkId }); }
+    public static void PetAttack(AOSummonedPetV129 pet, AONPCCombatV09 npc)
+    { if (pet != null && npc != null) Request(new AOCoopMessage { type = "petHit", target = npc.NetworkId, item = pet.GetInstanceID() }); }
+    public static void Pickup(AOLootPickupV09 loot)
+    { if (loot != null && loot.NetworkId > 0) Request(new AOCoopMessage { type = "pickup", target = loot.NetworkId }, true); }
+    public static void ToggleDoor(AODoorV210 door)
+    { if (door != null) Request(new AOCoopMessage { type = "door", x = door.TileX, y = door.TileY }); }
+    public static int Stock(int npc,int item,int fallback) => instance?.stocks.FirstOrDefault(s=>s.npc==npc&&s.item==item)?.amount ?? fallback;
+    public static bool Trade(string type,int npc,int item,int amount) => Request(new AOCoopMessage{type=type,id=npc,item=item,amount=amount},true);
+    public static bool Drop(int item, int amount) => Request(new AOCoopMessage { type = "drop", item = item, amount = amount }, true);
+    public static int PlayerAt(int x, int y) => !Connected ? 0 : instance.players.FirstOrDefault(p => p.id != instance.myId && p.map == instance.world.CurrentMapNumber && p.x == x && p.y == y)?.id ?? 0;
+    public static bool CastAlly(int spell, int x, int y)
+    {
+        var s = AOSpellDatabaseV120.Get(spell);
+        var eot = s == null || s.eotId <= 0 ? null : AOMagicEffectDatabaseV129.Get(s.eotId);
+        bool harmfulEffect = eot != null && (eot.buffType == 2 || eot.buffType == 4 || (eot.type == 1 && eot.tickPowerMax < 0));
+        if (harmfulEffect || s == null || s.raiseHp == 2 || s.paralyze != 0 || s.immobilize != 0 || s.poison != 0 || s.incinerate != 0 || s.curse != 0 || s.blindness != 0 || s.dumb != 0 || s.raiseMana == 2)
+        { AOInterfaceV0101.PushMessage("Sala cooperativa: no podés atacar a tus compañeros."); return false; }
+        return Request(new AOCoopMessage { type = "cast", spell = spell, id = PlayerAt(x, y), x = x, y = y });
+    }
+    public static bool CastNpc(int spell, AONPCCombatV09 npc)
+    {
+        if (!SupportsNpcSpell(spell)) return false;
+        var tile = npc.GetComponent<AONPCMovementV08>();
+        return tile != null && Request(new AOCoopMessage { type = "cast", spell = spell, target = npc.NetworkId, x = tile.TileX, y = tile.TileY });
+    }
+    public static bool CastArea(int spell, int x, int y) => SupportsNpcSpell(spell) && Request(new AOCoopMessage { type = "cast", spell = spell, x = x, y = y });
+    static bool SupportsNpcSpell(int spell)
+    {
+        var s=AOSpellDatabaseV120.Get(spell);
+        if(s!=null && (s.materializeObject>0 || (s.eotId==0 && s.stealBuff==0 && s.speed<=0 &&
+            (s.raiseHp!=0||s.paralyze!=0||s.immobilize!=0||s.removeParalysis!=0||s.poison!=0||s.incinerate!=0||s.curePoison!=0||s.removeDebuff!=0))))return true;
+        AOInterfaceV0101.PushMessage("Ese efecto sobre criaturas todavía no está disponible en la alpha cooperativa.");return false;
+    }
+    static bool Request(AOCoopMessage message, bool transaction = false)
+    {
+        if (!Connected || InputBlocked) return false;
+        message.request = Guid.NewGuid().ToString("N");
+        if (transaction) { instance.pendingRequest = message.request; instance.transactionAt = Time.unscaledTime; }
+        instance.SendSnapshot(message); return true;
+    }
     void Connect()
     {
         Disconnect();
         player = UnityEngine.Object.FindFirstObjectByType<AOTestPlayer>();
         world = UnityEngine.Object.FindFirstObjectByType<AOWorldManagerV07>();
-        gameCamera = Camera.main;
-        if (player == null || world == null)
+        save = UnityEngine.Object.FindFirstObjectByType<AOSaveGameV140>(); gameCamera = Camera.main;
+        if (player == null || world == null || save == null) { status = "Falta el jugador o mapa."; return; }
+        string snapshot = save.CaptureOnline();
+        if (string.IsNullOrEmpty(snapshot)) { status = "Todavía se está preparando el personaje."; return; }
+        if (localBeforeOnline == null) localBeforeOnline = snapshot;
+        string name = player.GetComponent<AOCharacterIdentityV170>().CharacterName;
+        string roomIdentity; using (var hash = SHA256.Create()) roomIdentity = BitConverter.ToString(hash.ComputeHash(Encoding.UTF8.GetBytes(roomKey))).Replace("-", "");
+        string identityKey = "AO.Coop.Identity." + roomIdentity + "." + name.ToLowerInvariant();
+        string identity = PlayerPrefs.GetString(identityKey, "");
+#if UNITY_EDITOR
+        if(TestPortOverride>0) identity=Guid.NewGuid().ToString("N")+":"+Guid.NewGuid().ToString("N")+Guid.NewGuid().ToString("N");
+#endif
+        if (identity.Length != 97)
         {
-            AOInterfaceV0101.PushMessage("No se pudo iniciar red: falta jugador o mapa.");
-            return;
+            identity = Guid.NewGuid().ToString("N") + ":" + Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N");
+            PlayerPrefs.SetString(identityKey, identity); PlayerPrefs.Save();
         }
-
-        AOCharacterIdentityV170 identity = player.GetComponent<AOCharacterIdentityV170>();
-        AOPlayerRPGV11 rpg = player.GetComponent<AOPlayerRPGV11>();
-        AOCharacterProfileVisualV111 profile = player.GetComponent<AOCharacterProfileVisualV111>();
-        if (identity == null || rpg == null || profile == null)
-        {
-            AOInterfaceV0101.PushMessage("No se pudo iniciar red: falta perfil del personaje.");
-            return;
-        }
-        var hello = new Wire
-        {
-            type = "hello", version = 1, key = roomKey,
-            name = identity.CharacterName, map = world.CurrentMapNumber,
-            x = player.TileX, y = player.TileY, heading = player.Heading,
-            race = rpg.RaceId, gender = rpg.GenderId, head = profile.HeadIndex
-        };
-        string host = address;
-        connecting = true;
-        shuttingDown = false;
-        AOInterfaceV0101.PushMessage("Conectando a " + host + ":7777...");
-        reader = new Thread(() => ReadLoop(host, JsonUtility.ToJson(hello)))
-        {
-            IsBackground = true, Name = "AO Online Client"
-        };
-        reader.Start();
+        var hello = new AOCoopMessage { type = "hello", version = AOCoopMessage.Protocol, key = roomKey,
+            characterId = identity.Substring(0,32), token = identity.Substring(33), snapshot = snapshot, player = CapturePlayer() };
+        connecting = true; status = "Conectando a " + address + ":7777...";
+        int port=7777;
+#if UNITY_EDITOR
+        if(TestPortOverride>0)port=TestPortOverride;
+#endif
+        int current = generation; string host = address, json = JsonUtility.ToJson(hello);
+        new Thread(() => ReadLoop(host, port, json, current)) { IsBackground = true, Name = "AO Coop" }.Start();
     }
-
-    void ReadLoop(string host, string hello)
+    void ReadLoop(string host, int port, string hello, int current)
     {
+        TcpClient local = null;
         try
         {
-            socket = new TcpClient { NoDelay = true, SendTimeout = 3000 };
-            IAsyncResult pending = socket.BeginConnect(host, 7777, null, null);
-            if (!pending.AsyncWaitHandle.WaitOne(5000))
-                throw new IOException("Tiempo de conexión agotado.");
-            socket.EndConnect(pending);
-            stream = socket.GetStream();
-            stream.ReadTimeout = 10000;
-            WriteLine(hello);
-            while (!shuttingDown)
+            local = new TcpClient { NoDelay = true, SendTimeout = 2000 };
+            var pending = local.BeginConnect(host, port, null, null);
+            using (pending.AsyncWaitHandle) if (!pending.AsyncWaitHandle.WaitOne(5000)) throw new IOException("Tiempo de conexión agotado.");
+            local.EndConnect(pending);
+            if (generation != current) return;
+            socket = local; stream = local.GetStream(); stream.ReadTimeout = 60000; WriteLine(hello);
+            while (generation == current)
             {
-                string line = ReadLine(stream);
-                if (line == null) break;
+                string line = ReadLine(local.GetStream()); if (line == null) break;
+                if (incoming.Count > 512) throw new IOException("La sala envía datos demasiado rápido.");
                 incoming.Enqueue(line);
             }
         }
-        catch (Exception e) when (e is IOException or SocketException or ObjectDisposedException)
-        {
-            if (!shuttingDown) incoming.Enqueue(JsonUtility.ToJson(new Wire
-                { type = "error", text = "Conexión perdida: " + e.Message }));
-        }
-        finally
-        {
-            if (!shuttingDown) incoming.Enqueue("{\"type\":\"closed\"}");
-        }
+        catch (Exception e) when (e is IOException || e is SocketException || e is ObjectDisposedException)
+        { if (generation == current) incoming.Enqueue(JsonUtility.ToJson(new AOCoopMessage { type = "error", text = e.Message })); }
+        finally { local?.Close(); if (generation == current) incoming.Enqueue("{\"type\":\"closed\"}"); }
     }
-
     static string ReadLine(NetworkStream input)
     {
         using (var bytes = new MemoryStream())
         {
-            while (bytes.Length < 8192)
+            while (bytes.Length < 1048576)
             {
-                int b = input.ReadByte();
-                if (b < 0) return null;
-                if (b == '\n') return Encoding.UTF8.GetString(bytes.ToArray());
-                bytes.WriteByte((byte)b);
+                int b = input.ReadByte(); if (b < 0) return null;
+                if (b == '\n') return Encoding.UTF8.GetString(bytes.ToArray()); bytes.WriteByte((byte)b);
             }
         }
         throw new IOException("Respuesta demasiado grande.");
     }
-
     void WriteLine(string line)
     {
-        if (stream == null) return;
         byte[] bytes = Encoding.UTF8.GetBytes(line + "\n");
-        lock (writeGate) stream.Write(bytes, 0, bytes.Length);
+        lock (writeGate) { if (stream == null) throw new IOException("Sin conexión."); stream.Write(bytes, 0, bytes.Length); }
     }
-
-    void Send(Wire message)
+    void Send(AOCoopMessage message)
     {
         try { WriteLine(JsonUtility.ToJson(message)); }
-        catch (Exception e) when (e is IOException or ObjectDisposedException)
-        { incoming.Enqueue(JsonUtility.ToJson(new Wire { type = "error", text = e.Message })); }
+        catch (Exception e) when (e is IOException || e is SocketException || e is ObjectDisposedException)
+        { status = "Se perdió la conexión. Reconectá para recuperar la partida."; Disconnect(); }
     }
-
+    void SendSnapshot(AOCoopMessage message)
+    {
+        message.snapshot = save.CaptureOnline(); message.ack = acknowledged; message.player = CapturePlayer(); Send(message);
+    }
+    AOCoopPlayer CapturePlayer()
+    {
+        var r = player.GetComponent<AOPlayerRPGV11>(); var c = player.GetComponent<AOPlayerCombatV09>(); var i = player.GetComponent<AOInventoryV10>();
+        return new AOCoopPlayer { map = world.CurrentMapNumber, x = player.TileX, y = player.TileY, heading = player.Heading,
+            attack = c.AttackPower, evasion = c.EvasionPower, defense = c.Defense, minHit = r.MinHit, maxHit = r.MaxHit,
+            strength = r.Strength, damageModifier = r.GetDamageModifier(i), maxMana = r.MaxMana,
+            pets = UnityEngine.Object.FindObjectsByType<AOSummonedPetV129>(FindObjectsSortMode.None).Where(p => !p.Stored).Select(p => new AOCoopPet {
+                id = p.GetInstanceID(), npc = p.NpcIndex, x = p.TileX, y = p.TileY, heading = p.GetComponent<AOCharacterRenderer>().Heading }).ToArray() };
+    }
     void Update()
     {
         int handled = 0;
-        while (handled++ < 10 && incoming.TryDequeue(out string line))
+        while (handled++ < 32 && incoming.TryDequeue(out string line))
         {
-            Wire message;
-            try { message = JsonUtility.FromJson<Wire>(line); }
-            catch (Exception) { continue; }
-            if (message == null) continue;
-            if (message.type == "welcome")
+            AOCoopMessage m;
+            try { m = JsonUtility.FromJson<AOCoopMessage>(line); } catch (Exception) { continue; }
+            if (m == null) continue;
+            if (m.type == "welcome")
             {
-                myId = message.id;
-                connected = true;
-                connecting = false;
-                AOInterfaceV0101.PushMessage("Conectado. Sala privada: vos y hasta 10 amigos.");
+                myId = m.id; acknowledged = m.ack; connected = true; connecting = false;
+                restored = save.ApplyOnline(m.snapshot);
+                if (!restored) { status = "No se pudo recuperar el personaje."; Disconnect(); continue; }
+                ApplyEvents(m.events); Checkpoint(false);
+                status = ""; AOInterfaceV0101.PushMessage("Sala cooperativa. EXP compartida cerca del enemigo; botín único. Botón Grupo para entregar objetos.");
             }
-            else if (message.type == "state") ApplyState(message.players);
-            else if (message.type == "chat" && message.id != myId)
+            else if (m.type == "state" && restored) { latestState = m; players = m.players ?? new AOCoopPlayer[0]; stocks = m.stocks ?? new AOCoopStock[0]; ApplyEvents(m.events); }
+            else if (m.type == "result")
             {
-                string speaker = Short(message.name, 20);
-                string spoken = Short(message.text, 160);
-                AOInterfaceV0101.PushMessage(speaker + ": " + spoken);
-                if (avatars.TryGetValue(message.id, out Avatar avatar))
-                {
-                    avatar.speech = spoken;
-                    avatar.speechUntil = Time.unscaledTime + 6f;
-                }
+                ApplyEvents(m.events);
+                if (m.request == pendingRequest) { pendingRequest = null; Checkpoint(false); }
+                if (!m.ok) AOInterfaceV0101.PushMessage(Short(m.text, 180));
             }
-            else if (message.type == "error")
-                AOInterfaceV0101.PushMessage("Red: " + Short(message.text, 180));
-            else if (message.type == "closed") Disconnect();
+            else if (m.type == "chat" && m.id != myId)
+            {
+                AOInterfaceV0101.PushMessage(Short(m.name,20) + ": " + Short(m.text,160));
+                if (avatars.TryGetValue(m.id, out var a)) { a.speech = Short(m.text,160); a.speechUntil = Time.unscaledTime + 6; }
+            }
+            else if (m.type == "error") { status = Short(m.text,180); AOInterfaceV0101.PushMessage("Red: " + status); }
+            else if (m.type == "closed") { if (string.IsNullOrEmpty(status)) status = "Servidor desconectado. Reconectá para recuperar la partida."; Disconnect(); }
         }
-
-        if (connected && AOMainMenuV140.SessionActive &&
-            Time.unscaledTime >= nextPosition && player != null && world != null)
+        if (Connected && world != null && !world.IsLoading)
         {
-            nextPosition = Time.unscaledTime + 0.12f;
-            Send(new Wire { type = "position", map = world.CurrentMapNumber,
-                x = player.TileX, y = player.TileY, heading = player.Heading });
+            if (latestState != null && latestState.map == world.CurrentMapNumber) { ApplyWorld(latestState); latestState = null; }
+            DeliverPendingItems();
+            if (Time.unscaledTime >= nextPosition) { nextPosition = Time.unscaledTime + .15f; Send(new AOCoopMessage { type = "position", player = CapturePlayer() }); }
+            if (Time.unscaledTime >= nextCheckpoint) { nextCheckpoint = Time.unscaledTime + 1f; Checkpoint(false); }
+            if (pendingRequest != null && Time.unscaledTime - transactionAt > 8) { status = "La operación no respondió. Reconectá para comprobar su resultado."; Disconnect(); }
         }
-        foreach (Avatar avatar in avatars.Values)
-            if (avatar.root != null)
-                avatar.root.transform.position = Vector3.Lerp(
-                    avatar.root.transform.position, avatar.target,
-                    Mathf.Clamp01(Time.unscaledDeltaTime * 15f));
+        foreach (var a in avatars.Values.Concat(remotePets.Values)) if (a.root != null)
+            a.root.transform.position = Vector3.Lerp(a.root.transform.position, a.target, Mathf.Clamp01(Time.unscaledDeltaTime * 15));
     }
-
-    void ApplyState(PeerState[] states)
+    void ApplyEvents(AOCoopEvent[] events)
     {
-        if (states == null || player == null || world == null ||
-            !AOMainMenuV140.SessionActive || world.IsLoading) return;
+        if (!restored || events == null) return;
+        var combat = player.GetComponent<AOPlayerCombatV09>(); var inv = player.GetComponent<AOInventoryV10>(); var quests = player.GetComponent<AOQuestSystemV150>();
+        foreach (var e in events)
+        {
+            if (e.seq <= acknowledged) continue;
+            if (e.seq != acknowledged + 1) { status = "Falta una operación del servidor. Reconectá."; Disconnect(); return; }
+            if (e.type == "kill")
+            {
+                combat.AddRewards(e.exp, 0); quests?.NotifyNpcKilled(e.npc);
+                if (e.items != null) foreach (var item in e.items)
+                    if (item != null && quests != null && quests.NeedsQuestItem(item.quest,item.item,out _)) pendingItems.Add(item);
+            }
+            else if (e.type == "buy") { combat.SpendGold(-e.gold); pendingItems.Add(new AOCoopItem { item=e.item,amount=e.amount }); }
+            else if (e.type == "sell") { inv.RemoveItemByIndexPublic(e.item,e.amount); combat.AddGold(e.gold); }
+            else if (e.type == "item") pendingItems.Add(new AOCoopItem { item = e.item, amount = e.amount });
+            else if (e.type == "remove")
+            {
+                if (!inv.RemoveItemByIndexPublic(e.item,e.amount)) { status = "Inventario cambió durante la entrega. Reconectá para recuperarlo."; Disconnect(); return; }
+            }
+            else if (e.type == "hurt") combat.ReceiveOnlineDamage(e.damage);
+            else if (e.type == "spell") player.GetComponent<AOPlayerMagicV120>().ApplyOnlineSpell(e.spell);
+            acknowledged = e.seq;
+        }
+    }
+    void DeliverPendingItems()
+    {
+        var inv = player.GetComponent<AOInventoryV10>(); var combat = player.GetComponent<AOPlayerCombatV09>();
+        for (int i = pendingItems.Count-1; i >= 0; i--)
+        {
+            var item = pendingItems[i];
+            if ((item.item == AONPCLootDatabaseV180.GoldItemIndex || inv.CountItem(item.item)>0 || inv.FreeSlotCountPublic()>0) && combat.TryAddLootItem(item.item,item.amount,AOItemDatabaseV10.Get(item.item)?.name ?? "Objeto")) pendingItems.RemoveAt(i);
+        }
+    }
+    void ApplyWorld(AOCoopMessage m)
+    {
+        if (cachedMap != m.map || npcs.Count == 0 || npcs.Values.Any(n => n == null))
+        {
+            ClearWorld(); cachedMap = m.map;
+            foreach (var n in UnityEngine.Object.FindObjectsByType<AONPCCombatV09>(FindObjectsSortMode.None)) if (n.NetworkId > 0) npcs[n.NetworkId] = n;
+        }
+        foreach (var n in m.npcs ?? new AOCoopNpc[0]) if (npcs.TryGetValue(n.id,out var local) && local != null) local.ApplyOnline(n);
         var seen = new HashSet<int>();
-        foreach (PeerState state in states)
+        foreach (var d in m.loot ?? new AOCoopLoot[0])
         {
-            if (state == null || state.id == myId ||
-                state.map != world.CurrentMapNumber) continue;
-            seen.Add(state.id);
-            if (!avatars.TryGetValue(state.id, out Avatar avatar))
-            {
-                avatar = CreateAvatar(state);
-                if (avatar == null) continue;
-                avatars.Add(state.id, avatar);
-            }
-            AOGridMap grid = player.CurrentGrid;
-            if (grid == null) continue;
-            avatar.target = grid.TileToWorld(state.x, state.y);
-            avatar.visual.SetHeading(state.heading);
-            avatar.visual.SetWalking(Vector3.Distance(avatar.root.transform.position,
-                avatar.target) > 0.03f);
-            avatar.visual.UpdateSorting(AORenderOrderV210.Character(-avatar.target.y));
+            seen.Add(d.id);
+            if (!drops.TryGetValue(d.id,out var local) || local == null) drops[d.id] = AOLootPickupV09.Create(d.item,d.name,d.amount,d.x,d.y,d.id);
+            else local.SetOnlineAmount(d.amount);
         }
-        var remove = new List<int>();
-        foreach (var pair in avatars)
-            if (!seen.Contains(pair.Key)) remove.Add(pair.Key);
-        foreach (int id in remove)
-        {
-            Destroy(avatars[id].root);
-            avatars.Remove(id);
-        }
+        foreach (int id in drops.Keys.Where(id => !seen.Contains(id)).ToArray()) { if (drops[id] != null) drops[id].Consume(); drops.Remove(id); }
+        foreach (var door in UnityEngine.Object.FindObjectsByType<AODoorV210>(FindObjectsSortMode.None))
+            door.ApplyOnline(m.doors?.FirstOrDefault(d => d.x == door.TileX && d.y == door.TileY)?.open ?? false);
+        ApplyAvatars();
     }
-
-    Avatar CreateAvatar(PeerState state)
+    void ApplyAvatars()
     {
-        if (!AOCharacterVisualDatabaseV111.TryBuildBase(
-            state.race, state.gender, state.head,
-            out AOCharacterRenderer.DirectionVisual[] directions,
-            out float headX, out float headY, out float bodyX)) return null;
-        AOGridMap grid = player.CurrentGrid;
-        if (grid == null) return null;
-        GameObject root = new GameObject("Jugador: " + Short(state.name, 20));
-        root.transform.position = grid.TileToWorld(state.x, state.y);
-        AOCharacterRenderer visual = root.AddComponent<AOCharacterRenderer>();
-        visual.Configure(directions, 18f, headX, headY, bodyX);
-        visual.SetHeading(state.heading);
-        visual.UpdateSorting(AORenderOrderV210.Character(-root.transform.position.y));
-        return new Avatar { root = root, visual = visual,
-            name = Short(state.name, 20), target = root.transform.position };
+        var seen = new HashSet<int>(); var petsSeen = new HashSet<string>();
+        foreach (var p in players)
+        {
+            if (p.id == myId || p.map != world.CurrentMapNumber) continue;
+            seen.Add(p.id);
+            string appearance = p.race+":"+p.gender+":"+p.head+":"+p.weapon+":"+p.armor+":"+p.helmet+":"+p.shield+":"+p.dead;
+            if (!avatars.TryGetValue(p.id,out var a) || a.appearance != appearance)
+            {
+                if (a != null) Destroy(a.root); a = CreateAvatar(p); if (a == null) continue;
+                a.appearance = appearance; avatars[p.id] = a;
+            }
+            a.state = p; MoveAvatar(a,p.x,p.y,p.heading);
+            foreach (var pet in p.pets ?? new AOCoopPet[0])
+            {
+                string key = p.id+":"+pet.id; petsSeen.Add(key);
+                if (!remotePets.TryGetValue(key,out var pa))
+                {
+                    var def = AOSummonDatabaseV129.Get(pet.npc); if (def == null) continue;
+                    var root = new GameObject("Mascota de " + Short(p.name,20)); var visual = root.AddComponent<AOCharacterRenderer>();
+                    visual.Configure(AOSummonDatabaseV129.BuildVisuals(def),def.walkFps,def.headOffsetX/32f,-def.headOffsetY/32f,def.bodyShiftX/32f);
+                    pa = new Avatar {root=root,visual=visual}; root.transform.position=player.CurrentGrid.TileToWorld(pet.x,pet.y); remotePets[key]=pa;
+                }
+                MoveAvatar(pa,pet.x,pet.y,pet.heading);
+            }
+        }
+        foreach (var id in avatars.Keys.Where(id=>!seen.Contains(id)).ToArray()) { Destroy(avatars[id].root); avatars.Remove(id); }
+        foreach (var key in remotePets.Keys.Where(k=>!petsSeen.Contains(k)).ToArray()) { Destroy(remotePets[key].root); remotePets.Remove(key); }
     }
-
+    void MoveAvatar(Avatar a,int x,int y,int heading)
+    {
+        a.target=player.CurrentGrid.TileToWorld(x,y); a.visual.SetHeading(heading);
+        a.visual.SetWalking(Vector3.Distance(a.root.transform.position,a.target)>.03f); a.visual.UpdateSorting(AORenderOrderV210.Character(y));
+    }
+    Avatar CreateAvatar(AOCoopPlayer p)
+    {
+        if (!AOCharacterVisualDatabaseV111.TryBuildBase(p.race,p.gender,p.head,out var dirs,out float hx,out float hy,out float bx)) return null;
+        var root=new GameObject("Jugador: "+Short(p.name,20)); var visual=root.AddComponent<AOCharacterRenderer>();
+        visual.Configure(dirs,18f,hx,hy,bx); root.transform.position=player.CurrentGrid.TileToWorld(p.x,p.y);
+        if (p.dead) AODeathVisualV160.TryApplyToRenderer(visual);
+        else
+        {
+            var equipment=AOItemDatabaseV10.BuildEquipmentVisuals(null,AOItemDatabaseV10.Get(p.helmet),AOItemDatabaseV10.Get(p.weapon),AOItemDatabaseV10.Get(p.shield));
+            var armor=AOItemDatabaseV10.Get(p.armor); bool body=false;
+            if (armor!=null && AOCharacterVisualDatabaseV111.TryBuildArmorBody(armor.BodyForProfile(p.race,p.gender),out var armorDirs,out hx,out hy,out bx))
+            { for(int i=0;i<equipment.Length&&i<armorDirs.Length;i++)equipment[i].body=armorDirs[i].body;body=true; }
+            visual.ConfigureEquipment(equipment,body,hx,hy,bx);
+        }
+        return new Avatar {root=root,visual=visual,state=p,target=root.transform.position};
+    }
     void OnGUI()
     {
-        if (!connected || gameCamera == null ||
-            !AOMainMenuV140.SessionActive) return;
-        GUIStyle label = new GUIStyle(GUI.skin.label)
-        { alignment = TextAnchor.MiddleCenter, fontSize = 13, fontStyle = FontStyle.Bold };
-        label.normal.textColor = new Color(1f, 0.89f, 0.56f);
-        foreach (Avatar avatar in avatars.Values)
+        if (!sessionStarted || !AOMainMenuV140.SessionActive) return;
+        var matrix=GUI.matrix; var color=GUI.color; GUI.matrix=Matrix4x4.identity; GUI.color=Color.white;
+        if (!Connected)
         {
-            if (avatar.root == null) continue;
-            Vector3 screen = gameCamera.WorldToScreenPoint(avatar.visual.SpeechAnchor);
-            if (screen.z <= 0 || !gameCamera.pixelRect.Contains(new Vector2(screen.x, screen.y)))
-                continue;
-            string text = avatar.speechUntil > Time.unscaledTime &&
-                AOPlayerSettingsV230.ShowSpeech ? avatar.speech : avatar.name;
-            GUI.Label(new Rect(screen.x - 90, Screen.height - screen.y - 27,
-                180, 30), text, label);
+            GUI.depth=-200; float w=Mathf.Min(500,Screen.width-30);
+            GUILayout.BeginArea(new Rect((Screen.width-w)/2,Screen.height/2-85,w,170),GUI.skin.box);
+            GUILayout.Label(connecting ? "Conectando con el anfitrión…" : "Partida online pausada");
+            GUILayout.Label(status);
+            GUI.enabled=!connecting;
+            if(GUILayout.Button("Reconectar")) Connect();
+            GUI.enabled=true;
+            if(GUILayout.Button("Volver al menú")) AOMainMenuV140.ShowFromCreator();
+            GUILayout.EndArea();
         }
+        else
+        {
+            GUI.depth=-20;
+            if(GUI.Button(new Rect(10,Screen.height-33,130,26),"Grupo ("+players.Length+"/11)"))showGroup=!showGroup;
+            if(showGroup)
+            {
+                float w=Mathf.Min(420,Screen.width-20),h=Mathf.Min(380,Screen.height-50);
+                var panel=new Rect(10,Mathf.Max(8,Screen.height-h-42),w,h);
+                GUI.color=new Color(.08f,.07f,.05f,1f);GUI.DrawTexture(panel,Texture2D.whiteTexture);GUI.color=Color.white;
+                GUILayout.BeginArea(panel,GUI.skin.box);
+                groupScroll=GUILayout.BeginScrollView(groupScroll);
+                GUILayout.Label("GRUPO · EXP cerca del enemigo (12 casillas)");
+                foreach(var p in players) GUILayout.Label(Short(p.name,20)+" · Nv "+p.level+" · "+p.hp+"/"+p.maxHp+" HP · Mapa "+p.map);
+                var inv=player.GetComponent<AOInventoryV10>();int item=inv.GetSlotItemIndex(inv.SelectedSlot),amount=inv.GetSlotAmount(inv.SelectedSlot);
+                GUILayout.Label("Seleccionado: "+(AOItemDatabaseV10.Get(item)?.name??"ninguno"));
+                GUI.enabled=!InputBlocked && item>0;
+                GUILayout.BeginHorizontal();if(GUILayout.Button("Soltar 1"))Drop(item,1);if(GUILayout.Button("Soltar todo"))Drop(item,amount);GUILayout.EndHorizontal();GUI.enabled=true;
+                GUILayout.Label("El primero que recoge conserva el objeto. E o tecla Recoger.");
+                if(pendingItems.Count>0)GUILayout.Label("Recompensas pendientes: "+pendingItems.Count+". Liberá inventario.");
+                if(GUILayout.Button("Cerrar"))showGroup=false;
+                GUILayout.EndScrollView();GUILayout.EndArea();
+            }
+            if(gameCamera!=null)
+            {
+                var label=new GUIStyle(GUI.skin.label){alignment=TextAnchor.MiddleCenter,fontSize=13,fontStyle=FontStyle.Bold,richText=false};
+                foreach(var a in avatars.Values)
+                {
+                    var screen=gameCamera.WorldToScreenPoint(a.visual.SpeechAnchor);
+                    if(screen.z<=0||!gameCamera.pixelRect.Contains(new Vector2(screen.x,screen.y)))continue;
+                    string text=a.speechUntil>Time.unscaledTime && AOPlayerSettingsV230.ShowSpeech?a.speech:Short(a.state.name,20)+" · Nv "+a.state.level;
+                    var rect=new Rect(screen.x-120,Screen.height-screen.y-30,240,30);label.normal.textColor=Color.black;
+                    GUI.Label(new Rect(rect.x-1,rect.y,rect.width,rect.height),text,label);GUI.Label(new Rect(rect.x+1,rect.y+1,rect.width,rect.height),text,label);
+                    label.normal.textColor=new Color(1f,.9f,.6f);GUI.Label(rect,text,label);
+                }
+            }
+        }
+        GUI.matrix=matrix;GUI.color=color;
     }
-
-    static string Short(string value, int max)
+    static string Short(string value,int max)
+    { value=(value??"").Replace('\r',' ').Replace('\n',' ');return value.Length<=max?value:value.Substring(0,max); }
+    void ClearWorld()
     {
-        if (string.IsNullOrEmpty(value)) return "";
-        value = value.Replace('\r', ' ').Replace('\n', ' ');
-        return value.Length <= max ? value : value.Substring(0, max);
+        foreach(var d in drops.Values)if(d!=null)Destroy(d.gameObject);drops.Clear();npcs.Clear();cachedMap=0;
+        foreach(var a in avatars.Values.Concat(remotePets.Values))if(a.root!=null)Destroy(a.root);avatars.Clear();remotePets.Clear();
     }
-
     void Disconnect()
     {
-        shuttingDown = true;
-        connected = false;
-        connecting = false;
-        myId = 0;
-        try { socket?.Close(); } catch (SocketException) { }
-        socket = null;
-        stream = null;
-        foreach (Avatar avatar in avatars.Values)
-            if (avatar.root != null) Destroy(avatar.root);
-        avatars.Clear();
-        while (incoming.TryDequeue(out _)) { }
+        generation++;connected=connecting=restored=false;myId=0;pendingRequest=null;latestState=null;
+        try{socket?.Close();}catch(SocketException){}socket=null;stream=null;ClearWorld();
+        while(incoming.TryDequeue(out _)){}
     }
-
-    void OnDestroy()
-    {
-        Disconnect();
-        if (instance == this) instance = null;
-    }
+    void OnApplicationQuit(){Checkpoint(false);}
+    void OnDestroy(){Checkpoint(false);Disconnect();if(instance==this)instance=null;}
 }

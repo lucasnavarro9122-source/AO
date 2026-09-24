@@ -16,6 +16,9 @@ public class AOLootPickupV09 : AOInteractable
     TextMesh label;
     SpriteRenderer iconRenderer;
 
+    public int NetworkId { get; set; }
+    public void SetOnlineAmount(int value) { amount = value; RefreshPresentation(); }
+
     public int ItemIndex =>
         itemIndex;
 
@@ -54,7 +57,7 @@ public class AOLootPickupV09 : AOInteractable
         string itemName,
         int quantity,
         int tileX,
-        int tileY)
+        int tileY, int networkId = 0)
     {
         quantity =
             Mathf.Max(
@@ -71,7 +74,7 @@ public class AOLootPickupV09 : AOInteractable
                 !current.isActiveAndEnabled)
                 continue;
 
-            if (current.itemIndex ==
+            if (networkId == 0 && current.NetworkId == 0 && current.itemIndex ==
                     item &&
                 current.TileX ==
                     tileX &&
@@ -125,6 +128,7 @@ public class AOLootPickupV09 : AOInteractable
             go.AddComponent
                 <AOLootPickupV09>();
 
+        loot.NetworkId = networkId;
         loot.itemIndex =
             item;
 

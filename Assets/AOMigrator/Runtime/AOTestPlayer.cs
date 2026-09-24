@@ -122,6 +122,7 @@ public class AOTestPlayer : MonoBehaviour
 
     void Update()
     {
+        if (AOOnlineClientV240.InputBlocked) return;
         if (map == null) return;
 
         if ((AOInterfaceV0101.InputCaptured ||
@@ -296,6 +297,7 @@ public class AOTestPlayer : MonoBehaviour
 
             if (loot != null)
             {
+                if (AOOnlineClientV240.Requested) { AOOnlineClientV240.Pickup(loot); return; }
                 AOPlayerCombatV09 combat =
                     GetComponent<AOPlayerCombatV09>();
 
@@ -389,6 +391,7 @@ public class AOTestPlayer : MonoBehaviour
 
     void OnGUI()
     {
+        if (AOOnlineClientV240.InputBlocked) return;
         if (AOInterfaceV0101.Active)
             return;
         string info =

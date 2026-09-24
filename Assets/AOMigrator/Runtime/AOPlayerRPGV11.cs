@@ -139,6 +139,7 @@ public class AOPlayerRPGV11 : MonoBehaviour
 
     void Update()
     {
+        if (AOOnlineClientV240.InputBlocked) return;
         if (!initialized)
             return;
 

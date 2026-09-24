@@ -35,6 +35,7 @@ public class AOMagicEffectRuntimeV129 : MonoBehaviour
     void FindRefs(){if(rpg==null)rpg=GetComponent<AOPlayerRPGV11>();if(playerCombat==null)playerCombat=GetComponent<AOPlayerCombatV09>();if(npcCombat==null)npcCombat=GetComponent<AONPCCombatV09>();}
 
     void Update(){
+        if (AOOnlineClientV240.InputBlocked) return;
         FindRefs(); float now=Time.time; bool changed=false;
         for(int i=active.Count-1;i>=0;i--){
             ActiveEffect a=active[i]; if(a==null||a.def==null){active.RemoveAt(i);changed=true;continue;}

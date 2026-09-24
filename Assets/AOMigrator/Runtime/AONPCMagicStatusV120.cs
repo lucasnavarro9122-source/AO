@@ -6,6 +6,7 @@ public class AONPCMagicStatusV120 : MonoBehaviour
     public bool IsParalyzed=>Time.time<paralyzedUntil; public bool IsImmobilized=>Time.time<immobilizedUntil; public bool CanAttack=>!IsParalyzed;
     void Awake(){combat=GetComponent<AONPCCombatV09>();movement=GetComponent<AONPCMovementV08>();}
     void Update(){
+        if (AOOnlineClientV240.Requested) return;
         if(combat==null)combat=GetComponent<AONPCCombatV09>();if(movement==null)movement=GetComponent<AONPCMovementV08>();
         bool locked=IsParalyzed||IsImmobilized;if(movement!=null){if(locked&&movement.enabled)movement.enabled=false;else if(!locked&&!movement.enabled&&combat!=null&&combat.IsAlive)movement.enabled=true;}
         if(Time.time<poisonUntil&&Time.time>=nextPoisonTick&&combat!=null&&combat.IsAlive){nextPoisonTick=Time.time+3.64f;int pct=UnityEngine.Random.Range(3,6);combat.TakeMagicDamage(1+pct*combat.MaxHP/100,caster);}

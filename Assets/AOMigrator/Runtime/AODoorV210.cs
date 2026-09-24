@@ -15,7 +15,18 @@ public class AODoorV210 : MonoBehaviour
     bool locked;
     bool open;
 
+    public int TileX => tileX;
+    public int TileY => tileY;
     public bool IsOpen => open;
+    public void ApplyOnline(bool opened)
+    {
+        if (open == opened || grid == null || visual == null || openSprite == null) return;
+        for (int i = 0; i < closedNorthFlags.Length; i++)
+            if (opened) { grid.ClearFlags(firstPassageX+i,tileY,closedNorthFlags[i]); grid.ClearFlags(firstPassageX+i,tileY+1,closedSouthFlags[i]); }
+            else { grid.OrFlags(firstPassageX+i,tileY,closedNorthFlags[i]); grid.OrFlags(firstPassageX+i,tileY+1,closedSouthFlags[i]); }
+        visual.sprite = opened ? openSprite : closedSprite;
+        open = opened;
+    }
 
     public void Configure(AOGridMap map, SpriteRenderer renderer,
                           Sprite opened, int x, int y, bool requiresKey)
@@ -67,6 +78,7 @@ public class AODoorV210 : MonoBehaviour
 
     public bool TryToggle(out string message)
     {
+        if (AOOnlineClientV240.Requested) { AOOnlineClientV240.ToggleDoor(this); message = ""; return true; }
         if (locked)
         {
             message = "Puerta cerrada con llave.";

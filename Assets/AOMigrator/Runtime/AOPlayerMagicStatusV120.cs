@@ -12,6 +12,7 @@ public class AOPlayerMagicStatusV120 : MonoBehaviour
 
     void Awake(){movement=GetComponent<AOTestPlayer>();combat=GetComponent<AOPlayerCombatV09>();visual=GetComponentInChildren<AOCharacterRenderer>(true);}
     void Update(){
+        if (AOOnlineClientV240.InputBlocked) return;
         if(movement==null)movement=GetComponent<AOTestPlayer>();if(combat==null)combat=GetComponent<AOPlayerCombatV09>();
         bool locked=IsParalyzed||IsImmobilized;
         if(movement!=null){if(locked&&movement.enabled)movement.enabled=false;else if(!locked&&!movement.enabled&&(combat==null||!combat.IsDead))movement.enabled=true;}

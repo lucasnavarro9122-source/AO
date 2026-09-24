@@ -9,7 +9,8 @@ using UnityEngine.InputSystem;
 public partial class AOInterfaceV0101 : MonoBehaviour
 {
     public static bool Active { get; private set; }
-    public static bool InputCaptured { get; private set; }
+    static bool inputCaptured;
+    public static bool InputCaptured { get => inputCaptured || AOOnlineClientV240.InputBlocked || AOOnlineClientV240.GroupOpen; private set => inputCaptured = value; }
 
     [RuntimeInitializeOnLoadMethod(
         RuntimeInitializeLoadType.SubsystemRegistration)]
@@ -573,6 +574,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
 
     void OnGUI()
     {
+        if (AOOnlineClientV240.InputBlocked) return;
         if (AOMainMenuV140.ModalOpen || AOCharacterCreationV170.ModalOpen)
             return;
 
@@ -2289,9 +2291,13 @@ public partial class AOInterfaceV0101 : MonoBehaviour
             string original = chat[chat.Count - count + i]
                 .Replace('\r', ' ').Replace('\n', ' ');
             string line = original;
-            while (line.Length > 1 &&
+            int visibleCharacters = original.Length;
+            while (visibleCharacters > 0 &&
                    chatStyle.CalcSize(new GUIContent(line)).x > 610f * scale)
-                line = original.Substring(0, line.Length - 2) + "…";
+            {
+                visibleCharacters--;
+                line = original.Substring(0, visibleCharacters) + "\u2026";
+            }
 
             GUI.Label(R(16f, 39f + (4 - count + i) * 18f, 612f, 18f),
                 line, chatStyle);

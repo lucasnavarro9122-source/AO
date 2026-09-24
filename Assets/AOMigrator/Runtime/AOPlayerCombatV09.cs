@@ -405,6 +405,7 @@ public class AOPlayerCombatV09 : MonoBehaviour
 
     void Update()
     {
+        if (AOOnlineClientV240.InputBlocked) return;
         if (player == null)
             player = GetComponent<AOTestPlayer>();
 
@@ -510,6 +511,8 @@ public class AOPlayerCombatV09 : MonoBehaviour
             Flash(target.DisplayName + " no es atacable en esta prueba.");
             return;
         }
+
+        if (AOOnlineClientV240.Requested) { AOOnlineClientV240.Attack(target); return; }
 
         float chance =
             Mathf.Clamp(
@@ -643,12 +646,22 @@ public class AOPlayerCombatV09 : MonoBehaviour
             return;
         }
 
+        if (AOOnlineClientV240.Requested) { AOOnlineClientV240.Pickup(loot); return; }
+
         AddItem(
             loot.ItemIndex,
             loot.Amount,
             loot.DisplayName);
 
         loot.Consume();
+    }
+
+    public void ReceiveOnlineDamage(int damage)
+    {
+        if (dead || damage <= 0) return;
+        hp = Mathf.Max(0, hp - damage);
+        AOCombatFeedbackV113.PlayHit(characterVisual, damage);
+        if (hp <= 0) StartCoroutine(DeathRoutine());
     }
 
     public void ReceiveMagicDamage(
@@ -1010,6 +1023,7 @@ public class AOPlayerCombatV09 : MonoBehaviour
 
     void OnGUI()
     {
+        if (AOOnlineClientV240.InputBlocked) return;
         if (AOInterfaceV0101.Active)
             return;
         float ratio =

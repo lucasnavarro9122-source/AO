@@ -51,6 +51,7 @@ public class AOPlayerMagicV120 : MonoBehaviour
     }
 
     void Update(){
+        if (AOOnlineClientV240.InputBlocked) return;
         FindReferences();CleanupPets();
         UpdateMeditation();
         if(!targeting)return;
@@ -261,7 +262,8 @@ public class AOPlayerMagicV120 : MonoBehaviour
         if(!InRange(tx,ty)){AOInterfaceV0101.PushMessage("Objetivo fuera del rango de visión.");return;}
         if(s.RequiresLand&&grid.IsDeepWater(tx,ty)){AOInterfaceV0101.PushMessage("Este hechizo requiere un objetivo sobre tierra.");return;}
         bool ok=false;string targetName="";
-        if(s.target==4){ok=ApplyToTerrain(s,tx,ty);targetName=tx+","+ty;}
+        if(AOOnlineClientV240.Requested && (s.target==1||s.target==3) && AOOnlineClientV240.PlayerAt(tx,ty)>0){ok=AOOnlineClientV240.CastAlly(s.id,tx,ty);targetName="compañero";}
+        else if(s.target==4){ok=ApplyToTerrain(s,tx,ty);targetName=tx+","+ty;}
         else if(s.target==1||s.target==3){
             if(tx==player.TileX&&ty==player.TileY){ok=ApplyToPlayer(s);targetName="vos";}
             else if(s.target==3){var n=FindNpcAt(tx,ty);if(n!=null){ok=ApplyToNpc(s,n);targetName=n.DisplayName;}}
@@ -297,6 +299,13 @@ public class AOPlayerMagicV120 : MonoBehaviour
     }
     int GetStaminaCost(AOSpellDatabaseV120.SpellDef s){if(s==null||rpg==null)return 0;int pct=s.staminaPercentRequired>0?Mathf.Max(1,Mathf.CeilToInt(rpg.MaxStamina*s.staminaPercentRequired/100f)):0;return Mathf.Max(s.staminaRequired,pct);}
 
+    public void ApplyOnlineSpell(int id)
+    {
+        FindReferences(); var s=AOSpellDatabaseV120.Get(id); if(s==null)return;
+        if(s.resurrect!=0 && combat!=null && combat.IsDead) combat.ResurrectFromPriest();
+        else ApplyToPlayer(s);
+        AOSpellFXV120.Play(s,transform.position,transform.position);
+    }
     bool ApplyToPlayer(AOSpellDatabaseV120.SpellDef s){
         bool a=false;
         if(s.raiseHp!=0){int n=Roll(s.minHp,s.maxHp);if(s.raiseHp==1){combat.RestoreHealth(MagicHealing(n));a=true;}else if(s.raiseHp==2){combat.ReceiveMagicDamage(MagicDamage(n,null,s),"Magia: "+s.name);a=true;}}
@@ -342,6 +351,7 @@ public class AOPlayerMagicV120 : MonoBehaviour
                eotDef.tickPowerMax<0f)));
         if(harmful&&!npc.Attackable){AOInterfaceV0101.PushMessage(npc.DisplayName+" no es atacable.");return false;}
         AONPCMetadata meta=npc.GetComponent<AONPCMetadata>();var nd=meta==null?null:AONPCMagicDatabaseV129.Get(meta.NpcIndex);if(harmful&&nd!=null&&nd.immuneToSpells){AOInterfaceV0101.PushMessage("La criatura es inmune a hechizos.");return false;}
+        if(AOOnlineClientV240.Requested && s.mimic==0) return AOOnlineClientV240.CastNpc(s.id,npc);
         bool a=false;
         if(s.raiseHp!=0){int n=Roll(s.minHp,s.maxHp);if(s.raiseHp==1){npc.HealMagic(MagicHealing(n));a=true;}else if(s.raiseHp==2){int dmg=MagicDamage(n,npc,s);npc.TakeMagicDamage(dmg,combat);a=true;}}
         AONPCMagicStatusV120 ns=npc.GetComponent<AONPCMagicStatusV120>();if(ns==null)ns=npc.gameObject.AddComponent<AONPCMagicStatusV120>();
@@ -361,6 +371,7 @@ public class AOPlayerMagicV120 : MonoBehaviour
     }
 
     bool ApplyToTerrain(AOSpellDatabaseV120.SpellDef s,int tx,int ty){
+        if(AOOnlineClientV240.Requested && (s.type==3||s.type==5)) return AOOnlineClientV240.CastArea(s.id,tx,ty);
         if(s.type==3)return Materialize(s,tx,ty);
         if(s.type==4)return Summon(s,tx,ty);
         if(s.type==6)return Portal(s);
@@ -442,6 +453,7 @@ public class AOPlayerMagicV120 : MonoBehaviour
         catch(Exception e){Debug.LogWarning("[AO v0.12.9] No pude cargar spellbook: "+e.Message);}
     }
     void SaveSpellbook(){
+        if (AOOnlineClientV240.ProtectLocalSave) return;
         try{Directory.CreateDirectory(Application.persistentDataPath);SaveData d=new SaveData{selected=selectedSpellId,spells=knownSpellIds.ToArray()};File.WriteAllText(SavePath,JsonUtility.ToJson(d,true));}
         catch(Exception e){Debug.LogWarning("[AO v0.12.9] No pude guardar spellbook: "+e.Message);}
     }

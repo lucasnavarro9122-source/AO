@@ -1690,6 +1690,7 @@ public class AOInventoryV10 : MonoBehaviour
 
     void OnGUI()
     {
+        if (AOOnlineClientV240.InputBlocked) return;
         if (AOInterfaceV0101.Active)
             return;
         if (!showInventory)

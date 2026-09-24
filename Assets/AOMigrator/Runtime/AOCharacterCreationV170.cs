@@ -199,6 +199,7 @@ public partial class AOCharacterCreationV170 : MonoBehaviour
 
     void OnGUI()
     {
+        if (AOOnlineClientV240.InputBlocked) return;
         if (!visible)
             return;
         if (createCharacterNextFrame)

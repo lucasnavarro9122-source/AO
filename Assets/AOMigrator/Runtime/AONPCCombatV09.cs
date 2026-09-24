@@ -42,6 +42,17 @@ public class AONPCCombatV09 : MonoBehaviour
     float nextAttackAt;
     Renderer[] renderers;
 
+    public int NetworkId { get; set; }
+    public void ApplyOnline(AOCoopNpc state)
+    {
+        bool wasAlive = alive;
+        int oldHp = hp;
+        hp = state.hp; maxHp = state.maxHp; alive = !state.dead;
+        if (metadata != null) metadata.enabled = alive;
+        if (wasAlive != alive) SetVisuals(alive);
+        if (movement != null) movement.ApplyOnline(state.x, state.y, state.heading, alive);
+        if (wasAlive && oldHp > hp) AOCombatFeedbackV113.PlayHit(visual, oldHp - hp);
+    }
     public int HP => hp;
     public int MaxHP => maxHp;
     public int Defense
@@ -149,6 +160,7 @@ public class AONPCCombatV09 : MonoBehaviour
 
     public bool TryAttackPlayer()
     {
+        if (AOOnlineClientV240.Requested) return false;
         if (!alive)
             return false;
 
@@ -234,6 +246,7 @@ public class AONPCCombatV09 : MonoBehaviour
         int damage,
         AOPlayerCombatV09 attacker)
     {
+        if (AOOnlineClientV240.Requested) return;
         if (!alive)
             return;
 
@@ -273,6 +286,7 @@ public class AONPCCombatV09 : MonoBehaviour
         int damage,
         AOPlayerCombatV09 attacker)
     {
+        if (AOOnlineClientV240.Requested) return;
         if (!alive)
             return;
 

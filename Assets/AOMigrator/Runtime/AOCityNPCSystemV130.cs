@@ -234,6 +234,8 @@ public class AOCityNPCSystemV130 : MonoBehaviour
         if (entry.infinite)
             return -1;
 
+        if (AOOnlineClientV240.Requested) return AOOnlineClientV240.Stock(merchant.npcIndex,entry.itemIndex,entry.amount);
+
         Dictionary<int, int> stock =
             GetFiniteStock(
                 merchant);
@@ -303,6 +305,8 @@ public class AOCityNPCSystemV130 : MonoBehaviour
                 ".";
             return false;
         }
+
+        if (AOOnlineClientV240.Requested) { message = "Compra enviada al servidor."; return AOOnlineClientV240.Trade("buy",merchant.npcIndex,entry.itemIndex,amount); }
 
         if (!inventory.AddItem(
                 entry.itemIndex,
@@ -430,6 +434,8 @@ public class AOCityNPCSystemV130 : MonoBehaviour
                 amount,
                 1,
                 available);
+
+        if (AOOnlineClientV240.Requested) { message = "Venta enviada al servidor."; return AOOnlineClientV240.Trade("sell",merchant.npcIndex,itemIndex,amount); }
 
         if (!inventory
             .RemoveItemAtPublic(

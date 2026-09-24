@@ -148,8 +148,22 @@ public class AONPCMovementV08 : MonoBehaviour
                 Mathf.Max(0.08f, moveIntervalMs / 1000f));
     }
 
+    public void ApplyOnline(int x, int y, int heading, bool alive)
+    {
+        tileX = x; tileY = y; activeHeading = heading;
+        metadata.MoveToTile(x, y, heading);
+        if (grid == null || visual == null) return;
+        moveFrom = transform.position; moveTo = grid.TileToWorld(x, y);
+        moving = alive && Vector3.Distance(moveFrom, moveTo) > .02f;
+        moveT = 0; moveDuration = .15f;
+        visual.SetHeading(heading); visual.SetWalking(moving);
+        if (!moving) transform.position = moveTo;
+        UpdateSorting();
+    }
+
     void Update()
     {
+        if (AOOnlineClientV240.Requested) { if (moving) UpdateMovement(); return; }
         if (grid == null ||
             metadata == null ||
             visual == null)

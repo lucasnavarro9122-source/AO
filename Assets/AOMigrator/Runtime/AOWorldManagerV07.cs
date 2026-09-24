@@ -1282,8 +1282,8 @@ public partial class AOWorldManagerV07 : MonoBehaviour
 
         if (data.npcs != null)
         {
-            foreach (NPCEntry npc in data.npcs)
-                CreateNPC(npc);
+            for (int i = 0; i < data.npcs.Length; i++)
+                CreateNPC(data.npcs[i], i + 1);
         }
 
         if (data.objects != null)
@@ -1293,7 +1293,7 @@ public partial class AOWorldManagerV07 : MonoBehaviour
         }
     }
 
-    void CreateNPC(NPCEntry npc)
+    void CreateNPC(NPCEntry npc, int networkId)
     {
         GameObject go =
             new GameObject(
@@ -1387,6 +1387,7 @@ public partial class AOWorldManagerV07 : MonoBehaviour
 
         AONPCCombatV09 npcCombat =
             go.AddComponent<AONPCCombatV09>();
+        go.GetComponent<AONPCCombatV09>().NetworkId = networkId;
 
         AONPCMovementV08 ai =
             go.AddComponent<AONPCMovementV08>();
@@ -1814,6 +1815,7 @@ public partial class AOWorldManagerV07 : MonoBehaviour
 
     void OnGUI()
     {
+        if (AOOnlineClientV240.InputBlocked) return;
         if (AOInterfaceV0101.Active)
             return;
         if (!showHud)
