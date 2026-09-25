@@ -20,6 +20,7 @@ Rama `claude/nifty-thompson-r3ulpf`, basada en `384fe18`. **No incluye** lo que 
 | `parches/muerte-perdida-original.md` + `muerte-{juego,online}.patch` + `Tools/add_item_drop_flags.py` + `Tools/test_death_drop.py` | Programación + Servidor + Contenido | Aprobado por Lucas: pérdida al morir como el original. Aplicar en la PC |
 | `Tools/ci_checks.py` | QA | JSON y Python válidos |
 | `.github/workflows/pruebas.yml` | QA | **Activo** (OK de Lucas, 25/09). Sumar `test_server_robustness`, `test_npc_vision` y `test_death_drop` cuando se apliquen sus parches |
+| `../demo/mapa/reglas-y-recorrido.md` + `Tools/demo_mapa/vista_mapa.py` | Programación + Arte + Contenido | Reglas del mapa demo aprobadas por Lucas (25/09) y recorrido nuevo del dungeon. Falta aplicarlo a `Tools/demo_maps/` (está solo en la PC) |
 
 ## Cómo integrar (Cerebro, en la PC)
 1. Subir lo de la PC a una rama (`pc/noche-2509`) y mergear esta rama encima.
