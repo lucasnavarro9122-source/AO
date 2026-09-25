@@ -1,7 +1,7 @@
 # Actualización para todos los sectores: todo lo de la nube (25/09)
 
 CEREBRO: pasale a cada sector su parte de este documento (SendMessage a "AO BATTLESERVER: <Sector>"). Contenido está archivado: sus tareas las asignás vos.
-- **Rama:** `origin/claude/nifty-thompson-r3ulpf`. El último cambio de código es `2214305` (arena más viva); el commit exacto de este paquete va en el mensaje.
+- **Rama:** `origin/claude/nifty-thompson-r3ulpf`. Paquete 1: hasta `2214305` (arena más viva). Paquete 2: hasta `59021e0` (P1 remasterizado completo, abajo). El commit exacto va en el mensaje.
 - **Base:** tu `edcd99d5`. Todo lo de la madrugada (hasta `439bea9`) ya lo integraste en `acca325`.
 
 ## Cómo integrar (CEREBRO, una sola vez)
@@ -12,6 +12,55 @@ git fetch origin; git merge origin/claude/nifty-thompson-r3ulpf
 - El merge no toca `tablero.md`, `pruebas.md` ni `r4-checklist.md`, tus cambios sin commit de esta tarde. Si Git frena por algún otro archivo con cambios sin commit, commitealo o guardalo aparte antes.
 - Después: compilar en Unity (consola sin `error CS`), `aod-verificar`, liberar el candado y avisar a cada sector.
 - Distribución: servidor 0.27 y cliente **juntos**, porque cambian el protocolo (campos nuevos, compatibles con clientes viejos) y el catálogo.
+
+## Paquete 2 (25/09, noche): commits `48ad152` … `59021e0` o posterior
+Lucas aprobó el P1 remasterizado y pidió pasarte el progreso. Detalle técnico en `docs/claude/nube/hd/dungeon.md` y vistas en `docs/claude/nube/hd/dungeon/p1_completo_*.jpg`.
+
+### CEREBRO
+Integrar como arriba (candado y merge). Después:
+- Compilar en Unity. Cambió `AOLighting2DV283.cs`, y en la nube no se puede compilar Unity.
+- Dejar que importe las texturas nuevas. Los `.meta` los generan `AOHDTextureImportV279` y `AOMapTextureImport`.
+- Respaldo (`aod-respaldo`) y probar el P1 (1011) en Play con Luz Original y Mejorada.
+
+### Arte
+- **P1 remasterizado e instalado:**
+  - `Resources/AOMigratorHD/.../tex_5095`: paredes sacadas de la imagen objetivo de Lucas;
+  - `tex_90001`: 8 variantes del piso;
+  - `tex_90002`: escombros, niebla, haces de luna y halos;
+  - `tex_90003`: altar, estandarte, antorcha y rocas, con Higgsfield.
+
+  `tex_90001` a `tex_90003` también van a 1x.
+- **Herramientas:** `Tools/hd_remake/dungeon_hd.py` (importar, adornos) y las vistas fieles al motor `dungeon_vista_p1.py` y `dungeon_vista_mapa.py`.
+- **Ojo:** `tex_5095` HD también cambia los Newbie Dungeon originales (37, 167, 168 y 264), a propósito.
+
+### Programación
+- **`demo_map_builder.py`:** op de arte `hd_remaster`, que va al final del armado y hace:
+  - variantes del piso con bordes compatibles;
+  - decoración en la capa 2 y reemplazo de adornos;
+  - una luz de luna por haz y partículas.
+
+  Los sprites propios van con id desde 900000 en la lista del mapa. Sin las texturas instaladas no hace nada.
+- **`AOLighting2DV283.cs`:** las luces frías casi blancas (azul > rojo en 0,1 o más, saturación < 0,25) van a intensidad 0,55. Solo afecta la luz de luna del P1 y una luz del mapa 370.
+- **`particle_migration.py`:** `DEMO_PARTICLES`, con 9001 chispas del portal, 9002 polvo de luna y 9003 chispas de antorcha. Ya están agregadas a `particle_defs.json` y el resto del archivo no cambió.
+- **Entradas falsas (`48ad152`):** `seal_dead_exits` en el builder.
+
+### Contenido
+- **P1:** los brillos azules pasan a celeste, radio 1 y dos casillas lejos de la pared. La luz base del P1 no cambió.
+- **Entradas falsas selladas en P1–P7:** ver la tabla de `buzon/2026-09-25-1540-nube-cerebro.md`; ya están aplicadas.
+
+### QA
+En el P1, con HD encendido y apagado, y con Luz Original y Mejorada, revisar:
+- que no haya rectángulos de color en los frisos;
+- los haces con su luz y el polvo de luna;
+- las chispas del portal y las antorchas;
+- el altar;
+- las rocas de las salidas de abajo;
+- los FPS en Mejorada (unas 40 luces 2D en el P1).
+
+Revisar también un Newbie Dungeon original (264) con las paredes nuevas.
+
+### Servidor
+Nada: el catálogo online no cambia (bloqueos y NPC iguales).
 
 ## Ya en la PC (de la madrugada, integrado en `acca325`)
 Según el tablero ya está aplicado: sesión fantasma, EOT, giro del skill shot, visión 15×13, stats originales de NPC, pérdida al morir (V275/V286), HD en el juego (V279), Spell Tester 1.3, CI y seguridad del servidor.
