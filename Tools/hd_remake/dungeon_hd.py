@@ -20,7 +20,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
-from PIL import Image
+from PIL import Image, ImageFilter
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import ulla_piloto as up  # noqa: E402
@@ -36,6 +36,8 @@ PISOS = {
     "P1": {
         "mapa": 1011, "texturas": [5095], "piso": {"tex": 5095, "sx": 512, "sy": 288}, "textura_nueva": 90001,
         "omitir": [[5095, 4, 3]],   # franja de piso (sale de las variantes) y sombras semitransparentes (sin detalle)
+        "vacio_transparente": True,  # el negro de "vacío" dibujado dentro de las paredes deja ver el abismo de abajo
+        "color_piso": {"ref": "p1_idea_hielo.webp", "box": [232, 60, 422, 205]},   # paleta del piso de la idea de Lucas
         "referencias": ["p1_idea_hielo.webp", "ref3_bosque_nevado.webp"],
         "tema": ("a FROZEN ICE DUNGEON: blue-grey stone bricks and carved marble covered in frost, thin snow resting on "
                  "the top edges of walls, ledges, balustrades and pillar capitals, small icicles hanging from edges, a few "
@@ -166,6 +168,146 @@ def preparar(nombre: str, out: Path):
           f"= {total} hojas, ~{total * CREDITS_PER_SHEET:.1f} créditos con {up.MODEL}. En {out}")
 
 
+def quitar_magenta(arr: np.ndarray, fallback: np.ndarray, opaque: np.ndarray) -> tuple[np.ndarray, float]:
+    """Lo que quedó fucsia dentro de la silueta, o el borde teñido de fucsia, vuelve al original ampliado."""
+    a, f = arr.astype(np.int16), fallback.astype(np.int16)
+    was_pink = np.minimum(f[..., 0], f[..., 2]) - f[..., 1] > 40          # rosado de verdad (el cristal violeta)
+    pinkness = np.minimum(a[..., 0], a[..., 2]) - a[..., 1]
+    near_clear = np.asarray(Image.fromarray((~opaque).astype(np.uint8) * 255).filter(ImageFilter.MaxFilter(13))) > 0
+    edge = opaque & near_clear                                            # franja de 6 px junto a lo transparente
+    pink = opaque & ~was_pink & ((pinkness > 70) | (edge & (pinkness > 20)))
+    out = arr.copy()
+    out[pink] = fallback[pink]
+    core = opaque & ~edge & ~was_pink & (pinkness > 70)
+    return out, float(core.sum() / max(1, opaque.sum()))
+
+
+def igualar_tono(pieces: list, strength: float = 0.7):
+    """Acerca media y desvío por canal de cada pieza (solo piedra: lo opaco y no oscuro) a los de todas juntas.
+    Así dos piezas vecinas generadas por separado no muestran el corte."""
+    def stone(arr, alpha):
+        lum = arr.mean(2)
+        return arr[(alpha > 200) & (lum > 45)]
+    allpx = np.concatenate([stone(a, al) for a, al in pieces if stone(a, al).size]) if pieces else None
+    if allpx is None or not allpx.size:
+        return [a for a, _ in pieces]
+    gm, gs = allpx.mean(0), allpx.std(0) + 1e-6
+    out = []
+    for a, al in pieces:
+        px = stone(a, al)
+        if not px.size:
+            out.append(a)
+            continue
+        m, sd = px.mean(0), px.std(0) + 1e-6
+        f = a.astype(np.float32)
+        t = (f - m) / sd * gs + gm
+        mask = ((al > 200) & (f.mean(2) > 45))[..., None]
+        f = np.where(mask, f * (1 - strength) + t * strength, f)
+        out.append(np.clip(f, 0, 255).astype(np.uint8))
+    return out
+
+
+def bloquear_bordes(var: np.ndarray, base: np.ndarray, band: int) -> np.ndarray:
+    """Los bordes de una variante pasan a ser los de la base (con fundido): cualquier combinación encaja."""
+    n = var.shape[0]
+    d = np.minimum.reduce([np.arange(n)[:, None].repeat(n, 1), np.arange(n)[None, :].repeat(n, 0),
+                           (n - 1 - np.arange(n))[:, None].repeat(n, 1), (n - 1 - np.arange(n))[None, :].repeat(n, 0)])
+    w = np.clip(1 - d / band, 0, 1)[..., None]
+    return (var.astype(np.float32) * (1 - w) + base.astype(np.float32) * w).astype(np.uint8)
+
+
+def importar(nombre: str, out: Path, generadas: Path, aplicar: bool, pixel: int = 2, colores: int = 48):
+    piso = PISOS[nombre]
+    man = json.loads((out / "manifest.json").read_text("utf-8"))
+    B = BLOCK * SCALE
+    res_dir = out / "resultado"
+    res_dir.mkdir(parents=True, exist_ok=True)
+    atlases = {}
+
+    def atlas(t):
+        if t not in atlases:
+            hd = up.HD_TEX / f"tex_{t}.png"
+            if hd.exists():
+                atlases[t] = Image.open(hd).convert("RGBA")
+            else:
+                src = Image.open(up.TEX / f"tex_{t}.png").convert("RGBA")
+                atlases[t] = src.resize((src.width * SCALE, src.height * SCALE), Image.NEAREST)
+        return atlases[t]
+    informe, accepted = [], []
+    for i, sh in enumerate(man["hojas_piezas"]):
+        gen = Image.open(generadas / f"piezas_{i:02d}.png").convert("RGB").resize((3 * B, 2 * B), Image.LANCZOS)
+        for c in sh["comps"]:
+            piece = gen.crop((c["x"] * B, c["y"] * B, (c["x"] + c["w"]) * B, (c["y"] + c["h"]) * B))
+            orig = up.source_region(c["tex"], c["bx"], c["by"], c["w"], c["h"])
+            big = orig.resize(piece.size, Image.NEAREST)
+            alpha = np.asarray(big.split()[3])
+            # Lo semitransparente son sombras negras del original (sobre el fucsia se veían fucsia oscuro): quedan las originales.
+            arr, pink = quitar_magenta(np.asarray(piece), np.asarray(big.convert("RGB")), alpha >= 250)
+            semi = (alpha > 0) & (alpha < 250)
+            arr = arr.copy()
+            arr[semi] = np.asarray(big.convert("RGB"))[semi]
+            check = Image.fromarray(arr).convert("RGBA")
+            check.putalpha(Image.fromarray(alpha))                     # los dos sobre el mismo fondo
+            ok, chroma, shape, black = up.piece_check(sobre_magenta(orig), sobre_magenta(check), c["w"], c["h"])
+            ok = shape >= 0.4 and black <= 0.02 and pink <= 0.03
+            informe.append({"tex": c["tex"], "bx": c["bx"], "by": c["by"], "ok": ok, "forma": round(shape, 2),
+                            "negro": round(black, 3), "fucsia": round(pink, 3), "color": round(chroma, 2)})
+            if not ok:
+                print(f"  rechazada tex_{c['tex']} ({c['bx']},{c['by']}): forma {shape:.2f} negro {black * 100:.1f}% fucsia {pink * 100:.1f}%")
+                continue
+            accepted.append((c, arr, alpha, np.asarray(big.convert("RGB"), np.float32).mean(2)))
+    toned = igualar_tono([(arr, alpha) for _, arr, alpha, _ in accepted])
+    for (c, _, alpha, orig_lum), arr in zip(accepted, toned):
+        rgb = up.pixelize(Image.fromarray(arr), pixel, colores).convert("RGBA")
+        if piso.get("vacio_transparente"):
+            # Donde el original era negro de vacío, la niebla nueva se funde con el abismo del piso de abajo.
+            lum = np.asarray(rgb.convert("RGB"), np.float32).mean(2)
+            fade = np.where(orig_lum < 22, np.clip((lum - 12) / 50, 0, 1), 1.0)
+            alpha = (alpha.astype(np.float32) * fade).astype(np.uint8)
+        rgb.putalpha(Image.fromarray(alpha))
+        atlas(c["tex"]).paste(rgb, (c["bx"] * B, c["by"] * B))
+    # Variantes del piso y abismo -> textura nueva de la demo (4 x 2 bloques de 128 a 1x).
+    var = Image.open(generadas / "variantes.png").convert("RGB").resize((3 * B, 2 * B), Image.LANCZOS)
+    blocks = [np.asarray(var.crop(((k % 3) * B, (k // 3) * B, (k % 3 + 1) * B, (k // 3 + 1) * B))) for k in range(6)]
+    n = man["variantes"]
+    if piso.get("color_piso"):
+        cp = piso["color_piso"]
+        ref = Image.open(REFS / cp["ref"]).convert("RGB").crop(tuple(cp["box"]))
+        blocks[:n] = [np.asarray(up.match_color(Image.fromarray(b), ref.convert("RGBA"))) for b in blocks[:n]]
+    base = up.make_tileable(blocks[0], "xy")
+    floors = [base] + [bloquear_bordes(blocks[k], base, B // 10) for k in range(1, n)]
+    # Un abismo tiene que ser oscuro: si el modelo mezcló piso en uno, se usa el otro espejado.
+    dark = [b for b in blocks[n:n + 2] if np.asarray(b, np.float32).mean() < 70]
+    if not dark:
+        raise SystemExit("ningún bloque de abismo salió oscuro: hay que regenerar la hoja de variantes")
+    abyss0 = up.make_tileable(dark[0], "xy")
+    second = dark[1] if len(dark) > 1 else np.ascontiguousarray(np.flipud(np.fliplr(dark[0])))
+    abysses = [abyss0, bloquear_bordes(up.make_tileable(second, "xy"), abyss0, B // 10)]
+    print(f"abismo: {len(dark)} de 2 bloques salieron oscuros" + ("" if len(dark) > 1 else "; el segundo es el primero espejado"))
+    tiles = [np.asarray(up.pixelize(Image.fromarray(t), pixel, colores)) for t in floors + abysses]
+    new_hd = Image.new("RGBA", (4 * B, 2 * B), (0, 0, 0, 0))
+    for k, t in enumerate(tiles[:n]):
+        new_hd.paste(Image.fromarray(t), (k * B, 0))
+    for k, t in enumerate(tiles[n:]):
+        new_hd.paste(Image.fromarray(t), (k * B, B))
+    new_1x = new_hd.resize((new_hd.width // SCALE, new_hd.height // SCALE), Image.BOX)
+    p = piso["piso"]   # el piso del atlas (el del mapa original) queda como la variante base
+    atlas(p["tex"]).paste(Image.fromarray(tiles[0]).convert("RGBA"), (p["sx"] * SCALE, p["sy"] * SCALE))
+    dest_hd = up.HD_TEX if aplicar else res_dir / "hd"
+    dest_1x = up.TEX if aplicar else res_dir / "1x"
+    dest_hd.mkdir(parents=True, exist_ok=True)
+    dest_1x.mkdir(parents=True, exist_ok=True)
+    for t, a in atlases.items():
+        a.save(dest_hd / f"tex_{t}.png")
+    new_id = piso["textura_nueva"]
+    new_hd.save(dest_hd / f"tex_{new_id}.png")
+    new_1x.save(dest_1x / f"tex_{new_id}.png")
+    (out / "importar_informe.json").write_text(json.dumps(informe, indent=1), "utf-8")
+    ok = sum(1 for r in informe if r["ok"])
+    print(f"{nombre}: {ok}/{len(informe)} piezas aceptadas; {n} variantes de piso y 2 de abismo en tex_{new_id}. "
+          f"-> {dest_hd}" + ("" if aplicar else " (simulación: --aplicar para instalar en Assets)"))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -174,9 +316,16 @@ def main():
     p.add_argument("--salida", type=Path, default=ROOT.parent / "AO_HD/dungeon")
     c = sub.add_parser("costo")
     c.add_argument("piso", choices=sorted(PISOS))
+    i = sub.add_parser("importar", help="generadas/ con piezas_NN.png y variantes.png")
+    i.add_argument("piso", choices=sorted(PISOS))
+    i.add_argument("generadas", type=Path)
+    i.add_argument("--salida", type=Path, default=ROOT.parent / "AO_HD/dungeon")
+    i.add_argument("--aplicar", action="store_true", help="instalar en Assets (atlas HD y textura nueva de la demo)")
     a = ap.parse_args()
     if a.cmd == "preparar":
         preparar(a.piso, a.salida / a.piso)
+    elif a.cmd == "importar":
+        importar(a.piso, a.salida / a.piso, a.generadas, a.aplicar)
     else:
         comps = componentes(PISOS[a.piso])
         n = len(up.zone_sheets([x for x in comps if x["w"] <= 3 and x["h"] <= 2])) + 1
