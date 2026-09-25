@@ -36,6 +36,7 @@ PISOS = {
     "P1": {
         "mapa": 1011, "texturas": [5095], "piso": {"tex": 5095, "sx": 512, "sy": 288}, "textura_nueva": 90001,
         "omitir": [[5095, 4, 3]],   # franja de piso (sale de las variantes) y sombras semitransparentes (sin detalle)
+        "apagar": {"paredes": [0.72, 0.88, 0.95], "piso": [0.5, 0.8, 0.85]},   # saturación, contraste, brillo (Lucas: "daña la vista")
         "vacio_transparente": True,  # el negro de "vacío" dibujado dentro de las paredes deja ver el abismo de abajo
         "color_piso": {"ref": "p1_idea_hielo.webp", "box": [232, 60, 422, 205]},   # paleta del piso de la idea de Lucas
         "referencias": ["p1_idea_hielo.webp", "ref3_bosque_nevado.webp"],
@@ -207,6 +208,58 @@ def igualar_tono(pieces: list, strength: float = 0.7):
     return out
 
 
+def apagar(arr: np.ndarray, sat: float, contraste: float, brillo: float) -> np.ndarray:
+    f = arr.astype(np.float32)
+    gray = f.mean(2, keepdims=True)
+    f = gray + (f - gray) * sat
+    m = f.mean((0, 1), keepdims=True)
+    f = ((f - m) * contraste + m) * brillo
+    return np.clip(f, 0, 255).astype(np.uint8)
+
+
+def adyacencias(piso: dict):
+    """Pares de bloques de pared que se tocan en el mapa (por el borde de sus sprites): (dir, arriba/izq, abajo/der)."""
+    m = json.loads((up.MAPS_DIR / f"map_{piso['mapa']}.json").read_text("utf-8-sig"))
+    spr = {s["id"]: s for s in m["sprites"]}
+    items = []
+    for c in m["cells"]:
+        s = spr.get(c["sprite"])
+        if s and s["fileNum"] in piso["texturas"] and c["layer"] in (2, 3) and s["width"] >= 64:
+            left, bottom = c["x"] * 32 + 16 - s["width"] // 2, c["y"] * 32 + 32
+            items.append((left, left + s["width"], bottom - s["height"], bottom, (s["fileNum"], s["sx"] // BLOCK, s["sy"] // BLOCK)))
+    ends = {}
+    for it in items:
+        ends.setdefault(("H", it[1], it[3]), []).append(it)
+    pairs = {}
+    for it in items:
+        for o in ends.get(("H", it[0], it[3]), []):
+            if o[4] != it[4]:
+                pairs[("H", o[4], it[4])] = pairs.get(("H", o[4], it[4]), 0) + 1
+    for it in items:                       # o encima de it: la base de o es el tope de it
+        for o in items:
+            if o[0] == it[0] and o[3] == it[2] and o[4] != it[4]:
+                pairs[("V", o[4], it[4])] = pairs.get(("V", o[4], it[4]), 0) + 1
+    return {k: v for k, v in pairs.items() if v >= 2}
+
+
+def fundir_bordes(pieces: dict, pairs: dict, band: int):
+    """Los bordes de piezas que se tocan en el mapa pasan a tener el mismo perfil (promedio), con fundido."""
+    w = (np.arange(band, dtype=np.float32) / band)[::-1]      # 1 en el borde, 0 hacia adentro
+    for (d, a, b), _ in sorted(pairs.items(), key=lambda kv: -kv[1]):
+        if a not in pieces or b not in pieces:
+            continue
+        A, Bp = pieces[a].astype(np.float32), pieces[b].astype(np.float32)
+        if d == "H":
+            e = (A[:, -1] + Bp[:, 0]) / 2
+            A[:, -band:] = A[:, -band:] * (1 - w[::-1][None, :, None]) + e[:, None] * w[::-1][None, :, None]
+            Bp[:, :band] = Bp[:, :band] * (1 - w[None, :, None]) + e[:, None] * w[None, :, None]
+        else:
+            e = (A[-1] + Bp[0]) / 2
+            A[-band:] = A[-band:] * (1 - w[::-1][:, None, None]) + e[None] * w[::-1][:, None, None]
+            Bp[:band] = Bp[:band] * (1 - w[:, None, None]) + e[None] * w[:, None, None]
+        pieces[a], pieces[b] = A.astype(np.uint8), Bp.astype(np.uint8)
+
+
 def bloquear_bordes(var: np.ndarray, base: np.ndarray, band: int) -> np.ndarray:
     """Los bordes de una variante pasan a ser los de la base (con fundido): cualquier combinación encaja."""
     n = var.shape[0]
@@ -257,12 +310,17 @@ def importar(nombre: str, out: Path, generadas: Path, aplicar: bool, pixel: int 
                 continue
             accepted.append((c, arr, alpha, np.asarray(big.convert("RGB"), np.float32).mean(2)))
     toned = igualar_tono([(arr, alpha) for _, arr, alpha, _ in accepted])
+    if piso.get("apagar"):
+        toned = [apagar(a, *piso["apagar"]["paredes"]) for a in toned]
+    singles = {(c["tex"], c["bx"], c["by"]): a for (c, *_), a in zip(accepted, toned) if c["w"] == 1 and c["h"] == 1}
+    fundir_bordes(singles, adyacencias(piso), B // 20)
+    toned = [singles.get((c["tex"], c["bx"], c["by"]), a) for (c, *_), a in zip(accepted, toned)]
     for (c, _, alpha, orig_lum), arr in zip(accepted, toned):
         rgb = up.pixelize(Image.fromarray(arr), pixel, colores).convert("RGBA")
         if piso.get("vacio_transparente"):
-            # Donde el original era negro de vacío, la niebla nueva se funde con el abismo del piso de abajo.
-            lum = np.asarray(rgb.convert("RGB"), np.float32).mean(2)
-            fade = np.where(orig_lum < 22, np.clip((lum - 12) / 50, 0, 1), 1.0)
+            # Donde el original era el negro del vacío, la pieza sigue su mismo degradé y deja ver el abismo de abajo:
+            # así ninguna pieza pinta ladrillos donde su vecina pinta niebla.
+            fade = np.where(orig_lum < 48, np.clip((orig_lum - 6) / 42, 0, 1), 1.0)
             alpha = (alpha.astype(np.float32) * fade).astype(np.uint8)
         rgb.putalpha(Image.fromarray(alpha))
         atlas(c["tex"]).paste(rgb, (c["bx"] * B, c["by"] * B))
@@ -274,6 +332,8 @@ def importar(nombre: str, out: Path, generadas: Path, aplicar: bool, pixel: int 
         cp = piso["color_piso"]
         ref = Image.open(REFS / cp["ref"]).convert("RGB").crop(tuple(cp["box"]))
         blocks[:n] = [np.asarray(up.match_color(Image.fromarray(b), ref.convert("RGBA"))) for b in blocks[:n]]
+    if piso.get("apagar"):
+        blocks[:n] = [apagar(b, *piso["apagar"]["piso"]) for b in blocks[:n]]
     base = up.make_tileable(blocks[0], "xy")
     floors = [base] + [bloquear_bordes(blocks[k], base, B // 10) for k in range(1, n)]
     # Un abismo tiene que ser oscuro: si el modelo mezcló piso en uno, se usa el otro espejado.

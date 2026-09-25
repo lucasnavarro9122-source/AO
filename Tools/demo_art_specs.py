@@ -332,6 +332,7 @@ TELEPORT = 49488          # teleport original (objeto tipo 19)
 CRYPT_DOOR = DUNGEON_DOOR
 FLOOR_IDS = {"P1": 1011, "P2": 1012, "P3": 1013, "P4": 1014, "P5": 1015, "P6": 1016, "P7": 1017}
 OUTDOOR = set()           # todos los pisos son bajo tierra (reglas-y-recorrido.md, regla 3); el cementerio es la entrada 1010
+FLOOR_GLOW = {"P1": 0x3C78FF}   # brillos azules al pie de las paredes (remaster de hielo del P1, pedido de Lucas 25/09)
 
 
 def _walkable_source(source_id: int):
@@ -382,6 +383,12 @@ def spec_floor(map_id: int):
             if inside(side) and side not in layer3:
                 layer3[side] = TORCH
                 lights.append(light(side[0], side[1], TORCH_LIGHT, 3))
+    glow = FLOOR_GLOW.get(floor["id"])
+    if glow:   # uno que otro brillo: una luz chica cada ~17 casillas al pie de una pared, siempre en el mismo lugar
+        for y in range(y0 + 1, y1 + 1):
+            for x in range(x0, x1 + 1):
+                if walk((x, y)) and not walk((x, y - 1)) and (x * 7 + y * 13) % 17 == 0:
+                    lights.append(light(x, y, glow, 2))
     entry = m["entrada"]
     signs = [sign(entry["x"] + 2, entry["y"] + 1, "cartel del piso (zona segura)", FLOOR_SIGNS[floor["id"]])]
     if floor["id"] in FLOOR_EXTRA_SIGNS:
