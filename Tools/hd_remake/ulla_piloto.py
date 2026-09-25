@@ -20,6 +20,7 @@ ROOT = Path(__file__).resolve().parents[2]
 TEX = ROOT / "Assets/Resources/AOMigrator/WorldV07/Textures"
 HD_TEX = ROOT / "Assets/Resources/AOMigratorHD/WorldV07/Textures"
 BLOCK, SCALE = 128, 4   # un set 4x4 de GRH de 32 px = 128 px; el remaster es 4x
+MODEL = "seedream_v5_pro"  # elegido por Lucas el 25/09 (2k, 3:2): más oscuro, respeta el dibujo y el detalle buscado
 
 STYLE = (
     "Remaster this top-down RPG ground texture into high-detail dark-fantasy pixel art, like modern "
@@ -39,21 +40,42 @@ FAMILIES = {
             (6215, 1, 1, "y", "camino de tierra vertical"),
             (6215, 0, 2, "", "curva de camino"),
         ],
-        "prompt": STYLE + " Each 128x128 block (3 columns x 2 rows) is a separate tileable ground tile: lush dark "
-                  "green grass with individual blades, tiny white and yellow wildflowers, small pebbles and moss; "
-                  "dry grass stays straw-colored; dirt paths keep their exact shape with packed soil, small stones "
-                  "and grass tufts on the edges. The grass around the paths must match the base grass.",
+        # Prompt aprobado por Lucas el 25/09 con Seedream 5 Pro (job 5562a4c5-8624-4bd7-ad1a-b73d9c9802c4).
+        "prompt": "The FIRST reference image is the source: a top-down RPG ground texture sheet with 6 square blocks "
+                  "in a 3 columns x 2 rows grid. Top row: dark green grass; grass with pebbles and small plants; dry "
+                  "straw-colored grass. Bottom row: a horizontal dirt path crossing grass; a vertical dirt path crossing "
+                  "grass; a curved dirt path. Redraw this exact sheet as high-detail dark-fantasy pixel art, like modern "
+                  "souls-like HD pixel-art games. Keep EXACTLY the same composition: same 3x2 grid, same blocks in the "
+                  "same positions, same path shapes, widths and positions, same color zones. Each block is a seamless "
+                  "tileable ground texture. Rich micro-detail: individual grass blades, tiny white and yellow wildflowers, "
+                  "small pebbles, moss, soil grain; dirt paths of packed soil with small stones and grass tufts on the "
+                  "edges; the grass in every block matches the base grass. The other three images are STYLE references "
+                  "only: copy their pixel-art rendering, micro-detail density and natural palette, but NOT their night "
+                  "lighting, lanterns, glow, fog, objects, buildings or characters. Flat neutral daylight lighting: no "
+                  "cast shadows, no light spots, no vignette, no glow. Orthographic top-down view, no perspective. No "
+                  "borders, gaps or text between blocks.",
     },
     "agua": {
         "cols": 1,
         "sets": [(20, 0, 0, "xy", "agua de estanque")],
-        "prompt": STYLE + " Stylized pixel-art water surface, deep blue-teal with subtle ripples and a few small "
-                  "sparkles, seamless tileable, no shore, no reflections of objects.",
+        "prompt": "The FIRST reference image is the source: a top-down RPG water surface texture (one square tile). "
+                  "Redraw it as high-detail dark-fantasy pixel art, like modern souls-like HD pixel-art games, matching "
+                  "the approved grass remaster: deep blue-teal water with subtle ripple patterns and a few tiny sparkles, "
+                  "same overall color zones as the source. Seamless tileable texture, no shore, no objects, no reflections "
+                  "of objects. The other three images are STYLE references only: copy their pixel-art rendering and "
+                  "detail density, but NOT their night lighting, lanterns, glow, fog, objects or characters. Flat neutral "
+                  "lighting: no cast shadows, no light spots, no vignette. Orthographic top-down view. No borders or text.",
     },
     "madera": {
         "cols": 1,
         "sets": [(5026, 2, 1, "xy", "tablones de madera")],
-        "prompt": STYLE + " Weathered wooden floor planks with grain, knots and nail heads, seamless tileable.",
+        "prompt": "The FIRST reference image is the source: a top-down RPG wooden floor texture (one square tile of "
+                  "horizontal planks). Redraw it as high-detail dark-fantasy pixel art, like modern souls-like HD pixel-art "
+                  "games, matching the approved grass remaster: weathered horizontal planks with wood grain, knots, cracks "
+                  "and nail heads; keep the same plank direction, count and colors as the source. Seamless tileable "
+                  "texture. The other three images are STYLE references only: copy their pixel-art rendering and detail "
+                  "density, but NOT their night lighting, lanterns, glow, fog, objects or characters. Flat neutral "
+                  "lighting: no cast shadows, no light spots, no vignette. Orthographic top-down view. No borders or text.",
     },
 }
 

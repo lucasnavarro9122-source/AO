@@ -35,6 +35,14 @@ Qué tiene que tener:
 - **Agua:** casi no hay agua de piso. Son 13 casillas en la ciudad (`tex_20`, estática). El agua que más se ve es **la fuente**: sprite animado de 6 cuadros (`tex_200`, 256×256, en x43 y49).
   - Propuesta para la fuente: rehacer el cuadro 1 y animar el agua con un shader y partículas de brillo, como en la referencia 1. Así se evita generar 6 cuadros coherentes.
 
+## Resultado del piloto (25/09)
+- Pasto y caminos generados con 2 modelos, con el mismo prompt y las 3 referencias. Costo: 5,25 créditos (quedan 995,61).
+  - GPT Image 2.5: job `79f5b6ef-d4d1-4dee-b831-80a36b64277e`.
+  - Seedream 5 Pro: job `5562a4c5-8624-4bd7-ad1a-b73d9c9802c4`.
+- **Elegido por Lucas: Seedream 5 Pro** (el más oscuro): "respeta el dibujo, tiene el nivel de detalle que busco, se sabe qué es y tiene calidad".
+- El prompt aprobado quedó en `Tools/hd_remake/ulla_piloto.py` (`MODEL = seedream_v5_pro`, 2k, 3:2). Agua y madera usan la misma estructura.
+- **Pendiente:** bajar el resultado para importarlo (pixel art 4×, sin costuras) y armar la vista de Ullathorpe. En el entorno de la nube, la red bloquea `d8j0ntlcm91z4.cloudfront.net`, que es de donde Higgsfield sirve los resultados. Hay que habilitar ese dominio en el acceso a la red del entorno, o hacer ese paso en la PC.
+
 ## Piloto (3 generaciones, estimado 3–10 créditos con reintentos)
 | Familia | Sets | Entrada |
 |---|---|---|
