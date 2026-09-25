@@ -264,9 +264,12 @@ def best_window(m, w, h):
 
 
 def panel(num, ambient, out, window=None, w=25, h=19):
+    global HD
     m = load(num)
     x0, y0 = window or best_window(m, w, h)
+    hd, HD = HD, False; _tex.clear()          # izquierda: siempre las texturas originales
     base, _ = albedo(m, x0, y0, w, h)
+    HD = hd; _tex.clear()
     actual = np.clip(to_np(base) * light_actual(m, x0, y0, w, h), 0, 1)
     lit_base, chars = albedo(m, x0, y0, w, h, shadows=True)
     L, glow, _ = light_propuesta(m, x0, y0, w, h, ambient)

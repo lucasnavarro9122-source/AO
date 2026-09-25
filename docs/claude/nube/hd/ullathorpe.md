@@ -44,7 +44,13 @@ Qué tiene que tener:
 - Agua y madera con Seedream 5 Pro (2k, 1:1), usando como referencia el pasto aprobado para que la oscuridad y el estilo coincidan. Costo: 5 créditos.
   - Agua: job `db7cb9d6-399e-4145-98e8-f344cc6c441f`.
   - Madera: job `8bcb1642-a468-49c6-b806-5049d5fa2508`.
-- **Pendiente:** bajar los resultados para importarlos (pixel art 4×, sin costuras) y armar la vista de Ullathorpe. En el entorno de la nube, la red bloquea `d8j0ntlcm91z4.cloudfront.net`, que es de donde Higgsfield sirve los resultados. Hay que habilitar ese dominio en el acceso a la red del entorno, o hacer ese paso en la PC.
+- **Importado y visto (25/09, con la red habilitada):** los 3 resultados respetan el dibujo. Pixel art `--pixel 2 --colores 48`, sin costuras visibles al repetir.
+  - Vista de Ullathorpe a 4× con la luz nueva: el pasto mejora mucho.
+  - Donde un set rehecho toca uno original se nota el corte (en los caminos). Hay que rehacer todos los sets de la zona.
+  - Los 8 sets del piloto cubren el **72 % de las casillas**.
+  - Faltan **71 sets para Ullathorpe** (~12 imágenes, ~30 créditos) o **103 sets para las 5 zonas** (~18 imágenes, ~45 créditos), agrupando 6 sets por imagen.
+  - Los atlas HD **no se instalaron** en el repo todavía: se instalan con `--aplicar` cuando Lucas apruebe el set completo.
+- (Histórico) bajar los resultados para importarlos (pixel art 4×, sin costuras) y armar la vista de Ullathorpe. En el entorno de la nube, la red bloquea `d8j0ntlcm91z4.cloudfront.net`, que es de donde Higgsfield sirve los resultados. Hay que habilitar ese dominio en el acceso a la red del entorno, o hacer ese paso en la PC.
 
 ## Piloto (3 generaciones, estimado 3–10 créditos con reintentos)
 | Familia | Sets | Entrada |
