@@ -50,7 +50,21 @@ Qué tiene que tener:
   - Los 8 sets del piloto cubren el **72 % de las casillas**.
   - Faltan **71 sets para Ullathorpe** (~12 imágenes, ~30 créditos) o **103 sets para las 5 zonas** (~18 imágenes, ~45 créditos), agrupando 6 sets por imagen.
   - Los atlas HD **no se instalaron** en el repo todavía: se instalan con `--aplicar` cuando Lucas apruebe el set completo.
-- (Histórico) bajar los resultados para importarlos (pixel art 4×, sin costuras) y armar la vista de Ullathorpe. En el entorno de la nube, la red bloquea `d8j0ntlcm91z4.cloudfront.net`, que es de donde Higgsfield sirve los resultados. Hay que habilitar ese dominio en el acceso a la red del entorno, o hacer ese paso en la PC.
+- (Histórico) bajar los resultados para importarlos
+
+## Zonas completas (25/09): ronda 0 hecha, ronda 1 pendiente
+- Aprobado por Lucas: las 5 zonas, mismo estilo del piloto.
+- `ulla_piloto.py zonas-preparar` arma hojas 3×2 de piezas contiguas.
+  - Solo entra piso **opaco**: 22 piezas con transparencia (objetos, carteles con texto, pozo, mesas) quedan fuera del alcance.
+  - `tex_5023` (manchas de sombra) y `tex_5041` (atlas de 2048) también quedan fuera.
+- **Ronda 0:** 12 hojas, 30 créditos. Jobs en `zonas/jobs.json`.
+  - **Error:** en las hojas de pasto, Seedream **copió la hoja de pasto aprobada**, que iba como 2.ª referencia, o pintó negro sobre el pasto.
+  - Lección: **no pasar la hoja aprobada como referencia en hojas del mismo material**. El prompt nuevo (`ZONE_PROMPT`) ya no la usa.
+- `zonas-importar` ahora **valida cada pieza**: reparto de color, forma y negro nuevo contra su original. Instala solo las buenas y deja el resto en `zonas_pendientes.json`.
+- **Resultado ronda 0:** 20 piezas aceptadas e instaladas en `Assets/Resources/AOMigratorHD/` (más los 8 sets del piloto); **52 pendientes**.
+- **Ronda 1** (`--ronda 1`): 9 hojas, ~22,5 créditos. **Sin generar:** Lucas frenó la prueba.
+  - El estado está en `zonas/` (`zonas_manifest_r1.json`, `zonas_pendientes.json`).
+- Créditos usados por la nube: 5,25 + 5 + 30 = **40,25**. Saldo aproximado: **960,6**. (pixel art 4×, sin costuras) y armar la vista de Ullathorpe. En el entorno de la nube, la red bloquea `d8j0ntlcm91z4.cloudfront.net`, que es de donde Higgsfield sirve los resultados. Hay que habilitar ese dominio en el acceso a la red del entorno, o hacer ese paso en la PC.
 
 ## Piloto (3 generaciones, estimado 3–10 créditos con reintentos)
 | Familia | Sets | Entrada |
