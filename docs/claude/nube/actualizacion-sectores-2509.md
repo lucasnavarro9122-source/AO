@@ -39,6 +39,10 @@ Queda abierto de entonces:
 **Mapa demo** (`docs/claude/nube/reporte-mapa-demo.md`):
 - se cambiaron `Tools/demo_maps/1010.json` (entrada en el Cementerio de Nix, mapa 4), los carteles de 1011–1017 y `oneWayExits` del 1017;
 - `demo_map_builder.py` tiene un op nuevo, `light`, que Arte usa para poner luces del mapa desde los `.art.json`;
+- `Tools/demo_maps/1001.json` (arena):
+  - las gradas son más anchas (los `unblock` de cada ring ahora van de 35×31);
+  - hay dos vendedores: Therona `<Tabernera>` (100) en (44,45) e Igor `<Provisiones>` (9) en (56,45);
+  - el portal al hub pasa a (50,70) y la llegada desde el hub a (50,68). El hub (1000) cambia solo el destino de esa salida;
 - `demo_map_builder.py --check` da igual.
 
 **IA mágica de NPC** (`docs/claude/nube/npc-magia.md`), con archivos nuevos y enganches chicos:
@@ -76,9 +80,11 @@ Queda abierto de entonces:
   - `test_coop_server` prueba el reenvío de `castX`/`castY`;
   - las 7 pasan en la nube y en GitHub Actions.
 - Los portales con luz no cambian el catálogo: las luces y los gráficos no van en él.
+- **La arena sí cambia el catálogo:** el 1001 suma 2 vendedores, y su salida y su llegada se mueven. Con el cambio de `npcLayoutVersion`, el servidor reinicia los NPC de ese mapa. Las pruebas de retos no cambian (spawn en 50,60).
 - **Guía** `docs/claude/nube/guia-amigos.md`: demo en el 7778, con firewall y Tailscale para el 7778, y no pisar `SavesDemo`. Llevarlo a `../AO_Online/LEEME.md`.
 
 ### Contenido y Fidelidad AO (archivado → lo asigna CEREBRO)
+- **Arena:** tiene 2 vendedores originales, sin cambios de precios ni de stock: Therona `<Tabernera>` (100), que vende agua, cerveza, jugo y vino, e Igor `<Provisiones>` (9), que vende comida. La Tabernera de Ullathorpe (6) no se usó porque su cuerpo (287) no está exportado; conviene revisarlo si se la quiere en otro lado.
 - **`dungeon-npcs.json`:** cambian solo los mapas fuente, las escaleras, las zonas y la luz de P1–P7. Los NPC, la EXP y el respawn quedan igual. Se volvieron a medir los recorridos y `modelo_progresion.py --check` da OK.
 - **`textos-hub.md`:** nombres nuevos de los pisos (Dungeon Newbie, Catacumbas, Tumba del desierto, Cueva de las Gorgonas) y luz según la profundidad.
 - **Datos nuevos:** `Tools/export_npc_spells.py` → `MagicV129/npc_spells.json`.
@@ -107,6 +113,13 @@ Queda abierto de entonces:
   - cambia `demo_art_specs.py` (función `light`) y se regeneraron los `.art.json`, los mapas y los minimapas;
   - imagen: `docs/claude/demo/mapa/portales_antes_despues.jpg`;
   - revisar en Unity que se animen y brillen, con la luz clásica y con "Luz: Mejorada".
+- **Arena más viva** (pedido de Lucas; ver `reglas-y-recorrido.md` § Arena más viva):
+  - todo el decorado es de Banderbill, la ciudad original con el mismo empedrado;
+  - gradas de 4 casillas con bancos dobles que se pueden pisar, canteros, árboles en maceta y la baranda de canal en el borde del agua;
+  - en la plaza: faroles de hierro, un puesto de bebidas (barra 12307) y uno de comida (mesa 2100, caldero y leña), braseros, bancos y canteros;
+  - las luces son de un blanco cálido (`FFE6C0`), porque la arena tiene luz de día fija y una luz naranja la mancharía;
+  - imágenes: `docs/claude/demo/mapa/arena_viva.jpg` y `arena_viva_cerca.jpg`;
+  - revisar en Unity cómo se ven los bancos, los puestos y la baranda.
 - **Magia de NPC:** se usan `AOSpellFXV120.PlayFromNpc` y `AOCastAnimationRuntimeV268.PlayNpc`. Revisar cómo se ven los lanzamientos de NPC y las criaturas invocadas; la Hiena Demoníaca usa las texturas de `MagicV129`.
 - **Imágenes** en `docs/claude/demo/mapa/`: `antes_despues.jpg` y `recorrido_dungeon.jpg`.
 
@@ -118,6 +131,7 @@ Queda abierto de entonces:
   - IA de apoyo;
   - retos con parálisis;
   - skill shot visible;
-  - portales con luz en todas las salidas.
+  - portales con luz en todas las salidas;
+  - arena: comprar agua y comida a los vendedores, y que los retos sigan igual.
 - **Antes de cada prueba:** `aod-respaldo`, y nunca con personajes de Lucas.
 - **Release 0.27:** cliente y servidor juntos, porque cambian el catálogo y los mapas de la demo.

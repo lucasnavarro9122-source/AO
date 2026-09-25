@@ -27,6 +27,12 @@ Rama `claude/nifty-thompson-r3ulpf`, sobre el trabajo de la PC `edcd99d5`. Para 
 2. **Mapa demo** (`docs/claude/demo/mapa/`): recorrer hub → cementerio (camino norte y capilla) → P1…P7 → portal al hub (D-20).
    - Mirar la luz de cada piso, los carteles y los minimapas.
    - En el P2, la cripta con llave queda cerrada.
+   - **Arena (1001) más viva:**
+     - puestos de bebidas (Therona) y de comida (Igor): que se pueda comprar agua y comida hablándoles de al lado;
+     - gradas más anchas con bancos que se pueden pisar, canteros, faroles de hierro y la baranda del agua;
+     - el portal al hub está en (50,70) y la llegada en (50,68);
+     - que los retos sigan igual: rings, cuerdas y carteles.
+     - Imágenes: `arena_viva.jpg` y `arena_viva_cerca.jpg`.
    - **Portales:** ninguna salida es un punto negro. Cada una es el portal violeta animado (49488) con halo de luz y antorchas cálidas. Revisar que se animen, que brillen con la luz clásica y con "Luz: Mejorada", y que se pueda pisar el portal para pasar de mapa. Imagen: `portales_antes_despues.jpg`.
 3. **IA mágica de NPC** (`npc-magia.md`):
    - Sin conexión: Esqueleto Mágico (P3), Mago Malvado y Medusa (P6), dragones y Vytaiz (P7).

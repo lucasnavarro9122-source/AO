@@ -7,10 +7,10 @@
   "remove": ["npcs", "exits", "objects"],
   "structure": [
     {"op": "unblock", "rect": [37, 31, 27, 41], "_": "plaza central"},
-    {"op": "unblock", "rect": [9, 7, 31, 27]},
-    {"op": "unblock", "rect": [61, 7, 31, 27]},
-    {"op": "unblock", "rect": [9, 69, 31, 27]},
-    {"op": "unblock", "rect": [62, 69, 31, 27]},
+    {"op": "unblock", "rect": [7, 5, 35, 31], "_": "ring 1 con su grada de 4"},
+    {"op": "unblock", "rect": [59, 5, 35, 31]},
+    {"op": "unblock", "rect": [7, 67, 35, 31]},
+    {"op": "unblock", "rect": [60, 67, 35, 31]},
     {"op": "block", "rect": [12, 10, 25, 21], "_": "borde ring 1"},
     {"op": "unblock", "rect": [13, 11, 23, 19]},
     {"op": "block", "rect": [64, 10, 25, 21], "_": "borde ring 2"},
@@ -19,7 +19,9 @@
     {"op": "unblock", "rect": [13, 73, 23, 19]},
     {"op": "block", "rect": [65, 72, 25, 21], "_": "borde ring 4"},
     {"op": "unblock", "rect": [66, 73, 23, 19]},
-    {"op": "exit", "x": 50, "y": 71, "destMap": 1000, "dest": "arrival:from1001"}
+    {"op": "exit", "x": 50, "y": 70, "destMap": 1000, "dest": "arrival:from1001"},
+    {"op": "npc", "npcIndex": 100, "x": 44, "y": 45, "_": "Therona <Tabernera>: agua, cerveza, jugo y vino (puesto de bebidas)"},
+    {"op": "npc", "npcIndex": 9, "x": 56, "y": 45, "_": "Igor <Provisiones>: fruta, pan, queso y carne (puesto de comida)"}
   ],
   "rings": [
     {"id": 1, "x": 13, "y": 11, "theme": "Bosque"},
@@ -28,7 +30,7 @@
     {"id": 4, "x": 66, "y": 73, "theme": "Mazmorra"}
   ],
   "spawn": [50, 60],
-  "arrivals": {"from1000": [50, 69]},
+  "arrivals": {"from1000": [50, 68]},
   "music": 9,
   "environment": {"baseLight": -1, "rain": false, "snow": false, "fog": false}
 }

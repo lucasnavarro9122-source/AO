@@ -90,9 +90,28 @@ Ninguna salida es un punto negro. Antes las 14 escaleras de los pisos eran el hu
 ![portales](portales_antes_despues.jpg)
 
 ## Hub y arenas (reglas 1, 9 y 10)
-Ya cumplían las reglas, así que no se tocaron:
 - En el hub, las Arenas quedan al norte y el Dungeon al sur. Solo cambia la llegada al 1010.
 - En las arenas hay 4 rings con tema (bosque, desierto, nieve y mazmorra), una plaza central y carteles "Arena I–IV".
+
+### Arena más viva (pedido de Lucas, 25/09 tarde)
+La plaza y las gradas estaban vacías. Ahora todo el decorado sale de **Banderbill**, la ciudad original que usa este mismo empedrado (58114), para que combine. No se usa nada de otro estilo.
+- **Gradas:** pasan de 2 a 4 casillas de empedrado alrededor de cada ring.
+  - Tienen bancos dobles (2620) mirando al ring. Se pueden pisar, para "sentarse".
+  - Afuera hay canteros de piedra (21719–21721) y árboles en maceta (4544–4546).
+  - Los estandartes y las antorchas de las esquinas tienen luz.
+- **Plaza:**
+  - faroles de hierro de Banderbill (2460) en lugar de los faroles de madera;
+  - **puesto de bebidas:** barra con barriles (12307) y la **Tabernera Therona** (NPC 100), que vende agua, cerveza, jugo y vino;
+  - **puesto de comida:** mesa de provisiones (2100), leña y caldero, con **Igor `<Provisiones>`** (NPC 9), que vende fruta, pan, queso y carne;
+  - braseros, bancos frente a los puestos y alrededor de la cartelera, y canteros y árboles en maceta.
+- Los vendedores están delante de su puesto, porque se les habla desde la casilla de al lado. La Tabernera original de Ullathorpe (NPC 6) no sirve: su cuerpo no está exportado.
+- **Borde del agua:** tiene la baranda de canal de Banderbill, con postes de piedra y listones de madera. Está en los lados norte, oeste y este; al sur Banderbill no la usa.
+- **Portal al hub:** se movió una casilla adentro, a (50,70). La llegada queda en (50,68).
+- **Luz:** la arena tiene luz de día fija (`baseLight` −1), así que sus luces son de un blanco cálido `FFE6C0`. Una luz naranja la mancharía de marrón.
+- **No cambia:** el interior de los rings, las cuerdas, los carteles "Arena I–IV" ni el spawn (50,60).
+
+![arena](arena_viva.jpg)
+![arena de cerca](arena_viva_cerca.jpg)
 
 ## Pendiente
 - **Probar en Unity:** recorrer 1000 → 1010 → P1…P7 → portal (QA D-20). Mirar la luz nueva, los carteles y los portales: que se animen, que brillen y que se vean bien con "Luz: Mejorada".

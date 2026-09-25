@@ -27,9 +27,9 @@ CARPET = 1753            # alfombra roja: relleno 2x2 = 1753..1756
 POST_LEFT, POST_RIGHT, POST_MID, POST_PLAIN = 48863, 48862, 48858, 48860
 ROPE_H = [48854, 48855, 48856, 48857]
 ROPE_V = [48868, 48869]
-CHAIR, BENCH = 586, 2620
+BENCH = 2620              # banco de madera original (se puede pisar: sentarse)
 BANNER_BLUE, BANNER_RED = 58712, 60298
-TORCH, LAMP = 55254, 5624
+TORCH = 55254
 BOARD = 19543            # cartelera
 ARENA_SIGNS = [(2441, 50902), (2442, 50903), (2443, 50904), (2447, 50908)]   # "Arena I..IV" (objIndex, grh)
 FLOOR_SIGNS = {f"P{i}": 50848 + i for i in range(1, 8)}   # gráfico "Nº1..Nº7" (50849-50855); solo el gráfico:
@@ -92,32 +92,77 @@ def rope_border(x0, y0, x1, y1):
     return grh
 
 
+# Arenas (1001): todo sale de Banderbill, la ciudad original con este mismo empedrado (58114), para que combine.
+STREET_LAMP = 2460        # farol de hierro doble de las calles de Banderbill
+PLANTERS = [21721, 21720, 21719]   # canteros de piedra con arbustos (sobre el empedrado de Banderbill)
+POTTED = [4544, 4545, 4546]        # árboles en maceta de madera (4546 con manzanas)
+BAR = 12307               # barra de taberna con barriles y botellas (160x128)
+FOOD_TABLE = 2100         # mesa de provisiones: pan, queso, pollo (160x64)
+BARREL, CAULDRON, FIREWOOD, BRAZIER = 2066, 2093, 2214, 1178
+ARENA_WARM = 0xFFE6C0    # la arena tiene luz de día fija (baseLight -1): una luz naranja la mancharía de marrón
+RAIL_N = {0: 58254, 1: 58255, 2: 58255}          # baranda de canal sobre el agua al norte del empedrado (poste, listón, listón)
+RAIL_W = {0: 58257, 1: 58385, 2: 58382}          # agua al oeste del empedrado
+RAIL_E = {0: 58318, 1: 58256, 2: 58321}          # agua al este (al sur del empedrado Banderbill no pone baranda)
+
+
+def canal_rails(paved):
+    """Baranda de postes de piedra y listones de madera en el borde del agua, como los canales de Banderbill."""
+    rails = {}
+    for x in range(1, 101):
+        for y in range(1, 101):
+            if (x, y) in paved:
+                continue
+            if (x, y + 1) in paved:
+                rails[(x, y)] = RAIL_N[x % 3]
+            elif (x + 1, y) in paved:
+                rails[(x, y)] = RAIL_W[y % 3]
+            elif (x - 1, y) in paved:
+                rails[(x, y)] = RAIL_E[y % 3]
+            elif (x + 1, y + 1) in paved or (x - 1, y + 1) in paved:
+                rails[(x, y)] = RAIL_N[0]                # poste de piedra en la esquina
+    return rails
+
+
 def spec_1001():
-    """Zona de arenas: copia de 324 con 4 rings, pasillo de alfombra, grada y plaza central."""
+    """Zona de arenas: copia de 324 con 4 rings, pasillo de alfombra, gradas con bancos y una plaza con puestos."""
     rings = [  # interior (Retos.dat), tema (arquitectura §2.3)
         ((13, 11, 35, 29), "Bosque"), ((65, 11, 87, 29), "Desierto"),
         ((13, 73, 35, 91), "Nieve"), ((66, 73, 88, 91), "Mazmorra"),
     ]
     plaza = (37, 31, 63, 71)
+    band = 4                                                                # grada: 4 casillas de empedrado + el pasillo de alfombra
     ops = [{"op": "erase", "layer": layer, "rect": rect(1, 1, 100, 100)} for layer in (2, 3, 4)]
     ops.append(paint(1, box=rect(1, 1, 100, 100), tile4x4=WATER))
     ops.append(paint(1, box=rect(*plaza), tile3x3=PAVING))
-    layer2, layer3, blocking, signs = {}, {}, [], []
+    paved = {(x, y) for x in range(plaza[0], plaza[2] + 1) for y in range(plaza[1], plaza[3] + 1)}
+    layer2, layer3, blocking, signs, lights = {}, {}, [], [], []
     for index, ((ix0, iy0, ix1, iy1), theme) in enumerate(rings):
         bx0, by0, bx1, by1 = ix0 - 1, iy0 - 1, ix1 + 1, iy1 + 1           # borde (cuerdas)
-        ops.append(paint(1, box=rect(bx0 - 3, by0 - 3, bx1 + 3, by1 + 3), tile3x3=PAVING))
+        ox0, oy0, ox1, oy1 = bx0 - 1 - band, by0 - 1 - band, bx1 + 1 + band, by1 + 1 + band   # borde externo de la grada
+        ops.append(paint(1, box=rect(ox0, oy0, ox1, oy1), tile3x3=PAVING))
+        paved |= {(x, y) for x in range(ox0, ox1 + 1) for y in range(oy0, oy1 + 1)}
         base, side = THEME_FLOOR[theme]
         ops.append(paint(1, box=rect(ix0, iy0, ix1, iy1), **{f"tile{side}x{side}": base}))
         layer3.update(rope_border(bx0, by0, bx1, by1))
         for x, y in perimeter(bx0 - 1, by0 - 1, bx1 + 1, by1 + 1):       # pasillo
             layer2[(x, y)] = CARPET + (y % 2) * 2 + (x % 2)
-        ox0, oy0, ox1, oy1 = bx0 - 3, by0 - 3, bx1 + 3, by1 + 3           # fila externa de la grada
-        cy = (oy0 + oy1) // 2
-        for y in range(oy0 + 2, oy1 - 1, 2):                               # sillas y bancos a los costados
-            if abs(y - cy) > 1:
-                for x in (ox0, ox1):
-                    layer3[(x, y)] = CHAIR if (y // 2) % 2 == 0 else BENCH
-        layer3[(ox0, cy)], layer3[(ox1, cy)] = BANNER_BLUE, BANNER_RED    # equipo A (oeste) / B (este)
+        cx, cy = (ox0 + ox1) // 2, (oy0 + oy1) // 2
+        # Gradas: bancos dobles (dos 2620 juntos) mirando al ring, separados para que no parezcan una cerca;
+        # afuera, canteros y árboles en maceta.
+        for y in range(oy0 + band, oy1 - band + 1, 2):                      # costados oeste y este: una fila cada 2
+            if abs(y - cy) > 3:                                             # el estandarte (4 de alto) no tapa bancos
+                for x in (ox0 + 1, ox0 + 2, ox1 - 1, ox1 - 2):
+                    layer3[(x, y)] = BENCH
+        for x in range(ox0 + band, ox1 - band + 1):                         # norte y sur: de a dos, con un hueco
+            if (x - ox0) % 3 and abs(x - cx) > 1:
+                for y in (oy0 + 2, oy1 - 2):
+                    layer3[(x, y)] = BENCH
+        plants = [(x, y) for y in range(oy0 + band + 2, oy1 - band, 6) if abs(y - cy) > 2 for x in (ox0, ox1)]
+        plants += [(x, y) for x in range(ox0 + band + 2, ox1 - band, 6) if abs(x - cx) > 2 for y in (oy0, oy1)]
+        for i, cell in enumerate(plants):
+            layer3[cell] = (PLANTERS if cell[1] in (oy0, oy1) else POTTED)[i % 3]
+            blocking.append(cell)
+        layer3[(ox0 + 1, cy)], layer3[(ox1 - 1, cy)] = BANNER_BLUE, BANNER_RED    # equipo A (oeste) / B (este)
         top = index < 2
         plaza_side_x = ox1 if ix0 < 50 else ox0
         sign_y = oy1 if top else oy0
@@ -126,32 +171,68 @@ def spec_1001():
         for corner in corners:
             if corner != (plaza_side_x, sign_y):
                 layer3[corner] = TORCH
-        blocking += [(ox0, cy), (ox1, cy)] + corners
+                lights.append(light(*corner, ARENA_WARM, 3))
+        blocking += [(ox0 + 1, cy), (ox1 - 1, cy)] + corners
     px0, py0, px1, py1 = plaza
-    for x in (px0 + 3, px1 - 3):
-        for y in range(py0 + 4, py1 - 2, 8):
-            layer3[(x, y)] = LAMP
+    for x in (px0 + 3, px1 - 3):                                            # faroles de Banderbill, con luz
+        for y in range(py0 + 8, py1 - 7, 8):
+            layer3[(x, y)] = STREET_LAMP
             blocking.append((x, y))
-    layer3[((px0 + px1) // 2, (py0 + py1) // 2)] = BOARD
-    exit_x, exit_y = 50, py1                           # salida al hub (Programación)
+            lights.append(light(x, y, ARENA_WARM, 3))
+    board = ((px0 + px1) // 2, (py0 + py1) // 2)
+    layer3[board] = BOARD
+    # Puestos (los vendedores los pone Programación en 1001.json, delante de cada puesto: se les habla de al lado).
+    stall_y = 44
+    drinks, food = (44, stall_y), (56, stall_y)
+    layer3[drinks] = BAR                                                     # taberna: agua, cerveza, jugo y vino
+    layer3[(drinks[0] - 3, stall_y)] = BARREL
+    layer3[food] = FOOD_TABLE                                                # provisiones: pan, queso, fruta, pollo
+    layer3[(food[0] - 3, stall_y)] = FIREWOOD
+    layer3[(food[0] + 3, stall_y)] = CAULDRON
+    blocking += [(x, stall_y) for x in range(drinks[0] - 3, drinks[0] + 3)] + [(x, stall_y) for x in range(food[0] - 3, food[0] + 4)]
+    for spot in ((drinks[0] + 3, stall_y + 1), (food[0] - 3, stall_y + 1)):   # braseros al lado de cada puesto
+        layer3[spot] = BRAZIER
+        blocking.append(spot)
+        lights.append(light(*spot, ARENA_WARM, 3))
+    lights.append(light(food[0] + 3, stall_y, ARENA_WARM, 2))                # el fuego del caldero
+    # Descanso: bancos frente a los puestos y a los lados de la cartelera, canteros y árboles en maceta.
+    for y in (stall_y + 4,):
+        for x in (drinks[0] - 3, drinks[0] - 2, drinks[0] + 2, drinks[0] + 3, food[0] - 3, food[0] - 2, food[0] + 2, food[0] + 3):
+            layer3[(x, y)] = BENCH
+    for y in (board[1] + 6, board[1] + 8):
+        for x in (board[0] - 6, board[0] - 5, board[0] - 3, board[0] - 2, board[0] + 2, board[0] + 3, board[0] + 5, board[0] + 6):
+            layer3[(x, y)] = BENCH
+    greenery = {(board[0] - 3, board[1]): PLANTERS[0], (board[0] + 3, board[1]): PLANTERS[1],
+                (drinks[0], stall_y + 7): POTTED[2], (food[0], stall_y + 7): POTTED[2],
+                (board[0] - 8, board[1] + 10): POTTED[0], (board[0] + 8, board[1] + 10): POTTED[1],
+                (board[0] - 5, py1 - 2): PLANTERS[2], (board[0] + 5, py1 - 2): PLANTERS[0]}
+    for cell, grh in greenery.items():
+        layer3[cell] = grh
+        blocking.append(cell)
+    exit_x, exit_y = 50, py1 - 1                       # salida al hub (Programación): una casilla adentro, el halo no cae al agua
     for side in ((exit_x - 2, exit_y), (exit_x + 2, exit_y)):
         layer3[side] = TORCH
         blocking.append(side)
     layer3[(exit_x, exit_y)] = PORTAL                  # la salida se ve: portal original con luz
-    blocking.append(((px0 + px1) // 2, (py0 + py1) // 2))
+    blocking.append(board)
+    layer3.update(canal_rails(paved))                  # sobre el agua (ya bloqueada): no cambia el paso
     for grh in sorted(set(layer2.values())):
         ops.append(paint(2, [c for c, g in layer2.items() if g == grh], grh=grh))
     for grh in sorted(set(layer3.values())):
         ops.append(paint(3, [c for c, g in layer3.items() if g == grh], grh=grh))
-    ops += [light(exit_x, exit_y, PORTAL_LIGHT, 4),
-            light(exit_x - 2, exit_y, TORCH_LIGHT, 3), light(exit_x + 2, exit_y, TORCH_LIGHT, 3)]
+    ops += lights + [light(exit_x, exit_y, PORTAL_LIGHT, 4),
+                     light(exit_x - 2, exit_y, ARENA_WARM, 3), light(exit_x + 2, exit_y, ARENA_WARM, 3)]
     return {
         "map": 1001,
         "autor": "Arte",
         "base": "copy 324 (Programación)",
-        "notas": "Rings de Retos.dat; borde de cuerdas f5067 como la Arena de Clanes (272); pasillo de alfombra 1753-1756; "
-                 "grada de empedrado con sillas y bancos a los costados, estandarte azul (oeste, equipo A) y rojo (este, B); "
-                 "fila de arriba de cada ring sin objetos altos (cartel de estado de Interfaz). Resto: agua.",
+        "notas": "Rings de Retos.dat; borde de cuerdas f5067 como la Arena de Clanes (272); pasillo de alfombra 1753-1756. "
+                 f"Gradas de {band} casillas de empedrado con bancos dobles (2620) mirando al ring, separados, "
+                 "canteros y árboles en maceta afuera, estandarte azul (oeste, equipo A) y rojo (este, B), antorchas con luz. "
+                 "Plaza: faroles de hierro, puesto de bebidas (barra 12307) y de provisiones (mesa 2100, caldero, leña), "
+                 "braseros, bancos y canteros. Luces blanco cálido: la arena tiene luz de día fija. Todo el decorado es de Banderbill, la ciudad original con este empedrado; "
+                 "el borde del agua lleva su baranda de canal. Los bancos se pueden pisar (sentarse); lo alto bloquea. "
+                 "Fila de arriba de cada ring sin objetos altos (cartel de estado de Interfaz). Resto: agua.",
         "ops": ops,
         "decorBloqueante": [list(c) for c in sorted(set(blocking), key=lambda c: (c[1], c[0]))],
         "carteles": signs,
