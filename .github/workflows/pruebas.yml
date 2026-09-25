@@ -1,0 +1,48 @@
+# Pruebas sin Unity en cada push: JSON/Python validos, build del servidor y pruebas del servidor cooperativo.
+# Las pruebas usan puerto, clave y guardados temporales: no tocan partidas reales.
+name: Pruebas sin Unity
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: pruebas-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Solo lo necesario: evita bajar las texturas y mapas de Assets.
+          sparse-checkout: |
+            /OnlineServer/
+            /Assets/AOMigrator/Runtime/
+            /Tools/
+            *.py
+            *.json
+          sparse-checkout-cone-mode: false
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: JSON y Python validos
+        run: python Tools/ci_checks.py
+
+      - name: Build del servidor
+        run: dotnet build OnlineServer/AOOnlineServer.csproj -v:q -clp:ErrorsOnly -nologo
+
+      - name: Prueba cooperativa (2 clientes, 11 jugadores)
+        run: python Tools/test_coop_server.py
+
+      - name: Prueba de NPC fijos
+        run: python Tools/test_static_npcs.py

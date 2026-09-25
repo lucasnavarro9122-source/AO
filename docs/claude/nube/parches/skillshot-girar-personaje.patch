@@ -1,0 +1,58 @@
+diff --git a/Assets/AOMigrator/Runtime/AOPlayerMagicV120.cs b/Assets/AOMigrator/Runtime/AOPlayerMagicV120.cs
+index d53fce9..5a9b1ce 100644
+--- a/Assets/AOMigrator/Runtime/AOPlayerMagicV120.cs
++++ b/Assets/AOMigrator/Runtime/AOPlayerMagicV120.cs
+@@ -296,6 +296,14 @@ public class AOPlayerMagicV120 : MonoBehaviour
+         targeting=false;StopMeditation();FinishCast(s,grid.TileToWorld(tx,ty),targetName);
+     }
+ 
++    // 4 direcciones como el original. Cerca de 45° conserva la actual (histéresis de 10°) para que no parpadee.
++    static int AimHeading(Vector2 d,int current){
++        float aim=Mathf.Atan2(d.y,d.x)*Mathf.Rad2Deg; // 0 = este, 90 = norte (en el mundo, y hacia arriba es norte)
++        float facing=current==AOGridMap.EAST?0f:current==AOGridMap.NORTH?90f:current==AOGridMap.WEST?180f:-90f;
++        if(Mathf.Abs(Mathf.DeltaAngle(aim,facing))<=55f)return current;
++        if(Mathf.Abs(d.x)>=Mathf.Abs(d.y))return d.x>=0f?AOGridMap.EAST:AOGridMap.WEST;
++        return d.y>=0f?AOGridMap.NORTH:AOGridMap.SOUTH;
++    }
+     void TryLaunchSkillShotMouse(AOSpellDatabaseV120.SpellDef s)
+     {
+         FindReferences();
+@@ -316,6 +324,7 @@ public class AOPlayerMagicV120 : MonoBehaviour
+         targetInputFrame=Time.frameCount;targeting=false;StopMeditation();
+         if(!string.IsNullOrWhiteSpace(s.magicWords))AOInterfaceV0101.PushMessage(s.magicWords);
+         AOInterfaceV0101.PushMessage("Lanzaste "+s.name+" como skill shot.");
++        player.FaceHeading(AimHeading(direction,player.Heading));
+         AOCastAnimationRuntimeV268.PlayPlayer(gameObject,s);AOOnlineClientV240.NotifyLocalCast(s.id);
+         AOSpellFXV120.PlayCastSound(s);
+         AOSkillShotProjectileV267.Launch(this,s,player.CurrentGrid,transform.position,direction.normalized);
+diff --git a/Assets/AOMigrator/Runtime/AOTestPlayer.cs b/Assets/AOMigrator/Runtime/AOTestPlayer.cs
+index 62bba6e..61bbbf8 100644
+--- a/Assets/AOMigrator/Runtime/AOTestPlayer.cs
++++ b/Assets/AOMigrator/Runtime/AOTestPlayer.cs
+@@ -275,6 +275,26 @@ public class AOTestPlayer : MonoBehaviour
+         return true;
+     }
+ 
++    // Girar sin cortar la animación de caminar (al lanzar un skill shot).
++    // Cambia el heading de juego: el próximo golpe va hacia ese lado.
++    public void FaceHeading(
++        int newHeading)
++    {
++        heading =
++            Mathf.Clamp(
++                newHeading,
++                AOGridMap.NORTH,
++                AOGridMap.WEST);
++
++        FindCharacter();
++
++        if (character != null)
++            character.SetHeading(
++                heading);
++
++        UpdateSorting();
++    }
++
+     int FacingHeading(int dx, int dy)
+     {
+         // Los gráficos actuales son de 4 direcciones. En diagonal mantenemos

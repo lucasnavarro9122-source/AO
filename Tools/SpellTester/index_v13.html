@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AO Spell Tester v1.3</title>
+<link rel="stylesheet" href="v13.css">
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="title">AO SPELL TESTER v1.3</div>
+    <div>Zoom · frame a frame · pivote · tuning · original vs HD</div>
+    <div class="sub">Meditación: <a href="index.html">abrir v1.2</a> · No requiere Unity</div>
+  </div>
+  <div class="layout">
+    <div class="stageCol">
+      <div class="toolbar">
+        <div class="grp"><span class="lbl">Zoom</span>
+          <button class="sm" data-zoom="1">1×</button><button class="sm" data-zoom="2">2×</button><button class="sm" data-zoom="4">4×</button><button class="sm" data-zoom="8">8×</button>
+        </div>
+        <div class="grp">
+          <label><input type="checkbox" id="optGrid" checked> Grilla 32 px</label>
+          <label><input type="checkbox" id="optPivot" checked> Pivote</label>
+          <label><input type="checkbox" id="optActors" checked> Personajes</label>
+        </div>
+        <div class="grp"><label>Distancia <input type="number" id="optDistance" min="1" max="12" step="1" value="5"> casillas</label></div>
+        <div class="grp">
+          <button class="sm" id="btnCompare">Original vs HD</button>
+          <button class="sm" id="btnCenter" title="También: doble clic en el escenario">Centrar</button>
+        </div>
+      </div>
+      <div class="stages" id="stages">
+        <div class="stageBox" id="boxOrig">
+          <canvas id="cvOrig"></canvas>
+          <div class="stageTag" id="tagOrig">ORIGINAL</div>
+          <div class="hud" id="hud">Listo.</div>
+        </div>
+        <div class="stageBox" id="boxHd" hidden>
+          <canvas id="cvHd"></canvas>
+          <div class="stageTag">HD</div>
+          <div class="noHd" id="noHd">sin HD</div>
+        </div>
+      </div>
+      <div class="frameBar">
+        <div class="ctrl">
+          <select id="layerSelect" title="Capa a inspeccionar"></select>
+        </div>
+        <div class="ctrl">
+          <button class="sm" id="btnPrev" title="Frame anterior (←)">◀</button>
+          <button class="sm" id="btnPause" title="Pausa / reanudar (P)">⏸ Pausa</button>
+          <button class="sm" id="btnNext" title="Frame siguiente (→)">▶</button>
+        </div>
+        <div class="frameInfo" id="frameInfo">—</div>
+      </div>
+      <div class="strip" id="strip"></div>
+    </div>
+
+    <aside class="side">
+      <div class="section">
+        <h3>Elegir hechizo</h3>
+        <input class="search" id="search" placeholder="Buscar por nombre o ID">
+        <select class="list" id="spellSelect" size="8"></select>
+      </div>
+      <div class="section" id="info">
+        <div class="spellHead"><img id="spellIcon" alt=""><div><div class="spellName" id="spellName">—</div><div class="spellId" id="spellId"></div></div></div>
+        <div class="desc" id="spellDesc"></div>
+        <div id="meta"></div>
+      </div>
+      <div class="section controls">
+        <h3>Prueba</h3>
+        <label><input type="checkbox" id="audioOn" checked> Reproducir audio original</label>
+        <label><input type="checkbox" id="persistentOn" checked> Mostrar EOT / aura persistente</label>
+        <label>Velocidad <input type="range" id="speed" min="25" max="200" step="5" value="100"> <b id="speedTxt">100%</b></label>
+        <button class="primary" id="launch">LANZAR (Espacio)</button>
+        <div class="btnRow"><button id="stop">Detener efectos</button></div>
+      </div>
+      <div class="section" id="tuningSection">
+        <h3>Tuning visual</h3>
+        <div class="note" id="tuningBase"></div>
+        <div id="tuningFields"></div>
+        <div class="btnRow"><button class="sm" id="resetSpell">Restaurar hechizo</button><button class="sm" id="resetAll">Restaurar todo</button></div>
+        <div class="changes" id="changes"></div>
+        <div class="btnRow"><button class="primary" id="exportBtn">Exportar tuning</button></div>
+        <label class="fileLbl">Base distinta (opcional): cargar otro spell_visual_tuning.json
+          <input type="file" id="baseFile" accept=".json,application/json">
+        </label>
+      </div>
+      <div class="section">
+        <h3>Original vs HD</h3>
+        <div class="note">No hay FX HD en el repo. Cargá la carpeta HD (o varios PNG) con los <b>mismos nombres de frame</b> que <code>assets/spells/&lt;hechizo&gt;/</code>.</div>
+        <label class="fileLbl">Carpeta HD
+          <input type="file" id="hdDir" webkitdirectory directory multiple>
+        </label>
+        <label class="fileLbl">o archivos sueltos
+          <input type="file" id="hdFiles" accept="image/png,image/webp" multiple>
+        </label>
+        <div class="btnRow"><button class="sm" id="hdClear">Quitar HD</button></div>
+        <div id="hdInfo" class="note"></div>
+      </div>
+      <div class="section">
+        <h3>Teclas</h3>
+        <div class="keys">
+          <kbd>Espacio</kbd> lanzar · <kbd>P</kbd> pausa · <kbd>←</kbd> <kbd>→</kbd> frame<br>
+          <kbd>↑</kbd> <kbd>↓</kbd> offset Y de la capa ±1 px · <kbd>1</kbd>–<kbd>4</kbd> zoom 1×/2×/4×/8×<br>
+          <kbd>G</kbd> grilla · arrastrar = mover cámara · doble clic = centrar
+        </div>
+        <div class="legend">
+          <span><i style="background:var(--pivot)"></i>pivote del FX (abajo-centro)</span>
+          <span><i style="background:var(--anchor)"></i>ancla de la casilla</span>
+        </div>
+      </div>
+    </aside>
+  </div>
+</div>
+<audio id="audio"></audio>
+<script src="spell_data.js"></script>
+<script src="tuning_data.js"></script>
+<script src="v13.js"></script>
+</body>
+</html>

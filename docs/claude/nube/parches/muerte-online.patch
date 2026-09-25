@@ -1,0 +1,132 @@
+diff --git a/Assets/AOMigrator/Runtime/AOOnlineClientV240.cs b/Assets/AOMigrator/Runtime/AOOnlineClientV240.cs
+index c8d4f54..95e1eb2 100644
+--- a/Assets/AOMigrator/Runtime/AOOnlineClientV240.cs
++++ b/Assets/AOMigrator/Runtime/AOOnlineClientV240.cs
+@@ -57,7 +57,7 @@ public class AOOnlineClientV240 : MonoBehaviour
+     AOWorldManagerV07 world;
+     AOSaveGameV140 save;
+     Camera gameCamera;
+-    bool connected, connecting, requested, sessionStarted, restored, showGroup;
++    bool connected, connecting, requested, sessionStarted, restored, showGroup, deathPending;
+     string address, roomKey, status = "", pendingRequest;
+     int myId, generation, cachedMap;
+     long acknowledged;
+@@ -103,7 +103,7 @@ public class AOOnlineClientV240 : MonoBehaviour
+         Checkpoint(false); instance.Disconnect();
+         if (!string.IsNullOrEmpty(instance.localBeforeOnline) && instance.save != null) instance.save.ApplyOnline(instance.localBeforeOnline);
+         instance.localBeforeOnline = null; protectUntilRestored = false; instance.requested = instance.sessionStarted = false;
+-        instance.pendingItems.Clear();
++        instance.pendingItems.Clear(); instance.deathPending = false;
+     }
+     public static void StartSession() { if (Requested) { instance.sessionStarted = true; protectUntilRestored = true; instance.Connect(); } }
+     public static void SendChat(string text)
+@@ -130,6 +130,8 @@ public class AOOnlineClientV240 : MonoBehaviour
+     public static int Stock(int npc,int item,int fallback) => instance?.stocks.FirstOrDefault(s=>s.npc==npc&&s.item==item)?.amount ?? fallback;
+     public static bool Trade(string type,int npc,int item,int amount) => Request(new AOCoopMessage{type=type,id=npc,item=item,amount=amount},true);
+     public static bool Drop(int item, int amount) => Request(new AOCoopMessage { type = "drop", item = item, amount = amount }, true);
++    // Pérdida al morir: la decide el servidor con el guardado recién enviado (CoopRoom.DeathDrop).
++    public static void ReportDeath() { if (instance != null) instance.deathPending = true; }
+     public static int PlayerAt(int x, int y) => !Connected ? 0 : instance.players.FirstOrDefault(p => p.id != instance.myId && p.map == instance.world.CurrentMapNumber && p.x == x && p.y == y)?.id ?? 0;
+     public static bool CastAlly(int spell, int x, int y)
+     {
+@@ -304,6 +306,7 @@ public class AOOnlineClientV240 : MonoBehaviour
+         {
+             if (latestState != null && latestState.map == world.CurrentMapNumber) { ApplyWorld(latestState); latestState = null; }
+             DeliverPendingItems();
++            if (deathPending && string.IsNullOrEmpty(pendingRequest) && Request(new AOCoopMessage { type = "death" }, true)) deathPending = false;
+             if (Time.unscaledTime >= nextPosition) { nextPosition = Time.unscaledTime + .15f; Send(new AOCoopMessage { type = "position", player = CapturePlayer() }); }
+             if (Time.unscaledTime >= nextCheckpoint) { nextCheckpoint = Time.unscaledTime + 1f; Checkpoint(false); }
+             if (pendingRequest != null && Time.unscaledTime - transactionAt > 8) { status = "La operación no respondió. Reconectá para comprobar su resultado."; Disconnect(); }
+@@ -333,10 +336,21 @@ public class AOOnlineClientV240 : MonoBehaviour
+                 if (!inv.RemoveItemByIndexPublic(e.item,e.amount)) { status = "Inventario cambió durante la entrega. Reconectá para recuperarlo."; Disconnect(); return; }
+             }
+             else if (e.type == "hurt") combat.ReceiveOnlineDamage(e.damage);
++            else if (e.type == "death") ApplyDeathDrop(e, inv, combat);
+             else if (e.type == "spell") player.GetComponent<AOPlayerMagicV120>().ApplyOnlineSpell(e.spell);
+             acknowledged = e.seq;
+         }
+     }
++    // Lo que el servidor tiró al piso (o perdió por falta de lugar) al morir.
++    static void ApplyDeathDrop(AOCoopEvent e, AOInventoryV10 inv, AOPlayerCombatV09 combat)
++    {
++        int lost = 0;
++        if (e.items != null) foreach (var it in e.items)
++            if (it != null && it.item > 0 && inv.RemoveItemByIndexPublic(it.item, System.Math.Min(it.amount, inv.CountItem(it.item)))) lost++;
++        long gold = System.Math.Max(0, -e.gold);
++        if (gold > 0) combat.SpendGold(System.Math.Min(gold, combat.Gold));
++        if (lost > 0 || gold > 0) AOInterfaceV0101.PushMessage("Al morir se te cayeron " + lost + " objeto(s) y " + gold + " de oro.");
++    }
+     void DeliverPendingItems()
+     {
+         var inv = player.GetComponent<AOInventoryV10>(); var combat = player.GetComponent<AOPlayerCombatV09>();
+diff --git a/OnlineServer/AOOnlineServer.csproj b/OnlineServer/AOOnlineServer.csproj
+index b1894fb..f9e976b 100644
+--- a/OnlineServer/AOOnlineServer.csproj
++++ b/OnlineServer/AOOnlineServer.csproj
+@@ -7,6 +7,7 @@
+   </PropertyGroup>
+   <ItemGroup>
+     <Compile Include="../Assets/AOMigrator/Runtime/AOCoopProtocolV250.cs" Link="Protocol.cs" />
++    <Compile Include="../Assets/AOMigrator/Runtime/Shared/AODeathDropRulesV900.cs" Link="Shared/AODeathDropRulesV900.cs" />
+     <Content Include="Data/catalog.json.gz" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+   </ItemGroup>
+ </Project>
+diff --git a/OnlineServer/CoopRoom.cs b/OnlineServer/CoopRoom.cs
+index 70829f3..4280c22 100644
+--- a/OnlineServer/CoopRoom.cs
++++ b/OnlineServer/CoopRoom.cs
+@@ -124,6 +124,7 @@ sealed class CoopRoom
+                     case "drop": Drop(s, map, m); break;
+                     case "door": Door(s, map, m); break;
+                     case "buy": case "sell": Trade(s,map,m); break;
++                    case "death": DeathDrop(s,map); break;
+                     default: throw new InvalidOperationException("Acción desconocida.");
+                 }
+                 Save();
+@@ -329,6 +330,46 @@ sealed class CoopRoom
+         Event(s,new AOCoopEvent {type="remove",item=m.item,amount=m.amount});
+         AddLoot(map,m.item,m.amount,s.State.x,s.State.y);
+     }
++    // Pérdida al morir como AO20 (reglas compartidas en AODeathDropRulesV900). La pide el cliente al morir,
++    // con su guardado recién enviado; el servidor decide qué cae, lo pone en el piso y le avisa qué sacar.
++    void DeathDrop(Session s,MapRecord map)
++    {
++        if(!s.State.dead)throw new InvalidOperationException("No estás muerto.");
++        if(s.Record.events.Any(e=>e.type=="death"))throw new InvalidOperationException("Esperá a confirmar la pérdida anterior.");
++        if(map.triggers.GetValueOrDefault(s.State.y*101+s.State.x)==AODeathDropRulesV900.TriggerArena)return;
++        var data=JsonNode.Parse(s.Record.snapshot)!;var inv=data["inventory"]!;
++        int level=Math.Max(1,Int(data["rpg"],"level"));
++        long gold=Math.Max(0L,data["combat"]?["gold"]?.GetValue<long>()??0);
++        var stacks=new List<(int item,int amount)>();
++        var ids=inv["itemIndices"]!.AsArray();var amounts=inv["amounts"]!.AsArray();
++        for(int i=0;i<ids.Count;i++)
++        {
++            int item=ids[i]?.GetValue<int>()??0,amount=amounts[i]?.GetValue<int>()??0;
++            if(item<=0||amount<=0||!items.TryGetValue(item,out var def))continue;
++            if(AODeathDropRulesV900.ItemFalls(Int(def,"objType"),Bool(def,"noDrop"),Bool(def,"cantThrow"),Bool(def,"destroyOnSell"),Bool(def,"untransferable"),Bool(def,"newbie"),level))
++                stacks.Add((item,amount));
++        }
++        int goldItem=Int(catalog["loot"],"goldItemIndex");
++        var plan=AODeathDropRulesV900.Plan(s.State.x,s.State.y,AODeathDropRulesV900.GoldToDrop(gold,level),goldItem,stacks,
++            (x,y)=>CanDropAt(map,x,y),(x,y)=>{var l=map.loot.FirstOrDefault(l=>l.x==x&&l.y==y);return l==null?(0,0):(l.item,l.amount);},out _);
++        var lost=new List<AOCoopItem>();long goldDropped=0;
++        foreach(var d in plan)
++        {
++            if(d.gold)goldDropped+=d.amount;else lost.Add(new AOCoopItem{item=d.item,amount=d.amount});
++            if(d.Placed)AddLoot(map,d.item,d.amount,d.x,d.y);
++        }
++        if(lost.Count>0||goldDropped>0)Event(s,new AOCoopEvent{type="death",items=lost.ToArray(),gold=-goldDropped});
++    }
++    // Igual que AODeathDropV900.CanDropAt del juego: tierra transitable, sin salida, NPC ni jugador.
++    bool CanDropAt(MapRecord map,int x,int y)
++    {
++        if(!ValidPosition(map.id,x,y)||map.exits.Contains(y*101+x))return false;
++        int flags=map.flags.GetValueOrDefault(y*101+x),trigger=map.triggers.GetValueOrDefault(y*101+x);
++        if((flags&15)!=0||trigger==3||trigger==13||trigger==201)return false;
++        if((flags&32)!=0&&(flags&128)==0&&trigger!=17)return false;
++        return !map.npcs.Any(n=>!n.state.dead&&n.state.x==x&&n.state.y==y)&&
++               !sessions.Values.Any(p=>p.State.map==map.id&&p.State.x==x&&p.State.y==y);
++    }
+     bool CanReceive(Session s,int item)
+     {
+         if(item==Int(catalog["loot"],"goldItemIndex"))return true;

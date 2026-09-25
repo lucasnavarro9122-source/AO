@@ -1,0 +1,77 @@
+diff --git a/OnlineServer/CoopRoom.cs b/OnlineServer/CoopRoom.cs
+index 70829f3..d50b239 100644
+--- a/OnlineServer/CoopRoom.cs
++++ b/OnlineServer/CoopRoom.cs
+@@ -69,22 +69,24 @@ sealed class CoopRoom
+             throw new InvalidOperationException("Identidad de personaje inválida.");
+         if (sessions.Values.Any(s => s.CharacterId == hello.characterId)) throw new InvalidOperationException("Ese personaje ya está conectado.");
+         string hash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(hello.token)));
+-        if (!store.characters.TryGetValue(hello.characterId, out CharacterRecord? record))
++        bool isNew = !store.characters.TryGetValue(hello.characterId, out CharacterRecord? record);
++        if (isNew)
+         {
+             JsonObject data = ValidateSnapshot(hello.snapshot);
+             string name = Text(data["character"], "name").Trim();
+             if (store.characters.Values.Any(r => string.Equals(r.name, name, StringComparison.OrdinalIgnoreCase)))
+                 throw new InvalidOperationException("Ese nombre ya pertenece a otro personaje en esta sala.");
+             record = new CharacterRecord { name = name, tokenHash = hash, snapshot = hello.snapshot };
+-            store.characters.Add(hello.characterId, record);
+-            Save();
+         }
+-        else if (!CryptographicOperations.FixedTimeEquals(Encoding.ASCII.GetBytes(hash), Encoding.ASCII.GetBytes(record.tokenHash)))
++        else if (!CryptographicOperations.FixedTimeEquals(Encoding.ASCII.GetBytes(hash), Encoding.ASCII.GetBytes(record!.tokenHash)))
+             throw new InvalidOperationException("La identidad local no corresponde a ese personaje.");
+-        var session = new Session(++nextSession, hello.characterId, record);
++        // Validar todo antes de registrar: si algo falla, no queda una sesión fantasma ni un personaje a medias.
++        var session = new Session(nextSession + 1, hello.characterId, record!);
++        try { RefreshPlayer(session, hello.player, JsonNode.Parse(record!.snapshot)!.AsObject()); Map(session.State.map); }
++        catch (Exception e) when (e is not InvalidOperationException) { throw new InvalidOperationException("Guardado inválido."); }
++        if (isNew) { store.characters.Add(hello.characterId, record!); Save(); }
++        nextSession++;
+         sessions.Add(session.Id, session);
+-        RefreshPlayer(session, hello.player, JsonNode.Parse(record.snapshot)!.AsObject());
+-        Map(session.State.map);
+         return session;
+     }
+     public AOCoopMessage Welcome(Session s) => new() { type = "welcome", id = s.Id, version = AOCoopMessage.Protocol,
+@@ -143,9 +145,12 @@ sealed class CoopRoom
+         if (m.ack < s.Record.ack || m.ack > s.Record.nextEvent) throw new InvalidOperationException("Guardado fuera de secuencia; reconectá.");
+         var data = ValidateSnapshot(m.snapshot);
+         if (Text(data["character"], "name") != s.Record.name) throw new InvalidOperationException("Nombre de personaje diferente.");
++        // Primero leer el estado: un guardado que no se puede leer no se guarda (si no, rompe el próximo ingreso).
++        try { RefreshPlayer(s, m.player, data); }
++        catch (Exception e) when (e is not InvalidOperationException) { throw new InvalidOperationException("Guardado inválido."); }
+         s.Record.snapshot = m.snapshot; s.Record.ack = m.ack;
+         s.Record.events.RemoveAll(e => e.seq <= m.ack);
+-        RefreshPlayer(s, m.player, data); dirty = true;
++        dirty = true;
+     }
+     void RefreshPlayer(Session s, AOCoopPlayer? reported, JsonObject data)
+     {
+diff --git a/OnlineServer/Program.cs b/OnlineServer/Program.cs
+index 56985dc..56e3206 100644
+--- a/OnlineServer/Program.cs
++++ b/OnlineServer/Program.cs
+@@ -22,6 +22,7 @@ listener.Start(32);
+ Console.WriteLine($"AO cooperativo v2: TCP {port}; anfitrión + 10 amigos. Guardados: {data}");
+ Console.WriteLine("Clave de acceso disponible en room-key.txt.");
+ Console.CancelKeyPress+=(_,e)=>{e.Cancel=true;stop.Cancel();listener.Stop();};
++long lastTickError=0;
+ var ticker=Task.Run(async()=>
+ {
+     try
+@@ -30,7 +31,13 @@ var ticker=Task.Run(async()=>
+         {
+             await Task.Delay(150,stop.Token);
+             (Session,AOCoopMessage)[] updates;
+-            lock(room.Gate)updates=room.Tick().ToArray();
++            // Un error en un tick no apaga la sala para todos: se registra y el mundo sigue.
++            try{lock(room.Gate)updates=room.Tick().ToArray();}
++            catch(Exception e) when(e is not OperationCanceledException)
++            {
++                if(Environment.TickCount64-lastTickError>10000){lastTickError=Environment.TickCount64;Console.Error.WriteLine("Error en el mundo (la sala sigue): "+e.Message);}
++                continue;
++            }
+             foreach(var (s,message) in updates)if(clients.TryGetValue(s.Id,out var c))c.Send(message);
+         }
+     }

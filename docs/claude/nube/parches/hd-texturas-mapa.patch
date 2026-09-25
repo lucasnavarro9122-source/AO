@@ -1,0 +1,102 @@
+diff --git a/Assets/AOMigrator/Editor/AOHDTextureImportV901.cs b/Assets/AOMigrator/Editor/AOHDTextureImportV901.cs
+new file mode 100644
+index 0000000..6114673
+--- /dev/null
++++ b/Assets/AOMigrator/Editor/AOHDTextureImportV901.cs
+@@ -0,0 +1,19 @@
++using UnityEditor;
++
++// Texturas del remaster HD (Tools/hd_remake -> Resources/AOMigratorHD): mismos ajustes que las
++// originales (Point, sin mipmaps) pero sin compresión y con tamaño máximo de 4096 (atlas de 1024 a 4x).
++public class AOHDTextureImportV901 : AssetPostprocessor
++{
++    void OnPreprocessTexture()
++    {
++        if (!assetPath.Replace('\\', '/').Contains("/Resources/AOMigratorHD/")) return;
++        TextureImporter importer = (TextureImporter)assetImporter;
++        importer.textureType = TextureImporterType.Default;
++        importer.filterMode = UnityEngine.FilterMode.Point;
++        importer.mipmapEnabled = false;
++        importer.alphaIsTransparency = true;
++        importer.npotScale = TextureImporterNPOTScale.None;
++        importer.textureCompression = TextureImporterCompression.Uncompressed;
++        importer.maxTextureSize = 4096;
++    }
++}
+diff --git a/Assets/AOMigrator/Runtime/AOWorldManagerV07.cs b/Assets/AOMigrator/Runtime/AOWorldManagerV07.cs
+index f1ce1ff..212a87f 100644
+--- a/Assets/AOMigrator/Runtime/AOWorldManagerV07.cs
++++ b/Assets/AOMigrator/Runtime/AOWorldManagerV07.cs
+@@ -13,6 +13,13 @@ public partial class AOWorldManagerV07 : MonoBehaviour
+     const string TextureResourceRoot =
+         "AOMigrator/WorldV07/Textures/tex_";
+ 
++    // Remaster HD (Tools/hd_remake): el mismo atlas a 4x en un árbol espejo.
++    // Si existe, se usa con el mismo tamaño en el mundo (rect y pixelsPerUnit x4).
++    const string HDTextureResourceRoot =
++        "AOMigratorHD/WorldV07/Textures/tex_";
++    const int HDScale = 4;
++    public static bool UseHDTextures = true;
++
+     [Serializable] public class FrameSpec
+     {
+         public int fileNum;
+@@ -232,6 +239,8 @@ public partial class AOWorldManagerV07 : MonoBehaviour
+ 
+     readonly Dictionary<int, Texture2D> textureCache =
+         new Dictionary<int, Texture2D>();
++    readonly Dictionary<int, int> textureScale =
++        new Dictionary<int, int>();
+     readonly Dictionary<string, Sprite> spriteCache =
+         new Dictionary<string, Sprite>();
+     readonly Dictionary<long, Exit> exitByTile =
+@@ -1634,6 +1643,17 @@ public partial class AOWorldManagerV07 : MonoBehaviour
+         Texture2D texture =
+             LoadTexture(fileNum);
+ 
++        int scale =
++            textureScale.TryGetValue(
++                fileNum, out int s)
++            ? s
++            : 1;
++
++        sx *= scale;
++        sy *= scale;
++        width *= scale;
++        height *= scale;
++
+         int unityY =
+             texture.height - sy - height;
+ 
+@@ -1659,7 +1679,7 @@ public partial class AOWorldManagerV07 : MonoBehaviour
+                     sx, unityY,
+                     width, height),
+                 new Vector2(0.5f, 0f),
+-                32f,
++                32f * scale,
+                 0,
+                 SpriteMeshType.FullRect);
+ 
+@@ -1675,8 +1695,20 @@ public partial class AOWorldManagerV07 : MonoBehaviour
+             return cached;
+ 
+         Texture2D texture =
+-            Resources.Load<Texture2D>(
+-                TextureResourceRoot + fileNum);
++            UseHDTextures
++            ? Resources.Load<Texture2D>(
++                HDTextureResourceRoot + fileNum)
++            : null;
++
++        textureScale[fileNum] =
++            texture != null
++            ? HDScale
++            : 1;
++
++        if (texture == null)
++            texture =
++                Resources.Load<Texture2D>(
++                    TextureResourceRoot + fileNum);
+ 
+         if (texture == null)
+             throw new Exception(
