@@ -1,0 +1,220 @@
+{
+ "map": 1013,
+ "autor": "Arte",
+ "base": "copy 392",
+ "nombre": "P3 Mausoleo",
+ "notas": "Copia del mapa original (datos de Contenido en dungeon-npcs.json). Afuera del recorte: negro de vacío (GRH 1) sin capas, como el borde de los dungeons originales. Escaleras: hueco oscuro 57950 (como las salidas originales) con dos antorchas; la bajada del cementerio es la puerta de la cripta (1493) y el final del dungeon es el teleport original (49488).",
+ "ops": [
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    1,
+    1,
+    100,
+    13
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    1,
+    1,
+    100,
+    13
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    1,
+    1,
+    100,
+    13
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    1,
+    1,
+    100,
+    13
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    1,
+    84,
+    100,
+    17
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    1,
+    84,
+    100,
+    17
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    1,
+    84,
+    100,
+    17
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    1,
+    84,
+    100,
+    17
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    1,
+    14,
+    13,
+    70
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    1,
+    14,
+    13,
+    70
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    1,
+    14,
+    13,
+    70
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    1,
+    14,
+    13,
+    70
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    84,
+    14,
+    17,
+    70
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    84,
+    14,
+    17,
+    70
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    84,
+    14,
+    17,
+    70
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    84,
+    14,
+    17,
+    70
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 2,
+   "grh": 57950,
+   "cells": [
+    [
+     29,
+     22
+    ],
+    [
+     80,
+     80
+    ]
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 3,
+   "grh": 55254,
+   "cells": [
+    [
+     28,
+     21
+    ],
+    [
+     30,
+     21
+    ],
+    [
+     79,
+     79
+    ],
+    [
+     81,
+     79
+    ]
+   ]
+  }
+ ],
+ "carteles": [
+  {
+   "x": 82,
+   "y": 81,
+   "rol": "cartel del piso (zona segura)",
+   "grh": 50851,
+   "texto": "textos-hub.md"
+  }
+ ]
+}

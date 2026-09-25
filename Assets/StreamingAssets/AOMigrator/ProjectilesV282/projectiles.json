@@ -1,0 +1,126 @@
+{
+ "version": "v282",
+ "fuente": "Recursos-master/init/ProjectileDef.dat (tipos) + Dat/obj.dat y Dat/npcs.dat (ProjectileType)",
+ "reglas": "Como InitializeProjectile del cliente AO20: sale del tirador hacia el objetivo a speedPxPerMs (32 px = 1 tile), orientado al ángulo del tiro + offsetRotation; si rotationSpeedDegPerMs != 0 gira; si hay grhRight y el objetivo está a la derecha, usa grhRight y gira al revés. El sprite de la flecha apunta a la derecha. speedMultiplier (1 = original) permite ajustar sin tocar código.",
+ "yOffsetTiles": 0.6,
+ "sortingOrder": 20030,
+ "types": [
+  {
+   "type": 1,
+   "grh": 26203,
+   "grhRight": 0,
+   "speedPxPerMs": 3.0,
+   "rotationSpeedDegPerMs": 0,
+   "offsetRotation": 0
+  },
+  {
+   "type": 2,
+   "grh": 26192,
+   "grhRight": 26191,
+   "speedPxPerMs": 2.0,
+   "rotationSpeedDegPerMs": -1,
+   "offsetRotation": 0
+  },
+  {
+   "type": 3,
+   "grh": 52140,
+   "grhRight": 0,
+   "speedPxPerMs": 2.0,
+   "rotationSpeedDegPerMs": -1,
+   "offsetRotation": 0
+  },
+  {
+   "type": 4,
+   "grh": 49046,
+   "grhRight": 0,
+   "speedPxPerMs": 0.5,
+   "rotationSpeedDegPerMs": 0,
+   "offsetRotation": 0
+  }
+ ],
+ "objetos": [
+  {
+   "id": 480,
+   "type": 1
+  },
+  {
+   "id": 551,
+   "type": 1
+  },
+  {
+   "id": 552,
+   "type": 1
+  },
+  {
+   "id": 553,
+   "type": 1
+  },
+  {
+   "id": 1357,
+   "type": 1
+  },
+  {
+   "id": 3492,
+   "type": 1
+  },
+  {
+   "id": 3536,
+   "type": 1
+  },
+  {
+   "id": 3550,
+   "type": 1
+  },
+  {
+   "id": 3703,
+   "type": 2
+  },
+  {
+   "id": 3704,
+   "type": 2
+  },
+  {
+   "id": 3705,
+   "type": 2
+  },
+  {
+   "id": 3785,
+   "type": 2
+  },
+  {
+   "id": 3807,
+   "type": 1
+  },
+  {
+   "id": 3808,
+   "type": 4
+  },
+  {
+   "id": 3815,
+   "type": 4
+  },
+  {
+   "id": 3816,
+   "type": 1
+  }
+ ],
+ "npcs": [
+  {
+   "id": 668,
+   "type": 1
+  },
+  {
+   "id": 1327,
+   "type": 1
+  },
+  {
+   "id": 1355,
+   "type": 1
+  },
+  {
+   "id": 1371,
+   "type": 2
+  }
+ ],
+ "speedMultiplier": 1.0
+}

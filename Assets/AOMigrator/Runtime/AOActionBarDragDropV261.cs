@@ -67,7 +67,8 @@ public class AOActionBarDragDropV261 : MonoBehaviour
             return;
         }
 
-        if (!PointerAvailable())
+        // Con el chat, una ventana de ciudad o de misiones abierta no se arrastra ni se vacía nada.
+        if (!PointerAvailable() || AOInterfaceV0101.InputCaptured || AOCityUIV130.ModalOpen || AOQuestUIV150.ModalOpen)
         {
             CancelDrag();
             return;
@@ -234,8 +235,12 @@ public class AOActionBarDragDropV261 : MonoBehaviour
                 return;
             }
             AOPlayerSettingsV230.AssignSlot(CharacterName, true, barIndex, dragId);
-            AOPlayerSettingsV230.SetSpellMacros(true, out _);
-            AOInterfaceV0101.PushMessage("Hechizo asignado a " + AOPlayerSettingsV230.KeyName(AOGameAction.Spell1 + barIndex) + ".");
+            string key = AOPlayerSettingsV230.KeyName(AOGameAction.Spell1 + barIndex);
+            string macroError = "";
+            if (AOPlayerSettingsV230.SpellMacrosEnabled || AOPlayerSettingsV230.SetSpellMacros(true, out macroError))
+                AOInterfaceV0101.PushMessage("Hechizo asignado a " + key + ".");
+            else
+                AOInterfaceV0101.PushMessage("Hechizo asignado a " + key + ", pero las macros siguen apagadas: " + macroError);
             return;
         }
 

@@ -297,7 +297,16 @@ def piece_check(orig: Image.Image, piece: Image.Image, w: int, h: int):
     return ok, chroma, shape, black
 
 
-def zones_import(out: Path, generated: Path, pixel: int, colors: int, apply: bool, ronda: int = 0):
+def match_color(piece: Image.Image, orig: Image.Image) -> Image.Image:
+    """Transferencia de color por pieza: media y desvío por canal iguales a los del original (solo píxeles opacos)."""
+    a = np.asarray(piece.convert("RGB"), np.float32).reshape(-1, 3)
+    o = np.asarray(orig.convert("RGBA"), np.float32).reshape(-1, 4)
+    ref = o[o[:, 3] > 250, :3] if (o[:, 3] > 250).any() else o[:, :3]
+    out = (a - a.mean(0)) / (a.std(0) + 1e-6) * ref.std(0) + ref.mean(0)
+    return Image.fromarray(np.clip(out, 0, 255).astype(np.uint8).reshape(piece.height, piece.width, 3))
+
+
+def zones_import(out: Path, generated: Path, pixel: int, colors: int, apply: bool, ronda: int = 0, color: bool = False):
     pre, manifest = round_names(ronda)
     sheets = json.loads((out / manifest).read_text("utf-8"))
     pending, accepted = [], 0
@@ -321,6 +330,10 @@ def zones_import(out: Path, generated: Path, pixel: int, colors: int, apply: boo
             piece = gen.crop((c["x"] * B, c["y"] * B, (c["x"] + c["w"]) * B, (c["y"] + c["h"]) * B))
             orig = source_region(c["tex"], c["bx"], c["by"], c["w"], c["h"])
             ok, chroma, shape, black = piece_check(orig, piece, c["w"], c["h"])
+            if color:  # negro y forma se miden en la pieza cruda; el color, ya igualado
+                piece = match_color(piece, orig)
+                chroma = piece_check(orig, piece, c["w"], c["h"])[1]
+                ok = chroma <= 0.19 and black <= 0.01 and shape >= 0.45
             if not ok:
                 print(f"  rechazada tex_{c['tex']} ({c['bx']},{c['by']}): color {chroma:.2f} forma {shape:.2f} negro {black * 100:.0f}%")
                 pending.append(c); continue
@@ -360,11 +373,12 @@ def main():
     zi.add_argument("--salida", type=Path, default=ROOT.parent / "AO_HD/ullathorpe_zonas")
     zi.add_argument("--pixel", type=int, default=2); zi.add_argument("--colores", type=int, default=48)
     zi.add_argument("--aplicar", action="store_true"); zi.add_argument("--ronda", type=int, default=0)
+    zi.add_argument("--igualar-color", action="store_true", help="media y desvío por canal de cada pieza = los del original")
     a = parser.parse_args()
     if a.cmd == "preparar": prepare(a.salida)
     elif a.cmd == "importar": import_generated(a.familia, a.imagen, a.salida, a.pixel, a.colores, a.aplicar)
     elif a.cmd == "zonas-preparar": zones_prepare(a.salida, a.ronda)
-    elif a.cmd == "zonas-importar": zones_import(a.salida, a.generadas, a.pixel, a.colores, a.aplicar, a.ronda)
+    elif a.cmd == "zonas-importar": zones_import(a.salida, a.generadas, a.pixel, a.colores, a.aplicar, a.ronda, a.igualar_color)
     else:
         for n, f in FAMILIES.items(): print(n, "-", ", ".join(s[4] for s in f["sets"]))
 

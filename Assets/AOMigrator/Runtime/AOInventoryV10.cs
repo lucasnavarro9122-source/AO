@@ -28,7 +28,7 @@ public class AOInventoryV10 : MonoBehaviour
     [SerializeField] int helmet;
     [SerializeField] int amulet;
     [SerializeField] int magicAccessory;
-
+    [SerializeField] int munition;          // arrows/bullets (objType 32): separate slot, like the original
     AOCharacterRenderer character;
 
     bool showInventory;
@@ -43,7 +43,7 @@ public class AOInventoryV10 : MonoBehaviour
     public int EquippedHelmet => helmet;
     public int EquippedAmulet => amulet;
     public int EquippedMagicAccessory => magicAccessory;
-
+    public int EquippedMunition => munition;
     public int SlotCount
     {
         get
@@ -230,6 +230,21 @@ public class AOInventoryV10 : MonoBehaviour
             return;
         }
 
+        // AO original: arrows/bullets go to their own slot (EquipItem); "Usar" on the equipped
+        // projectile weapon asks for a target (WorkRequestTarget Proyectiles).
+        if (item.objType == ObjTypeMunition)
+        {
+            ToggleSelectedMunition();
+            return;
+        }
+
+        if (item.projectile > 0 &&
+            item.index == weapon)
+        {
+            GetComponent<AOPlayerCombatV09>()?.BeginRangedTargeting();
+            return;
+        }
+
         if (item.Equipable)
         {
             ToggleSelectedEquipment();
@@ -237,6 +252,60 @@ public class AOInventoryV10 : MonoBehaviour
         }
 
         TryUseSelectedConsumable();
+    }
+
+    public const int ObjTypeMunition = 32;
+
+    public AOItemDatabaseV10.ItemDef GetMunition() => AOItemDatabaseV10.Get(munition);
+
+    void ToggleSelectedMunition()
+    {
+        AOItemDatabaseV10.ItemDef item = GetSelectedItem();
+        if (item == null || item.objType != ObjTypeMunition)
+            return;
+
+        if (munition == item.index)
+        {
+            munition = 0;
+            Flash("Municiones desequipadas: " + item.name);
+            return;
+        }
+
+        munition = item.index;
+        Flash("Municiones equipadas: " + item.name);
+    }
+
+    public void UnequipMunition() => munition = 0;
+
+    // One shot = one unit, taken from the equipped stack (RemoveItemByIndexPublic skips equipped items).
+    public bool ConsumeMunition()
+    {
+        EnsureSlots();
+        if (munition <= 0)
+            return false;
+
+        for (int i = 0; i < slots.Length; i++)
+        {
+            Slot slot = slots[i];
+            if (slot == null || slot.itemIndex != munition || slot.amount <= 0)
+                continue;
+
+            slot.amount--;
+            if (slot.amount <= 0)
+            {
+                slot.itemIndex = 0;
+                slot.amount = 0;
+                if (selectedSlot == i)
+                    selectedSlot = -1;
+            }
+
+            if (CountItem(munition) <= 0)
+                munition = 0;
+            return true;
+        }
+
+        munition = 0;
+        return false;
     }
 
     public void ToggleSelectedEquipment()
@@ -415,7 +484,8 @@ public class AOInventoryV10 : MonoBehaviour
         int savedShield,
         int savedHelmet,
         int savedAmulet,
-        int savedMagicAccessory)
+        int savedMagicAccessory,
+        int savedMunition = 0)
     {
         EnsureSlots();
 
@@ -482,6 +552,11 @@ public class AOInventoryV10 : MonoBehaviour
             ? savedMagicAccessory
             : 0;
 
+        munition =
+            CountItem(savedMunition) > 0
+            ? savedMunition
+            : 0;
+
         selectedSlot = -1;
 
         ValidateEquipmentForRPG();
@@ -506,6 +581,7 @@ public class AOInventoryV10 : MonoBehaviour
         helmet = 0;
         amulet = 0;
         magicAccessory = 0;
+        munition = 0;
 
         selectedSlot = -1;
 
@@ -598,6 +674,7 @@ public class AOInventoryV10 : MonoBehaviour
         helmet = 0;
         amulet = 0;
         magicAccessory = 0;
+        munition = 0;
 
         selectedSlot = -1;
     }
@@ -673,7 +750,8 @@ public class AOInventoryV10 : MonoBehaviour
         int baseMinHit,
         int baseMaxHit,
         int strength,
-        float classModifier)
+        float classModifier,
+        bool ranged = false)
     {
         int userDamage =
             UnityEngine.Random.Range(
@@ -714,6 +792,14 @@ public class AOInventoryV10 : MonoBehaviour
 
             maxWeaponDamage =
                 Mathf.Max(0, max);
+
+            // Projectile weapon: the equipped ammunition of its subtype adds its damage (UserDamageToNpc).
+            AOItemDatabaseV10.ItemDef ammo = ranged && w.munition > 0 ? GetMunition() : null;
+            if (ammo != null && ammo.subType == w.munition)
+            {
+                weaponDamage += UnityEngine.Random.Range(Mathf.Max(0, ammo.minHit), Mathf.Max(ammo.minHit, ammo.maxHit) + 1);
+                maxWeaponDamage += Mathf.Max(0, ammo.maxHit);
+            }
         }
 
         float modifier =
@@ -930,6 +1016,14 @@ public class AOInventoryV10 : MonoBehaviour
 
     bool TryUseSelectedConsumable()
     {
+        // Duel: potions are used on the server (duel HP and the potion limit are its business); it sends "remove".
+        if (AODuelUI.InDuel &&
+            selectedSlot >= 0 &&
+            selectedSlot < slots.Length &&
+            slots[selectedSlot] != null &&
+            slots[selectedSlot].amount > 0)
+            return AOOnlineClientV240.UseInDuel(slots[selectedSlot].itemIndex);
+
         if (selectedSlot < 0 ||
             selectedSlot >= slots.Length)
             return false;
@@ -1444,6 +1538,9 @@ public class AOInventoryV10 : MonoBehaviour
         if (id == magicAccessory)
             magicAccessory = 0;
 
+        if (id == munition)
+            munition = 0;
+
         RefreshVisualEquipment();
     }
 
@@ -1676,7 +1773,8 @@ public class AOInventoryV10 : MonoBehaviour
              itemIndex == shield ||
              itemIndex == helmet ||
              itemIndex == amulet ||
-             itemIndex == magicAccessory);
+             itemIndex == magicAccessory ||
+             itemIndex == munition);
     }
 
     void Flash(

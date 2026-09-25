@@ -1,0 +1,853 @@
+{
+  "version": 2,
+  "autor": "Arte y Animación",
+  "fuente": "docs/claude/demo/arte.md (GRH originales sacados de los 842 mapas)",
+  "uso": "Paleta visual de AOArenaGen. Las claves de 'kinds' son el enum AOArenaGen.Kind (Pillar, Rock, Wall, Tree, Pool, Deco). El cliente dibuja grh[variant % count]. Solo 'densidad' entra en el generador (Programación la copia como constante, G-09).",
+  "reglas": {
+    "piso4x4": "grh = base + (y % 4) * 4 + (x % 4), con x,y del mapa (1..100), igual que el original",
+    "piso3x3": "grh = base + (y % 3) * 3 + (x % 3)",
+    "anclaje": "sprite centrado en X sobre la celda (o sobre el bloque 2x2), apoyado abajo, como los objetos del mapa",
+    "porCelda": "muro y L: un tile de 32x32 por celda bloqueada",
+    "agua": "Water sin costa: piso4x4 del set de agua (el servidor lo reconoce por HayAgua)",
+    "deco": "capa 2, caminable, sin bloqueo",
+    "formas": "Pillar y Tree: 1 sprite por celda (1x1). Rock: 1 sprite centrado sobre el bloque 2x2. Wall (recta o L): 1 tile de 32x32 por celda. Pool: set de agua 4x4 sin costa. Deco: sprite en capa 2, caminable."
+  },
+  "limitesSprite": {
+    "solido1x1": [
+      64,
+      128
+    ],
+    "roca2x2": [
+      96,
+      128
+    ],
+    "porCelda": [
+      32,
+      32
+    ],
+    "deco": [
+      96,
+      64
+    ]
+  },
+  "temas": {
+    "Bosque": {
+      "densidad": {
+        "min": 10,
+        "max": 18
+      },
+      "piso": {
+        "base": 6000,
+        "patron": "4x4",
+        "nombre": "pasto"
+      },
+      "kinds": {
+        "Tree": {
+          "grh": [
+            12579,
+            27308,
+            29258
+          ],
+          "nombre": "tocón con pasto, arbusto, tocón chico"
+        },
+        "Rock": {
+          "grh": [
+            147,
+            11916
+          ],
+          "nombre": "roca aguja, tocón musgoso"
+        },
+        "Pillar": {
+          "grh": [
+            49550
+          ],
+          "nombre": "poste de madera"
+        },
+        "Pool": {
+          "base": 1505,
+          "patron": "4x4",
+          "nombre": "charco: agua"
+        },
+        "Deco": {
+          "grh": [
+            28,
+            4703,
+            950,
+            943
+          ],
+          "nombre": "pasto alto, flores rojas, rosas, amarillas"
+        }
+      }
+    },
+    "Desierto": {
+      "densidad": {
+        "min": 8,
+        "max": 14
+      },
+      "piso": {
+        "base": 7704,
+        "patron": "4x4",
+        "nombre": "arena"
+      },
+      "kinds": {
+        "Rock": {
+          "grh": [
+            88,
+            2347,
+            2348
+          ],
+          "nombre": "roca arenisca, cactus redondo, cactus"
+        },
+        "Pillar": {
+          "grh": [
+            2386,
+            2350,
+            2351
+          ],
+          "nombre": "columna de arenisca, cactus alto, cactus chico"
+        },
+        "Wall": {
+          "grh": [
+            9126,
+            9127,
+            9128,
+            9129,
+            9130,
+            9131
+          ],
+          "nombre": "ladrillo de arenisca"
+        },
+        "Deco": {
+          "grh": [
+            27334,
+            748,
+            45562
+          ],
+          "nombre": "restos, calavera con huesos, calavera"
+        }
+      }
+    },
+    "Nieve": {
+      "densidad": {
+        "min": 8,
+        "max": 15
+      },
+      "piso": {
+        "base": 7380,
+        "patron": "4x4",
+        "nombre": "nieve"
+      },
+      "kinds": {
+        "Rock": {
+          "grh": [
+            12915
+          ],
+          "nombre": "roca nevada"
+        },
+        "Pillar": {
+          "grh": [
+            18239,
+            18276
+          ],
+          "nombre": "columna de piedra"
+        },
+        "Tree": {
+          "grh": [
+            27308,
+            27338
+          ],
+          "nombre": "arbusto, tocón oscuro"
+        },
+        "Pool": {
+          "base": 1505,
+          "patron": "4x4",
+          "nombre": "hielo: agua (no hay textura de hielo original)"
+        },
+        "Deco": {
+          "grh": [
+            57204,
+            57205,
+            57207
+          ],
+          "nombre": "montículos de nieve"
+        }
+      }
+    },
+    "Mazmorra": {
+      "densidad": {
+        "min": 12,
+        "max": 20
+      },
+      "piso": {
+        "base": 9428,
+        "patron": "4x4",
+        "nombre": "piedra con musgo (cripta); contrasta con los muros grises"
+      },
+      "kinds": {
+        "Pillar": {
+          "grh": [
+            18239,
+            18276,
+            18734
+          ],
+          "nombre": "columnas de piedra, tótem de hueso"
+        },
+        "Wall": {
+          "grh": [
+            18248,
+            18249,
+            18250,
+            18251
+          ],
+          "nombre": "bloque de piedra"
+        },
+        "Rock": {
+          "grh": [
+            1472,
+            1481
+          ],
+          "nombre": "estalagmitas"
+        },
+        "Deco": {
+          "grh": [
+            48695,
+            48696,
+            48697,
+            48698,
+            748,
+            45562
+          ],
+          "nombre": "baldosas rotas, calaveras"
+        }
+      }
+    },
+    "Pantano": {
+      "densidad": {
+        "min": 10,
+        "max": 18
+      },
+      "piso": {
+        "base": 16404,
+        "patron": "4x4",
+        "nombre": "barro"
+      },
+      "kinds": {
+        "Tree": {
+          "grh": [
+            12579,
+            642,
+            27341
+          ],
+          "nombre": "tocón, helecho, arbusto seco"
+        },
+        "Rock": {
+          "grh": [
+            11916
+          ],
+          "nombre": "tocón musgoso"
+        },
+        "Pool": {
+          "base": 1505,
+          "patron": "4x4",
+          "nombre": "charco: agua (el 84 % del agua de los pantanos originales; la verde 12628 no se lee sobre el barro)"
+        },
+        "Deco": {
+          "grh": [
+            4703,
+            748,
+            45562,
+            28
+          ],
+          "nombre": "flores rojas, calaveras, pasto alto"
+        }
+      }
+    },
+    "Ciudad": {
+      "densidad": {
+        "min": 8,
+        "max": 14
+      },
+      "piso": {
+        "base": 58114,
+        "patron": "3x3",
+        "nombre": "empedrado gris"
+      },
+      "kinds": {
+        "Wall": {
+          "grh": [
+            60192,
+            60035
+          ],
+          "nombre": "bloque de piedra oscura (contrasta con el empedrado)"
+        },
+        "Pillar": {
+          "grh": [
+            2386,
+            5624,
+            5625,
+            48886
+          ],
+          "nombre": "columna, faroles, barril"
+        },
+        "Rock": {
+          "grh": [
+            21721
+          ],
+          "nombre": "cantero con seto"
+        },
+        "Pool": {
+          "base": 1505,
+          "patron": "4x4",
+          "nombre": "fuente: agua"
+        },
+        "Deco": {
+          "grh": [
+            48695,
+            48696,
+            48697,
+            48698
+          ],
+          "nombre": "adoquines rotos"
+        }
+      }
+    }
+  },
+  "frames": [
+    {
+      "grh": 28,
+      "fileNum": 5066,
+      "sx": 224,
+      "sy": 64,
+      "w": 96,
+      "h": 64
+    },
+    {
+      "grh": 88,
+      "fileNum": 5130,
+      "sx": 384,
+      "sy": 192,
+      "w": 96,
+      "h": 64
+    },
+    {
+      "grh": 147,
+      "fileNum": 5039,
+      "sx": 1152,
+      "sy": 1536,
+      "w": 64,
+      "h": 96
+    },
+    {
+      "grh": 642,
+      "fileNum": 7102,
+      "sx": 288,
+      "sy": 352,
+      "w": 64,
+      "h": 64
+    },
+    {
+      "grh": 748,
+      "fileNum": 149,
+      "sx": 0,
+      "sy": 32,
+      "w": 39,
+      "h": 32
+    },
+    {
+      "grh": 943,
+      "fileNum": 3600,
+      "sx": 0,
+      "sy": 0,
+      "w": 62,
+      "h": 44
+    },
+    {
+      "grh": 950,
+      "fileNum": 3607,
+      "sx": 0,
+      "sy": 0,
+      "w": 64,
+      "h": 44
+    },
+    {
+      "grh": 1472,
+      "fileNum": 5133,
+      "sx": 96,
+      "sy": 960,
+      "w": 96,
+      "h": 64
+    },
+    {
+      "grh": 1481,
+      "fileNum": 5134,
+      "sx": 96,
+      "sy": 800,
+      "w": 96,
+      "h": 64
+    },
+    {
+      "grh": 1505,
+      "fileNum": 20,
+      "sx": 0,
+      "sy": 0,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 1506,
+      "fileNum": 20,
+      "sx": 32,
+      "sy": 0,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 1507,
+      "fileNum": 20,
+      "sx": 64,
+      "sy": 0,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 1508,
+      "fileNum": 20,
+      "sx": 96,
+      "sy": 0,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 1509,
+      "fileNum": 20,
+      "sx": 0,
+      "sy": 32,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 1510,
+      "fileNum": 20,
+      "sx": 32,
+      "sy": 32,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 1511,
+      "fileNum": 20,
+      "sx": 64,
+      "sy": 32,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 1512,
+      "fileNum": 20,
+      "sx": 96,
+      "sy": 32,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 1513,
+      "fileNum": 20,
+      "sx": 0,
+      "sy": 64,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 1514,
+      "fileNum": 20,
+      "sx": 32,
+      "sy": 64,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 1515,
+      "fileNum": 20,
+      "sx": 64,
+      "sy": 64,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 1516,
+      "fileNum": 20,
+      "sx": 96,
+      "sy": 64,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 1517,
+      "fileNum": 20,
+      "sx": 0,
+      "sy": 96,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 1518,
+      "fileNum": 20,
+      "sx": 32,
+      "sy": 96,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 1519,
+      "fileNum": 20,
+      "sx": 64,
+      "sy": 96,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 1520,
+      "fileNum": 20,
+      "sx": 96,
+      "sy": 96,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 2347,
+      "fileNum": 7103,
+      "sx": 672,
+      "sy": 160,
+      "w": 64,
+      "h": 64
+    },
+    {
+      "grh": 2348,
+      "fileNum": 7103,
+      "sx": 736,
+      "sy": 160,
+      "w": 64,
+      "h": 64
+    },
+    {
+      "grh": 2350,
+      "fileNum": 7103,
+      "sx": 896,
+      "sy": 128,
+      "w": 64,
+      "h": 96
+    },
+    {
+      "grh": 2351,
+      "fileNum": 7103,
+      "sx": 960,
+      "sy": 128,
+      "w": 64,
+      "h": 96
+    },
+    {
+      "grh": 2386,
+      "fileNum": 5025,
+      "sx": 256,
+      "sy": 256,
+      "w": 32,
+      "h": 128
+    },
+    {
+      "grh": 4703,
+      "fileNum": 5066,
+      "sx": 736,
+      "sy": 64,
+      "w": 64,
+      "h": 32
+    },
+    {
+      "grh": 5624,
+      "fileNum": 5066,
+      "sx": 544,
+      "sy": 0,
+      "w": 64,
+      "h": 96
+    },
+    {
+      "grh": 5625,
+      "fileNum": 5066,
+      "sx": 480,
+      "sy": 0,
+      "w": 64,
+      "h": 96
+    },
+    {
+      "grh": 9126,
+      "fileNum": 7522,
+      "sx": 96,
+      "sy": 128,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 9127,
+      "fileNum": 7522,
+      "sx": 128,
+      "sy": 128,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 9128,
+      "fileNum": 7522,
+      "sx": 160,
+      "sy": 128,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 9129,
+      "fileNum": 7522,
+      "sx": 96,
+      "sy": 160,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 9130,
+      "fileNum": 7522,
+      "sx": 128,
+      "sy": 160,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 9131,
+      "fileNum": 7522,
+      "sx": 160,
+      "sy": 160,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 11916,
+      "fileNum": 5066,
+      "sx": 928,
+      "sy": 0,
+      "w": 96,
+      "h": 64
+    },
+    {
+      "grh": 12579,
+      "fileNum": 5066,
+      "sx": 896,
+      "sy": 160,
+      "w": 64,
+      "h": 64
+    },
+    {
+      "grh": 12915,
+      "fileNum": 5066,
+      "sx": 896,
+      "sy": 704,
+      "w": 64,
+      "h": 64
+    },
+    {
+      "grh": 18239,
+      "fileNum": 5032,
+      "sx": 224,
+      "sy": 0,
+      "w": 32,
+      "h": 128
+    },
+    {
+      "grh": 18248,
+      "fileNum": 5032,
+      "sx": 192,
+      "sy": 128,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 18249,
+      "fileNum": 5032,
+      "sx": 192,
+      "sy": 160,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 18250,
+      "fileNum": 5032,
+      "sx": 256,
+      "sy": 128,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 18251,
+      "fileNum": 5032,
+      "sx": 256,
+      "sy": 160,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 18276,
+      "fileNum": 5032,
+      "sx": 224,
+      "sy": 192,
+      "w": 32,
+      "h": 128
+    },
+    {
+      "grh": 18734,
+      "fileNum": 5124,
+      "sx": 96,
+      "sy": 0,
+      "w": 32,
+      "h": 96
+    },
+    {
+      "grh": 21721,
+      "fileNum": 5053,
+      "sx": 832,
+      "sy": 0,
+      "w": 96,
+      "h": 64
+    },
+    {
+      "grh": 27308,
+      "fileNum": 482,
+      "sx": 384,
+      "sy": 0,
+      "w": 64,
+      "h": 64
+    },
+    {
+      "grh": 27334,
+      "fileNum": 482,
+      "sx": 0,
+      "sy": 256,
+      "w": 64,
+      "h": 64
+    },
+    {
+      "grh": 27338,
+      "fileNum": 482,
+      "sx": 256,
+      "sy": 256,
+      "w": 64,
+      "h": 64
+    },
+    {
+      "grh": 27341,
+      "fileNum": 482,
+      "sx": 448,
+      "sy": 256,
+      "w": 64,
+      "h": 64
+    },
+    {
+      "grh": 29258,
+      "fileNum": 5066,
+      "sx": 768,
+      "sy": 768,
+      "w": 64,
+      "h": 32
+    },
+    {
+      "grh": 45562,
+      "fileNum": 5046,
+      "sx": 406,
+      "sy": 177,
+      "w": 21,
+      "h": 23
+    },
+    {
+      "grh": 48695,
+      "fileNum": 7224,
+      "sx": 128,
+      "sy": 32,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 48696,
+      "fileNum": 7224,
+      "sx": 160,
+      "sy": 32,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 48697,
+      "fileNum": 7224,
+      "sx": 192,
+      "sy": 32,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 48698,
+      "fileNum": 7224,
+      "sx": 224,
+      "sy": 32,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 48886,
+      "fileNum": 104,
+      "sx": 480,
+      "sy": 0,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 49550,
+      "fileNum": 5068,
+      "sx": 480,
+      "sy": 96,
+      "w": 32,
+      "h": 96
+    },
+    {
+      "grh": 57204,
+      "fileNum": 6116,
+      "sx": 0,
+      "sy": 0,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 57205,
+      "fileNum": 6116,
+      "sx": 32,
+      "sy": 0,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 57207,
+      "fileNum": 6116,
+      "sx": 32,
+      "sy": 32,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 60035,
+      "fileNum": 5028,
+      "sx": 0,
+      "sy": 64,
+      "w": 32,
+      "h": 32
+    },
+    {
+      "grh": 60192,
+      "fileNum": 5028,
+      "sx": 192,
+      "sy": 224,
+      "w": 32,
+      "h": 32
+    }
+  ]
+}

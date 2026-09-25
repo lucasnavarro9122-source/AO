@@ -101,6 +101,9 @@ public static class AOItemDatabaseV10
         public bool crucial;
         public bool untransferable;
         public bool destroyOnSell;
+        // ItemSeCae (obj.dat NoSeCae / Intirable), for the death drop (AODeathDropRules).
+        public bool noSeCae;
+        public bool intirable;
 
         public bool SellableToNPC =>
             !newbie &&

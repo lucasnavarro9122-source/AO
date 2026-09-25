@@ -13,7 +13,7 @@ description: Arma y entrega una versión nueva del cliente de AoDuels para los a
 
 ## Build
 - Unity: menú **AO Migrator > Build private room client** → `../AO_Online/Release/Client/ArgentumOnline.exe`.
-- Alternativa sin tocar el menú: `AOOnlineBuildV240` reconoce los marcadores `Temp/build_online_client` (y `refresh_online_client`, `restart_online_editor`). Crear uno solo si Lucas no está jugando, esperar el resultado y confirmar que el marcador desapareció.
+- Alternativa sin tocar el menú: `AOOnlineBuildV240` reconoce los marcadores `Temp/build_online_client` (y `refresh_online_client`, `restart_online_editor`; este último no guarda nada y no reinicia si hay escenas con cambios). Crear uno solo si Lucas no está jugando, esperar el resultado y confirmar que el marcador desapareció.
 - Revisar la fecha del `.exe` y los errores con `Tools/aod_log_errors.ps1`.
 
 ## Empaquetar

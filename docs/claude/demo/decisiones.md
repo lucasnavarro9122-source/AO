@@ -20,4 +20,6 @@ Estado: **APROBADAS por Lucas el 24/09/2026: las 17 recomendaciones, tal cual.**
 | 14 | Borde del ring | Cuerdas y postes (no tapa la vista) | arte.md |
 | 15 | Cantidad de arenas | 4 rings alrededor de una plaza | arte.md, arquitectura.md |
 | 16 | Salas del dungeon | Copiadas de los mapas originales | arte.md |
+| 18 | Pérdida al morir en el dungeon de la demo | **Regla original** (aprobada por Lucas): se cae todo menos 1.000 de oro por nivel; los objetos newbie se conservan hasta nivel 12 (`docs/claude/contenido/muerte-reglas.md`) | muerte-reglas.md |
+| 19 | Ubicación de las arenas | Al norte del hub (decisión de Cerebro) | arquitectura.md, ui.md |
 | 17 | Diferencias del juego con el AO original que afectan el farmeo (el arco no dispara a distancia, no se regenera vida, el ataque va a 0,75 s en vez de 1,165 s, el respawn por defecto de los NPC es de 0,35 s) | Corregirlas para que sea fiel (Programación) | progresion.md §9 |

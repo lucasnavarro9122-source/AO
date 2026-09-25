@@ -1,0 +1,62 @@
+{
+  "id": 1010,
+  "name": "Entrada al dungeon",
+  "base": {
+    "copy": 37
+  },
+  "remove": [
+    "npcs",
+    "exits"
+  ],
+  "structure": [
+    {
+      "op": "clip",
+      "rect": [
+        13,
+        16,
+        20,
+        7
+      ],
+      "_": "pasillo de arriba del Newbie Dungeon (x13-32, y16-22)"
+    },
+    {
+      "op": "exit",
+      "x": 13,
+      "y": 17,
+      "destMap": 1000,
+      "dest": "arrival:from1010"
+    },
+    {
+      "op": "exit",
+      "x": 32,
+      "y": 17,
+      "destMap": 1011,
+      "dest": "arrival:fromAbove"
+    }
+  ],
+  "spawn": [
+    15,
+    17
+  ],
+  "arrivals": {
+    "from1000": [
+      15,
+      17
+    ],
+    "from1011": [
+      30,
+      17
+    ]
+  },
+  "music": 7,
+  "environment": {
+    "baseLight": 9408399,
+    "rain": false,
+    "snow": false,
+    "fog": false
+  },
+  "signTexts": {
+    "22,21": "Dungeon: siete pisos, de nivel 1 a 30. Cuanto más bajes, más fuertes serán las criaturas."
+  },
+  "_signTexts": "Textos de docs/claude/demo/textos-hub.md (Contenido); posiciones y gráficos de Arte (carteles)."
+}

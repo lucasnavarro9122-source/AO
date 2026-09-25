@@ -65,6 +65,7 @@ public class AOSaveGameV140 : MonoBehaviour
         public int helmet;
         public int amulet;
         public int magicAccessory;
+        public int munition;   // optional: equipped arrows (0 in older saves)
     }
 
     [Serializable]
@@ -153,26 +154,53 @@ public class AOSaveGameV140 : MonoBehaviour
 
     float nextAutosaveAt;
 
-    string SaveDirectory =>
-        Path.Combine(
-            Application.persistentDataPath,
-            "AO_Demo");
+    // ---- Demo AO BATTLESERVER (decision 3): demo characters live in AO_BattleDemo/, never in the normal slot. ----
+    // Writes use the mode fixed when the session started (load or new game): an autosave or the save on quit after
+    // going back to the menu cannot write a demo character into the normal slot, or the other way around.
+    // The menu (HasSave, reading the summary, deleting) uses the mode selected right now.
+    public const string NormalFolder = "AO_Demo";          // historic name of the normal slot folder: do not rename
+    public const string DemoFolder = "AO_BattleDemo";
+    public const int DemoHubMap = 1000;
+    static bool? sessionDemo;
 
-    string SavePath =>
-        Path.Combine(
-            SaveDirectory,
-            "save_slot_1.json");
+    public static bool SessionIsDemo => sessionDemo ?? AOMainMenuV140.BattleDemo;
 
-    string BackupPath =>
-        Path.Combine(
-            SaveDirectory,
-            "save_slot_1.bak.json");
+    // Folder for per-character side files (spellbook, bank): the demo keeps its own copies.
+    public static string SideDataRoot =>
+        SessionIsDemo
+        ? Path.Combine(Application.persistentDataPath, DemoFolder)
+        : Application.persistentDataPath;
+
+    static string DirectoryFor(bool demo) =>
+        Path.Combine(Application.persistentDataPath, demo ? DemoFolder : NormalFolder);
+
+    string SaveDirectory => DirectoryFor(SessionIsDemo);
+    string SavePath => Path.Combine(SaveDirectory, "save_slot_1.json");
+    string BackupPath => Path.Combine(SaveDirectory, "save_slot_1.bak.json");
+
+    string MenuDirectory => DirectoryFor(AOMainMenuV140.BattleDemo);
+    string MenuSavePath => Path.Combine(MenuDirectory, "save_slot_1.json");
+    string MenuBackupPath => Path.Combine(MenuDirectory, "save_slot_1.bak.json");
 
     public bool HasSave =>
         File.Exists(
-            SavePath) ||
+            MenuSavePath) ||
         File.Exists(
-            BackupPath);
+            MenuBackupPath);
+
+    // Arrival tile of the demo hub, from the map JSON written by Tools/demo_map_builder.py ("spawn").
+    [Serializable] class DemoHubInfo { public int[] spawn; }
+    public static bool TryDemoHub(out int map, out int x, out int y)
+    {
+        map = DemoHubMap; x = y = 0;
+        TextAsset json = Resources.Load<TextAsset>("AOMigrator/WorldV07/Maps/map_" + DemoHubMap);
+        DemoHubInfo info = json == null ? null : JsonUtility.FromJson<DemoHubInfo>(json.text);
+        if (info == null || info.spawn == null || info.spawn.Length < 2)
+            return false;
+        x = info.spawn[0];
+        y = info.spawn[1];
+        return true;
+    }
 
     void Awake()
     {
@@ -377,6 +405,7 @@ public class AOSaveGameV140 : MonoBehaviour
         bool notify)
     {
         if (AOOnlineClientV240.ProtectLocalSave) { if (notify) AOInterfaceV0101.PushMessage("La partida online se recupera al reconectar."); return false; }
+        sessionDemo = AOMainMenuV140.BattleDemo;
         try
         {
             FindReferences();
@@ -484,11 +513,20 @@ public class AOSaveGameV140 : MonoBehaviour
         try
         {
             FindReferences();
+            sessionDemo = AOMainMenuV140.BattleDemo;
 
             if (!AOHomeCityV200.TryGet(homeCityId, out string homeName,
                                        out int homeMap, out int homeX,
                                        out int homeY))
                 throw new Exception("Ciudad inicial inválida.");
+
+            // Demo: new characters start in the demo hub, looking south.
+            if (SessionIsDemo)
+            {
+                if (!TryDemoHub(out homeMap, out homeX, out homeY))
+                    throw new Exception("Falta el mapa del hub de la demo (map_" + DemoHubMap + ").");
+                homeName = "la Demo AO BATTLESERVER";
+            }
             if (Resources.Load<TextAsset>(
                     "AOMigrator/WorldV07/Maps/map_" + homeMap) == null)
                 throw new Exception("No está migrado el mapa de " + homeName + ".");
@@ -685,10 +723,10 @@ public class AOSaveGameV140 : MonoBehaviour
     public void DeleteSaveFiles()
     {
         TryDelete(
-            SavePath);
+            MenuSavePath);
 
         TryDelete(
-            BackupPath);
+            MenuBackupPath);
     }
 
     public string CaptureOnline()
@@ -832,6 +870,9 @@ public class AOSaveGameV140 : MonoBehaviour
         data.inventory.magicAccessory =
             inventory.EquippedMagicAccessory;
 
+        data.inventory.munition =
+            inventory.EquippedMunition;
+
         if (magic != null)
         {
             data.magic.learnedSpells =
@@ -959,7 +1000,8 @@ public class AOSaveGameV140 : MonoBehaviour
                 data.inventory.shield,
                 data.inventory.helmet,
                 data.inventory.amulet,
-                data.inventory.magicAccessory);
+                data.inventory.magicAccessory,
+                data.inventory.munition);
         }
 
         if (profileVisual != null &&
@@ -1057,13 +1099,13 @@ public class AOSaveGameV140 : MonoBehaviour
     {
         SaveData data =
             TryRead(
-                SavePath);
+                MenuSavePath);
 
         if (data != null)
             return data;
 
         return TryRead(
-            BackupPath);
+            MenuBackupPath);
     }
 
     SaveData TryRead(

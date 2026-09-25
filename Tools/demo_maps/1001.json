@@ -1,0 +1,34 @@
+{
+  "id": 1001,
+  "name": "Arenas de retos",
+  "zone": "CIUDAD",
+  "terrain": "CIUDAD",
+  "base": {"copy": 324},
+  "remove": ["npcs", "exits", "objects"],
+  "structure": [
+    {"op": "unblock", "rect": [37, 31, 27, 41], "_": "plaza central"},
+    {"op": "unblock", "rect": [9, 7, 31, 27]},
+    {"op": "unblock", "rect": [61, 7, 31, 27]},
+    {"op": "unblock", "rect": [9, 69, 31, 27]},
+    {"op": "unblock", "rect": [62, 69, 31, 27]},
+    {"op": "block", "rect": [12, 10, 25, 21], "_": "borde ring 1"},
+    {"op": "unblock", "rect": [13, 11, 23, 19]},
+    {"op": "block", "rect": [64, 10, 25, 21], "_": "borde ring 2"},
+    {"op": "unblock", "rect": [65, 11, 23, 19]},
+    {"op": "block", "rect": [12, 72, 25, 21], "_": "borde ring 3"},
+    {"op": "unblock", "rect": [13, 73, 23, 19]},
+    {"op": "block", "rect": [65, 72, 25, 21], "_": "borde ring 4"},
+    {"op": "unblock", "rect": [66, 73, 23, 19]},
+    {"op": "exit", "x": 50, "y": 71, "destMap": 1000, "dest": "arrival:from1001"}
+  ],
+  "rings": [
+    {"id": 1, "x": 13, "y": 11, "theme": "Bosque"},
+    {"id": 2, "x": 65, "y": 11, "theme": "Desierto"},
+    {"id": 3, "x": 13, "y": 73, "theme": "Nieve"},
+    {"id": 4, "x": 66, "y": 73, "theme": "Mazmorra"}
+  ],
+  "spawn": [50, 60],
+  "arrivals": {"from1000": [50, 69]},
+  "music": 9,
+  "environment": {"baseLight": -1, "rain": false, "snow": false, "fog": false}
+}

@@ -47,6 +47,7 @@ def run():
             if peer is not None: peer.close()
             if process.poll() is None:
                 process.terminate(); process.wait(5)
+            log.close()  # Windows cannot delete the temp folder while the log is open
 
 
 if __name__ == '__main__':

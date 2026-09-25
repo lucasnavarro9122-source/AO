@@ -8,7 +8,10 @@ public class AOSpellFXV120 : MonoBehaviour
     static AOSpellFXV120 Ensure(){if(instance!=null)return instance;instance=Object.FindFirstObjectByType<AOSpellFXV120>();if(instance!=null)return instance;GameObject g=new GameObject("AO Spell FX v0.13.2");instance=g.AddComponent<AOSpellFXV120>();return instance;}
     void Awake(){if(instance!=null&&instance!=this){Destroy(gameObject);return;}instance=this;source=gameObject.AddComponent<AudioSource>();source.playOnAwake=false;source.spatialBlend=0f;}
     public static void Play(AOSpellDatabaseV120.SpellDef spell,Vector3 world){Play(spell,world,world);}
-    public static void Play(AOSpellDatabaseV120.SpellDef spell,Vector3 from,Vector3 to){if(spell==null)return;AOCastAnimationRuntimeV268.PlayNearestNpc(from,spell);AOSpellFXV120 fx=Ensure();fx.PlaySound(spell.wav);fx.StartCoroutine(fx.Sequence(spell,from,to));}
+    // Hechizo del jugador (o de quien no tenga animación de casteo): no busca NPC en la escena.
+    public static void Play(AOSpellDatabaseV120.SpellDef spell,Vector3 from,Vector3 to){if(spell==null)return;AOSpellFXV120 fx=Ensure();fx.PlaySound(spell.wav);fx.StartCoroutine(fx.Sequence(spell,from,to));}
+    // Hechizo de un NPC: anima su casteo (V268) y después el FX. Evita recorrer todos los NPC por hechizo.
+    public static void PlayFromNpc(GameObject npc,AOSpellDatabaseV120.SpellDef spell,Vector3 from,Vector3 to){if(spell==null)return;if(npc!=null)AOCastAnimationRuntimeV268.PlayNpc(npc,spell);Play(spell,from,to);}
     public static void PlayCastSound(AOSpellDatabaseV120.SpellDef spell){if(spell==null)return;Ensure().PlaySound(spell.wav);}
     public static void PlayImpact(AOSpellDatabaseV120.SpellDef spell,Vector3 world,bool withSound=false){if(spell==null)return;AOSpellFXV120 fx=Ensure();if(withSound)fx.PlaySound(spell.wav);fx.StartCoroutine(fx.ImpactOnly(spell,world));}
 

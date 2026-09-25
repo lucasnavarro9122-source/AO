@@ -7,7 +7,7 @@ import re
 import shutil
 from pathlib import Path
 
-from map_migration import parse_csm
+from map_migration import DEMO_MIN_MAP, keep_demo_entries, parse_csm
 from npc_visual_migration import ROOT, SOURCE
 
 
@@ -33,7 +33,7 @@ def main() -> None:
     for map_path in MAPS.glob("map_*.json"):
         number = int(map_path.stem[4:])
         source_path = source_maps.get(number)
-        if source_path is None:
+        if source_path is None or number >= DEMO_MIN_MAP:
             continue
         music_id = parse_csm(source_path)["meta"]["music_low"]
         if music_id in available:
@@ -44,6 +44,7 @@ def main() -> None:
     for music_id in needed:
         shutil.copy2(available[music_id], MUSIC / f"track_{music_id}.mid")
     CATALOG.parent.mkdir(parents=True, exist_ok=True)
+    entries += keep_demo_entries(CATALOG)
     temporary = CATALOG.with_name(CATALOG.name + ".tmp")
     temporary.write_text(
         json.dumps({"maps": sorted(entries, key=lambda row: row["mapNumber"])},

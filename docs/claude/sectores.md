@@ -12,6 +12,12 @@ Cómo se complementan: Contenido trae los datos originales → Programación los
 | 4 | **AO BATTLESERVER: Contenido y Fidelidad AO** | Datos originales → bases de datos del juego: mapas, NPC, objetos, hechizos (datos), quests, drops, audio/música, balance fiel al AO |
 | 5 | **AO BATTLESERVER: Interfaz y Controles** | HUD clásico, ventanas, menú, creación de personaje, ajustes, controles AO/MOBA, hotbar, marcadores y feedback en pantalla |
 | 6 | **AO BATTLESERVER: QA y Releases** | Pruebas, verificadores, respaldos, build del cliente, ZIP para amigos, versión, informes |
+| 7 | **AO BATTLESERVER: Higgsfield** (chat local) | **Todo lo de Higgsfield**: generaciones, créditos, presupuestos, pilotos, remaster HD, FX/video, audio, 3D y material para mostrar. Carpeta propia: `docs/claude/higgsfield/` |
+
+**Higgsfield (sector 7):**
+- Ningún otro chat usa Higgsfield directamente: todo pedido va a "AO BATTLESERVER: Higgsfield" con SendMessage. Ojo: hay otro chat **en la nube** con el nombre viejo ("Higgsfield mejoras AO Battleserver"); ese no es el sector.
+- Arte prepara los pedidos (atlas, hojas, referencias, reglas 4×) e integra los resultados a Unity. Higgsfield entrega los archivos en su carpeta o donde Arte indique, sin tocar `Assets/`.
+- Créditos: nada se genera sin el OK de Lucas y sin mostrar el costo antes. Cada lote se anota en `docs/claude/higgsfield/`.
 
 ## Mapa de archivos (`Assets/AOMigrator/Runtime` salvo que se indique)
 
@@ -32,9 +38,15 @@ Cómo se complementan: Contenido trae los datos originales → Programación los
 ## Reglas de convivencia
 1. **Al arrancar:** leer `CLAUDE.md`, este archivo y tu sección de `docs/claude/tablero.md`.
 2. **Archivo ajeno:** no se edita. Anotá el pedido en `tablero.md` → "Pedidos entre sectores" y avisá al sector dueño o a Cerebro con SendMessage. Excepción: arreglar un error de compilación que bloquea a todos, con aviso inmediato.
-3. **Unity es uno solo:** antes de Play, pruebas en Unity o build, tomá el candado en `tablero.md` ("Unity en uso por: …") y liberalo al terminar. Si está tomado, esperá o pedí a Cerebro. Nunca entres en Play si Lucas está jugando.
+3. **Unity es uno solo. El candado REAL es `Tools/aod_unity_lock.ps1`** (atómico; desde el 25/09 04:45 reemplaza a la línea del tablero, que queda solo como información):
+   - Antes de escribir en `Assets/`, de entrar en Play, de correr pruebas en Unity o de un build: `powershell -NoProfile -ExecutionPolicy Bypass -File Tools/aod_unity_lock.ps1 take -Sector "<tu sector>" -Motivo "<qué>"`.
+   - Si devuelve **exit 1 (OCUPADO): cortá todo.** No se escribe en `Assets/` ni se abre Play. Los scripts automáticos tienen que abortar con ese exit code.
+   - Al terminar: `... release -Sector "<tu sector>"` y avisale al siguiente de la cola. `status` muestra quién lo tiene.
+   - El orden lo sigue marcando la "Cola de Unity" del tablero: tomalo solo cuando sea tu turno.
+   - Nunca entres en Play si Lucas está jugando.
    - **Mientras otro tiene el candado, no dispares recompilaciones.** No guardes cambios en `Assets/**` (preparalos y guardalos cuando el candado vuelva a `libre`), no crees marcadores en `Temp/` y no fuerces refresh ni pruebas. Una recompilación en medio de Play reinicia los estáticos y rompe la prueba (pasó el 24/09 19:04).
    - Sí podés editar fuera de `Assets/` (OnlineServer, Tools, docs).
+   - **Cola de Unity:** si en el tablero hay una "Cola de Unity", el candado se toma **solo por turno**. Anotate al final de la cola y, al liberar, avisale al siguiente. Nadie se adelanta, aunque Unity esté libre en ese momento.
 4. **Módulos nuevos:** pedí el número en `tablero.md` ("Próxima versión libre"), usalo y subilo en 1. Formato `AO<Nombre>V<nnn>.cs` con su `.meta`.
 5. **Guardados:** respaldo previo con la skill `aod-respaldo` antes de cualquier prueba en Unity o en el servidor.
 6. **Sin commits:** los sectores no commitean. Al terminar una tarea: actualizar `tablero.md` y mandar el resumen a "AO BATTLESERVER: CEREBRO" (qué archivos, qué se verificó, qué falta).

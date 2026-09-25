@@ -61,7 +61,7 @@ Sector Arte y Animación · 24/09. Solo diseño: no se tocó `Assets/`.
 - **Decoración:**
   - estandarte azul 58712 (OBJ3674) y rojo 60298 (OBJ3675);
   - antorcha 55254 y cartelera 19543;
-  - carteles 50876 (vacío) y 50902 ("Arena I");
+  - carteles "Arena I–IV" 50902, 50903, 50904 y 50908, y "Bienvenido al Newbie Dungeon" 50925 (ojo: 50876 no está vacío, dice "Penthar");
   - escalera de bajada 26940.
 - **Mapas fuente:** 1 (Ullathorpe), 34, 66, 112, 266, 345.
 
@@ -123,14 +123,15 @@ Luz y clima: de día y sin lluvia (`rain=false`), para leer bien la pelea.
   - En la fase 2, Arte arma la tabla pieza→GRH de cada orilla.
 - **Arcos:** el borde del ring corta los proyectiles (lo dice Servidor); visualmente alcanza con las cuerdas.
 
-## 3. Hub de la demo
-- **Estilo:** plaza de ciudad como Ullathorpe (mapa 1), sobre empedrado 58114.
-  - Rodeada de muros f5022 y de pinos 12160 por fuera.
-  - Faroles 55316 y estandartes en la entrada.
-  - Cartelera 19543 al centro: ranking de retos y apuestas si Interfaz lo usa.
-- **Spawn:** en el centro, con trigger de zona segura.
-- **Salida "Arenas"** (este): calle de adoquín, cartel 50902.
-- **Salida "Dungeon"** (sur): escalera 26940 más un cartel vacío 50876 con el texto.
+## 3. Hub de la demo (implementado en fase 2)
+- **Estilo:** aldea recortada de Ullathorpe (mapa 1, x35–62, y42–84): plaza de la fuente, calle de tierra y casas, con sus bloqueos y techos originales, rodeada de pinos.
+- **Aparición:** (52,58), junto a la plaza (Programación).
+- **Salida "Arenas": al norte** (decisión de Cerebro, igual que `arquitectura.md`, `ui.md` y `textos-hub.md`). Camino de tierra x55–58 hasta y12, con antorchas y cartel.
+- **Salida "Dungeon": al sur.** La calle termina en la puerta de dungeon 1493, con antorchas y cartel.
+- **Carteles:** en los gráficos originales no hay ninguno en blanco: todos traen texto impreso (ver `arte/carteles.png`).
+  - Arte solo propone posición y gráfico (`carteles` en cada `.art.json`). Los pone la estructura como objetos clicables con los textos de `textos-hub.md`.
+  - Hub: "Arena I" (50902) al norte y "Bienvenido al Newbie Dungeon" (50925) al sur. Rings: "Arena I–IV". Pisos: "Nº1…Nº7" (50849–50855, OBJ 2406–2412).
+  - No usar 50876: dice "Penthar".
 - **Música:** de ciudad (la elige Contenido).
 
 ## 4. Pisos del dungeon (los 7 de Contenido, `progresion.md` §4–5)
@@ -155,7 +156,7 @@ Notas:
 - **P2 es un mapa exterior** (lluvia de día). Para que se lea como piso de dungeon: `baseLight` oscuro y farolas o antorchas en el circuito. Lo aplica Programación con `map_environment`; Arte da el valor.
 - **Recortes de 70×70 (Contenido):** conviene recortarlos de los mapas fuente, respetando las capas 1–4, las luces y las partículas. El cierre del recorte se hace con los muros del mismo set (columna "Bordes / muros").
 - **Sala del jefe (12×12):** solo obstáculos de hasta 64×128 adentro, igual que el ring, para que no tapen la pelea. Los grandes (de 128×128 en adelante) van en las paredes.
-- **Zona segura de la entrada (8 tiles):** mismo piso, con 2 antorchas 55254 y el cartel del piso (50876 con el texto) para marcar el límite.
+- **Escaleras y zona segura:** hueco oscuro 57950 (como las salidas originales) entre dos antorchas 55254. No hay cartel en blanco original.
 
 ## 5. Plan de remaster con Higgsfield (cuando haya créditos)
 Regla 4×: 512 → 2048 y 1024 → 4096. Los de 2048 (f5040 agua, f5041 volcán) se parten en 4.
@@ -204,3 +205,17 @@ Cada lote necesita el OK de Lucas con el costo a la vista. **Hoy está bloqueado
 2. **Cantidad de arenas:** 4 rings con plaza (recomendado) o 6 (solo si entran con los márgenes del mapa).
 3. **Agua dentro del ring:** solo si Programación hace el autotiling de orillas. Si no, el ring va solo con obstáculos.
 4. **Dungeon:** salas copiadas de los mapas originales (recomendado) o generadas.
+
+## 8. Fase 2: implementado (24/09)
+- **Paleta del generador:** `Assets/StreamingAssets/AOMigrator/ArenaGen/arena_palette.json`.
+  - Las claves son el enum `Kind`; densidad G-09 igual a `arquitectura.md` §3.5.
+  - Verificador: `python Tools/demo_arena_palette_check.py` (G-11; `--preview DIR`).
+  - Cambios por legibilidad frente a §1: Mazmorra usa piso de cripta 9428, Pantano agua 1505 y Ciudad muros oscuros 60192/60035.
+  - No hay textura de hielo original: el "hielo" de Nieve es agua 1505.
+  - Adentro del ring no entra ningún árbol original (todos miden 224–288 px): la clase Tree es vegetación de 64×64.
+- **Mapas:** `python Tools/demo_art_specs.py` escribe `Tools/demo_maps/{id}.art.json` (ops stamp/paint/erase + `decorBloqueante`) para 1000, 1001, 1010 y 1011–1017.
+  - `--preview DIR` simula el resultado.
+  - El builder de Programación (`Tools/demo_map_builder.py`) los aplica.
+- **Minimapas y mapa grande:** `Tools/demo_minimap.py` dibuja el mapa entero y lo achica a 100×100, como los originales. El builder lo llama al escribir.
+- **Referencias:** `docs/claude/demo/arte/paleta-arenas.png` y `mapas-demo.png` (los 10 mapas armados).
+

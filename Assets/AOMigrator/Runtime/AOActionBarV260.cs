@@ -52,19 +52,21 @@ public partial class AOActionBarV260 : MonoBehaviour
         {CancelOrder();return;}
         if(magic==null)magic=GetComponent<AOPlayerMagicV120>();
         if(inventory==null)inventory=GetComponent<AOInventoryV10>();
-        if(AOPlayerSettingsV230.Pressed(AOGameAction.Stop)){CancelOrder();magic?.CancelTargeting();return;}
+        if(AOPlayerSettingsV230.Pressed(AOGameAction.Stop)){CancelOrder();magic?.CancelTargeting();combat.CancelRangedTargeting();return;}
         if(AOPlayerSettingsV230.Pressed(AOGameAction.Meditate)){CancelOrder();magic?.ToggleMeditation();}
         for(int i=0;i<4;i++) {
             if(AOPlayerSettingsV230.Pressed(AOGameAction.Spell1+i))UseSpell(i);
             if(AOPlayerSettingsV230.Pressed(AOGameAction.Consumable1+i))UseConsumable(i);
         }
         if(!AOPlayerSettingsV230.IsMoba)return;
-        if(AOPlayerSettingsV230.Pressed(AOGameAction.WorldCommand)&&!(magic!=null&&magic.ConsumedInputThisFrame)) {
+        // Apuntando con arco (modo "Haz click sobre la victima..."): el clic es del disparo, no mueve.
+        if(AOPlayerSettingsV230.Pressed(AOGameAction.WorldCommand)&&!(magic!=null&&magic.ConsumedInputThisFrame)&&
+           !combat.IsRangedTargeting&&!combat.ConsumedInputThisFrame) {
             bool valid=CursorTile(player,out int x,out int y);
 #if UNITY_EDITOR
             TestLastCommand="Tile="+x+","+y+" valid="+valid;
 #endif
-            if(valid){magic?.CancelTargeting();Order(x,y);}
+            if(valid){magic?.CancelTargeting();if(!TryRangedShot(x,y))Order(x,y);}
         }
         if(ordered&&!player.IsMoving)FollowOrder();
     }
@@ -75,6 +77,17 @@ public partial class AOActionBarV260 : MonoBehaviour
         int id=AOPlayerSettingsV230.SlotAssignment(CharacterName,true,slot);
         if(id<=0){AOInterfaceV0101.PushMessage("Asigná Hechizo "+(slot+1)+" en Ajustes > Controles > Hechizos.");return;}
         magic.CastShortcut(id,AOPlayerSettingsV230.QuickCast);
+    }
+    // MOBA con arco equipado: clic derecho sobre un NPC atacable dispara (reglas de ShootFromControls) en vez de acercarse.
+    bool TryRangedShot(int x,int y)
+    {
+        if(combat==null||!combat.HasRangedWeapon)return false;
+        var target=AOInteractionRegistry.FindFirst(x,y);
+        var enemy=target==null?null:target.GetComponent<AONPCCombatV09>();
+        if(enemy==null||!enemy.IsAlive||!enemy.Attackable)return false;
+        CancelOrder();
+        combat.ShootFromControls(x,y);
+        return true;
     }
     public void UseConsumable(int slot)
     {

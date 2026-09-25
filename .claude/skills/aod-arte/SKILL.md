@@ -13,7 +13,10 @@ description: Pipeline de arte y animación de AoDuels: sprites, spritesheets, FX
 - Nunca procesar sprite por sprite (75.906 recortes): trabajar por atlas u hoja por personaje/animación. Primero un piloto de 20–30 texturas (suelo, árbol, personaje, animal, objeto, hechizo, UI).
 
 ## Herramientas
-- **Higgsfield** (sin créditos desde el 24/09; esperar). Seedream 4.5 ≈ 1 crédito/imagen. Remaster completo ≈ 5–6k créditos (US$150–300). Las generaciones por MCP descuentan créditos; el "Unlimited" es solo en la web. Mostrar el costo antes de generar y pedir el OK de Lucas en cada lote.
+- **Higgsfield: solo a través del chat local "AO BATTLESERVER: Higgsfield"** (sector 7). Ningún otro chat genera por su cuenta; el chat en la nube con el nombre viejo no es el sector.
+  - Pedidos autosuficientes por SendMessage: asset, tamaño original, 4×, frames, pivot, reglas.
+  - Higgsfield entrega en `docs/claude/higgsfield/` (o donde indique Arte) y Arte integra en `Assets/`.
+  - ~960 créditos (plan Plus): generar solo con el OK de Lucas y mostrando el costo antes. Seedream 4.5 ≈ 1 crédito/imagen. Remaster completo ≈ 5–6k créditos (US$150–300). Las generaciones por MCP descuentan créditos; el "Unlimited" es solo en la web. Mostrar el costo antes de generar y pedir el OK de Lucas en cada lote.
 - **SpriteForge** (ComfyUI, `Downloads/AoDuels_SpriteForge.json` + manual PDF): 1 imagen → 8 frames de 512×512 con alpha + hoja 2048×1024 + preview.
   - Se edita solo la 1.ª línea del prompt: animación en español + inglés entre paréntesis.
   - Modelos: `qwen_image_edit_2511_bf16`, `qwen_2.5_vl_7b_fp8_scaled`, `qwen_image_vae`, `birefnet`.

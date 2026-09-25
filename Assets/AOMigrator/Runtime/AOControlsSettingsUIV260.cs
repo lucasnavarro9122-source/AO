@@ -63,10 +63,13 @@ public partial class AOInterfaceV0101
         }
         GUI.Label(R(208,559,605,39),spell?"Elegí un hechizo aprendido. Sin lanzamiento al cursor, confirmás el objetivo con clic izquierdo.":"La asignación sigue al objeto aunque cambie de casilla. Se guarda por personaje y perfil.",small);
     }
+    // Recuadro de la tecla que se está cambiando: un botón del mouse solo se toma si se hace clic ahí.
+    Rect bindingRect;
     void DrawBinding(AOGameAction action,float x,float y)
     {
+        if(bindingAction==action)bindingRect=R(x,y,225,35);
         if(GUI.Button(R(x,y,225,35),bindingAction==action?"Tecla o clic...":AOPlayerSettingsV230.KeyName(action)))
-        {bindingAction=action;settingsStatus="Presioná tecla o botón del mouse. Escape cancela.";}
+        {bindingAction=action;bindingRect=R(x,y,225,35);settingsStatus="Presioná una tecla o hacé clic sobre el recuadro con el botón del mouse. Escape cancela.";}
         if(GUI.Button(R(x+233,y,42,35),"×")) {
             AOPlayerSettingsV230.SetKey(action,KeyCode.None,out settingsStatus);bindingAction=null;
         }

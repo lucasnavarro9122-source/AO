@@ -2,9 +2,10 @@
 
 Lo actualiza cada sector al tomar o terminar trabajo. Cerebro lo ordena y define las prioridades.
 
-**Unity en uso por:** libre
-**Próxima versión libre:** V271 (V270 = QA `AOModulesQA270`)
-**Último commit:** d69daef (hay mucho trabajo V260–V269 sin commitear; ver CLAUDE.md)
+**Unity en uso por:** QA · 04:42 · instalar `AODuelQA284` + V280 (DuelQA) y correr `test_duel_unity.py` (R-2/R-3, Play aislado)
+**Cola de Unity (Cerebro, HD en el juego — pedido de Lucas):** 1–16) hechos → 17) Programación (parche `hd-texturas-mapa` en `AOWorldManagerV07` + importador HD `AOHDTextureImportV279` en Editor; HD activado por defecto) → 18) Interfaz (opción "Gráficos: Original / HD" en Ajustes > Video) → 19) QA (pruebas + capturas de Ullathorpe Original vs HD, con Luz Original y Mejorada). Candado real: `Tools/aod_unity_lock.ps1`. Al liberar, avisale al siguiente.
+**Próxima versión libre:** V290 (V289 = QA `AODemoSaveQA289`, V288 = QA `AOHDQA288`, V287 = QA `AOLightingQA287`, V286 = Programación `AODeathDropV286`, V285 = Arte `AOArenaVisualV285`, V284 = QA `AODuelQA284`, V283 = Arte `AOLighting2DV283`, V282 = Arte `AOProjectileVisualV282`, V281 = Programación `AODuelClientV281`, V280 = QA `AOQATestPrefsV280`, V279 = reservado para el importador HD de la nube, ex-V901; V900 de la nube NO se crea: se unifica en V275, V278 = Interfaz `AOInterfaceCursorV278`, V277 = Programación `AOExpRulesV277`, V276 = Programación `AOPvpFormulasV276`, V275 = Programación `AODeathDropRulesV275`, V274 = QA `AOInterfaceQA274`, V270 = QA `AOModulesQA270`, V271 = Programación `AOArenaGenV271`, V272 = Interfaz `AOInterfaceDuel*V272`, V273 = Programación `AODemoRatesV273`)
+**Último commit:** acca325 en la rama `pc/noche-2509` (trabajo de la noche + integración de la nube `claude/nifty-thompson-r3ulpf`). `main` sigue en 384fe18.
 
 ## Proyecto grande en curso: Demo AO BATTLESERVER
 Especificación en `docs/claude/demo-arenas.md`.
@@ -24,27 +25,75 @@ Especificación en `docs/claude/demo-arenas.md`.
 - [x] Online: no lanzar skill shot si el servidor no soporta ese efecto (usa `CanCastNpcSpell` de Servidor, antes de cobrar maná).
 
 - [x] Demo fase 1: `docs/claude/demo/arquitectura.md` (mapas ≥ 1000 con `demo_map_builder.py`, generador de arena puro y compartido, PvP en el ring, oro online en misiones, banco y venta).
-- [ ] Bug: los EOT sobre el jugador aplican `ModifyIncomingMagic` dos veces (`AOMagicEffectRuntimeV129.cs:107` + `AOPlayerCombatV09.cs:690`). Corregir aparte, con prueba.
+- [x] Bug: los EOT sobre el jugador aplicaban `ModifyIncomingMagic` dos veces (corregido 24/09 23:12; también la curación por turno).
+- **Demo fase 2** (entregas por partes):
+  - [x] 1. `Runtime/Shared/AOArenaGenV271.cs` (generador puro) + `Tools/ArenaGen/Check` (G-01…G-13, 10.000 semillas por tema: PASA, máx. 1,2 ms) + tabla dorada `Tools/demo_arena_golden.json` (300 entradas). `AODemoRatesV273.cs` (EXP por tramo, OroMult ×2).
+  - [x] 2. `Tools/demo_map_builder.py` + `Tools/demo_maps/` (1000 hub, 1001 arenas, 1010 entrada, 1011–1017 pisos): los 10 validan (salidas de ida y vuelta, llegadas, NPC = `dungeon-npcs.json`, rings cerrados, texturas) y salen deterministas. Hub con los 15 NPC de servicio y comercio de Contenido. **Escritos en Assets (23:07)** con música, ambiente y minimapas; `--check` igual a disco.
+  - [x] 3a. `AOPvpFormulasV276` (acierto, golpe, hechizo, magicDefense, intervalos; VB6 al par) en `Runtime/Shared`: 18 pruebas PASAN (`dotnet run --project Tools/ArenaGen/Check -c Release -- pvp`). 
+  - [x] 3. PvP en el ring (25/09 04:13): `AODuelClientV281` aplica la arena generada en la grilla (Solid bloquea paso y proyectiles, Water solo paso), warps, vida del servidor (duelHurt), caída sin muerte normal, revivir por ronda y vida previa al final; golpe/arco/hechizo/skill shot solo contra rivales (`AttackPlayer`/`CastPlayer`); pociones con `UseInDuel`; congelado en conteo o caído; bloquea invocar, invisibilidad y levantar objetos. Flecha en vuelo de Arte enganchada. Eventos para Arte: `AODuelClient.LayoutApplied/LayoutCleared`. Falta: reto real con 2 clientes (QA/Servidor).
+  - [ ] 4. Slot de personajes `AO_BattleDemo/` + `--ao-test-profile` (`AOSaveGameV140.RootOverride`).
+  - [ ] 5. Tasas de la demo en el cliente sin conexión (en línea las aplica el servidor).
+  - [ ] 6. Fidelidad (decisión 17): arco a distancia, regeneración de vida, intervalo de ataque 1,165 s, respawn de NPC; cada uno con prueba. El arco incluye munición: el cliente reporta `ammo` (objIndex de la flecha) en AOCoopPlayer (acordado con Servidor). Además: la evasión del cliente suma el bonus de escudo con `AOPvpFormulas.Evasion`.
+  - [x] 6 (parte). Intervalo de ataque 1,165 s (arco 1,2 s) desde `AOPvpFormulas`; regeneración de vida original (Sanar: comida, bebida, armadura, 10 s fuera de combate, +5–10 % cada 8 s; no en retos). Respawn (decisión de Cerebro): `AODemoRates.RespawnRange` = mapas ≥ 1000 con tiempos del mapa (Contenido), < 1000 con npcs.dat; cliente aplicado, Servidor usa la misma función. Arco a distancia (sin conexión) listo: ranura de munición (doble clic en flechas), "Usar" en el arco equipado → clic en el objetivo; ±11/±9, flecha del subtipo, energía ≥ 10 (gasta 1–10), 1,2 s, corta meditación, gasta 1 flecha por ataque; guardado `inventory.munition` (opcional). API `BeginRangedTargeting`, `ShootFromControls`, `HasRangedWeapon`, `IsRangedTargeting`, `ConsumedInputThisFrame`. En línea: `Attack(npc)` con el guardado que lleva `inventory.munition`; el servidor valida alcance y munición y gasta la flecha (probado en `test_coop_server.py`; falta una partida real). Interfaz ya enganchó clic, cursor y MOBA.
+  - [x] 6b. Penalización de EXP −5 %/nivel sobre NPCLVL+4 (`Runtime/Shared/AOExpRulesV277.cs`, usa `NPCDef.level` de Contenido; nivel 0 = sin penalización). En línea: pedido a Servidor que use `AOExpRules`.
+  - [x] Bug EOT: el daño y la curación por turno del jugador aplicaban sus modificadores dos veces (`AOMagicEffectRuntimeV129`).
+  - [x] 6b. Fidelidad (decisión 17): penalización de EXP −5 % por nivel si el jugador pasa al NPC por más de 4 niveles, y lectura de NPCLVL (`AONPCCombatV09.cs:388`). Ojo: Contenido corrige la DEF de los NPC (hoy casi todas en 0).
+  - [ ] 8. Decisión 18: al morir en el dungeon de la demo (1011–1017, fuera de trigger 6) se cae todo menos 1.000 de oro × nivel; los objetos newbie se conservan hasta nivel 12 (`muerte-reglas.md`). Regla compartida `AODeathDropRulesV275` en `Runtime/Shared`; los pisos llevan `dropOnDeath`. En línea la aplica Servidor (acordado); sin conexión, el cliente. Espera los flags `noSeCae`/`intirable`/`destruye` en items.json (pedido a Contenido).
+  - [x] 7. Oro en línea: banco (`SetServerGold`, `RequestBank`) y misiones (`RequestQuestReward` + contador `completedTimes`, opcional en el guardado de misiones). Aplicado 23:07; Unity y build auxiliar sin errores.
 
 ## 2 · Arte y Animación
+- **Ahora (25/09, rama `pc/noche-2509`):**
+  - [x] Proyectiles en vuelo `AOProjectileVisualV282` (flecha 26203 y los 4 tipos de ProjectileDef.dat; datos en `StreamingAssets/AOMigrator/ProjectilesV282`). En Assets; Unity compila sin errores (03:56). **Falta:** que Programación ponga la llamada en `TryShootAt` y verlo jugando.
+  - [ ] HD de Ullathorpe + mapas 2, 5, 8 y 11: ronda 1 (21 + 11 con color igualado) y ronda 2 revisadas. **OK de Arte a la propuesta de Higgsfield** (`../AO_HD/ullathorpe_zonas/atlas_hd_propuesta/`), salvo 3 sets rechazados porque cambian la forma: 5087 (6,3), 5087 (1,4) y 6215 (3,1); quedan como el original ampliado. Ronda 3 (1 hoja, 2,5 créditos): espera el OK de Lucas. Aplica Higgsfield con el candado.
+  - [x] HD en el juego (parche hd-texturas-mapa + V279, Programación): revisado por Arte con las capturas de QA `MigrationReports/hd_v288/` (`test_hd_unity.py` PASA). Mismo tamaño en el mundo, sin costuras en el cruce del jugador ni en el cruce original ampliado (6215 (3,1), 24 celdas); combina bien con la luz Mejorada. Las otras 2 rechazadas están en el borde oeste (x1–6). La ronda 3 sigue esperando el OK de Lucas.
+  - [x] Luces URP 2D `AOLighting2DV283` instaladas (04:35; Unity compila sin errores). Por defecto "Original" (no crea nada). **Falta:** patch_light de Programación (rama Enhanced en `ApplyMapLight` + `ModeChanged` + `CurrentMapLights`), y verlo en Unity. (Tilde «Luz mejorada» de Interfaz: instalado, Ajustes > Video.) Siguen: sombras de contacto, partículas y contorno/borde de personajes.
+  - [x] Bug de vista duplicada en Mejorada: **arreglado** (sin posproceso URP + viñeta propia). QA 10:37: `test_lighting_unity.py` PASA (Original 0 Light2D/0 Volume; Mejorada 90 Light2D, 0 Volume, jugador centrado; `qa_view_check.py` franjas [0,0,0], correlación 0,957). Bloom y color: pendientes para cuando la cámara renderice a textura (con Interfaz).
+  - [x] Rendimiento: `AOSpellFXV120.Play` ya no llama a `PlayNearestNpc` (recorría todos los NPC por hechizo y por objetivo). Nuevo `PlayFromNpc(npc, …)` para la IA mágica de NPC (Programación).
+  - [x] Obstáculos del ring `AOArenaVisualV285` + `arena_palette.json` con recortes, instalados (04:35; Unity compila sin errores). **Falta:** verlo en un reto real (QA R-2/R-3).
+- **Demo fase 2 (Arte):**
+  - [x] Entrega 1 · paleta de AOArenaGen: `StreamingAssets/AOMigrator/ArenaGen/arena_palette.json` v2 (claves = enum `Kind`; densidad G-09 = §3.5). Verificador G-11: `python Tools/demo_arena_palette_check.py` (cruza con las reglas del C#; `--preview DIR`). Referencia: `docs/claude/demo/arte/paleta-arenas.png`.
+  - [x] Entrega 2 · minimapas y mapa grande: `Tools/demo_minimap.py` (dibuja capas 1–4 y objetos, achica a 100×100 como los originales; `render_minimap()` importable por el builder). Falta correrlo cuando existan los mapas ≥ 1000.
+  - [x] Entrega 3 · mapas: `Tools/demo_art_specs.py` → `Tools/demo_maps/{1000,1001,1010,1011..1017}.art.json`. Con el builder real, los 10 mapas dan OK (armados en el scratchpad, sin escribir en Assets).
+    - 1001: rings con cuerdas y postes f5067, alfombra, grada con sillas, bancos y estandartes, plaza con faroles y cartelera, agua alrededor.
+    - 1000: aldea recortada de Ullathorpe, camino al norte y puerta del dungeon.
+    - 1010–1017: negro de vacío fuera del recorte (el cementerio queda al aire libre) y escaleras con hueco y antorchas.
+    - Vista: `docs/claude/demo/arte/mapas-demo.png`.
+  - [x] Carteles: Arte da posición y gráfico (`carteles` en los .art.json). Programación los pone como ObjType 8 clicables: con objIndex, el objeto original; sin objIndex, el gráfico + el texto de `textos-hub.md`. Si Arte mueve un cartel sin texto, avisar a Programación (clave `signTexts["x,y"]`).
+  - [x] Mapas en Assets (Programación, 23:07): `demo_map_builder.py --check` = en disco igual a lo armado; los 10 minimapas `MinimapsV0103/map_10xx.png` se ven bien.
+  - [ ] Recorrerlos en Unity (orden de sprites, techos, carteles, luces) cuando exista el acceso a la demo o con Lucas.
+  - [ ] Propuesta a Contenido: P2 con `baseLight` oscuro (9408399).
 - [x] Demo AO BATTLESERVER fase 1: `docs/claude/demo/arte.md` (sets GRH por tema con mapas fuente, set de ring f5067, módulo ring+grada, hub, temas de pisos del dungeon, plan Higgsfield ~110 créditos) + hojas de referencia en `docs/claude/demo/arte/`. Rev. 2: §4 con los 7 pisos de Contenido (set visual de cada mapa fuente).
 - [x] **Meditación fiel (V269):** `meditation_fx.json` usa la tabla original compatible (OK de Cerebro 24/09): 1–14→115, 15–24→116, 25–35→117, 36–44→118, 45–46→119, 47+→120, igual para los dos bandos. La de `Meditaciones.dat` (153–172) queda documentada como "no disponible públicamente" (`levelTableNoDisponible`). API: `Begin(level, criminal)`, `BeginFx(fx)` (remotos, sonido atenuado por distancia), `FxForLevel`. Clips compuestos (`loopFx`) listos para los libros espíritu 122–141.
 - [ ] Ver la meditación jugando (niveles 1, 15, 25, 36, 45, 47) y con un compañero online.
 - [ ] Revisar V268 (casteo), V269 (meditación) y V130 (EOT/auras) en el juego y ajustar `spell_visual_tuning.json`.
-- [ ] Spell Tester v1.3: original vs HD, zoom, pivote, frame a frame, exportar el tuning.
-- [ ] Sprites de 8 direcciones (NE/NO/SE/SO): definir el pipeline (SpriteForge/Higgsfield).
-- [ ] Piloto HD de 20–30 texturas cuando vuelvan los créditos de Higgsfield (bloqueado: sin créditos).
+- [x] Spell Tester v1.3: `Tools/SpellTester/index_v13.html` (hecho en la nube; zoom, frame a frame, pivote, exportar tuning, original contra HD).
+- [x] Sprites de 8 direcciones: **decidido quedarse en 4** (Lucas, 25/09; `sprites-8-direcciones.md`).
+- [x] ~~Piloto HD de la demo~~: **anulado** (Lucas: el HD va a Ullathorpe + mapas 2, 5, 8 y 11, no a la demo). Higgsfield ya fue avisado.
 - [ ] Instalar ComfyUI + los modelos de SpriteForge (bloqueado: no instalado; pedir OK a Lucas por la descarga).
 
 ## 3 · Servidor y Multiplayer
 - [x] Verificar si el protocolo 2 soporta skill shots, casteo y meditación (V267–V269) o si hace falta extenderlo. (Auditoría hecha; propuesta enviada a Cerebro.)
 - [x] (OK de Lucas) Enfriamiento de los skill shots contado desde el lanzamiento (`amount` = ms de vuelo, tope 1500) + meditación y casteo visibles para los compañeros (`AOCoopPlayer.meditationFx/castSpell/castSeq`). Sigue siendo protocolo 2 y es compatible con versiones viejas. Las 2 llamadas de Programación ya están. Falta probarlo en Unity y en una partida real.
 - [ ] Opcional: que los compañeros vean el proyectil del skill shot (hace falta `castX/castY` + un modo "solo visual" en `AOSkillShotProjectileV267`).
-- [ ] Publicar el servidor 0.26 (`Server-next`, con `aod-respaldo` antes) cuando QA arme el cliente 0.26.
+- [x] Servidor 0.26 publicado en `../AO_Online/Release/Server-next-v260` (24/09 20:15). Respaldo: `Respaldos/guardados-20260924-201453`. Catálogo al día; pasan `test_coop_server.py` y `test_static_npcs.py`; prueba de humo del exe con datos temporales: OK. **El servidor en vivo NO se reemplazó**: se hace con Lucas (cerrar el servidor, respaldar `Saves` + `room-key.txt`, copiar solo el exe y `Data/`, subir `VERSION.txt`). **El 0.26 NO se republica** (Cerebro, 24/09): cliente y servidor 0.26 van juntos, en protocolo 2 y con el catálogo viejo (DEF 0 de los NPC). `Server-next-v260` se publicó a las 20:15, antes de la corrección de DEF, así que es consistente. La corrección de DEF sale en la **0.27** (protocolo 3), junto con su cliente.
 - [ ] Prueba cooperativa real con 2 clientes (la de `test_coop_server.py` más una partida real).
 - [ ] Documentar el procedimiento de actualización para los amigos.
 - [x] Demo fase 1: `docs/claude/demo/red.md` (retos basados en ModRetos, custodia de apuestas, PvP autoritativo, semilla, espectadores, protocolo 3). Esperando el diseño de Programación (generador y fórmulas compartidas) y las decisiones de Lucas (sección 13). Rev. 2: oro del servidor con libro contable, matriz de desconexiones, modo prueba y nombres de `ui.md`. Alineado con `arquitectura.md` (§12 bis).
-- [ ] Fase 2 (cuando Lucas apruebe): enlazar `Runtime/Shared/*.cs` en el csproj del servidor; `npcLayoutVersion` en el catálogo y el servidor; libro contable; retos y custodia; `--test` y `--test-time-scale`.
+- [x] Fase 2, entrega 2 (24/09 22:20): **protocolo 3** con oro del servidor. `OnlineServer/Ledger.cs` (libro `Saves/ledger.jsonl`, solo agregar, flush, `op` idempotente, descarta la línea cortada), billetera y banco del servidor (se ignora el oro del snapshot), `bank`, `questReward` (monto del catálogo), `--test` (solo 127.0.0.1, `testLedger`), `--test-time-scale`, `--demo` (EXP por tramo y OroMult ×2 con `AODemoRatesV273`), `npcLayoutVersion`, `Runtime/Shared/*.cs` enlazado. Cliente: `wallet`/`bank` absolutos, `RequestBank`, `RequestQuestReward`. Pasan `test_coop_server.py` (+ demo) y `test_static_npcs.py`. **Desde ahora, un cliente compilado del repo es protocolo 3 y necesita el servidor 3** (el ZIP 0.26 y `Server-next-v260` siguen en 2).
+- [x] Fase 2, entrega 3 (24/09 22:55): **retos en el servidor** (`OnlineServer/CoopRoom.Duels.cs`, solo con `--demo`). Invitar, aceptar, rechazar y cancelar (con devolución); custodia al aceptar; salas FIFO con semilla del servidor (`AOArenaGen`); conteo con jugadores quietos; al mejor de 3 con lados alternados; tiempo agotado por puntaje; doble muerte = ronda nula; 30 s de gracia; pago con impuesto + línea del resto (plan en el libro, se completa o se devuelve al reiniciar); espectadores (`duelRingState`, `fx`, `duelAnnounce`); ring cerrado para los que no pelean. PvP con fórmulas **PROVISIONALES** (golpe, hechizo de daño o curación, pociones 3/4) hasta `AOPvpFormulas`. Cliente: `IAODuelBackend` + eventos a `AODuelUI`, puerto 7778 en la demo, `DuelMessage`/`DuelEvent`, `AttackPlayer`/`CastPlayer`/`UseInDuel`. Pruebas: `Tools/test_duel_server.py` (5/5) + las de siempre.
+- [x] 24/09 23:15: fórmulas PvP reales en los retos (`AOPvpFormulasV276`: golpe, hechizo, resistencia mágica, intervalos originales); muerte en el dungeon (decisión 18, `AODeathDropRulesV275`: oro por el libro, ítems con `remove` + piso, una vez por muerte); penalización de EXP por nivel del NPC (decisión 17); mapas 1000–1017 en el catálogo (852 mapas; arenas desde `arenaRings`, temas convertidos a número). Pasan las 3 pruebas del servidor.
+- [x] 23:18: `ApplyServerGold` ya fija el banco con `AOCityBankV130.SetServerGold`; la penalización de EXP usa `AOExpRulesV277` (compartida).
+- [x] 23:25: respawn con `AODemoRates.RespawnRange` (igual que el cliente sin conexión: mapas ≥ 1000 con los tiempos del mapa, los originales con npcs.dat/npc_loot; piso de 350 ms). Pasan las 3 pruebas.
+- [x] 23:21: servidor 0.27 **PRELIMINAR** en `../AO_Online/Release/Server-next-v270` (+ `PRELIMINAR.txt` e `Iniciar-demo.bat`). Respaldo `Respaldos/guardados-20260924-232034`. Prueba de humo del exe (datos temporales): sala normal y demo OK, 4 arenas, libro en 0. **No se cierra ni se anuncia sin el OK de Cerebro**: antes van el commit revisado, el cliente 0.27 de QA (construidos juntos; se republica desde el commit) y un reto real con 2 clientes contra la demo.
+- [x] 25/09: arco en línea (arco-original.md §3): ±11/±9, munición equipada (`inventory.munition`) del subtipo del arma, 1 por disparo con `remove`, 1200 ms; en el reto con SegmentClear. Catálogo regenerado con `munition` (18 armas). Pasan las 3 pruebas (+ caso de arco).
+- [x] 25/09, trabajo de la nube (rama pc/noche-2509): sesión fantasma (Join/Checkpoint validan antes de guardar; un error en un tic no apaga la sala), visión 15×13, muerte en línea sin duplicar V900 (reparto Tilelibre + aviso `deathDrop`), seguridad #2–#12 (`--bind auto`, plazo del hello, 4 sin saludar por IP, Save sin excepción, Leave con try/finally, botín 10 min / 200 por mapa, guardado cada 1 s, 30 personajes, stock que se repone a los 30 min, Harmful con hambre/sed/carisma, alcance desde el NPC, enfriamiento de mascotas por ranura, sin invulnerables por no confirmar). Pruebas nuevas en `.github/workflows/pruebas.yml`. Guía del anfitrión 0.27: `Server-next-v270/LEEME-anfitrion.md`.
+- [x] 25/09: nombres nuevos solo con letras latinas (tildes, ñ) y únicos sin tildes ni mayúsculas (homoglifos, pedido de Interfaz); velocidad solo registrada (OK de Cerebro); reposición de comerciantes **original** (QuitarNpcInvItem → CargarInvent: al quedarse sin nada recarga todo; los Crucial nunca se agotan; ningún NPC tiene InvReSpawn=1), en lugar de los 30 min inventados; vencimiento del botín probado con --test-time-scale.
+- [ ] **Pendiente grande (después de la demo):** libro de objetos. Hoy el inventario sale del snapshot del cliente (revisión #7).
+- [x] 25/09 04:22: aviso `deathDrop` del cliente guardado en Assets.
+- [x] 25/09 05:10: arreglo QA R-08 (duelHurt con `duel.round`; el cliente descarta los de una ronda vieja) + Checkpoint/SendSnapshot sin save/player destruidos. Caso nuevo en test_duel_server. Catálogo regenerado con las claves originales de Programación (`ao_ini_original.py`). Pasan las 6 pruebas del servidor. Falta: QA repite R-2/R-3 en Unity.
+- [x] 25/09 12:24: **servidor 0.27 final** en `../AO_Online/Release/Server-next-v270` desde e7ed3b6 (OK de Lucas por Cerebro), con LEEME-anfitrion.md, Iniciar-demo.bat y VERSION-servidor.txt. Respaldo `Respaldos/guardados-20260925-122444`. Prueba de humo OK. Falta: R-4 de QA (2 clientes contra una instancia `--test --demo` temporal) y el reemplazo en vivo con Lucas.
+- [ ] Pendiente: estados (parálisis, etc.) en el reto, flechas (`ammo`) cuando el arco dispare, cliente de prueba por línea de comandos, publicación de la instancia de la demo (0.27).
+- [ ] Instancia de la demo: `--demo --data SavesDemo --port 7778` (OK de Cerebro). Falta: cliente → 7778 con perfil `AO_BattleDemo` (con Programación e Interfaz), regla de firewall y Tailscale para el 7778 en `LEEME`, y `.bak` de SavesDemo (ya lo hace el servidor).
 
 ## 4 · Contenido y Fidelidad AO
 - [x] Buscar los 8 audios de hechizo faltantes (163, 229, 234, 239, 242, 253, 255, 256). **No son públicos:** no están en nuestra copia, en GitHub `ao-org/Recursos` (ni en su historial) ni en los releases. El cliente original busca `<id>.ogg`/`<id>.wav` y, si no existen, no suena. Quedan mudos (21 hechizos). Otras versiones de AO tienen otra numeración: no sirven sin escucharlos. **Decisión de Lucas (24/09): quedan sin sonido por ahora; no asignar sonidos provisorios.**
@@ -54,33 +103,131 @@ Especificación en `docs/claude/demo-arenas.md`.
   - 7 pisos originales (mapas 1011–1017): Madriguera, Cementerio, Mausoleo, Pirámide, Nido de arañas, Torre de Veriil y Guarida del Dragón; jefe final Vytaiz.
   - Zonas, cantidad y respawn por piso; tiempo por nivel para 4 clases; economía.
   - **Decisiones de Lucas:** multiplicador de EXP por tramo (con ×1, llegar a 30 lleva 160–330 h) y `OroMult`/pociones.
-- [ ] Demo: fórmulas PvP originales (`SistemaCombate`/`modHechizos`, `magicDefense`) para `AOPvpFormulas` (pedido de Programación).
+- [x] Demo fase 2: fórmulas PvP en `docs/claude/demo/pvp-formulas.md` (acierto, golpe, hechizo, área, intervalos, `GetUserMR`, ejemplo para la tabla dorada).
+  - Apuñalar, crítico y penetración: sin dato público (`[BACKSTAB]` no está en Balance.dat) → 0 %.
+  - Cualquier ataque corta la meditación antes de tirar el acierto.
 - [x] Demo: reglas de retos en `docs/claude/demo/retos-reglas.md`.
   - El impuesto va **sobre el pozo total**; en el empate cada uno recupera el 90 %.
   - En el original, el tiempo máximo (600 s) **no se controla**. Propuesta: decidir por puntaje con la regla de `FinalizarReto`.
   - Doble muerte: en el original pierde el primero que se procesa; propuesta: ronda nula (no original).
   - Apuesta mínima propuesta: 1.000.
   - Modelo reproducible para QA: `modelo_progresion.py --check`.
-- [ ] Demo: que `music_migration.py` y `map_environment_migration.py` conserven los IDs ≥ 1000; textos del hub.
-- [ ] Reglas originales de pérdida al morir (MapasNoDrop, newbie, oro protegido).
-- [ ] Datos de hechizos por NPC (npcs.dat: `Sp`, `LanzaSpells`, etc.) para Programación.
+- [x] Demo fase 2: `dungeon-npcs.json` definitivo para demo_map_builder.
+  - Por piso: fuente, recorte, entrada, escaleras, llegadas, sala del jefe, zonas con centro, respawn, música y luz.
+  - Vista previa en `pisos-vista.md`.
+- [x] Demo fase 2: `music_migration.py`, `map_environment_migration.py` e `import_all_minimaps.py` conservan o ignoran los mapas ≥ 1000 (`map_migration.DEMO_MIN_MAP`). Probado sin escribir en Assets.
+- [x] Demo fase 2: textos del hub, de los carteles y de las escaleras, más la música de los mapas nuevos, en `docs/claude/demo/textos-hub.md`.
+- [x] **Bug DEF 0 (fidelidad):** `map_migration.npc_entry` leía `defensa` en vez de `def` (arreglado en la herramienta). Afecta a **178 NPC en 31 mapas** (el resto tiene DEF 0 también en npcs.dat): Vytaiz 0→20, pequeños dragones 0→10, Dragón Rojo 0→15, Golem de Piedra 0→25. OK de Cerebro. Script `Tools/npc_defense_migration.py` (simula; `--apply` escribe). Respaldo `guardados-20260924-222321`. **Aplicado 24/09:** 178 NPC en 31 mapas; verificado que solo cambió `defense`. Servidor regeneró el catálogo (211 NPC con DEF > 0); pasan `test_coop_server` y `test_static_npcs`. ⚠ Server-next-v260 (0.26) tiene el catálogo viejo: entra en el próximo servidor.
+- [x] `level` (NPCLVL) en `AONPCLootDatabaseV180.NPCDef` y en `npc_loot.json` (821 NPC; 643 con nivel, el resto 0 = sin penalización, como el original). Build auxiliar sin errores. Para la penalización de EXP de Programación.
+- [x] `items.json`: `munition` desde `Municiones` de obj.dat (18 armas: 11 con flecha, subtipo 1; 7 con bala, subtipo 2). Estaba en 0 y los arcos disparaban gratis. `Tools/item_flags_migration.py`.
+- [x] `items.json` con `noSeCae` (571) e `intirable` (417) para `AODeathDropRules` (`Tools/item_flags_migration.py`). `Destruye` = `destroyOnSell`. Aplicado 24/09; solo cambian esos dos campos.
+- [x] Reglas originales de pérdida al morir: `docs/claude/contenido/muerte-reglas.md`.
+  - Se cae todo menos 1.000 de oro por nivel y los objetos newbie hasta el nivel 12. No se cae en zona de pelea (trigger 6).
+  - La lista `MapasNoDrop` pública está vacía.
+  - Para la demo decide Lucas; recomiendo el original.
+- [x] Hechizos por NPC: `docs/claude/contenido/npc-hechizos.json`.
+  - 98 NPC (66 en mapas) y 49 hechizos con daño y efectos.
+  - Reglas de la IA original: al azar entre sus hechizos, rango 11×9, cada 8000 ms por defecto, `Magic_and_Punch`, daño contra la resistencia mágica del jugador.
+
+### Pendientes de Contenido traídos de la nube (25/09) — **chat de Contenido archivado**
+Fuente: `docs/claude/nube/reportes-sectores.md` (rama `claude/nifty-thompson-r3ulpf`, integrada en `pc/noche-2509`). Hasta que se reabra Contenido, **Cerebro los asigna**. Aprobado por Lucas (25/09).
+- [ ] **Stats originales de NPC** (`docs/claude/nube/parches/npc-stats-originales.md` + `Tools/fix_npc_stats_original.py`: simula, y con `--aplicar` escribe). Rango preferido original (1 NPC) y **visión 15×13** para todos.
+  - ⚠ Superposición: la DEF ya se corrigió en la PC con `npc_defense_migration.py` (178 NPC).
+  - Correr primero en simulación y confirmar que solo cambian rango y visión. Después, `export_online_catalog.py` + `test_npc_vision.py`.
+  - Hace falta coordinar con Programación (`npc-vision-15x13-juego`) y Servidor (`npc-vision-15x13-servidor`).
+- [ ] **Pérdida al morir:** `Tools/add_item_drop_flags.py` (nube) agrega `noDrop`/`cantThrow`.
+  - ⚠ Superposición: la PC ya tiene `noSeCae`/`intirable` (`item_flags_migration.py`, 24/09) y `AODeathDropRulesV275`.
+  - **No duplicar:** unificar nombres de campos con Programación antes de correr nada. Documento de la nube: `docs/claude/contenido/perdida_al_morir_original.md`.
+- [ ] **Hechizos de NPC:** la nube dejó `docs/claude/contenido/npc_hechizos_original.{md,json}` (98 NPC); la PC tiene `npc-hechizos.json`.
+  - Comparar, elegir uno y borrar el otro, para la IA mágica de NPC (Programación).
+- [ ] ⏰ Sigue el recordatorio de los 21 hechizos sin sonido.
+
+- [x] (Servidor, por Contenido archivado) Datos npc-stats de la nube, **aplicados** el 25/09 04:22 (respaldo `MigrationReports/backup_npc_stats_20260925-042235` + `Respaldos/guardados-20260925-042129`): catálogo regenerado (5531/5531 NPC con visión 15×13); pasan test_npc_vision, test_coop_server y las demás. Simulación de `Tools/fix_npc_stats_original.py` OK el 25/09. **DEF: 0 cambios** (ya estaba corregida); rango preferido: 2 NPC (668 Scramer Pícaro 0→5, 117 Grindal 1→0); visión 15×13: 5531 NPC en 430 mapas. Arreglé el script para procesar de a un mapa (se quedaba sin memoria). Programación ya puede aplicar npc-vision-15x13-juego.
+
+- [x] (Programación, 25/09) Claves repetidas en los .dat: el servidor original las lee con clsIniManager (quicksort + búsqueda binaria), no "la última" ni "la primera". `Tools/ao_ini_original.py` lo imita; `map_migration`, `fix_npc_stats_original`, `item_flags_migration` y `add_item_drop_flags` ya lo usan. Simulación (`impacto`): npc_loot 4 campos (650 oro, 754/1374 respawn, 1287 atacable), items.json 22 (precios 481/483/742/2679, nivel 1947, anim 885, gráfico+ícono 2513/3418, nombre 2513, defensa 2851, descripciones), mapas: oro del NPC 650 en 596 NPC de 149 mapas. Hechizos: 670/1356 Sp1=25 (ya en npc_hechizos_original.json). **Aplicado 25/09 05:04** (`impacto` = 0 pendientes; respaldo `guardados-20260925-050348`; `test_controls` PASA). Falta: Servidor regenera el catálogo.
+  - ⚠ Se van a notar: **objetos 481 y 483 pasan de valer 100.000 a 1** (el original lee Valor=1); **el objeto 2513 pasa de "Moneda de oro" a "Moneda de cobre"** (y su gráfico 51994→51993). También 742 (280→40) y 2679 (10→0) de valor, 1947 nivel mínimo 47→1, 885 animación 1→145, 3418 gráfico 62157→62153, 2851 defensa mínima 25→20, 11 descripciones.
+  - NPC: 650 da 4 de oro (antes 0, en npc_loot y en 596 NPC de 149 mapas); 754 respawn máx. 360→60; 1374 3600→4500; 1287 deja de ser atacable.
 
 ## 5 · Interfaz y Controles
 - [x] Tooltip completo de la hotbar: hechizo (nombre, tecla, maná/energía, CD y restante, objetivo/área/skill shot, efecto, descripción, avisos) y consumible (nombre, tecla, cantidad, efecto). En `AOShortcutHUDV260`.
 - [x] Hotbar v262-bis: clic derecho vacía el slot (`AOActionBarDragDropV261`); se bloquea con chat/modales o durante un arrastre.
 - [x] Auditoría de textos superpuestos y debug: 2 superposiciones reales (cartel ESPÍRITU vs chat; botón Grupo vs hotbar en 4:3) y HUD viejos ocultos. Pedidos a Programación y Servidor abajo. En los archivos de Interfaz no hay botones ni hotkeys de debug.
 - [x] Demo fase 1: `docs/claude/demo/ui.md` (menú → demo, formulario de retos fiel a `frmRetos`, invitación aceptar/rechazar, conteo, marcador, resultado, espectadores, ventanas reutilizables y eventos que necesita de Servidor).
-- [ ] Ver jugando (con capturas) el tooltip, el cartel ESPÍRITU al morir y el botón Grupo junto a la hotbar (online), a 16:9 y a 4:3. Pedir a QA una prueba automática del clic derecho y del tooltip (V261 no tiene QA).
+- [x] Demo fase 2 · entrega 1 (V272):
+  - Botón DEMO AO BATTLESERVER en INGRESAR (`AOMainMenuV140.BattleDemo` / `BattleDemoOnline`).
+  - Formulario de retos fiel a `frmRetos` con los gráficos originales (`Resources/AOMigrator/ClassicUI/Retos/`), abierto desde el botón RETOS del HUD, `/RETAR` o el menú de usuario.
+  - Invitación ACEPTAR/RECHAZAR, reto enviado con CANCELAR, conteo, marcador, resultado, carteles de los rings, anuncios y comandos `/ACEPTAR` `/CANCELAR` `/ABANDONAR` `/RETOS`.
+  - Contrato `AODuelUI` (`AOInterfaceDuelV272.cs`) + dibujo (`AOInterfaceDuelHUDV272.cs`) + backend simulado solo del editor (`Editor/AOInterfaceDuelSimV272.cs`, menú AO Migrator > Demo AO BATTLESERVER > Retos (simulación)).
+- [x] QA de V272 + V261 (`test_interface_unity.py`, 24 capturas): pasa todo salvo 3 chequeos del menú que miden los textos viejos. Arreglado: textos del menú DEMO (botón DEMO a 18 px, subpanel "JUGAR CON AMIGOS" / "SOLO DUNGEON"), error del formulario debajo de la fila de ítems, cartel del ring con contorno de 8 lados en 13 px negrita, rects expuestos para QA (`AODuelUI.ScoreboardRect/CenterRect/NoticeRect/UserMenuRect/RingLabelRects`, `AOInterfaceV0101.ChatLinesRectGUI`). Pedido a QA: actualizar la lista de textos del chequeo.
+- [x] 24/09 23:01 · `test_interface_unity.py` PASA completo (0 fallas, 0 errores de log, 7 guardados intactos) con el enganche de Servidor ya en `AOOnlineClientV240`. Agregado: empate por tiempo, `LocalName` online del cliente de red, `AODuelUI.HotbarRect`/`ViewportRect` para el chequeo estricto de QA.
+- [ ] Ver en Play: cartel ESPÍRITU y botón Grupo (online) a 4:3.
+- [ ] Cuando Servidor y Programación conecten los enganches: probar un reto real con 2 clientes.
+- [x] 25/09 · Arco a distancia en controles (pedido de Programación) + V278 cursores originales:
+  - `AOActionBarV260`: clic del mundo ignorado mientras `IsRangedTargeting`/`ConsumedInputThisFrame`; Detener cancela el apuntado; MOBA con arco + clic derecho sobre NPC atacable → `ShootFromControls`.
+  - El menú de usuario de retos tampoco abre al apuntar.
+  - `AOInterfaceCursorV278`: E_ARROW al apuntar con arco y E_CAST al apuntar hechizo (extraídos de `AO20.res`, `ClassicUI/Cursores/`).
+  - Build auxiliar 0 errores; Unity en batch compila sin errores e importa los cursores. Respaldo `guardados-20260925-031814`.
+- [x] 25/09 03:47 · V278 + arreglos de la revisión de código:
+  - Error de `SetSpellMacros` avisado al soltar.
+  - Arrastrar bloqueado con chat o modales.
+  - Reasignar tecla: el clic fuera del recuadro cancela.
+  - Texto "hasta 11 jugadores (anfitrión + 10)".
+  - `chatStyle.richText = false`.
+  - `test_controls_unity.py`: PASS etapa 7 (03:44; el script cortó por tiempo, pero el informe y el log dicen PASS).
+  - `test_interface_unity.py`: PASS (0 fallas, 0 errores, 7 guardados intactos).
+  - Respaldo `guardados-20260925-034023`.
+- [ ] Ver los cursores E_ARROW/E_CAST en Play (la prueba no los captura).
+- [x] 25/09 04:12 · Nombres del formulario de retos = `ValidarNombre` original (reutiliza `AOCharacterCreationV170.ValidateName`). La creación de personaje ya filtraba como el original (A–Z, 3–18, espacios simples): sin homoglifos. `test_interface_unity.py` PASA.
+- [x] 25/09 04:41 · «Luz mejorada» en Ajustes > Video (preferencia `AOPlayerSettingsV230.EnhancedLighting`, por defecto Original; `AOLighting2DV283.SetEnhanced` al arrancar y al cambiar). Build 0 errores; `test_interface_unity.py` PASA; respaldo `guardados-20260925-043832`. El piso recibe las luces cuando Programación aplique el material.
+- [x] 25/09 10:33 · Bug R-10 de QA (`duelRoundEnd` después de `duelEnd` pisaba «¡VICTORIA!»): `ReceiveRoundEnd` ignora rondas sin reto en curso, y la ronda que define el reto solo actualiza el marcador (fiel a `ProcesarRondaGanada` → `FinalizarReto`). `test_duel_unity.py` y `test_interface_unity.py`: PASAN. Respaldo `guardados-20260925-102832`.
+- [x] 25/09 10:58 · «Gráficos HD» en Ajustes > Video (pedido de Lucas, turno 18).
+  - Preferencia `AOPlayerSettingsV230.HDTextures` (por defecto HD), aplicada en `OnStart` (`BeforeSceneLoad`).
+  - Al cambiar el tilde: `AOWorldManagerV07.SetHDTextures` rearma el mapa actual. Carteles y puertas cambian al próximo mapa (limitación de Programación).
+  - Verificado: build 0 errores; `test_interface_unity.py` y `test_controls_unity.py` PASAN; respaldo `guardados-20260925-105445`.
 
 ## 6 · QA y Releases
 - [x] Pruebas automáticas aisladas para V261, V267, V268, V269 y V130: `Editor/AOModulesQA270.cs` + `python Tools/test_modules_unity.py` → `MigrationReports/modules_v270.json` (+ captura `modules_v270.png`). Si hay recarga de scripts en Play, protege el guardado, restaura el Input System y corta Play.
 - [x] Volver a correr `test_modules_unity.py` después del fix de V267: `modules_v270.json` de las 19:43, `passed: true`, etapa 7, 0 fallas, 0 errores de log (incluye pared e impacto en NPC). Verificado por QA leyendo el informe.
 - [x] Demo fase 1: `docs/claude/demo/pruebas.md` rev. 2, alineado con `arquitectura.md`, `red.md`, `retos-reglas.md` y `dungeon-npcs.json`. D-00 (`modelo_progresion.py --check`) = OK.
 - [ ] Correr todas las pruebas y armar el informe de estado.
-- [ ] Build del cliente + ZIP + copia del 0.25 + registrar el commit.
+- [x] Build del cliente 0.26 (384fe18) + ZIP + copia del 0.25 + `VERSION.txt`. Ver "Hecho".
+  - **0.26 = protocolo 2.** `Protocol = 2` en 384fe18. DLL del build: 20:20; el protocolo 3 entró a `Assets/` a las 22:20. Conexión probada: `test_coop_server.py` de 384fe18 contra `Server-next-v260/AOOnlineServer.exe` (datos, puerto y clave temporales) → PASS (incluye enfriamiento del skill shot y sincronización de meditación y casteo).
+  - **Desde ahora, cualquier build del repo = protocolo 3 (necesita el servidor 3).** No armar otro build hasta el aviso de Cerebro.
+- [ ] **Guardado de Lucas:** a las 20:49 `save_slot_1.json` pasó de "Luca" (clase 6, 170 EXP, 2 hechizos) a "Apostol" (personaje nuevo). ¿Lo hizo Lucas? Si no, restaurar "Luca" desde `Respaldos/guardados-20260924-201447` **solo con su OK**. Estado actual respaldado en `guardados-20260924-221600`.
+- [ ] Prueba de humo del `.exe` sin tocar guardados reales: hoy el cliente compilado usa la misma carpeta que el editor (productName). Hasta que exista `--ao-test-profile` (fase 2), la prueba la hace Lucas o se hace con una sesión que no guarde.
+- [x] Prueba de la interfaz de retos V272 + hotbar V261: `Editor/AOInterfaceQA274.cs` + `python Tools/test_interface_unity.py` → `MigrationReports/interface_v274.json` + 24 capturas en `MigrationReports/interface_v274/` (16:9 = 1600×900 y 4:3 = 1024×768).
+- [x] Volver a correr `test_interface_unity.py` después del arreglo de Interfaz: 3.ª corrida (22:55) **PASA** (0 fallas, 0 errores de log, 24 capturas, 7 guardados intactos; respaldo `guardados-20260924-225236`). Ahora incluye el chequeo automático de superposición y posición en cada captura (rects `AODuelUI.*Rect`, chat y hotbar; marcador arriba al centro, conteo y resultado en el primer tercio, aviso arriba a la derecha) y el ancho de los textos del menú por estilo. 4.ª corrida (23:02): chequeo **estricto** con `AODuelUI.HotbarRect` y `ViewportRect` (sin depender de `Screen`; los elementos no se salen del viewport) → PASA en las 24 capturas; respaldo `guardados-20260924-230158`.
+- [x] Demo R-2/R-3 (reto en Unity): `Editor/AODuelQA284.cs` (V284) + `python Tools/test_duel_unity.py` → `MigrationReports/duel_v284.json` + capturas en `MigrationReports/duel_v284/`. Levanta su propia instancia `--test --demo --test-time-scale 0.3` (datos, puerto y clave temporales, catálogo real) con los bots Pepe y Juan.
+- [x] `test_duel_unity.py` con los arreglos de Servidor (`duelHurt` por ronda, `OnDestroy`) y el `RingLabelTile` de Programación. R-2: rondas [0, 1, 0], gana Unity 2–1, premio 1.800 y oro +800. R-3 completo: espectador en la grada (79,70) que ve el cartel, arena igual al generador, no entra al ring y le rechazan el ataque. Log sin excepciones; 0 claves temporales.
+- [x] R-10 arreglado entre Interfaz (`ReceiveRoundEnd` ignora el fin de ronda si el reto ya terminó y la ronda final no anuncia, fiel a `ProcesarRondaGanada` → `FinalizarReto`) y Servidor (avisos antes de la respuesta). `test_duel_unity.py` **PASA completo** (corrido por Interfaz a las 10:30 y 10:33; QA verificó `duel_v284.json`: 0 fallas y 0 errores, y la captura `r2_victory.png`: "¡VICTORIA! +1.800 (impuesto 200)", oro 5800). **R-2/R-3 en verde.**
+- [x] Turno 16 (10:37): con el arreglo de Arte (sin posproceso URP, viñeta propia) `test_lighting_unity.py` **PASA**: Original 0/0; Mejorada 90 Light2D, 0 Volume, cámara centrada; vista contra Original: Mejorada corr0 0,957 y noche 0,915, franjas [0,0,0], sin duplicado. Respaldo `guardados-20260925-103638`.
+- [x] (Hecho) Turno 16.º (después de Arte): instalar la versión nueva de `AOLightingQA287` (guarda `ViewportRect` y controla que la cámara centre al jugador) y correr `test_lighting_unity.py` con el arreglo del posproceso de Arte. Ahora la prueba incluye siempre `Tools/qa_view_check.py`: compara Mejorada y noche contra Original por bordes y falla si la vista se corre o se duplica. Con las capturas de las 10:2x detecta el duplicado: franjas [77, 0, 0].
+- [x] Pedido de Arte: `Editor/AOLightingQA287.cs` (V287) + `python Tools/test_lighting_unity.py` → `MigrationReports/lighting_v287.json` (PASA) y 3 capturas en `MigrationReports/lighting_v287/`. Con Original: 0 Light2D y 0 Volume. Con Mejorada: 90 Light2D + 1 Volume (el mapa tiene 88 luces). De noche (23 h): 90.
+
+## 7 · Higgsfield
+- [ ] **Remaster HD, ronda 1 de zonas: APROBADA por Lucas (25/09).** 9 hojas, ~22,5 créditos, **tope 25**. Lo que ya está hecho no se rehace: 40,25 créditos gastados en la nube; piloto y 20 piezas instalados.
+  - Guía: `docs/claude/nube/hd/ullathorpe.md`. Estado: `docs/claude/nube/hd/zonas/`.
+  - Método corregido: no pasar la hoja aprobada como referencia en hojas del mismo material.
+  - Importar: primero **sin** `--aplicar`, mostrar el resultado a Arte y Lucas, y después aplicar con el candado de Unity.
+  - Anotar los créditos en `docs/claude/higgsfield/`.
+Créditos: ~960 (Plus, 25/09). Nada se genera sin OK de Lucas + costo antes; integra Arte; puerta de QA (`Tools/hd_asset_gate.py`). Respuestas de los sectores: `docs/claude/higgsfield/consulta-sectores.md`.
+- [x] Consulta a los 7 sectores (25/09): contestaron los 7. Resumen en `consulta-sectores.md`.
+- [x] Ronda 1 generada (25/09, OK de Lucas): 9 hojas, **22,5 créditos** (saldo 938,11). 21 piezas aceptadas y 31 pendientes, **sin aplicar**. Detalle: `docs/claude/higgsfield/lotes.md`.
+- [x] Ronda 2 (25/09, OK de Lucas): 6 hojas, **15 créditos** (saldo 923,11). Sin negro; 31/31 pasan la puerta, 13 dudosas a ojo. `--igualar-color` agregado a `ulla_piloto.py` (pedido de Arte).
+- [x] Arte aprobó la propuesta (25/09) salvo 3 piezas: `5087` (6,3) y (1,4), `6215` (3,1).
+- [x] **Instalado (25/09 04:35):** 7 atlas (`tex_5087`, `6000`–`6004`, `6215`), 49 piezas, en `Assets/Resources/AOMigratorHD/WorldV07/Textures/`. `6002`–`6004` son nuevos (Unity les crea el .meta al importar). Respaldo de los anteriores: `../AO_HD/ullathorpe_zonas/respaldo_hd_antes/`.
+- [x] Verificado en el juego por Arte + capturas de QA: sin costuras, combina con la luz Mejorada.
+- [ ] Ronda 3 (opcional): las 3 rechazadas, 1 hoja, 2,5 créditos, si Lucas quiere.
+- ~~Piloto de tiles de la demo y meditación de la demo~~: **anulado** (25/09, Lucas: el HD no va en la demo).
+- [ ] Después: ícono del .exe y banner/capturas para `LEEME.md` (QA); FX de hechizos PvP y meditación 115–120 (Arte).
 
 ## Pedidos entre sectores
 (formato: `fecha · de → para · archivo · qué hace falta`)
+- 24/09 · Programación → Servidor · arco · ataque a distancia en línea: aceptar ataques a NPC con arma de proyectil a ±11/±9, validar munición (`inventory.munition` del snapshot con `subType == munition` del arma), gastar 1 unidad con `remove` e intervalo de 1200 ms. El cliente en línea hoy muestra «todavía no disponible».
+- 24/09 · Programación → Interfaz · controles · mientras `combat.IsRangedTargeting` o `combat.ConsumedInputThisFrame`, el clic no mueve ni selecciona; cursor de flecha en el modo apuntar; MOBA: clic derecho sobre un NPC con `HasRangedWeapon` → `ShootFromControls(x, y)` en vez de acercarse. La munición equipada ya cuenta en `IsEquippedPublic`.
+- 24/09 · Programación → QA · pruebas del arco: equipar flechas con doble clic, Usar arco → clic en NPC a ≤11/≤9 = daño y −1 flecha; fuera de rango = nada; sin flechas = desequipa y avisa; energía < 10 = no dispara; 1,2 s entre flechas; guardado con `munition`.
+- 24/09 · Programación → QA · pruebas · sumar a `AOModulesQA*`: intervalo de ataque 1,165 s (arco 1,2 s); regeneración (con armadura, comida y bebida, 10 s sin golpe de NPC → +5–10 % cada 8 s; sin armadura no regenera); penalización de EXP (nivel 20 contra NPC nivel 10 = 70 %); EOT sin doble modificador; guardado de misiones con `completedTimes`.
+- 24/09 · Programación → Contenido · `Tools/demo_maps/1000.json` · qué NPC de servicio lleva el hub (sacerdote para resucitar, banquero, pociones…): `npcIndex` y, si querés, la casilla. El recorte de Ullathorpe no trae sacerdote ni banquero; trae mercaderes y NPC de misiones de Ullathorpe (403, 407, 1331), que por ahora no se copian. → **Hecho:** Contenido pasó 15 NPC (sacerdote 1, banquero 3, alquimista 4, provisiones 8, armeros, hechiceros y armaduras); ya están en `1000.json`.
 - 24/09 · Programación → Servidor · demo · leer `docs/claude/demo/arquitectura.md` §8 y los Δ: Water deja pasar proyectiles (en la línea de vista es transparente), SpawnA/SpawnB con lados alternados, tema fijo por ring pero se manda igual, `npcLayoutVersion` en el catálogo, ignorar `hp`/`dead` del snapshot durante el reto, enlazar `Runtime/Shared/*.cs` en el csproj, revisar la compra al comerciante (oro). → **Aceptado (Servidor):** `red.md` §12 bis. Compra y venta ya pasan por el servidor; en duelEnd se restauran solo vida, maná, estados y posición.
 - 24/09 · Programación → Contenido/Arte/Interfaz/QA · demo · pedidos en `docs/claude/demo/arquitectura.md` §8.
 - 24/09 · Programación → Servidor · `AOOnlineClientV240` · exponer `SupportsNpcSpell` como público sin mensaje (o un `CanCastNpcSpell`) para chequear antes de lanzar skill shot. Además: el proyectil es solo local, los otros jugadores no lo ven. → **Hecho (Servidor):** `AOOnlineClientV240.CanCastNpcSpell(spellId)`, público y sin mensaje. Que el proyectil lo vean otros es el punto 3 de la propuesta a Cerebro.
@@ -96,10 +243,61 @@ Especificación en `docs/claude/demo-arenas.md`.
 - 24/09 · QA → Cerebro · Unity/candado · a las 19:04 una recompilación forzada entró en medio de mi Play. Eso reinicia las variables estáticas, incluida la protección de guardados. Pedido: mientras alguien tiene el candado, nadie refresca ni recompila Unity. Sugerencia para Lucas: Preferencias > General > *Script Changes While Playing* = **Stop Playing and Recompile**. La prueba nueva ya se defiende: si hay recarga en Play, protege y corta Play.
 - 24/09 · QA → Programación · `AOSkillShotProjectileV267` · **bug:** el skill shot nunca daña a un NPC. `CheckMapCollision` corre antes que `FindNpcHit` y `ProjectileBlockedBetween` toma como pared la casilla del NPC (`AOInteractionRegistry.IsBlocked`), así que explota a 0,5 del centro (hitRadius 0,38). Caso: Dardo Mágico → Thelma (60,37), HP sin cambio. Lo reproduce `test_modules_unity.py`, etapa 7. → **Hecho (Programación, 19:44):** la colisión del proyectil ya no toma el cuerpo del NPC como pared (`AOGridMap.ProjectileBlockedBetween(..., npcsBlock:false)` + `AOInteractionRegistry.IsBlocked(x,y,npcsBlock)`). El impacto lo resuelve `FindNpcHit` por radio. `test_modules_unity.py`: **PASA** etapa 7, 7 guardados intactos, `aod_log_errors -DesdeUltimoPlay`: sin errores. Respaldo `guardados-20260924-194155`.
 - 24/09 · QA → Servidor · `red.md` §3 (libro) · el resto de la división entera del pago ("no se reparte") necesita su propia línea en el libro (caja o descarte). Si no, el invariante de oro de A-01/A-02 no cierra.
-- 24/09 · QA → Arte · `arte.md` · rango numérico de densidad de obstáculos por tema (mín–máx %) para G-09.
-- 24/09 · QA → Contenido/Cerebro · `progresion.md` · D-02: hasta el nivel 30, Clérigo 13,3 h vs Guerrero 7,2 h (1,85×). Mi criterio propuesto es ≤ 1,5× por tramo: ¿se ajusta el criterio o la distribución de pisos o drops?
+- 24/09 · QA → Arte · `arte.md` · rango numérico de densidad de obstáculos por tema (mín–máx %) para G-09. → **Hecho (Arte):** `arena_palette.json` (`densidad`) + `demo_arena_palette_check.py`; QA lo corrió: OK. Integrado en `pruebas.md`. → **Hecho (Arte):** Bosque 10–18, Desierto 8–14, Nieve 8–15, Mazmorra 12–20, Pantano 10–18, Ciudad 8–14 (% de las 437 celdas). Fuente de verdad: `StreamingAssets/AOMigrator/ArenaGen/arena_palette.json`; G-11: `python Tools/demo_arena_palette_check.py`.
+- 24/09 · QA → Contenido/Cerebro · `progresion.md` · D-02: hasta el nivel 30, Clérigo 13,3 h vs Guerrero 7,2 h (1,85×). Mi criterio propuesto es ≤ 1,5× por tramo: ¿se ajusta el criterio o la distribución de pisos o drops? → **Cerebro:** no se toca el balance; criterio ≤ 2× y la diferencia del clérigo se reporta como característica del original (aplicado en `pruebas.md`).
+- 24/09 · QA → Interfaz · `AOMainMenuV140` (estilo `entrancePrimary`, 22 px en negrita, botones de 324) · **bug:** los textos se cortan en 16:9 y 4:3. "ARENAS Y DUNGEON CON AMIGOS" mide 461 px, "SOLO DUNGEON (SIN CONEXIÓN)" 445 px y "DEMO AO BATTLESERVER" 341 px. Capturas: `MigrationReports/interface_v274/menu_demo_*.png`. Menores: el error del formulario de retos toca el borde del campo de oro (`form_error_43.png`); el cartel del ring del espectador se lee poco sobre el pasto (`spectator_*.png`).
+- 25/09 · QA → Servidor · `AOOnlineClientV240` L432 · **bug grave:** el `duelHurt` (hp 0) llega por el diario **después** de `duelRoundEnd`/`duelRoundStart`. Deja `Down=True` en la ronda siguiente: vida llena, "Caíste…", `CanFight=False`, no puede atacar. Se reprodujo en 2 corridas (R-08, `duel_v284/r2_victory.png`). Arreglo: `round` en `duelHurt` e ignorarlo si no es la ronda actual (o solo con `Phase == Fight`).
+- 25/09 · QA → Servidor · `AOOnlineClientV240.OnDestroy` L626 · al salir con la sesión abierta, `Checkpoint` → `CaptureOnline` usa el `AOSaveGameV140` destruido → `MissingReferenceException`; el último checkpoint se pierde.
+- 25/09 · QA → Programación · `AODuelUI.RingLabelTile` · solo lo asigna el simulador; en el cliente real nadie lo conecta → el espectador no ve carteles de sala sobre los rings.
 
 ## Hecho
+- 25/09 · QA · build 0.27 **candidato** (e7ed3b6, 12:28, protocolo 3): en `Release/Client`, pero no se empaquetó (no es el definitivo). `Cliente-para-amigos.zip` sigue siendo el 0.26; copia en `Cliente-anterior-v026.zip`.
+- 25/09 · QA · demo sin conexión aislada: `Editor/AODemoSaveQA289.cs` (V289) + `python Tools/test_demo_save_unity.py`. Guarda de verdad, no corre si ya existe `AO_BattleDemo/` y nunca restaura solo.
+  - Recorrido: crear en el hub (52,58, mirando al sur), guardar, pasar el menú a normal y guardar de nuevo → **PASA**. Solo `AO_BattleDemo/` (partida, `.bak`, libro de hechizos y banco); los 7 normales idénticos; la carpeta creada se movió a la copia temporal. Respaldo `guardados-20260925-123758`.
+  - Falta: commit de Cerebro → build 0.27 definitivo → R-4, ZIP y `VERSION.txt`.
+- 25/09 · Programación · demo sin conexión (pedido de Lucas): slot `AO_BattleDemo/` (partida + libro de hechizos + banco, antes compartidos en la raíz), modo fijado por sesión, personaje nuevo en el hub 1000 (spawn 52,58, al sur), /HOGAR y volver a casa al hub, EXP por tramo y oro ×2 sin conexión. `test_controls` y `test_modules` PASAN (7 guardados intactos). Respaldo `guardados-20260925-123245`. Falta la prueba de punta a punta de QA (crear demo + hash de los normales).
+- 25/09 · QA · turno 19 (11:00): **HD + todas las suites en verde.**
+  - Nuevo `Editor/AOHDQA288.cs` (V288) + `Tools/test_hd_unity.py`. Ullathorpe Original vs HD × luz Original/Mejorada: 9 atlas HD, 9.170/11.025 sprites de capa a 128 ppu. Misma grilla (hash de colisiones), ninguna pieza de Layer_1..4 movida ni con otro tamaño en el mundo. `qa_view_check` HD vs Original 0,92/0,93, franjas [0,0,0]. Capturas en `MigrationReports/hd_v288/` (pasadas a Arte).
+  - Nuevo `Tools/test_all_unity.py`: corre en orden controles, módulos, interfaz, luces, HD y retos, con resumen. Todas **PASAN**; 7 guardados intactos y sin archivos nuevos; 0 claves temporales; Editor.log sin errores. Respaldo `guardados-20260925-105842`.
+- 25/09 · Programación · texturas HD de Higgsfield en el juego: parche de la nube (AOWorldManagerV07 carga primero AOMigratorHD, rect y pixelsPerUnit ×4, `UseHDTextures` = true) + `SetHDTextures(bool)` en caliente (evento `HDTexturesApplied`, `HDTextureCount`) + importador `Editor/AOHDTextureImportV279.cs`. Arreglado: los 11 atlas estaban importados a máx. 2048, bilineal y comprimidos (5087 y 6215 quedaban a la mitad); ahora 4096/2048 completos, Point, sin compresión (log `[AO HD] tex_N WxH`). `test_controls` y `test_modules` PASAN con HD. Respaldo `guardados-20260925-105221`. Falta: captura Original vs HD de Ullathorpe (prueba de QA) y el tilde de Interfaz.
+- 25/09 · Programación · revisión de la nube: `FindNpcHit` del skill shot solo toma NPC de la grilla del proyectil (`AONPCMovementV08.Grid`); el clic de `TryTargetMouse` que se consume aunque falle el hechizo es fiel al original (no se toca). `test_modules` PASA. Respaldo `guardados-20260925-102629`.
+- 25/09 · Programación · claves repetidas de los .dat aplicadas (`Tools/ao_ini_original.py`: npc_loot 4, items 22, oro del NPC 650 en 149 mapas) + carteles de sala para espectadores (`AODuelUI.RingLabelTile` desde `AODuelClient`). `test_controls` PASA.
+- 25/09 · QA · R-2/R-3 del reto en Unity contra bots (3 corridas; la 1.ª se anuló por el choque de Unity de las 04:43). Última (04:56):
+  - **Pasan:** reto enviado desde la UI; conteo que congela al jugador; arena igual al generador (misma semilla que el bot, sala 1 Bosque); Unity gana la ronda 1 atacando; espectador en la sala 4 (Mazmorra) con la arena aplicada, que no entra al ring, al que el servidor le rechaza el ataque y que ve el anuncio del ganador.
+  - **Fallan:** la ronda 3 (bug `duelHurt` tardío de Servidor) y, en consecuencia, el premio y el oro. El cartel de ring del espectador no se dibuja (Programación).
+  - 7 guardados intactos y sin archivos de guardado nuevos. 0 claves temporales de prueba. Respaldos `guardados-20260925-044158`, `-044529` y el de la 3.ª corrida.
+- 25/09 · Programación · arreglo team 0/1 en `AODuelClientV281`; parches de la nube: EOT en NPC (a mano), giro del skill shot y visión 15×13 (git apply); caída al morir sin conexión `AODeathDropV286` (regla V275, campos `noSeCae`/`intirable` en ItemDef, `dropOnDeath` del mapa, sin V900). Unity sin errores; controles, módulos e interfaz PASAN; mapas de la demo = constructor. Respaldo `guardados-20260925-042810`.
+- 25/09 · Programación · tarea 3 PvP en el ring (`AODuelClientV281` + combate, magia, inventario, jugador, rpg, skill shot) y flecha en vuelo. Unity sin errores; `test_controls_unity`, `test_modules_unity` y `test_interface_unity` PASAN. Respaldo `guardados-20260925-041355`.
+- 25/09 · QA · hallazgos de la nube resueltos.
+  - `Tools/aod_backup.ps1` ahora exporta también las PlayerPrefs del editor (`PlayerPrefs_Editor.reg`, en el manifiesto) y copia `Server/SavesDemo` si existe.
+  - **V280 `Editor/AOQATestPrefsV280.cs`:** al volver a modo edición (o con el marcador `Temp/qa_prefs_cleanup`) anula `TestPrefixOverride` y borra solo las claves `AO.(Controls|Modules|Interface)QA.<guid>.*` (DeleteKey + registro).
+  - Se borraron 177 claves desde Unity y 46 viejas desde afuera: Unity (Mono) no las veía. Quedan 0; los 9 ajustes `AO.PlayerSettings.v1.*` de Lucas quedaron idénticos. Respaldo previo: `guardados-20260925-035036`.
+  - `AOOnlineBuildV240`: `restart_online_editor` ya no guarda escenas ni assets; con escenas sucias no reinicia. Compila, pero no se probó en vivo porque cierra Unity.
+  - Con V278 (arco y cursores) + V282 de Arte: `test_controls_unity.py` PASA (etapa 7) y `test_interface_unity.py` PASA (0 fallas, 24 capturas). 7 guardados intactos y Editor.log sin errores.
+  - Ojo: el primer Play después de importar tardó más que el límite del lanzador (160 s): la prueba pasó, pero el `.py` cortó antes. → Con OK de Cerebro, los lanzadores `test_controls/modules/interface_unity.py` esperan ahora ≥ 300 s la importación y el Play (interfaz, 360 s el Play).
+- 24/09 · Programación · arco a distancia sin conexión (inventario, combate, guardado). Unity sin errores; `test_controls_unity` y `test_modules_unity` PASAN. Respaldo `guardados-20260924-232824`.
+- 24/09 · Programación · fidelidad: intervalo 1,165 s, regeneración original, penalización de EXP (`AOExpRulesV277`), bug EOT. Unity sin errores; `test_controls_unity` y `test_modules_unity` PASAN; pruebas .NET 22/22. Respaldo `guardados-20260924-231357`.
+- 24/09 · Programación · tarea 1 cerrada: mapas 1000–1017 en Assets, oro en línea (banco y misiones) y `AODeathDropRulesV275` + `AOPvpFormulasV276` en `Runtime/Shared`. Unity y build auxiliar: 0 errores; pruebas .NET y tabla dorada: PASAN. Respaldo `guardados-20260924-225814`.
+- 24/09 · QA · `AOInterfaceQA274` (V274) + `test_interface_unity.py`, pedido de Interfaz. Cubre:
+  - menú INGRESAR → panel DEMO (sin activar `BattleDemo`);
+  - `/RETAR` sin backend;
+  - formulario: precarga y 8 validaciones (faltan jugadores, nombre inválido, repetido, mínima, máxima, sin oro, pociones) y envío;
+  - reto simulado: conteo, pelea, "Ronda para…", ¡VICTORIA!, anuncio de la sala;
+  - invitación + `/ACEPTAR`: premio de 18.000;
+  - espectador: estado del ring, anuncio y cartel sobre el jugador;
+  - `/RETOS` y error del servidor;
+  - hotbar V261: clic derecho vacía y se bloquea con la entrada capturada; texto del tooltip de hechizo y de consumible.
+
+  2.ª corrida (22:40): todo pasa salvo 3 textos del menú que no entran en su botón (pedido a Interfaz). Capturas revisadas a 4:3: marcador, conteo y aviso sin superponerse. 7 guardados intactos; respaldo `guardados-20260924-223311`.
+- 24/09 · Programación · demo fase 2, entrega 2: constructor de mapas y especificaciones de los 10 mapas de la demo, validados y deterministas (sin escribir en Assets todavía).
+- 24/09 · Interfaz · demo fase 2, entrega 1 (V272): menú DEMO, formulario de retos con gráficos originales, invitación, conteo, marcador, resultado, espectadores y comandos. Contrato `AODuelUI` para Servidor y Programación y backend simulado del editor. Build auxiliar: 0 errores. Unity compiló sin errores (18 PNG importados). `test_controls_unity.py`: PASA (etapa 7), 7 guardados intactos, sin excepciones. Respaldo: `Respaldos/guardados-20260924-222246`. Falta verlo en Play (pedido a QA).
+- 24/09 · Contenido · demo fase 2: dungeon-npcs.json definitivo, migraciones ≥ 1000, textos del hub, fórmulas PvP, reglas de muerte y hechizos por NPC. Encontrado el bug de DEF 0 en los mapas migrados. Sin tocar Assets/.
+- 24/09 · Programación · demo fase 2, entrega 1: `AOArenaGenV271` + `AODemoRatesV273` en `Runtime/Shared`, pruebas .NET y tabla dorada. Unity compila sin errores; build auxiliar: 0 errores.
+- 24/09 · QA · **cliente 0.26 (384fe18)**.
+  - Pasan `test_controls_unity.py` y `test_modules_unity.py`; compilación 0 errores; Editor.log sin errores.
+  - Build 20:20 (sin la prueba de editor ni el código de la fase 2). `Cliente-para-amigos.zip` 549,7 MB, CRC OK, sin archivos prohibidos. El 0.25 queda en `Cliente-anterior-v025.zip` (mismo SHA-256). `VERSION.txt` actualizado.
+  - Prueba de humo: arranca, carga los datos y cierra normal. **Incidente:** al cerrar reescribió `save_slot_1.json` (mismo contenido, solo cambió `savedAtUtc`) y rotó el `.bak`. Respaldo previo: `guardados-20260924-201447`.
+  - No distribuido: el ZIP se lo pasa Lucas.
 - 24/09 · Contenido · demo fase 1: `progresion.md` + `dungeon-npcs.json`. Modelo con las fórmulas del servidor VB6 y datos de npcs.dat/obj.dat/Hechizos.dat/Balance.dat. Diferencias del juego verificadas en el código. Sin tocar Assets/.
 - 24/09 · Arte · meditación: tabla original 115–120 aplicada en `meditation_fx.json` (JSON válido; simulación nivel→FX OK). Sin Play.
 - 24/09 · Arte · demo fase 1 `docs/claude/demo/arte.md` (análisis por script de los 842 mapas + graficos.ini/obj.dat/Retos.dat). Sin tocar Assets/.

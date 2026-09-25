@@ -55,6 +55,7 @@ public partial class AOActionBarV260
 
     void OnGUI()
     {
+        if (Event.current.type == EventType.Repaint) AODuelUI.HotbarRect = Rect.zero;
         if (!ShowBar() || inventory == null || magic == null) return;
         var matrix = GUI.matrix;
         var color = GUI.color;
@@ -62,6 +63,7 @@ public partial class AOActionBarV260
         GUI.matrix = Matrix4x4.identity;
         GUI.depth = -18;
         var bar = BarRect();
+        if (Event.current.type == EventType.Repaint) AODuelUI.HotbarRect = bar;
         float cell = bar.width / 8f;
         int hoverIndex = -1;
         var label = new GUIStyle(GUI.skin.label)
@@ -82,7 +84,7 @@ public partial class AOActionBarV260
             int slot = i % 4;
             int id = AOPlayerSettingsV230.SlotAssignment(CharacterName, spell, slot);
             var rect = GetSlotRectGUI(i);
-            bool enabled = !spell || AOPlayerSettingsV230.SpellMacrosEnabled;
+            bool enabled = (!spell || AOPlayerSettingsV230.SpellMacrosEnabled) && !AODuelUI.CountdownActive;
 
             GUI.color = new Color(.08f, .07f, .05f, .95f);
             GUI.DrawTexture(rect, Texture2D.whiteTexture);

@@ -51,14 +51,16 @@ def sk_tact(L):  return min(100, int(2.5 * L + 0.15 * pts(L)))
 def sk_med(L):   return min(100, int(2.5 * L + 0.2 * pts(L)))
 
 def weapon(c, L):  # (min, max, esProyectil)
-    if c == "Guerrero": return (2, 7, 0) if L < 5 else (5, 12, 0) if L < 10 else (8, 15, 0) if L < 25 else (11, 17, 0)
-    if c == "Clerigo":  return (2, 7, 0) if L < 5 else (4, 9, 0) if L < 8 else (5, 12, 0) if L < 12 else (8, 15, 0) if L < 25 else (11, 17, 0)
+    # Tope = lo que venden los comerciantes originales del hub (Hacha Dos Filos, Arco de Roble y
+    # Baculo Engarzado solo los venden mercaderes que no estan en ningun mapa).
+    if c == "Guerrero": return (2, 7, 0) if L < 5 else (5, 12, 0) if L < 10 else (8, 15, 0)
+    if c == "Clerigo":  return (2, 7, 0) if L < 5 else (4, 9, 0) if L < 8 else (5, 12, 0) if L < 12 else (8, 15, 0)
     if c == "Cazador":
-        bow = (1, 3) if L < 5 else (4, 7) if L < 10 else (7, 9) if L < 18 else (8, 11)
+        bow = (1, 3) if L < 5 else (4, 7) if L < 10 else (7, 9)
         arrow = (1, 1) if L < 5 else (2, 3)
         return (bow[0] + arrow[0], bow[1] + arrow[1], 1)
     return (1, 2, 0)
-def staff_mdb(L): return 3 if L < 10 else 5 if L < 20 else 7
+def staff_mdb(L): return 3 if L < 10 else 5
 def armor(c, L):
     body = 2 if L < 5 else 7 if L < 10 else 12 if L < 15 else 17 if L < 20 else 24 if L < 25 else 30
     if c == "Mago": body = int(body * 0.7)

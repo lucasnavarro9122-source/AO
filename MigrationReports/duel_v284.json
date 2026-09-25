@@ -1,0 +1,21 @@
+{
+    "passed": true,
+    "step": 29,
+    "message": "",
+    "failures": [],
+    "notes": [
+        "R-03 peleador: sala 2, semilla 613963705, tema Desierto, simetría 1",
+        "R-08: El aviso de 'caído' no llegó antes del fin de la ronda 2 (evento del diario tardío)",
+        "R-03 espectador: sala 2, semilla 1069254937, tema Desierto, simetría 1",
+        "R-07: Espectador en (78, 8) (grada de arriba)"
+    ],
+    "errors": [],
+    "shots": [
+        "r2_countdown.png",
+        "r2_fight.png",
+        "r2_round1.png",
+        "r2_victory.png",
+        "r3_countdown.png",
+        "r3_fight.png"
+    ]
+}

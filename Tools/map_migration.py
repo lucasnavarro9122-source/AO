@@ -15,6 +15,18 @@ from PIL import Image
 
 
 MAP_NAME = re.compile(r"mapa([0-9]+)\.csm", re.IGNORECASE)
+# Mapas >= 1000 son de la demo (demo_map_builder.py): no salen de un CSM y
+# las migraciones que reescriben catalogos tienen que conservarlos.
+DEMO_MIN_MAP = 1000
+
+
+def keep_demo_entries(catalog: Path) -> list[dict]:
+    """Entradas >= DEMO_MIN_MAP que ya estan en un catalogo {"maps": [...]}."""
+    if not catalog.exists():
+        return []
+    rows = json.loads(catalog.read_text(encoding="utf-8")).get("maps", [])
+    return [row for row in rows
+            if int(row.get("mapNumber", 0)) >= DEMO_MIN_MAP]
 
 
 class CSMError(ValueError):
@@ -138,16 +150,10 @@ def resolve_grh(grh: int, definitions: dict[int, tuple],
 
 
 def npc_dat(path: Path) -> dict[int, dict[str, str]]:
-    result = {}
-    current = None
-    for line in path.read_text("cp1252").splitlines():
-        match = re.match(r"\s*\[NPC(\d+)\]", line, re.IGNORECASE)
-        if match:
-            current = result.setdefault(int(match.group(1)), {})
-        elif current is not None and "=" in line and not line.lstrip().startswith("'"):
-            key, value = line.split("=", 1)
-            current[key.strip().lower()] = value.split("'", 1)[0].strip()
-    return result
+    """npcs.dat leído como el servidor original (clsIniManager): ver ao_ini_original.py.
+    Con claves repetidas en una sección no vale "la última" ni "la primera"."""
+    import ao_ini_original
+    return ao_ini_original.read_numbered(path, "NPC")
 
 
 def npc_entry(index: int, x: int, y: int, raw: dict[str, str],
@@ -190,7 +196,7 @@ def npc_entry(index: int, x: int, y: int, raw: dict[str, str],
         "lavaValid": bool(number("lavavalida")),
         "walkRoute": [],
         "maxHp": number("maxhp"), "minHit": number("minhit"),
-        "maxHit": number("maxhit"), "defense": number("defensa"),
+        "maxHit": number("maxhit"), "defense": number("def"),
         "attackPower": number("poderataque"),
         "evasionPower": number("poderevasion"),
         "attackable": bool(number("attackable")),

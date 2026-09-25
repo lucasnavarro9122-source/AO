@@ -1,0 +1,36 @@
+{
+    "passed": true,
+    "step": 87,
+    "message": "",
+    "failures": [],
+    "notes": [
+        "V261: El dibujo del tooltip usa el mouse real (IMGUI): se prueba el texto, no la captura."
+    ],
+    "errors": [],
+    "shots": [
+        "menu_demo_169.png",
+        "menu_demo_43.png",
+        "form_169.png",
+        "form_43.png",
+        "form_error_169.png",
+        "form_error_43.png",
+        "pending_169.png",
+        "pending_43.png",
+        "countdown_169.png",
+        "countdown_43.png",
+        "fight_169.png",
+        "fight_43.png",
+        "round_169.png",
+        "round_43.png",
+        "victory_169.png",
+        "victory_43.png",
+        "invite_169.png",
+        "invite_43.png",
+        "invite_victory_169.png",
+        "invite_victory_43.png",
+        "spectator_169.png",
+        "spectator_43.png",
+        "error_169.png",
+        "error_43.png"
+    ]
+}

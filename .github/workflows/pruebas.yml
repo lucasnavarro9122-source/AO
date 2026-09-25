@@ -46,3 +46,15 @@ jobs:
 
       - name: Prueba de NPC fijos
         run: python Tools/test_static_npcs.py
+
+      - name: Retos de la demo (custodia, rondas, pago, espectador, gracia, reinicio)
+        run: python Tools/test_duel_server.py
+
+      - name: Robustez (un hello o guardado ilegible no apaga la sala)
+        run: python Tools/test_server_robustness.py
+
+      - name: Visión de NPC 15 x 13
+        run: python Tools/test_npc_vision.py
+
+      - name: Pérdida al morir en el dungeon de la demo
+        run: python Tools/test_death_drop.py

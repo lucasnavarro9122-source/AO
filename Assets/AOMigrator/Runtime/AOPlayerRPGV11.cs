@@ -108,6 +108,9 @@ public class AOPlayerRPGV11 : MonoBehaviour
 
     public int MaxHP => Mathf.Max(1, maxHp);
     public int Mana => currentMana;
+
+    // Duel mana comes from the server (duelRoundStart) and the pre-duel value is restored at duelEnd.
+    public void SetManaFromServer(int mana) => currentMana = Mathf.Clamp(mana, 0, maxMana);
     public int MaxMana => maxMana;
     public int Stamina => currentStamina;
     public int MaxStamina => maxStamina;

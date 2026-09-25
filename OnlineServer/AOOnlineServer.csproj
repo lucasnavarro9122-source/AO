@@ -4,9 +4,13 @@
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <!-- Overridable so the protocol can be built from a draft while Unity holds Assets/. -->
+    <ProtocolPath Condition="'$(ProtocolPath)' == ''">../Assets/AOMigrator/Runtime/AOCoopProtocolV250.cs</ProtocolPath>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="../Assets/AOMigrator/Runtime/AOCoopProtocolV250.cs" Link="Protocol.cs" />
+    <Compile Include="$(ProtocolPath)" Link="Protocol.cs" />
+    <!-- Pure C# shared with Unity (arena generator, PvP formulas, demo rates): no UnityEngine allowed. -->
+    <Compile Include="../Assets/AOMigrator/Runtime/Shared/*.cs" LinkBase="Shared" />
     <Content Include="Data/catalog.json.gz" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 </Project>

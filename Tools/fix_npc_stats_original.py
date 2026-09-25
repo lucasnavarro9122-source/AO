@@ -26,16 +26,9 @@ VISION_X, VISION_Y = 15, 13
 
 
 def npc_dat(path: Path) -> dict[int, dict[str, str]]:
-    # Igual que map_migration.npc_dat (sin importar ese módulo, que necesita Pillow).
-    result, current = {}, None
-    for line in path.read_text("cp1252").splitlines():
-        match = re.match(r"\s*\[NPC(\d+)\]", line, re.IGNORECASE)
-        if match:
-            current = result.setdefault(int(match.group(1)), {})
-        elif current is not None and "=" in line and not line.lstrip().startswith("'"):
-            key, value = line.split("=", 1)
-            current[key.strip().lower()] = value.split("'", 1)[0].strip()
-    return result
+    # Como el servidor original (clsIniManager): ver ao_ini_original.py.
+    import ao_ini_original
+    return ao_ini_original.read_numbered(path, "NPC")
 
 
 def number(raw: dict, key: str, default: int = 0) -> int:
@@ -65,6 +58,35 @@ def with_values(npc: dict, values: dict) -> dict:
     return out
 
 
+def fix_map(path, dat, stats, changed_npcs, skipped):
+    """The fixed map, or None if it does not change (or is not in map_migration's compact format)."""
+    raw_bytes = path.read_bytes()
+    data = json.loads(raw_bytes.decode("utf-8-sig"))
+    if json.dumps(data, ensure_ascii=False, separators=(",", ":")).encode("utf-8") != raw_bytes:
+        print(f"AVISO: {path.name} no tiene el formato compacto de map_migration; se saltea.")
+        stats["mapas_salteados"] += 1
+        return None
+    touched = False
+    for i, npc in enumerate(data.get("npcs", [])):
+        stats["npc_en_mapas"] += 1
+        raw = dat.get(npc.get("npcIndex"))
+        if raw is None or raw.get("name", "").strip() != str(npc.get("name", "")).strip():
+            # Otra versión de npcs.dat o un NPC propio del proyecto: no adivinar.
+            skipped[npc.get("npcIndex")] = npc.get("name")
+            continue
+        values = original_values(raw)
+        new = with_values(npc, values)
+        if new != npc:
+            for key in values:
+                if npc.get(key) != new.get(key):
+                    stats[key] += 1
+            before = {k: npc.get(k) for k in values}
+            changed_npcs.setdefault(npc["npcIndex"], (npc.get("name"), before, values))
+            data["npcs"][i] = new
+            touched = True
+    return data if touched else None
+
+
 def run() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--dat", type=Path, default=DAT, help="npcs.dat original (cp1252)")
@@ -76,34 +98,13 @@ def run() -> int:
     dat = npc_dat(args.dat)
     stats, changed_npcs, skipped = Counter(), {}, {}
     pending = []
+    # One map at a time (holding every changed map in memory ran out of memory on the PC): the analysis keeps only
+    # the paths, and --aplicar fixes and writes each map again.
     for path in sorted(MAPS.glob("map_*.json"), key=lambda p: int(p.stem.split("_")[1])):
-        raw_bytes = path.read_bytes()
-        data = json.loads(raw_bytes.decode("utf-8-sig"))
-        if json.dumps(data, ensure_ascii=False, separators=(",", ":")).encode("utf-8") != raw_bytes:
-            print(f"AVISO: {path.name} no tiene el formato compacto de map_migration; se saltea.")
-            stats["mapas_salteados"] += 1
-            continue
-        touched = False
-        for i, npc in enumerate(data.get("npcs", [])):
-            stats["npc_en_mapas"] += 1
-            raw = dat.get(npc.get("npcIndex"))
-            if raw is None or raw.get("name", "").strip() != str(npc.get("name", "")).strip():
-                # Otra versión de npcs.dat o un NPC propio del proyecto: no adivinar.
-                skipped[npc.get("npcIndex")] = npc.get("name")
-                continue
-            values = original_values(raw)
-            new = with_values(npc, values)
-            if new != npc:
-                for key in values:
-                    if npc.get(key) != new.get(key):
-                        stats[key] += 1
-                before = {k: npc.get(k) for k in values}
-                changed_npcs.setdefault(npc["npcIndex"], (npc.get("name"), before, values))
-                data["npcs"][i] = new
-                touched = True
-        if touched:
+        data = fix_map(path, dat, stats, changed_npcs, skipped)
+        if data is not None:
             stats["mapas_con_cambios"] += 1
-            pending.append((path, data))
+            pending.append(path)
 
     print(f"NPC en mapas: {stats['npc_en_mapas']} | mapas con cambios: {stats['mapas_con_cambios']}")
     print("Entradas que cambian por campo:", {k: stats[k] for k in ("defense", "preferredRange", "visionRange", "visionRangeX", "visionRangeY")})
@@ -121,7 +122,8 @@ def run() -> int:
         return 0
     backup = ROOT / "MigrationReports" / time.strftime("backup_npc_stats_%Y%m%d-%H%M%S")
     backup.mkdir(parents=True, exist_ok=False)
-    for path, data in pending:
+    for path in pending:
+        data = fix_map(path, dat, Counter(), {}, {})
         shutil.copy2(path, backup / path.name)
         temp = path.with_name(path.name + ".writing")
         temp.write_text(json.dumps(data, ensure_ascii=False, separators=(",", ":")), "utf-8")

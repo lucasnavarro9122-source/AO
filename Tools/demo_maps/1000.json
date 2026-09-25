@@ -1,0 +1,205 @@
+{
+  "id": 1000,
+  "name": "Demo AO BATTLESERVER",
+  "zone": "CIUDAD",
+  "terrain": "CIUDAD",
+  "base": {
+    "fill": {
+      "grh": 6000,
+      "blocked": true
+    }
+  },
+  "structure": [
+    {
+      "op": "unblock",
+      "rect": [
+        55,
+        12,
+        4,
+        20
+      ],
+      "_": "camino norte a las Arenas"
+    },
+    {
+      "op": "unblock",
+      "rect": [
+        55,
+        73,
+        4,
+        3
+      ],
+      "_": "calle sur a la puerta del dungeon"
+    },
+    {
+      "op": "exit",
+      "x": 55,
+      "y": 12,
+      "destMap": 1001,
+      "dest": "arrival:from1000"
+    },
+    {
+      "op": "exit",
+      "x": 56,
+      "y": 12,
+      "destMap": 1001,
+      "dest": "arrival:from1000"
+    },
+    {
+      "op": "exit",
+      "x": 57,
+      "y": 12,
+      "destMap": 1001,
+      "dest": "arrival:from1000"
+    },
+    {
+      "op": "exit",
+      "x": 58,
+      "y": 12,
+      "destMap": 1001,
+      "dest": "arrival:from1000"
+    },
+    {
+      "op": "exit",
+      "x": 57,
+      "y": 74,
+      "destMap": 1010,
+      "dest": "arrival:from1000"
+    },
+    {
+      "op": "npc",
+      "npcIndex": 1,
+      "x": 50,
+      "y": 56,
+      "_": "Sacerdote: resucita y cura"
+    },
+    {
+      "op": "npc",
+      "npcIndex": 3,
+      "x": 55,
+      "y": 56,
+      "_": "Banquero <Finanzas Goliath>"
+    },
+    {
+      "op": "npc",
+      "npcIndex": 1083,
+      "x": 41,
+      "y": 39,
+      "_": "Khor <Armero de Ullathorpe>"
+    },
+    {
+      "op": "npc",
+      "npcIndex": 1097,
+      "x": 44,
+      "y": 39,
+      "_": "Perseo <Armero de Banderbill>"
+    },
+    {
+      "op": "npc",
+      "npcIndex": 1128,
+      "x": 47,
+      "y": 39,
+      "_": "Neron <Armero de Eleusis>"
+    },
+    {
+      "op": "npc",
+      "npcIndex": 1086,
+      "x": 50,
+      "y": 39,
+      "_": "Halving <Carpintero de Ullathorpe>"
+    },
+    {
+      "op": "npc",
+      "npcIndex": 1085,
+      "x": 41,
+      "y": 42,
+      "_": "Zonrie <Hechicero de Ullathorpe>"
+    },
+    {
+      "op": "npc",
+      "npcIndex": 1099,
+      "x": 44,
+      "y": 42,
+      "_": "Cleff <Hechicero de Banderbill>"
+    },
+    {
+      "op": "npc",
+      "npcIndex": 1130,
+      "x": 47,
+      "y": 42,
+      "_": "Therwn <Hechicero de Eleusis>"
+    },
+    {
+      "op": "npc",
+      "npcIndex": 1143,
+      "x": 50,
+      "y": 42,
+      "_": "Fenrir <Hechicero de Eleusis>"
+    },
+    {
+      "op": "npc",
+      "npcIndex": 1084,
+      "x": 41,
+      "y": 70,
+      "_": "Onur <Armaduras de Ullathorpe>"
+    },
+    {
+      "op": "npc",
+      "npcIndex": 1129,
+      "x": 44,
+      "y": 70,
+      "_": "Kurczak <Armaduras de Eleusis>"
+    },
+    {
+      "op": "npc",
+      "npcIndex": 1137,
+      "x": 47,
+      "y": 70,
+      "_": "Jadis <Sastre de Esperanza>"
+    },
+    {
+      "op": "npc",
+      "npcIndex": 4,
+      "x": 50,
+      "y": 70,
+      "_": "Lilith <Alquimista>"
+    },
+    {
+      "op": "npc",
+      "npcIndex": 8,
+      "x": 53,
+      "y": 70,
+      "_": "Fevien <Provisiones>"
+    }
+  ],
+  "spawn": [
+    52,
+    58
+  ],
+  "arrivals": {
+    "from1001": [
+      57,
+      14
+    ],
+    "from1010": [
+      57,
+      72
+    ],
+    "from1017": [
+      52,
+      58
+    ]
+  },
+  "music": 4,
+  "environment": {
+    "baseLight": 0,
+    "rain": false,
+    "snow": false,
+    "fog": false
+  },
+  "_npcs": "Lista de Contenido (24/09): servicio junto a la aparición, comercio alrededor. Paso x55-58 libre hacia la puerta del dungeon.",
+  "signTexts": {
+    "53,14": "Arenas de retos. De 1 contra 1 hasta 5 contra 5, con apuesta mínima de 1.000 monedas de oro.",
+    "53,73": "Dungeon: siete pisos, de nivel 1 a 30. Cuanto más bajes, más fuertes serán las criaturas."
+  },
+  "_signTexts": "Textos de docs/claude/demo/textos-hub.md (Contenido); posiciones y gráficos de Arte (carteles)."
+}

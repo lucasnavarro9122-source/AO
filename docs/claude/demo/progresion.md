@@ -10,7 +10,7 @@ Contenido y Fidelidad AO · fase 1 (solo análisis) · 24/09/2026.
 
 ## Resumen y decisiones para Lucas
 1. **7 pisos, niveles 1 → 30**, cada uno con NPC que en el AO original ya conviven en la misma zona. Hay un jefe por piso y el más fuerte queda al final (Vytaiz, 20.000 PV).
-2. **La EXP original (×1) no sirve para la demo.** Llegar a 30 lleva entre 160 h (guerrero) y 330 h (clérigo); del 20 al 30 cada nivel tarda entre 3 y 70 h.
+2. **La EXP original (×1) no sirve para la demo.** Llegar a 30 lleva entre 168 h (guerrero) y 285 h (clérigo); del 20 al 30 cada nivel tarda entre 3 y 70 h.
    - **Propuesta:** multiplicador de EXP del servidor **por tramo de nivel** (×1 · ×2 · ×7 · ×17 · ×30 · ×44). Así el total queda en **7–13 h** y cada nivel tarda entre 2 y 60 min.
    - No toca stats de NPC ni de clases, pero hay que programarlo: el original solo tiene un `ExpMult` global.
    - Un `ExpMult` global ×10–×20 también funciona (8–33 h), pero los pisos 1–3 se pasan en minutos.
@@ -62,10 +62,11 @@ Es la de `Balance.dat [EXP]`, igual a `rpg_balance.json` (`experience`). Al subi
 - Razas: Humano para guerrero, clérigo y cazador (FUE 19, AGI 19, INT 18, CON 20); Gnomo para el mago (INT 22, AGI 21, CON 18).
 - Skill de ataque: uso + 40 % de los puntos (el mago pone 60 % en Magia). Tácticas: uso + 15 %. Meditar: uso + 20 %.
 - Equipo comprado a comerciantes originales:
-  - **Guerrero:** Espada Larga → Hacha de Piedra (nv 5) → Hacha de Bárbaro (10) → Hacha de Guerra Dos Filos (25).
+  - **Guerrero:** Espada Larga → Hacha de Piedra (nv 5) → Hacha de Bárbaro (10).
   - **Clérigo:** igual que el guerrero, con Maza de Guerra en los niveles 5–7.
-  - **Cazador:** Arco Simple → Reforzado (5) → Compuesto (10) → de Roble (18), con Flecha / Flecha +1.
-  - **Mago:** Vara de Fresno → Bastón Nudoso (10) → Báculo Engarzado (20).
+  - **Cazador:** Arco Simple → Reforzado (5) → Compuesto (10), con Flecha / Flecha +1.
+  - **Mago:** Vara de Fresno → Bastón Nudoso (10).
+  - Tope = lo que venden los comerciantes originales del hub. El Hacha de Guerra Dos Filos, el Arco de Roble y el Báculo Engarzado solo los venden mercaderes que no están en ningún mapa (actualizado en fase 2).
   - **Hechizos** (mago y clérigo): Dardo, Flecha Mágica, Flecha Eléctrica, Misil y Tormenta de Fuego según la skill Magia; Descarga desde el nivel 20 (cuesta 600.000 de oro).
   - **Defensa** total supuesta por tramo: 2 / 7 / 12 / 17 / 24 / 30 (el mago, 70 %).
 - 4 s entre muertes (caminar al grupo siguiente).
@@ -166,28 +167,28 @@ NPC originales, stats sin cambios (Nv = `NPCLVL`; RM = resistencia mágica):
 | 15 | 139.866 | ×7 | 4/4/4/4 | 8 | 10 | 11 | 9 |
 | 16 | 195.813 | ×7 | 4/4/4/4 | 10 | 13 | 15 | 11 |
 | 17 | 274.138 | ×7 | 4/4/4/4 | 13 | 18 | 20 | 15 |
-| 18 | 383.793 | ×7 | 4/4/4/4 | 18 | 24 | 27 | 19 |
-| 19 | 537.311 | ×7 | 4/4/4/4 | 24 | 34 | 37 | 26 |
+| 18 | 383.793 | ×7 | 4/4/4/4 | 18 | 24 | 27 | 20 |
+| 19 | 537.311 | ×7 | 4/4/4/4 | 24 | 34 | 37 | 27 |
 | 20 | 752.235 | ×17 | 5/5/5/5 | 12 | 20 | 20 | 13 |
-| 21 | 1.053.130 | ×17 | 5/5/5/5 | 16 | 28 | 28 | 17 |
-| 22 | 1.474.382 | ×17 | 5/5/5/5 | 22 | 39 | 40 | 23 |
-| 23 | 2.064.135 | ×17 | 5/5/5/5 | 31 | 55 | 56 | 32 |
-| 24 | 2.889.789 | ×30 | 5/6/6/6 | 24 | 32 | 34 | 24 |
-| 25 | 4.450.275 | ×30 | 6/6/5/6 | 31 | 47 | 62 | 35 |
-| 26 | 5.562.844 | ×30 | 6/6/5/6 | 37 | 57 | 78 | 42 |
-| 27 | 6.953.555 | ×44 | 7/7/5/7 | 30 | 50 | 68 | 35 |
-| 28 | 8.691.944 | ×44 | 7/7/5/7 | 36 | 62 | 88 | 42 |
-| 29 | 10.864.930 | ×44 | 7/7/6/7 | 43 | 76 | 98 | 50 |
-| **Total** | | | | **7,2 h** | **10,9 h** | **13,3 h** | **8,0 h** |
+| 21 | 1.053.130 | ×17 | 5/5/5/5 | 16 | 28 | 28 | 18 |
+| 22 | 1.474.382 | ×17 | 5/5/5/5 | 22 | 40 | 40 | 24 |
+| 23 | 2.064.135 | ×17 | 5/5/5/5 | 31 | 56 | 56 | 34 |
+| 24 | 2.889.789 | ×30 | 5/6/6/6 | 24 | 32 | 34 | 26 |
+| 25 | 4.450.275 | ×30 | 6/6/6/6 | 33 | 48 | 51 | 37 |
+| 26 | 5.562.844 | ×30 | 6/6/6/6 | 39 | 58 | 62 | 44 |
+| 27 | 6.953.555 | ×44 | 7/7/6/7 | 32 | 51 | 54 | 36 |
+| 28 | 8.691.944 | ×44 | 7/7/6/7 | 39 | 63 | 69 | 44 |
+| 29 | 10.864.930 | ×44 | 7/7/6/7 | 46 | 77 | 89 | 52 |
+| **Total** | | | | **7,4 h** | **11,1 h** | **12,1 h** | **8,3 h** |
 
 **Multiplicadores comparados** (horas totales para llegar a 30):
 
 | Opción | Guerrero | Mago | Clérigo | Cazador | Nota |
 |---|---|---|---|---|---|
-| ×1 original | 160 | 260 | 331 | 179 | inviable |
-| ×10 global | 16 | 26 | 33 | 18 | niveles 1–14 en unos 15 min: P1–P3 sobran |
-| ×20 global | 8 | 13 | 17 | 9 | igual, más marcado |
-| Por tramo (propuesta) | 7,2 | 10,9 | 13,3 | 8,0 | cada piso se usa |
+| ×1 original | 168 | 264 | 285 | 188 | inviable |
+| ×10 global | 17 | 26 | 29 | 19 | niveles 1–14 en unos 15 min: P1–P3 sobran |
+| ×20 global | 8 | 13 | 14 | 9 | igual, más marcado |
+| Por tramo (aprobada) | 7,4 | 11,1 | 12,1 | 8,3 | cada piso se usa |
 
 - Hay saltos en los cambios de tramo (por ejemplo, el nivel 14 tarda 15 min y el 15, 8 min). Un multiplicador por nivel (tabla de 30 valores) lo suaviza; queda para cuando Lucas elija.
 - El mago y el clérigo son más lentos solos: es el balance original (el golpe del guerrero crece 3 por nivel). En grupo se compensa.

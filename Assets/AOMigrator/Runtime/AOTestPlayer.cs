@@ -219,11 +219,29 @@ public class AOTestPlayer : MonoBehaviour
 
     public void InteractFromControls() { if (enabled && !AOInterfaceV0101.InputCaptured) Interact(); }
 
+    // Server warp (duels): moves without touching the respawn point.
+    public void TeleportTo(int x, int y)
+    {
+        if (map == null)
+            return;
+        tileX = x;
+        tileY = y;
+        moving = false;
+        moveTime = 0f;
+        transform.position = map.TileToWorld(tileX, tileY);
+        if (character != null)
+            character.SetWalking(false);
+        UpdateSorting();
+    }
+
     bool TryStepVector(
         int dx,
         int dy,
         bool preserveWalkPhase)
     {
+        if (AODuelClient.Frozen)
+            return false;   // duel countdown (fixed positions) or down until the next round
+
         dx = Mathf.Clamp(dx, -1, 1);
         dy = Mathf.Clamp(dy, -1, 1);
         if (dx == 0 && dy == 0) return false;
@@ -273,6 +291,26 @@ public class AOTestPlayer : MonoBehaviour
             world == null ? "" : world.CurrentZone);
 
         return true;
+    }
+
+    // Girar sin cortar la animación de caminar (al lanzar un skill shot).
+    // Cambia el heading de juego: el próximo golpe va hacia ese lado.
+    public void FaceHeading(
+        int newHeading)
+    {
+        heading =
+            Mathf.Clamp(
+                newHeading,
+                AOGridMap.NORTH,
+                AOGridMap.WEST);
+
+        FindCharacter();
+
+        if (character != null)
+            character.SetHeading(
+                heading);
+
+        UpdateSorting();
     }
 
     int FacingHeading(int dx, int dy)

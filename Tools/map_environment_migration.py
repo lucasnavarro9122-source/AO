@@ -6,7 +6,7 @@ import argparse
 import json
 from pathlib import Path
 
-from map_migration import MAP_NAME, parse_csm
+from map_migration import DEMO_MIN_MAP, MAP_NAME, keep_demo_entries, parse_csm
 
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -28,12 +28,15 @@ def main() -> None:
             empty.append(path.name)
             continue
         data = parse_csm(path)
+        if data["number"] >= DEMO_MIN_MAP:
+            continue
         meta = data["meta"]
         entries.append({"mapNumber": data["number"],
                         "baseLight": meta["base_light"],
                         "rain": bool(meta["rain"]),
                         "snow": bool(meta["snow"]),
                         "fog": bool(meta["fog"])})
+    entries += keep_demo_entries(OUTPUT)
     result = {"version": "1.0", "maps": entries}
     if args.apply:
         OUTPUT.write_text(json.dumps(result, ensure_ascii=False,

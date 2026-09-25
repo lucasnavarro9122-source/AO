@@ -5,6 +5,8 @@ import re
 
 from PIL import Image, ImageChops
 
+from map_migration import DEMO_MIN_MAP
+
 
 ROOT = Path(__file__).resolve().parents[1]
 SOURCE = ROOT / "Archivos Originales/Recursos-master/Recursos-master/Minimapas"
@@ -27,7 +29,11 @@ def numbered_files(folder: Path, pattern: str) -> dict[int, Path]:
 
 def main() -> None:
     originals = numbered_files(SOURCE, r"[Mm]apa(\d+)\.bmp")
-    maps = numbered_files(MAPS, r"map_(\d+)\.json")
+    # Los mapas de la demo (>= DEMO_MIN_MAP) no tienen BMP original: su
+    # minimapa lo genera demo_map_builder.py.
+    maps = {number: path
+            for number, path in numbered_files(MAPS, r"map_(\d+)\.json").items()
+            if number < DEMO_MIN_MAP}
     if originals.keys() != maps.keys():
         raise ValueError(
             f"Map ID mismatch: {len(originals.keys() - maps.keys())} source-only, "
