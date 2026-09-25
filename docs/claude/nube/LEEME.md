@@ -17,8 +17,9 @@ Rama `claude/nifty-thompson-r3ulpf`, basada en `384fe18`. **No incluye** lo que 
 | `../contenido/perdida_al_morir_original.md` | Contenido → Programación | Reglas del original. Hoy no se cae nada al morir |
 | `../contenido/npc_hechizos_original.{md,json}` | Contenido → Programación | 98 NPC que castean. Falta toda la IA mágica |
 | `parches/npc-stats-originales.md` + `Tools/fix_npc_stats_original.py` + `Tools/test_npc_vision.py` | Contenido + Programación + Servidor | Aprobado por Lucas: DEF (28 NPC), rango preferido y visión 15×13. Corregir mapas y regenerar el catálogo **en la PC** |
+| `parches/muerte-perdida-original.md` + `muerte-{juego,online}.patch` + `Tools/add_item_drop_flags.py` + `Tools/test_death_drop.py` | Programación + Servidor + Contenido | Aprobado por Lucas: pérdida al morir como el original. Aplicar en la PC |
 | `Tools/ci_checks.py` | QA | JSON y Python válidos |
-| `.github/workflows/pruebas.yml` | QA | **Sin commitear:** espera el OK de Lucas (gasta minutos de Actions) |
+| `.github/workflows/pruebas.yml` | QA | **Activo** (OK de Lucas, 25/09). Sumar `test_server_robustness`, `test_npc_vision` y `test_death_drop` cuando se apliquen sus parches |
 
 ## Cómo integrar (Cerebro, en la PC)
 1. Subir lo de la PC a una rama (`pc/noche-2509`) y mergear esta rama encima.
@@ -34,6 +35,6 @@ Rama `claude/nifty-thompson-r3ulpf`, basada en `384fe18`. **No incluye** lo que 
 
 ## Decisiones pendientes de Lucas
 1. ~~`map_migration.py` lee campos que no existen en `npcs.dat`~~ → **Resuelto (25/09):** Lucas aprobó DEF y rango preferido originales y visión 15×13. Ver `parches/npc-stats-originales.md`.
-2. **Pérdida al morir:** ¿se implementa como el original (se cae el oro por encima de 1000 × nivel y los objetos que se pueden tirar; newbie hasta nivel 12)? Hoy no se pierde nada.
-3. **Workflow de GitHub Actions:** ¿se activa?
-4. **Remake con Higgsfield:** ¿inventario + validador + guía completos, solo inventario y costo, o más adelante?
+2. ~~Pérdida al morir~~ → **Resuelto (25/09):** como el original. Ver `parches/muerte-perdida-original.md`.
+3. ~~Workflow de GitHub Actions~~ → **Activo (25/09).**
+4. **Remake con Higgsfield:** alcance elegido por Lucas (25/09): **íconos del inventario, HUD en general, piso y agua**. Se habla en detalle cuando termine lo demás.

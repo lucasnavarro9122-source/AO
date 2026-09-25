@@ -1,0 +1,207 @@
+diff --git a/Assets/AOMigrator/Runtime/AODeathDropV900.cs b/Assets/AOMigrator/Runtime/AODeathDropV900.cs
+new file mode 100644
+index 0000000..1cf4777
+--- /dev/null
++++ b/Assets/AOMigrator/Runtime/AODeathDropV900.cs
+@@ -0,0 +1,81 @@
++using System.Collections.Generic;
++using UnityEngine;
++
++// Pérdida al morir (reglas en Shared/AODeathDropRulesV900). La llama AODeathRespawnV160.OnDeathStarted,
++// después de desequipar todo. Online la resuelve el servidor: acá solo se avisa.
++public static class AODeathDropV900
++{
++    public static void OnPlayerDeath(GameObject player)
++    {
++        if (player == null) return;
++        if (AOOnlineClientV240.Requested) { AOOnlineClientV240.ReportDeath(); return; }
++
++        AOTestPlayer movement = player.GetComponent<AOTestPlayer>();
++        AOPlayerCombatV09 combat = player.GetComponent<AOPlayerCombatV09>();
++        AOInventoryV10 inventory = player.GetComponent<AOInventoryV10>();
++        AOPlayerRPGV11 rpg = player.GetComponent<AOPlayerRPGV11>();
++        AOGridMap grid = movement != null ? movement.CurrentGrid : null;
++        if (movement == null || combat == null || inventory == null || grid == null) return;
++
++        int cx = movement.TileX, cy = movement.TileY;
++        if (grid.GetTrigger(cx, cy) == AODeathDropRulesV900.TriggerArena) return;
++
++        int level = rpg != null ? Mathf.Max(1, rpg.Level) : 1;
++        var stacks = new List<(int item, int amount)>();
++        var slots = new List<int>();
++        for (int i = 0; i < inventory.SlotCount; i++)
++        {
++            int item = inventory.GetSlotItemIndex(i), amount = inventory.GetSlotAmount(i);
++            AOItemDatabaseV10.ItemDef def = item > 0 ? AOItemDatabaseV10.Get(item) : null;
++            if (def == null || amount <= 0) continue;
++            if (!AODeathDropRulesV900.ItemFalls(def.objType, def.noDrop, def.cantThrow, def.destroyOnSell, def.untransferable, def.newbie, level)) continue;
++            stacks.Add((item, amount));
++            slots.Add(i);
++        }
++
++        AOWorldManagerV07 world = UnityEngine.Object.FindFirstObjectByType<AOWorldManagerV07>();
++        int goldItem = AONPCLootDatabaseV180.GoldItemIndex;
++        List<AODeathDropRulesV900.Drop> plan = AODeathDropRulesV900.Plan(cx, cy,
++            AODeathDropRulesV900.GoldToDrop(combat.Gold, level), goldItem, stacks,
++            (x, y) => CanDropAt(grid, world, x, y), FloorAt, out long goldKept);
++
++        long goldLost = 0;
++        int itemsLost = 0, stackIndex = 0;
++        foreach (AODeathDropRulesV900.Drop d in plan)
++        {
++            if (d.gold)
++            {
++                if (!combat.SpendGold(d.amount)) continue;
++                goldLost += d.amount;
++                AOLootPickupV09.Create(d.item, AOItemDatabaseV10.Get(d.item)?.name ?? "Oro", d.amount, d.x, d.y);
++                continue;
++            }
++            int slot = slots[stackIndex++];
++            // Primero sacarlo del inventario: si no se puede, no se crea en el piso (nada de duplicados).
++            if (!inventory.RemoveItemAtPublic(slot, d.amount)) continue;
++            itemsLost++;
++            if (d.Placed)
++                AOLootPickupV09.Create(d.item, AOItemDatabaseV10.Get(d.item)?.name ?? "Objeto", d.amount, d.x, d.y);
++        }
++
++        if (itemsLost > 0 || goldLost > 0)
++            AOInterfaceV0101.PushMessage("Al morir se te cayeron " + itemsLost + " objeto(s) y " + goldLost + " de oro.");
++    }
++
++    // Igual que CoopRoom.CanDropAt: tierra transitable, sin salida de mapa, NPC ni otro elemento que ocupe el tile.
++    static bool CanDropAt(AOGridMap grid, AOWorldManagerV07 world, int x, int y)
++    {
++        if (!grid.IsSpawnCandidate(x, y)) return false;
++        int trigger = grid.GetTrigger(x, y);
++        if (trigger == AOGridMap.TRIGGER_INVALID_POSITION) return false;
++        if (world != null && world.IsExitTile(x, y)) return false;
++        AOInteractable here = AOInteractionRegistry.FindFirst(x, y);
++        return here == null || here is AOLootPickupV09;
++    }
++
++    static (int item, int amount) FloorAt(int x, int y)
++    {
++        AOLootPickupV09 loot = AOLootPickupV09.FindAt(x, y);
++        return loot == null ? (0, 0) : (loot.ItemIndex, loot.Amount);
++    }
++}
+diff --git a/Assets/AOMigrator/Runtime/AODeathRespawnV160.cs b/Assets/AOMigrator/Runtime/AODeathRespawnV160.cs
+index d800cd4..4afe305 100644
+--- a/Assets/AOMigrator/Runtime/AODeathRespawnV160.cs
++++ b/Assets/AOMigrator/Runtime/AODeathRespawnV160.cs
+@@ -155,6 +155,11 @@ public class AODeathRespawnV160 : MonoBehaviour
+         if (inventory != null)
+             inventory.UnequipAllForDeath();
+ 
++        // Como el original: después de desequipar, se cae el oro
++        // sobre la billetera y lo que se puede tirar.
++        AODeathDropV900.OnPlayerDeath(
++            gameObject);
++
+         if (magic != null)
+             magic.ResetRuntimeForLoad();
+ 
+diff --git a/Assets/AOMigrator/Runtime/AOItemDatabaseV10.cs b/Assets/AOMigrator/Runtime/AOItemDatabaseV10.cs
+index bdc450b..de78327 100644
+--- a/Assets/AOMigrator/Runtime/AOItemDatabaseV10.cs
++++ b/Assets/AOMigrator/Runtime/AOItemDatabaseV10.cs
+@@ -102,6 +102,10 @@ public static class AOItemDatabaseV10
+         public bool untransferable;
+         public bool destroyOnSell;
+ 
++        // Pérdida al morir: NoSeCae e Intirable de obj.dat.
++        public bool noDrop;
++        public bool cantThrow;
++
+         public bool SellableToNPC =>
+             !newbie &&
+             !untransferable &&
+diff --git a/Assets/AOMigrator/Runtime/Shared/AODeathDropRulesV900.cs b/Assets/AOMigrator/Runtime/Shared/AODeathDropRulesV900.cs
+new file mode 100644
+index 0000000..65626e9
+--- /dev/null
++++ b/Assets/AOMigrator/Runtime/Shared/AODeathDropRulesV900.cs
+@@ -0,0 +1,83 @@
++using System;
++using System.Collections.Generic;
++
++// Pérdida al morir como AO20 (Modulo_UsUaRiOs.UserDie -> InvUsuario.TirarTodosLosItems).
++// C# puro, sin UnityEngine: lo usan el juego (offline) y el servidor cooperativo (online).
++// Fuente y detalle: docs/claude/contenido/perdida_al_morir_original.md
++public static class AODeathDropRulesV900
++{
++    public const int WalletPerLevel = 1000; // OroPorNivelBilletera: el oro hasta 1000 x nivel no se cae
++    public const int NewbieMaxLevel = 12;   // LimiteNewbie: hasta este nivel no se caen los objetos Newbie=1
++    public const int MaxPile = 10000;       // MaxInventoryObjs: tope por pila en un tile
++    public const int SearchRadius = 15;     // Tilelibre busca hasta 15 tiles alrededor
++    public const int TriggerArena = 6;      // ZONAPELEA: ahí no se cae nada
++    public const int ObjKey = 9, ObjBoat = 31, ObjMount = 44;
++
++    public struct Drop
++    {
++        public int item, amount, x, y;
++        public bool gold;
++        public bool Placed => x != 0 || y != 0; // sin lugar: el objeto se pierde ("nada de mochilas gratis")
++    }
++
++    public static long GoldToDrop(long gold, int level) =>
++        Math.Max(0L, gold - (long)WalletPerLevel * Math.Max(1, level));
++
++    // ItemSeCae + la protección newbie de TirarTodosLosItems.
++    public static bool ItemFalls(int objType, bool noDrop, bool cantThrow, bool destroy, bool untransferable, bool newbie, int level)
++    {
++        if (noDrop || cantThrow || destroy || untransferable) return false;
++        if (objType == ObjKey || objType == ObjBoat || objType == ObjMount) return false;
++        return !(newbie && level <= NewbieMaxLevel);
++    }
++
++    // canDrop(x, y): tile de tierra libre (sin bloqueo, salida, NPC ni jugador).
++    // floorAt(x, y): objeto que ya hay en el piso (item 0 si no hay).
++    // Primero el oro (en pilas de hasta MaxPile), después cada pila del inventario entera.
++    // El oro que no encuentra lugar se queda con el jugador (goldKept); un objeto sin lugar se pierde.
++    public static List<Drop> Plan(int cx, int cy, long goldToDrop, int goldItem, IList<(int item, int amount)> stacks,
++        Func<int, int, bool> canDrop, Func<int, int, (int item, int amount)> floorAt, out long goldKept)
++    {
++        var drops = new List<Drop>();
++        var placed = new Dictionary<long, (int item, int amount)>();
++        goldKept = 0;
++        long remaining = Math.Max(0L, goldToDrop);
++        while (remaining > 0)
++        {
++            int pile = (int)Math.Min(remaining, MaxPile);
++            if (!FindTile(cx, cy, goldItem, pile, canDrop, floorAt, placed, out int gx, out int gy)) { goldKept = remaining; break; }
++            drops.Add(new Drop { item = goldItem, amount = pile, x = gx, y = gy, gold = true });
++            remaining -= pile;
++        }
++        for (int i = 0; i < stacks.Count; i++)
++        {
++            var (item, amount) = stacks[i];
++            if (item <= 0 || amount <= 0) continue;
++            FindTile(cx, cy, item, amount, canDrop, floorAt, placed, out int x, out int y);
++            drops.Add(new Drop { item = item, amount = amount, x = x, y = y });
++        }
++        return drops;
++    }
++
++    // Tilelibre: cuadrados de radio 0 a 15, fila por fila desde arriba a la izquierda.
++    // El tile del muerto está ocupado por él. Un objeto por tile; el mismo objeto se apila hasta MaxPile.
++    static bool FindTile(int cx, int cy, int item, int amount, Func<int, int, bool> canDrop,
++        Func<int, int, (int item, int amount)> floorAt, Dictionary<long, (int item, int amount)> placed, out int fx, out int fy)
++    {
++        for (int r = 0; r <= SearchRadius; r++)
++            for (int y = cy - r; y <= cy + r; y++)
++                for (int x = cx - r; x <= cx + r; x++)
++                {
++                    if (Math.Max(Math.Abs(x - cx), Math.Abs(y - cy)) != r || (x == cx && y == cy)) continue;
++                    if (!canDrop(x, y)) continue;
++                    long key = (long)y * 100000 + x;
++                    var here = placed.TryGetValue(key, out var p) ? p : floorAt(x, y);
++                    if (here.item != 0 && (here.item != item || here.amount + amount > MaxPile)) continue;
++                    placed[key] = (item, (here.item == item ? here.amount : 0) + amount);
++                    fx = x; fy = y;
++                    return true;
++                }
++        fx = 0; fy = 0;
++        return false;
++    }
++}
