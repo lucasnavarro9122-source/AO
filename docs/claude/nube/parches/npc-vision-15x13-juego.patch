@@ -1,0 +1,69 @@
+diff --git a/Assets/AOMigrator/Runtime/AONPCMovementV08.cs b/Assets/AOMigrator/Runtime/AONPCMovementV08.cs
+index be43e3a..da9d404 100644
+--- a/Assets/AOMigrator/Runtime/AONPCMovementV08.cs
++++ b/Assets/AOMigrator/Runtime/AONPCMovementV08.cs
+@@ -37,6 +37,8 @@ public class AONPCMovementV08 : MonoBehaviour
+     int attackRange;
+     int preferredRange;
+     int visionRange;
++    int visionX;
++    int visionY;
+     int moveIntervalMs;
+     bool waterValid;
+     bool landInvalid;
+@@ -77,6 +79,16 @@ public class AONPCMovementV08 : MonoBehaviour
+             Mathf.Max(0, ActiveControllers - 1);
+     }
+ 
++    // Visión del original, por eje (15 x 13 por defecto). Sin estos datos
++    // (mapas viejos) se sigue usando visionRange como radio cuadrado.
++    public void SetVisionAxes(
++        int x,
++        int y)
++    {
++        visionX = Mathf.Max(0, x);
++        visionY = Mathf.Max(0, y);
++    }
++
+     public void Configure(
+         AOWorldManagerV07 newWorld,
+         AOGridMap newGrid,
+@@ -344,7 +356,13 @@ public class AONPCMovementV08 : MonoBehaviour
+                     Mathf.Abs(dx),
+                     Mathf.Abs(dy));
+ 
+-            if (distance <= visionRange)
++            bool inVision =
++                visionX > 0 && visionY > 0
++                ? Mathf.Abs(dx) <= visionX &&
++                  Mathf.Abs(dy) <= visionY
++                : distance <= visionRange;
++
++            if (inVision)
+             {
+                 ThinkHostileAgainstPlayer(
+                     dx,
+diff --git a/Assets/AOMigrator/Runtime/AOWorldManagerV07.cs b/Assets/AOMigrator/Runtime/AOWorldManagerV07.cs
+index f1ce1ff..460ad79 100644
+--- a/Assets/AOMigrator/Runtime/AOWorldManagerV07.cs
++++ b/Assets/AOMigrator/Runtime/AOWorldManagerV07.cs
+@@ -64,6 +64,8 @@ public partial class AOWorldManagerV07 : MonoBehaviour
+         public int attackRange;
+         public int preferredRange;
+         public int visionRange;
++        public int visionRangeX;
++        public int visionRangeY;
+         public int moveIntervalMs;
+         public bool waterValid;
+         public bool landInvalid;
+@@ -1458,6 +1460,10 @@ public partial class AOWorldManagerV07 : MonoBehaviour
+             npc.lavaValid,
+             route);
+ 
++        ai.SetVisionAxes(
++            npc.visionRangeX,
++            npc.visionRangeY);
++
+         if (showNPCNames && npc.showName)
+             CreateNameLabel(
+                 go.transform,

@@ -1,0 +1,18 @@
+diff --git a/OnlineServer/CoopRoom.cs b/OnlineServer/CoopRoom.cs
+index 70829f3..5e030a3 100644
+--- a/OnlineServer/CoopRoom.cs
++++ b/OnlineServer/CoopRoom.cs
+@@ -405,8 +405,11 @@ sealed class CoopRoom
+             if(n.state.dead||Now<n.nextMove)continue;
+             n.nextMove=Now+Math.Clamp(Int(n.source,"moveIntervalMs"),250,4000);
+             bool hostile=Bool(n.source,"hostile")||n.provoked>0;
+-            int vision=Math.Clamp(Int(n.source,"visionRange"),4,15);
+-            var target=hostile?present.Where(p=>Distance(p.State.x,p.State.y,n.state.x,n.state.y)<=vision)
++            // Visión del original por eje (15 x 13); los catálogos viejos solo traen visionRange.
++            int visionX=Int(n.source,"visionRangeX"),visionY=Int(n.source,"visionRangeY");
++            if(visionX<=0||visionY<=0)visionX=visionY=Math.Clamp(Int(n.source,"visionRange"),4,15);
++            visionX=Math.Clamp(visionX,1,30);visionY=Math.Clamp(visionY,1,30);
++            var target=hostile?present.Where(p=>Math.Abs(p.State.x-n.state.x)<=visionX&&Math.Abs(p.State.y-n.state.y)<=visionY)
+                 .OrderBy(p=>Distance(p.State.x,p.State.y,n.state.x,n.state.y)).FirstOrDefault():null;
+             n.state.target=target?.Id??0;
+             if(Now<n.paralyzedUntil)continue;

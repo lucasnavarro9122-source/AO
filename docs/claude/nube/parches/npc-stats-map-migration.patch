@@ -1,0 +1,35 @@
+diff --git a/Tools/map_migration.py b/Tools/map_migration.py
+index fc797f5..53ca76e 100644
+--- a/Tools/map_migration.py
++++ b/Tools/map_migration.py
+@@ -175,6 +175,10 @@ def npc_entry(index: int, x: int, y: int, raw: dict[str, str],
+                            "head": frames(head), "helmet": [],
+                            "weapon": [], "shield": []})
+     movement = number("movement", 1)
++    # Visión del original: Distancia si está definida; si no, 15 x 13 por eje
++    # (AI_NPC.bas EnRangoVision, Consts.bas DEFAULT_NPC_VISION_RANGE_X/Y).
++    distancia = number("distancia")
++    vision_x, vision_y = (distancia, distancia) if distancia > 0 else (15, 13)
+     return {
+         "npcIndex": index, "x": x, "y": y,
+         "name": raw.get("name", f"NPC {index}"),
+@@ -182,15 +186,16 @@ def npc_entry(index: int, x: int, y: int, raw: dict[str, str],
+         "npcType": number("npctype"), "movement": movement,
+         "sourceMovement": movement, "hostile": bool(number("hostile")),
+         "attackRange": number("attackrange"),
+-        "preferredRange": number("preferredrange"),
+-        "visionRange": number("visionrange", 8),
++        "preferredRange": number("preferedrange"),
++        "visionRange": max(vision_x, vision_y),
++        "visionRangeX": vision_x, "visionRangeY": vision_y,
+         "moveIntervalMs": number("intervalomovimiento", 300),
+         "waterValid": bool(number("aguavalida")),
+         "landInvalid": bool(number("tierrainvalida")),
+         "lavaValid": bool(number("lavavalida")),
+         "walkRoute": [],
+         "maxHp": number("maxhp"), "minHit": number("minhit"),
+-        "maxHit": number("maxhit"), "defense": number("defensa"),
++        "maxHit": number("maxhit"), "defense": number("def"),
+         "attackPower": number("poderataque"),
+         "evasionPower": number("poderevasion"),
+         "attackable": bool(number("attackable")),

@@ -16,6 +16,7 @@ Rama `claude/nifty-thompson-r3ulpf`, basada en `384fe18`. **No incluye** lo que 
 | `Tools/SpellTester/index_v13.html` (v1.3) | Arte | Listo, probado en Chromium |
 | `../contenido/perdida_al_morir_original.md` | Contenido → Programación | Reglas del original. Hoy no se cae nada al morir |
 | `../contenido/npc_hechizos_original.{md,json}` | Contenido → Programación | 98 NPC que castean. Falta toda la IA mágica |
+| `parches/npc-stats-originales.md` + `Tools/fix_npc_stats_original.py` + `Tools/test_npc_vision.py` | Contenido + Programación + Servidor | Aprobado por Lucas: DEF (28 NPC), rango preferido y visión 15×13. Corregir mapas y regenerar el catálogo **en la PC** |
 | `Tools/ci_checks.py` | QA | JSON y Python válidos |
 | `.github/workflows/pruebas.yml` | QA | **Sin commitear:** espera el OK de Lucas (gasta minutos de Actions) |
 
@@ -32,8 +33,7 @@ Rama `claude/nifty-thompson-r3ulpf`, basada en `384fe18`. **No incluye** lo que 
 5. Marcar como hechos en el tablero: Spell Tester v1.3; guía de actualización para amigos (borrador); datos de hechizos por NPC; reglas de pérdida al morir.
 
 ## Decisiones pendientes de Lucas
-1. **`map_migration.py` lee campos que el `npcs.dat` original no tiene.** Lee `defensa` y el original usa `DEF`; también `visionrange`, entre otros. Resultado: 28 NPC con defensa 0 (Gran Dragón Rojo: 0 en vez de 400, Guardia Imperial: 0 en vez de 40), visión 8 para todos y rango preferido 0.
-   - Corregirlo devuelve los valores originales, pero **cambia el combate**. ¿Se corrige?
+1. ~~`map_migration.py` lee campos que no existen en `npcs.dat`~~ → **Resuelto (25/09):** Lucas aprobó DEF y rango preferido originales y visión 15×13. Ver `parches/npc-stats-originales.md`.
 2. **Pérdida al morir:** ¿se implementa como el original (se cae el oro por encima de 1000 × nivel y los objetos que se pueden tirar; newbie hasta nivel 12)? Hoy no se pierde nada.
 3. **Workflow de GitHub Actions:** ¿se activa?
 4. **Remake con Higgsfield:** ¿inventario + validador + guía completos, solo inventario y costo, o más adelante?
