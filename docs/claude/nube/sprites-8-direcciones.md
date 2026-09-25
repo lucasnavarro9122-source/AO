@@ -211,3 +211,10 @@ Quién fija el heading visual:
 3. **Sí, siempre:** 8 direcciones para todos, con fallback a 4 donde falten sprites.
 
 Y aparte: **al lanzar un skill shot, ¿el personaje gira de verdad** (cambia hacia dónde pega el cuerpo a cuerpo siguiente) **o solo visualmente?**
+
+---
+
+## Decisión de Lucas (25/09)
+1. **No a las 8 direcciones:** quedan 4, fieles al original. Se mejora solo la dirección elegida (opción a).
+2. **Skill shot: gira de verdad.** Cambia el heading de juego, así el próximo golpe cuerpo a cuerpo va hacia ese lado. Parche listo: `parches/skillshot-girar-personaje.md` (Programación).
+3. Lucas quiere rehacer **todas** las texturas y animaciones con Higgsfield. Queda como proyecto aparte del remake HD, siempre en 4 direcciones.
