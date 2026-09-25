@@ -30,8 +30,9 @@ using System;
     public int id, map, x, y, heading, race, gender, head, level, hp, maxHp, mana, maxMana;
     public int weapon, armor, helmet, shield, attack, evasion, defense, minHit, maxHit, strength;
     public float damageModifier = 1;
-    // Visual only: 0 = not meditating; castSeq changes on every local cast.
-    public int meditationFx, castSpell, castSeq;
+    // Visual only: 0 = not meditating; castSeq changes on every local cast. castX/castY: aimed tile of a skill shot
+    // (0 = a normal cast), so the others can draw the projectile (AOSkillShotProjectileV267.LaunchVisual).
+    public int meditationFx, castSpell, castSeq, castX, castY;
     // Duels: arena = room (0 = none), team 0/1; magicDefense reported by the client (clamped by the server).
     public int arena, team, magicDefense;
     public bool paralyzed, immobile;

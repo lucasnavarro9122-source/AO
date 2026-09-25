@@ -52,7 +52,7 @@ public class AOOnlineClientV240 : MonoBehaviour
     NetworkStream stream;
     AOTestPlayer player;
     AOActionBarV260 actionBar;
-    int castSeq, castSpell;
+    int castSeq, castSpell, castX, castY;
     static int pendingFlightMs, pendingFlightFrame = -1;
     AOWorldManagerV07 world;
     AOSaveGameV140 save;
@@ -176,7 +176,10 @@ public class AOOnlineClientV240 : MonoBehaviour
     public static void SetSkillShotFlight(float seconds) { pendingFlightMs = Mathf.Clamp(Mathf.RoundToInt(seconds * 1000f), 0, 1500); pendingFlightFrame = Time.frameCount; }
     static int TakeSkillShotFlightMs() { int ms = pendingFlightFrame == Time.frameCount ? pendingFlightMs : 0; pendingFlightMs = 0; pendingFlightFrame = -1; return ms; }
     // Local cast animation, shown to the rest of the room via the next position update.
-    public static void NotifyLocalCast(int spell) { if (!Connected) return; instance.castSeq++; instance.castSpell = spell; instance.nextPosition = 0; }
+    public static void NotifyLocalCast(int spell) { NotifyLocalSkillShot(spell, 0, 0); }
+    // A skill shot also tells the aimed tile: the others draw the projectile (visual only; the hit is still the caster's).
+    public static void NotifyLocalSkillShot(int spell, int x, int y)
+    { if (!Connected) return; instance.castSeq++; instance.castSpell = spell; instance.castX = x; instance.castY = y; instance.nextPosition = 0; }
     public static bool CastArea(int spell, int x, int y) => SupportsNpcSpell(spell) && Request(new AOCoopMessage { type = "cast", spell = spell, x = x, y = y });
     // Same filter as CoopRoom.Cast; no message, so callers can check before spending mana.
     public static bool CanCastNpcSpell(int spell)
@@ -355,7 +358,7 @@ public class AOOnlineClientV240 : MonoBehaviour
         return new AOCoopPlayer { map = world.CurrentMapNumber, x = player.TileX, y = player.TileY, heading = player.Heading,
             attack = c.AttackPower, evasion = c.EvasionPower, defense = c.Defense, minHit = r.MinHit, maxHit = r.MaxHit,
             strength = r.Strength, damageModifier = r.GetDamageModifier(i), maxMana = r.MaxMana,
-            meditationFx = LocalMeditationFx(r), castSpell = castSpell, castSeq = castSeq,
+            meditationFx = LocalMeditationFx(r), castSpell = castSpell, castSeq = castSeq, castX = castX, castY = castY,
             pets = UnityEngine.Object.FindObjectsByType<AOSummonedPetV129>(FindObjectsSortMode.None).Where(p => !p.Stored).Select(p => new AOCoopPet {
                 id = p.GetInstanceID(), npc = p.NpcIndex, x = p.TileX, y = p.TileY, heading = p.GetComponent<AOCharacterRenderer>().Heading }).ToArray() };
     }
@@ -548,7 +551,17 @@ public class AOOnlineClientV240 : MonoBehaviour
             a.meditationFx=fx;
         }
         // castSeq -1 = first sighting: remember it without replaying an old cast.
-        if(a.castSeq>=0&&p.castSeq!=a.castSeq&&!p.dead)AOCastAnimationRuntimeV268.PlayPlayer(a.root,p.castSpell>0?AOSpellDatabaseV120.Get(p.castSpell):null);
+        if(a.castSeq>=0&&p.castSeq!=a.castSeq&&!p.dead)
+        {
+            var cast=p.castSpell>0?AOSpellDatabaseV120.Get(p.castSpell):null;
+            AOCastAnimationRuntimeV268.PlayPlayer(a.root,cast);
+            // A companion's skill shot: the same projectile, visual only (the damage is resolved by its caster).
+            if(cast!=null&&p.castX>0&&p.castY>0&&AOSkillShotConfigV267.IsSkillShot(cast.id))
+            {
+                Vector3 from=a.root.transform.position,to=player.CurrentGrid.TileToWorld(p.castX,p.castY);
+                AOSkillShotProjectileV267.LaunchVisual(cast,player.CurrentGrid,from,new Vector2(to.x-from.x,to.y-from.y));
+            }
+        }
         a.castSeq=p.castSeq;
     }
     void MoveAvatar(Avatar a,int x,int y,int heading)

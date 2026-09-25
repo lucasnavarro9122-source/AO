@@ -23,6 +23,9 @@ Rama `claude/nifty-thompson-r3ulpf`, basada en `384fe18`. **No incluye** lo que 
 | `../demo/mapa/reglas-y-recorrido.md` + `reporte-mapa-demo.md` + `Tools/demo_mapa/vista_mapa.py` | Programación + Arte + Contenido + Servidor | Mapa demo con sentido: reglas de Lucas (25/09) **aplicadas** a los mapas 1010–1017, el catálogo, la luz y la música. Pasan el builder y las pruebas del servidor. Falta probar en Unity |
 | `npc-magia.md` + `Tools/test_npc_magic.py` | Programación + Servidor + Contenido | **IA mágica de NPC** (98 NPC, reglas originales, sin conexión y en la sala). V902 provisorio. Pasan el servidor y las pruebas; falta Unity |
 | `guia-amigos.md` | Servidor | Actualizada con la demo en el 7778 (firewall y Tailscale) |
+| `CoopRoom.Duels.cs` + `test_duel_server.py` | Servidor | Retos: **Paralizar/Inmovilizar** a un rival (el servidor frena su movimiento `Duration/2` s) y **Remover parálisis** a un compañero |
+| `AOSkillShotProjectileV267.LaunchVisual` + `castX/castY` | Programación + Servidor | **Skill shot visible** para los compañeros (solo visual) |
+| `estado-qa-2509.md` | QA | Qué se verificó en la nube y qué falta probar en Unity |
 
 ## Cómo integrar (Cerebro, en la PC)
 1. Subir lo de la PC a una rama (`pc/noche-2509`) y mergear esta rama encima.

@@ -183,7 +183,8 @@ sealed partial class CoopRoom
                 if (s.State.map != before) PushRingsFor(s);
                 s.State.meditationFx = s.State.dead ? 0 : Math.Clamp(m.player.meditationFx, 0, 1000);
                 if (m.player.castSeq != s.State.castSeq && (m.player.castSpell == 0 || spells.ContainsKey(m.player.castSpell)))
-                { s.State.castSeq = m.player.castSeq; s.State.castSpell = m.player.castSpell; }
+                { s.State.castSeq = m.player.castSeq; s.State.castSpell = m.player.castSpell;
+                  s.State.castX = Math.Clamp(m.player.castX, 0, 100); s.State.castY = Math.Clamp(m.player.castY, 0, 100); }
             }
             return new AOCoopMessage { type = "noop" };
         }

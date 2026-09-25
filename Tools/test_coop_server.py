@@ -159,6 +159,9 @@ def run():
             a.send(dict(type='position',player=dict(a.player(),meditationFx=115,castSpell=1,castSeq=1)));seen(115,1,1)
             a.send(dict(type='position',player=dict(a.player(),meditationFx=115,castSpell=999,castSeq=2)))
             a.send(dict(type='position',player=dict(a.player(),meditationFx=0,castSpell=999,castSeq=2)));seen(0,1,1)
+            # Skill shot aim (castX/castY) reaches the companions so they draw the projectile; clamped to the map.
+            a.send(dict(type='position',player=dict(a.player(),meditationFx=0,castSpell=2,castSeq=3,castX=57,castY=140)))
+            b.until(lambda m:m['type']=='state' and any(p['id']==a.id and p['castSeq']==3 and p['castX']==57 and p['castY']==100 for p in m['players']))
             a.action('sync');b.action('sync')
             a_id=a.identity;b_id=b.identity;expected_a=copy.deepcopy(a.save);expected_b=copy.deepcopy(b.save)
             a.close();b.close();peers=[];time.sleep(.25);process.terminate();process.wait(5)

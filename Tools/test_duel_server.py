@@ -101,6 +101,7 @@ def run():
         root = pathlib.Path(temp); key = secrets.token_hex(18)
         catalog = fixture()
         catalog['items'].append(dict(index=38, name='Poción de Vida', value=18, objType=11, potionType=3, minModifier=27, maxModifier=27))
+        catalog['spells'].append(dict(id=6, target=1, paralyze=1, duration=8))   # Paralizar: 4 s (Duration / 2)
         catalog['retos'] = dict(minBet=10, maxTeam=5, taxPercent=10, maxSeconds=400, countdownSeconds=40, inviteSeconds=60,
                                 graceSeconds=30, maps=[1, 2], arenas=[dict(sala=1, map=2, x=10, y=10, theme=0)])
         (root/'key').write_text(key); (root/'catalog.json').write_text(json.dumps(catalog))
@@ -120,6 +121,7 @@ def run():
         process = launch(); peers = []
         try:
             potions = snapshot('Alfa'); potions['inventory']['itemIndices'][0] = 38; potions['inventory']['amounts'][0] = 5
+            potions['magic']['learnedSpells'].append(6)
             a = DuelPeer(port, key, 'Alfa', save=potions); b = DuelPeer(port, key, 'Beto'); c = DuelPeer(port, key, 'Ceci')
             peers = [a, b, c]; ids = (a.identity, b.identity)
             # Validations (ModRetos.CrearReto) move no gold.
@@ -176,6 +178,32 @@ def run():
                     assert time.monotonic() < deadline, 'time up never came'
                     a.events(a.act('sync')['events'])
             assert b.duel_end()['result'] == 'tiempo'
+            # Paralysis (HechizoPropUsuario): the rival gets the spell, the room refuses its moves for Duration / 2 s.
+            result = a.act('duelChallenge', text='Beto', gold=0, item=-1); assert result['ok'], result['text']
+            b.push('duelInvite'); assert b.act('duelAccept', name='Alfa')['ok']
+            a.push('duelRoundStart', round=1); b.push('duelRoundStart', round=1)
+            a.log = [m for m in a.log if m['type'] != 'duelRingState']   # ring states of the earlier duels
+            spot = b.last_warp()
+            assert 'conteo' in (a.act('attack', id=b.id).get('text') or '')
+            a.push('duelRingState', phase='fight')
+            next_to(a, (spot['x'], spot['y']))
+            result = a.act('cast', spell=6, id=b.id, x=spot['x'], y=spot['y']); assert result['ok'], result
+            assert any(e['type'] == 'spell' and e['spell'] == 6 for e in b.journal + b.act('sync')['events']), 'no paralysis event'
+            # The cell next to Beto where Alfa already stands is walkable in this ring: Beto tries to step onto it.
+            x, y = next((p['x'], p['y']) for p in a.until(lambda m: m['type'] == 'state')['players'] if p['id'] == a.id)
+            frozen_at = time.monotonic()
+
+            def reaches(seconds):   # queued states lag behind the position: keep trying for a while
+                deadline = time.monotonic() + seconds
+                while time.monotonic() < deadline:
+                    b.send(dict(type='position', player=dict(b.player(), map=2, x=x, y=y)))
+                    if b.seen_at(x, y): return True
+                    drain(a); time.sleep(.1)
+                return False
+            assert not reaches(2.5), 'a paralyzed rival moved'   # 4 s of paralysis
+            time.sleep(max(0, 4.2 - (time.monotonic() - frozen_at)))
+            assert reaches(3), 'the paralysis never ended'
+            assert a.act('duelAbandon')['ok']; b.duel_end(); drain(a, b)
             # Restart with an open custody: everything is returned, nothing is lost or duplicated.
             result = a.act('duelChallenge', text='Beto', gold=20, item=-1); assert result['ok'], result['text']
             b.push('duelInvite'); assert b.act('duelAccept', name='Alfa')['ok']
@@ -187,7 +215,7 @@ def run():
             assert a.wallet == 140 and b.wallet == 50
             book = ledger(a); assert book['sum'] == 0 and book['balances']['tax'] == 10, book
             print('PASS: validations, custody on accept, rejection refund, best of 3, 10 % tax + remainder line, '
-                  'spectator ring state/fx/announce, no looting in a duel, disconnection grace, time up, restart refund.')
+                  'spectator ring state/fx/announce, no looting in a duel, disconnection grace, time up, paralysis, restart refund.')
         finally:
             for peer in peers:
                 try: peer.close()

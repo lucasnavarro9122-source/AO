@@ -15,6 +15,7 @@ sealed partial class CoopRoom
         public int BeforeMap, BeforeX, BeforeY, BeforeHp;
         public bool Accepted, Left;
         public long OfflineSince, NextPotion;
+        public long ParalyzedUntil, ImmobileUntil;   // HechizoPropUsuario: Paralizar / Inmovilizar (Duration / 2)
     }
     sealed class Duel
     {
@@ -229,7 +230,7 @@ sealed partial class CoopRoom
         {
             var s = Online(x.Char);
             if (s != null) { x.MaxHp = Math.Max(1, s.State.maxHp); x.MaxMana = Math.Max(0, s.State.maxMana); }
-            x.Hp = x.MaxHp; x.Mana = x.MaxMana;
+            x.Hp = x.MaxHp; x.Mana = x.MaxMana; x.ParalyzedUntil = x.ImmobileUntil = 0;
             (x.X, x.Y) = Spawn(d, x);
             if (s != null) { SyncVitals(s, x); Warp(s.Record, s, d.Ring!.Map, x.X, x.Y, x.Hp); }
             Push(s, new AOCoopMessage { type = "duelRoundStart", duel = Describe(d, x) });
@@ -406,6 +407,8 @@ sealed partial class CoopRoom
         if (Fighting(s, out var d, out var me))
         {
             if (d.Phase == "countdown" || me.Hp <= 0) return false;
+            // Paralyzed or immobilized by a rival's spell: the room keeps the last position (the client freezes too).
+            if (Now < me.ParalyzedUntil || Now < me.ImmobileUntil) return x == me.X && y == me.Y;
             var a = d.Ring!;
             if (map != a.Map || !d.Layout!.Walkable(x - a.X, y - a.Y)) return false;
             me.X = x; me.Y = y; return true;
@@ -492,20 +495,38 @@ sealed partial class CoopRoom
         {
             if (!Harmful(spell)) throw new InvalidOperationException("Ese hechizo no afecta a tus rivales.");
             if (other.Hp <= 0) throw new InvalidOperationException("No podés atacar a un espíritu.");
-            if (Int(spell, "raiseHp") != 2) throw new InvalidOperationException("Ese efecto todavía no está disponible en los retos.");
+            bool hurts = Int(spell, "raiseHp") == 2, freezes = Int(spell, "paralyze") != 0 || Int(spell, "immobilize") != 0;
+            if (!hurts && !freezes) throw new InvalidOperationException("Ese efecto todavía no está disponible en los retos.");
             me.Mana -= cost; SyncVitals(s, me);
-            Damage(d, other, PvpSpellDamage(s, t, spell), s, "spell", m.spell);
+            if (freezes) Freeze(d, s, t, other, spell, m.spell);
+            if (hurts) Damage(d, other, PvpSpellDamage(s, t, spell), s, "spell", m.spell);
         }
         else
         {
             if (Harmful(spell)) throw new InvalidOperationException("No podés dañar a tu compañero.");
-            if (Int(spell, "raiseHp") != 1) throw new InvalidOperationException("Ese efecto todavía no está disponible en los retos.");
+            bool heals = Int(spell, "raiseHp") == 1, frees = Int(spell, "removeParalysis") != 0;
+            if (!heals && !frees) throw new InvalidOperationException("Ese efecto todavía no está disponible en los retos.");
             if (other.Hp <= 0) throw new InvalidOperationException("Tu compañero está muerto: en el reto se revive en la ronda siguiente.");
             me.Mana -= cost; SyncVitals(s, me);
-            other.Hp = Math.Min(other.MaxHp, other.Hp + power); SyncVitals(t, other);
-            Fx(d, "heal", s, other, power, m.spell);
+            if (frees)
+            {
+                other.ParalyzedUntil = other.ImmobileUntil = 0;
+                Event(t, new AOCoopEvent { type = "spell", spell = m.spell, text = s.State.name }, true);   // the client unfreezes
+            }
+            if (heals) { other.Hp = Math.Min(other.MaxHp, other.Hp + power); SyncVitals(t, other); }
+            Fx(d, "heal", s, other, heals ? power : 0, m.spell);
         }
         return true;
+    }
+    // Paralizar / Inmovilizar on a rival (HechizoPropUsuario): Duration / 2 seconds, as the NPC spells and the local game.
+    // The victim's client applies the freeze with the "spell" event; the room refuses its moves meanwhile.
+    void Freeze(Duel d, Session s, Session t, DuelMember victim, JsonNode spell, int spellId)
+    {
+        long until = Now + (long)(AONpcSpellRules.StatusSeconds(Int(spell, "duration")) * 1000);
+        if (Int(spell, "paralyze") != 0) victim.ParalyzedUntil = Math.Max(victim.ParalyzedUntil, until);
+        if (Int(spell, "immobilize") != 0) victim.ImmobileUntil = Math.Max(victim.ImmobileUntil, until);
+        Event(t, new AOCoopEvent { type = "spell", spell = spellId, text = s.State.name }, true);
+        if (Int(spell, "raiseHp") != 2) Fx(d, "spell", s, victim, 0, spellId);
     }
     // use {item}: potions inside the duel (outside, items are used in the local game).
     void DuelUse(Session s, AOCoopMessage m)

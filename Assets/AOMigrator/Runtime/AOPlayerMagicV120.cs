@@ -328,7 +328,8 @@ public class AOPlayerMagicV120 : MonoBehaviour
         if(!string.IsNullOrWhiteSpace(s.magicWords))AOInterfaceV0101.PushMessage(s.magicWords);
         AOInterfaceV0101.PushMessage("Lanzaste "+s.name+" como skill shot.");
         player.FaceHeading(AimHeading(direction,player.Heading));
-        AOCastAnimationRuntimeV268.PlayPlayer(gameObject,s);AOOnlineClientV240.NotifyLocalCast(s.id);
+        AOCastAnimationRuntimeV268.PlayPlayer(gameObject,s);
+        AOOnlineClientV240.NotifyLocalSkillShot(s.id,Mathf.RoundToInt(worldPoint.x+.5f),Mathf.RoundToInt(-worldPoint.y));   // tile as the projectile counts it
         AOSpellFXV120.PlayCastSound(s);
         AOSkillShotProjectileV267.Launch(this,s,player.CurrentGrid,transform.position,direction.normalized);
     }

@@ -20,6 +20,7 @@ public class AOSkillShotProjectileV267 : MonoBehaviour
     float fps;
     bool finished;
     float launchedAt;
+    bool visualOnly;   // a companion's shot seen online: it flies and stops, but never resolves a hit
 
     public static AOSkillShotProjectileV267 Launch(
         AOPlayerMagicV120 owner,
@@ -32,6 +33,21 @@ public class AOSkillShotProjectileV267 : MonoBehaviour
         GameObject go=new GameObject("SkillShot "+spell.id+" "+spell.name);
         AOSkillShotProjectileV267 p=go.AddComponent<AOSkillShotProjectileV267>();
         p.Configure(owner,spell,grid,origin,direction.normalized);
+        return p;
+    }
+
+    // Online: another player's skill shot (AOOnlineClientV240 castX/castY). Same flight, walls and NPC stop, no effect.
+    public static AOSkillShotProjectileV267 LaunchVisual(
+        AOSpellDatabaseV120.SpellDef spell,
+        AOGridMap grid,
+        Vector3 origin,
+        Vector2 direction)
+    {
+        if(spell==null||grid==null||direction.sqrMagnitude<.0001f) return null;
+        GameObject go=new GameObject("SkillShot (visual) "+spell.id+" "+spell.name);
+        AOSkillShotProjectileV267 p=go.AddComponent<AOSkillShotProjectileV267>();
+        p.visualOnly=true;
+        p.Configure(null,spell,grid,origin,direction.normalized);
         return p;
     }
 
@@ -65,7 +81,7 @@ public class AOSkillShotProjectileV267 : MonoBehaviour
 
     void Update()
     {
-        if(finished||owner==null||spell==null||grid==null){Destroy(gameObject);return;}
+        if(finished||(owner==null&&!visualOnly)||spell==null||grid==null){Destroy(gameObject);return;}
         float step=speed*Time.deltaTime;
         if(step<=0f)return;
         previousLogicalPosition=logicalPosition;
@@ -81,7 +97,7 @@ public class AOSkillShotProjectileV267 : MonoBehaviour
         }
 
         // Duel: rivals along the segment (tile check; the server validates the line with SegmentClear).
-        if(AODuelUI.InDuel&&TryHitDuelRival(previousLogicalPosition,logicalPosition,out int rival,out int rx,out int ry,out hitPoint))
+        if(!visualOnly&&AODuelUI.InDuel&&TryHitDuelRival(previousLogicalPosition,logicalPosition,out int rival,out int rx,out int ry,out hitPoint))
         {
             FinishDuelRival(rival,rx,ry,hitPoint);
             return;
@@ -90,7 +106,7 @@ public class AOSkillShotProjectileV267 : MonoBehaviour
         AONPCCombatV09 npc=FindNpcHit(previousLogicalPosition,logicalPosition,out hitPoint);
         if(npc!=null)
         {
-            FinishNpc(npc,hitPoint);
+            if(visualOnly)FinishWorld(hitPoint);else FinishNpc(npc,hitPoint);
             return;
         }
 
