@@ -66,6 +66,7 @@ Cada sector edita solo sus archivos, toma el candado de Unity y reporta a Cerebr
 - `aod-datos-ao`: datos y código del AO original.
 - `aod-arte`: remaster 4×, SpriteForge, Higgsfield, Spell Tester.
 - `aod-servidor` y `aod-release`.
+- `aod-cerebro`: puente nube ↔ CEREBRO (ver estado, mandar mensajes con OK de Lucas, buzón por GitHub).
 
 ## Siguiente paso
 Ver "Prioridades de Cerebro" en `docs/claude/tablero.md`. Pendiente del Optimizador de tokens: cuando Lucas abra un chat nuevo en este proyecto, avisarle para medir el ahorro.
