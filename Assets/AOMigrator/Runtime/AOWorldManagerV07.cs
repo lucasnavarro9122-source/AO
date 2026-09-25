@@ -497,6 +497,11 @@ public partial class AOWorldManagerV07 : MonoBehaviour
         if (loading)
             return;
 
+        if (AOSaveGameV140.SessionIsDemo && AOSaveGameV140.TryDemoHub(out int hubMap, out int hubX, out int hubY))
+        {
+            LoadMap(hubMap, hubX, hubY, true);
+            return;
+        }
         LoadMap(
             initialMap,
             initialX,

@@ -68,10 +68,15 @@ public class AODeathRespawnV160 : MonoBehaviour
             return;
         }
 
+        // Demo: /HOGAR takes you to the demo hub, where the priest is.
+        int homeMap = HOME_MAP, homeX = HOME_X, homeY = HOME_Y;
+        if (AOSaveGameV140.SessionIsDemo)
+            AOSaveGameV140.TryDemoHub(out homeMap, out homeX, out homeY);
+
         if (world.MagicTeleport(
-                HOME_MAP,
-                HOME_X,
-                HOME_Y,
+                homeMap,
+                homeX,
+                homeY,
                 out string result))
         {
             AOInterfaceV0101.PushMessage(

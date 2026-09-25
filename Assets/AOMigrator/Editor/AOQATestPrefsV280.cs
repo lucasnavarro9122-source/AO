@@ -6,7 +6,7 @@ using Microsoft.Win32;
 using UnityEditor;
 using UnityEngine;
 
-// V280 · QA: the protected Play tests (AOControlsQA260, AOModulesQA270, AOInterfaceQA274, AODuelQA284, AOLightingQA287, AOHDQA288) write their
+// V280 · QA: the protected Play tests (AOControlsQA260, AOModulesQA270, AOInterfaceQA274, AODuelQA284, AOLightingQA287, AOHDQA288, AODemoSaveQA289) write their
 // preferences under a temporary prefix. When Play ends (or on the Temp/qa_prefs_cleanup marker), drop the
 // prefix and delete ONLY those temporary keys (AO.<Test>QA.<32 hex>.*). The player's own preferences are
 // never touched. Two steps: PlayerPrefs.DeleteKey (Unity's cache) and then the registry value itself,
@@ -14,7 +14,7 @@ using UnityEngine;
 [InitializeOnLoad]
 public static class AOQATestPrefsV280
 {
-    static readonly Regex TestKey=new Regex(@"^AO\.(ControlsQA|ModulesQA|InterfaceQA|DuelQA|LightingQA|HDQA)\.[0-9a-f]{32}\.");
+    static readonly Regex TestKey=new Regex(@"^AO\.(ControlsQA|ModulesQA|InterfaceQA|DuelQA|LightingQA|HDQA|DemoSaveQA)\.[0-9a-f]{32}\.");
     static string Root=>Path.GetFullPath(Path.Combine(Application.dataPath,".."));
     static string Marker=>Path.Combine(Root,"Temp","qa_prefs_cleanup");
     static string RegistryPath=>@"Software\Unity\UnityEditor\"+PlayerSettings.companyName+@"\"+PlayerSettings.productName;

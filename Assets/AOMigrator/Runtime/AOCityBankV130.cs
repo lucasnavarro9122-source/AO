@@ -26,9 +26,10 @@ public class AOCityBankV130 : MonoBehaviour
     AOInventoryV10 inventory;
     AOPlayerCombatV09 combat;
 
+    // Demo characters keep their own bank file (AO_BattleDemo/), see AOSaveGameV140.SideDataRoot.
     string SavePath =>
         Path.Combine(
-            Application.persistentDataPath,
+            AOSaveGameV140.SideDataRoot,
             "ao_bank_v130.json");
 
     public long BankGold =>
@@ -567,6 +568,9 @@ public class AOCityBankV130 : MonoBehaviour
         try
         {
             Ensure();
+
+            Directory.CreateDirectory(
+                Path.GetDirectoryName(SavePath));
 
             File.WriteAllText(
                 SavePath,

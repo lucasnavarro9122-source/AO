@@ -47,7 +47,8 @@ public class AOPlayerMagicV120 : MonoBehaviour
     public AOSpellDatabaseV120.SpellDef SelectedSpell=>AOSpellDatabaseV120.Get(selectedSpellId);
     public string TargetPrompt { get { var s=SelectedSpell;if(!targeting||s==null)return "";return AOSkillShotConfigV267.IsSkillShot(s.id)?"Skill shot "+s.name+": apuntá la dirección | click mundo | Esc cancelar":"Objetivo de "+s.name+": "+s.TargetLabel+" | click mundo | Esc cancelar"; } }
     public string MeditationLabel=>meditating?"Meditando...":"Meditar";
-    string SavePath=>Path.Combine(Application.persistentDataPath,"ao_magic_v129_spellbook.json");
+    // Demo characters keep their own spellbook (AO_BattleDemo/), see AOSaveGameV140.SideDataRoot.
+    string SavePath=>Path.Combine(AOSaveGameV140.SideDataRoot,"ao_magic_v129_spellbook.json");
 
     void Awake(){
         FindReferences();if(knownSpellIds==null)knownSpellIds=new List<int>();LoadSpellbook();CleanKnownSpells();
@@ -540,7 +541,7 @@ public class AOPlayerMagicV120 : MonoBehaviour
     }
     void SaveSpellbook(){
         if (AOOnlineClientV240.ProtectLocalSave) return;
-        try{Directory.CreateDirectory(Application.persistentDataPath);SaveData d=new SaveData{selected=selectedSpellId,spells=knownSpellIds.ToArray()};File.WriteAllText(SavePath,JsonUtility.ToJson(d,true));}
+        try{Directory.CreateDirectory(Path.GetDirectoryName(SavePath));SaveData d=new SaveData{selected=selectedSpellId,spells=knownSpellIds.ToArray()};File.WriteAllText(SavePath,JsonUtility.ToJson(d,true));}
         catch(Exception e){Debug.LogWarning("[AO v0.12.9] No pude guardar spellbook: "+e.Message);}
     }
 

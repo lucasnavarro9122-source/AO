@@ -405,6 +405,10 @@ public class AONPCCombatV09 : MonoBehaviour
                         source.level);
             }
 
+            // Demo offline (decision 1): EXP by level tier. Online the server applies it.
+            if (AOSaveGameV140.SessionIsDemo && killerRpg != null)
+                expReward = (int)Math.Min(int.MaxValue, AODemoRates.ApplyExp(expReward, killerRpg.Level));
+
             // El oro en AO cae físicamente al piso.
             killer.AddRewards(
                 expReward,
@@ -475,11 +479,13 @@ public class AONPCCombatV09 : MonoBehaviour
 
         if (source.giveGold > 0)
         {
+            // Demo offline (decision 2): OroMult x2.
+            long gold = AOSaveGameV140.SessionIsDemo ? AODemoRates.ApplyGold(source.giveGold) : source.giveGold;
             AOLootPickupV09.Create(
                 AONPCLootDatabaseV180
                     .GoldItemIndex,
                 "Monedas de Oro",
-                source.giveGold,
+                (int)Math.Min(int.MaxValue, gold),
                 tileX,
                 tileY);
         }
