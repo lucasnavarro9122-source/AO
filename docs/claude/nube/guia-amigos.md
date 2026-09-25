@@ -40,6 +40,13 @@ Tu acceso a la sala **no** está en la carpeta del juego: está guardado en Wind
 ### Compartir la sala
 - **Tailscale:** mejor **compartir solo tu PC** con cada amigo (Share en la consola de Tailscale) que invitarlos a toda tu red: así no ven tus otros equipos.
 - **Puerto:** el servidor usa TCP 7777. **No lo abras en el router.** Solo tiene que llegar por Tailscale.
+  - Hoy el servidor escucha en todas las redes de la PC (ver `revision-codigo.md`, seguridad #2). Limitalo con el firewall de Windows. En PowerShell como administrador:
+    ```powershell
+    New-NetFirewallRule -DisplayName "AO sala (solo Tailscale)" -Direction Inbound -Protocol TCP -LocalPort 7777 -RemoteAddress 100.64.0.0/10 -Action Allow
+    ```
+    Y en *Firewall de Windows > Reglas de entrada*, desactivá cualquier regla vieja que permita `AOOnlineServer.exe` en redes privadas o públicas.
+  - Al compartir tu PC por Tailscale, los amigos ven **todos** sus puertos (carpetas compartidas, escritorio remoto…). En la consola de Tailscale, en *Access controls*, permitiles solo `tcp:7777` hacia tu PC.
+- **Guardados y OneDrive:** si `AO_Online` está dentro de OneDrive, OneDrive puede bloquear `world.json` mientras lo sube. Mejor mover el servidor fuera de OneDrive o excluir esa carpeta.
 - **Clave:** mandala por mensaje privado. Si se filtra, cambiarla obliga a todos a reconectar: la identidad está atada a la sala.
 
 ### Actualizar el servidor (sin perder partidas)
