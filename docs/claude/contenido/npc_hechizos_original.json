@@ -1,0 +1,4320 @@
+{
+ "version": "AO20 ao-org",
+ "fuente": {
+  "servidor": {
+   "repo": "https://github.com/ao-org/argentum-online-server",
+   "commit": "08a5711bacf7a2dccc75a8633b942146b47fabcb",
+   "fecha": "2026-09-24"
+  },
+  "recursos": {
+   "repo": "https://github.com/ao-org/Recursos",
+   "commit": "552d4ed940a67497f2ca9ba357d1dd6d5b5fd348",
+   "fecha": "2026-08-16"
+  },
+  "datos": "Recursos/Dat/npcs.dat (NPC, lineaNpcsDat = linea de la seccion [NPCn]) y Recursos/Dat/Hechizos.dat (lineaHechizosDat)",
+  "lineasCodigo": "Relativas a Codigo/ del commit del servidor",
+  "numeracion": "Igual al proyecto: 450/450 NPC del catalogo y 141/141 hechizos coinciden en id y nombre",
+  "generado": "2026-09-25"
+ },
+ "reglasIA": {
+  "mana": "Los NPC no tienen mana: t_NPCStats no tiene campo de mana y NpcLanzaSpellSobreUser no descuenta nada (Declares.bas:3126; modHechizos.bas:31).",
+  "tickIA": {
+   "IntervaloNpcAI_ms": 150,
+   "fuente": "intervalos.ini:19",
+   "nota": "Ademas NpcAI solo corre si IntervaloPermiteMoverse (IntervaloMovimiento del NPC, 380 ms por defecto). modNpcAiLoop.bas:74; MODULO_NPCs.bas:1500-1502"
+  },
+  "intervaloLanzarHechizoPorDefectoMs": {
+   "valor": 8000,
+   "fuente": "MODULO_NPCs.bas:1506-1508 (si IntervaloLanzarHechizo=0)"
+  },
+  "intervaloAtaquePorDefectoMs": {
+   "valor": 2000,
+   "fuente": "MODULO_NPCs.bas:1509-1511"
+  },
+  "intervaloConsumido": "IntervaloPermiteLanzarHechizo reinicia el contador al consultarse, aunque despues el hechizo no salga (fuera de rango, Sp=0, objetivo invisible). modNuevoTimer.bas:253-258",
+  "rangoHechizoClasico": {
+   "x": 11,
+   "y": 9,
+   "regla": "Abs(dx)<=11 y Abs(dy)<=9 contra el TargetUser",
+   "fuente": "AI_NPC.bas:1297-1298; Consts.bas:33-34; Example.Configuracion.ini [AI] NPCSpellRangeX/Y (lineas 14-15)"
+  },
+  "rangoVision": {
+   "x": 15,
+   "y": 13,
+   "regla": "por eje; si el NPC tiene Distancia se usa ese valor en ambos ejes (ningun NPC de npcs.dat lo define)",
+   "fuente": "AI_NPC.bas:34-35 y 1399-1413 (EnRangoVision); Consts.bas:31-32"
+  },
+  "filtroNivel": {
+   "NpcDeltaLevelPenalties": 4,
+   "NpcDeltaLevelCloseRange": 3,
+   "regla": "si el NPC tiene Nivel>0 ignora usuarios con ELV-Nivel>4 salvo que esten a <=3 tiles (Chebyshev) o sean su agresor",
+   "fuente": "AI_NPC.bas:1353-1369; Example.Configuracion.ini:38-39"
+  },
+  "seleccionHechizoClasico": "Sorteo uniforme entre Sp1..SpN (RandomNumber(1, LanzaSpells)); los repetidos pesan mas. AI_NPC.bas:1299",
+  "seleccionObjetivoClasico": "Siempre el TargetUser. Prioridad en PerseguirUsuarioCercano: usuario enemigo justo al frente > el enemigo atacable mas cercano (magia o melee) > el enemigo mas cercano visible. Si era pasivo y lo atacaron: solo el agresor. AI_NPC.bas:123-217",
+  "porTargetDelHechizo": {
+   "1_uUsuarios": "al TargetUser si UsuarioAtacableConMagia",
+   "2_uNPC": "a si mismo si AutoLanzar=1, si no al TargetNPC",
+   "3_uUsuariosYnpc": "a si mismo si AutoLanzar=1; si no al TargetUser; si no al TargetNPC",
+   "4_uTerreno": "NpcLanzaSpellSobreArea: centro = objetivo +-2 tiles al azar, cuadrado de AreaRadio x AreaRadio; afecta usuarios (AreaAfecta 1/3, incluso invisibles) y NPC atacables (2/3); si Invoca=1 invoca hasta CantidadInvocaciones",
+   "fuente": "AI_NPC.bas:1301-1330; modHechizos.bas:348-425"
+  },
+  "castVsMelee": {
+   "regla": "Si LanzaSpells>0 y el intervalo de hechizo esta listo, castea (prioridad). Melee solo si esta pegado (distancia 1) y (el objetivo esta invisible/oculto, o el toggle Magic_and_Punch=1 y el NPC no tiene DontHitVisiblePlayers). NPC sin hechizos: siempre melee. FixedInPos no hostil-guardia: si tiene hechizos nunca pega.",
+   "fuente": "AI_NPC.bas:721-760 (AI_AtacarUsuarioObjetivo); AI_NPC.bas:235-240 (AttackFromPos); Example.feature_toggle.ini:6-8 (Magic_and_Punch=1)"
+  },
+  "objetivoNoValidoParaMagia": "Muerto, invisible, oculto, con inmunidad, mimetizado sin proteccion, GM o en consulta. AI_NPC.bas:1416-1426; tambien NpcLanzaSpellSobreUser sale si invisible/oculto/inmune (modHechizos.bas:44)",
+  "npcParalizadoOInmovilizado": "Paralizado: no puede danar a usuarios (PuedeDanarAlUsuario=0, AI_NPC.bas:1300). Inmovilizado: solo castea si el objetivo esta en linea recta hacia donde mira (NpcLanzaSpellInmovilizado, AI_NPC.bas:628-659).",
+  "dano": "RandomNumber(MinHP,MaxHP) * (1+MagicBonus del NPC) - % de RM del usuario (armadura+anillo+escudo..., salvo AntiRm=1) * modificadores; minimo 0. modHechizos.bas:62-90; Modulo_UsUaRiOs.bas:3323 (GetUserMRForNpc)",
+  "feedback": "CastAnimation>0: DoAnimation; si no, WeaponAnim>0: ArmaMov. DisplayCastMessage=1: palabras magicas sobre la cabeza (PMAG*). modHechizos.bas:229-240",
+  "supportAndAttack": {
+   "movements": [
+    11,
+    13
+   ],
+   "regla": "Primero ayuda (remover paralisis > curar) a usuarios/NPC aliados a distancia euclidea < RangoSpell; si no ayudo, ataca (paralizar/inmovilizar > dano). Objetivo de ataque: el agresor si sigue en vision; si no, el primer usuario (no el mas cercano) visible y atacable a < RangoSpell. Cada slot respeta CdN segundos. Flags: RestriccionDeAtaque 0=usuarios+NPC, 1=usuarios, 2=NPC; RestriccionDeAyuda 1=NPC, 2=usuarios, 3=ambos.",
+   "fuente": "AI_NPC.bas:846-857, 888-927, 1443-1687; MODULO_NPCs.bas:1593-1611"
+  },
+  "guardiasContraNpc": {
+   "npcType": [
+    2,
+    8
+   ],
+   "hechizos": [
+    25,
+    204
+   ],
+   "intervaloMs": 1500,
+   "rango": 8,
+   "regla": "Guardia Real/Caos ataca NPC hostiles: paraliza (25) si no esta paralizado y le tira 204 (Ira de ReyarB).",
+   "fuente": "AI_NPC.bas:37-40 y 777-808"
+  },
+  "codigoMuerto": "NpcLanzaUnSpellSobreNpc (AI_NPC.bas:1336) no se llama desde ningun lado."
+ },
+ "camposNpcsDat": {
+  "LanzaSpells": "cantidad de slots; MODULO_NPCs.bas:1147",
+  "SpN": "id de Hechizos.dat; MODULO_NPCs.bas:1152",
+  "CdN": "cooldown en segundos por slot, solo IA SupportAndAttack/BG; MODULO_NPCs.bas:1153; AI_NPC.bas:1443",
+  "RangoSpell": "solo IA SupportAndAttack/BG (distancia euclidea <); MODULO_NPCs.bas:1150",
+  "IntervaloLanzarHechizo": "ms; MODULO_NPCs.bas:1094",
+  "CastAnimation": "MODULO_NPCs.bas:1050",
+  "DisplayCastMessage": "MODULO_NPCs.bas:1181",
+  "DontHitVisiblePlayers": "MODULO_NPCs.bas:1179",
+  "AddToMapAiList": "MODULO_NPCs.bas:1180",
+  "RestriccionDeAtaque": "MODULO_NPCs.bas:1176; mascara en 1593-1601",
+  "RestriccionDeAyuda": "MODULO_NPCs.bas:1177; mascara en 1602-1611",
+  "Alineacion": "0 ninguna; 1 Real: solo ataca Criminal/Caos/Concilio; 2 Caos: solo ataca Ciudadano/Armada/Consejo; MODULO_NPCs.bas:1132; AI_NPC.bas:1385-1392",
+  "MagicBonus": "dano x (1+MagicBonus); MODULO_NPCs.bas:1131",
+  "CantidadInvocaciones": "tope de invocaciones; MODULO_NPCs.bas:1130",
+  "Movement": "tipo de IA (e_TipoAI, Declares.bas:3424)",
+  "Hostile": "MODULO_NPCs.bas:1069",
+  "Nivel": "filtro de nivel; MODULO_NPCs.bas:1038",
+  "Distancia": "vision; ningun NPC lo usa"
+ },
+ "resumen": {
+  "npcsQueLanzan": 98,
+  "enMapasDelProyecto": 66,
+  "hechizosDistintos": 48,
+  "hechizosFaltantesEnProyecto": []
+ },
+ "hechizos": {
+  "2": {
+   "nombre": "Flecha Mágica",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 18,
+   "maxHp": 25,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 19,
+   "fxGrh": 86,
+   "lineaHechizosDat": 52,
+   "enProyecto": true
+  },
+  "4": {
+   "nombre": "Aliento de Dragón",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 92,
+   "maxHp": 96,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 231,
+   "fxGrh": 121,
+   "lineaHechizosDat": 107,
+   "enProyecto": true
+  },
+  "9": {
+   "nombre": "Invocar Mascotas",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 4,
+   "efectos": [
+    "invoca"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 17,
+   "fxGrh": 0,
+   "lineaHechizosDat": 234,
+   "enProyecto": true,
+   "invocaNpc": 0,
+   "invocaCant": 0
+  },
+  "15": {
+   "nombre": "Detectar Invisibilidad",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 12,
+   "efectos": [
+    "quitaInvisibilidad"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 22,
+   "areaAfecta": 1,
+   "duration": 0,
+   "wav": 16,
+   "fxGrh": 0,
+   "lineaHechizosDat": 381,
+   "enProyecto": true
+  },
+  "25": {
+   "nombre": "Paralizar",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 2,
+   "efectos": [
+    "paraliza"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 15,
+   "wav": 16,
+   "fxGrh": 8,
+   "lineaHechizosDat": 639,
+   "enProyecto": true
+  },
+  "26": {
+   "nombre": "Inmovilizar",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 2,
+   "efectos": [
+    "inmoviliza"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 20,
+   "wav": 16,
+   "fxGrh": 12,
+   "lineaHechizosDat": 665,
+   "enProyecto": true
+  },
+  "27": {
+   "nombre": "Remover Parálisis",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 2,
+   "efectos": [
+    "removerParalisis"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 16,
+   "fxGrh": 0,
+   "lineaHechizosDat": 691,
+   "enProyecto": true
+  },
+  "32": {
+   "nombre": "Incinerar",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 2,
+   "efectos": [
+    "incinera"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 0,
+   "fxGrh": 0,
+   "lineaHechizosDat": 718,
+   "enProyecto": true
+  },
+  "41": {
+   "nombre": "Tormenta de Fuego",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 45,
+   "maxHp": 55,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 27,
+   "fxGrh": 7,
+   "lineaHechizosDat": 746,
+   "enProyecto": true
+  },
+  "43": {
+   "nombre": "Flecha Eléctrica",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 25,
+   "maxHp": 35,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 19,
+   "fxGrh": 86,
+   "lineaHechizosDat": 803,
+   "enProyecto": true
+  },
+  "51": {
+   "nombre": "Descarga Eléctrica",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 69,
+   "maxHp": 77,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 520,
+   "fxGrh": 11,
+   "lineaHechizosDat": 901,
+   "enProyecto": true
+  },
+  "53": {
+   "nombre": "Apocalipsis",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 91,
+   "maxHp": 100,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 162,
+   "fxGrh": 13,
+   "lineaHechizosDat": 962,
+   "enProyecto": true
+  },
+  "55": {
+   "nombre": "Lamento de la Banshee",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 80,
+   "maxHp": 100,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 99,
+   "fxGrh": 0,
+   "lineaHechizosDat": 1021,
+   "enProyecto": true
+  },
+  "57": {
+   "nombre": "Ralentizar",
+   "target": 1,
+   "targetNombre": "uUsuarios",
+   "autoLanzar": 0,
+   "tipo": 2,
+   "efectos": [],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 3,
+   "wav": 0,
+   "fxGrh": 17,
+   "lineaHechizosDat": 1081,
+   "enProyecto": true
+  },
+  "100": {
+   "nombre": "Maldición de Kraken",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 135,
+   "maxHp": 175,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 234,
+   "fxGrh": 0,
+   "lineaHechizosDat": 1146,
+   "enProyecto": true
+  },
+  "131": {
+   "nombre": "Destierro",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 125,
+   "maxHp": 135,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 520,
+   "fxGrh": 0,
+   "lineaHechizosDat": 1363,
+   "enProyecto": true
+  },
+  "141": {
+   "nombre": "Vacío Abisal",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 100,
+   "maxHp": 150,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 138,
+   "fxGrh": 0,
+   "lineaHechizosDat": 1454,
+   "enProyecto": true
+  },
+  "142": {
+   "nombre": "Puntazo Incapacitador",
+   "target": 1,
+   "targetNombre": "uUsuarios",
+   "autoLanzar": 0,
+   "tipo": 8,
+   "efectos": [],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 5,
+   "wav": 109,
+   "fxGrh": 0,
+   "lineaHechizosDat": 1483,
+   "enProyecto": true
+  },
+  "201": {
+   "nombre": "Maldición del Bufón",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 180,
+   "maxHp": 220,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 100,
+   "fxGrh": 0,
+   "lineaHechizosDat": 1626,
+   "enProyecto": true
+  },
+  "203": {
+   "nombre": "Remover Parálisis (NPCS)",
+   "target": 2,
+   "targetNombre": "uNPC",
+   "autoLanzar": 1,
+   "tipo": 2,
+   "efectos": [
+    "removerParalisis"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 16,
+   "fxGrh": 6,
+   "lineaHechizosDat": 1680,
+   "enProyecto": true
+  },
+  "205": {
+   "nombre": "Flecha (NPCS)",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 18,
+   "maxHp": 27,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 249,
+   "fxGrh": 86,
+   "lineaHechizosDat": 1738,
+   "enProyecto": true
+  },
+  "206": {
+   "nombre": "Incinerar (NPCS)",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 2,
+   "efectos": [
+    "incinera"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 0,
+   "fxGrh": 0,
+   "lineaHechizosDat": 1768,
+   "enProyecto": true
+  },
+  "208": {
+   "nombre": "Partículas Tóxicas (NPCS)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 5,
+   "efectos": [
+    "dano",
+    "envenena"
+   ],
+   "minHp": 100,
+   "maxHp": 120,
+   "areaRadio": 4,
+   "areaAfecta": 3,
+   "duration": 0,
+   "wav": 127,
+   "fxGrh": 1,
+   "lineaHechizosDat": 1825,
+   "enProyecto": true
+  },
+  "209": {
+   "nombre": "Flecha Scramer (NPCS)",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano",
+    "eot:13"
+   ],
+   "minHp": 10,
+   "maxHp": 20,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 249,
+   "fxGrh": 86,
+   "lineaHechizosDat": 1857,
+   "enProyecto": true
+  },
+  "210": {
+   "nombre": "Colmillo Venenoso (NPCS)",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 8,
+   "efectos": [
+    "dano",
+    "envenena"
+   ],
+   "minHp": 55,
+   "maxHp": 65,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 127,
+   "fxGrh": 1,
+   "lineaHechizosDat": 1888,
+   "enProyecto": true
+  },
+  "211": {
+   "nombre": "Colmillo Filoso (NPCS)",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 35,
+   "maxHp": 45,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 19,
+   "fxGrh": 86,
+   "lineaHechizosDat": 1918,
+   "enProyecto": true
+  },
+  "212": {
+   "nombre": "Invocar Hiena Demoníaca (NPCS)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 4,
+   "efectos": [
+    "invoca"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 3,
+   "fxGrh": 0,
+   "lineaHechizosDat": 1947,
+   "enProyecto": true,
+   "invocaNpc": 1160,
+   "invocaCant": 1
+  },
+  "213": {
+   "nombre": "Muro de Espinas (Área)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 5,
+   "efectos": [
+    "paraliza"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 22,
+   "areaAfecta": 1,
+   "duration": 15,
+   "wav": 253,
+   "fxGrh": 0,
+   "lineaHechizosDat": 1970,
+   "enProyecto": true
+  },
+  "214": {
+   "nombre": "Apocalipsis (Área)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 5,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 150,
+   "maxHp": 180,
+   "areaRadio": 22,
+   "areaAfecta": 1,
+   "duration": 0,
+   "wav": 162,
+   "fxGrh": 13,
+   "lineaHechizosDat": 1998,
+   "enProyecto": true
+  },
+  "215": {
+   "nombre": "Aliento de Dragón (Área)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 5,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 170,
+   "maxHp": 200,
+   "areaRadio": 22,
+   "areaAfecta": 1,
+   "duration": 0,
+   "wav": 231,
+   "fxGrh": 121,
+   "lineaHechizosDat": 2032,
+   "enProyecto": true
+  },
+  "216": {
+   "nombre": "Incinerar (Área)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 5,
+   "efectos": [
+    "incinera"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 22,
+   "areaAfecta": 1,
+   "duration": 0,
+   "wav": 0,
+   "fxGrh": 0,
+   "lineaHechizosDat": 2064,
+   "enProyecto": true
+  },
+  "217": {
+   "nombre": "Descarga Eléctrica (Área)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 5,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 70,
+   "maxHp": 80,
+   "areaRadio": 22,
+   "areaAfecta": 1,
+   "duration": 0,
+   "wav": 520,
+   "fxGrh": 11,
+   "lineaHechizosDat": 2092,
+   "enProyecto": true
+  },
+  "218": {
+   "nombre": "Partitura Maldita (Area)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 5,
+   "efectos": [],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 22,
+   "areaAfecta": 1,
+   "duration": 15,
+   "wav": 253,
+   "fxGrh": 0,
+   "lineaHechizosDat": 2125,
+   "enProyecto": true
+  },
+  "219": {
+   "nombre": "Destierro (Área)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 5,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 200,
+   "maxHp": 220,
+   "areaRadio": 22,
+   "areaAfecta": 1,
+   "duration": 0,
+   "wav": 520,
+   "fxGrh": 0,
+   "lineaHechizosDat": 2160,
+   "enProyecto": true
+  },
+  "220": {
+   "nombre": "Partitura Maldita (Area)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 5,
+   "efectos": [],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 22,
+   "areaAfecta": 1,
+   "duration": 15,
+   "wav": 253,
+   "fxGrh": 0,
+   "lineaHechizosDat": 2189,
+   "enProyecto": true
+  },
+  "228": {
+   "nombre": "Invocar Elemental Infernal (NPCS)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 4,
+   "efectos": [
+    "invoca"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 242,
+   "fxGrh": 0,
+   "lineaHechizosDat": 2246,
+   "enProyecto": true,
+   "invocaNpc": 1226,
+   "invocaCant": 1
+  },
+  "229": {
+   "nombre": "Devorador del Inframundo (NPCs) (Área)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 5,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 25,
+   "maxHp": 40,
+   "areaRadio": 4,
+   "areaAfecta": 1,
+   "duration": 0,
+   "wav": 242,
+   "fxGrh": 0,
+   "lineaHechizosDat": 2268,
+   "enProyecto": true
+  },
+  "231": {
+   "nombre": "Explosión de Fuego (ÁREA) (NPCs)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 5,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 20,
+   "maxHp": 45,
+   "areaRadio": 3,
+   "areaAfecta": 1,
+   "duration": 0,
+   "wav": 27,
+   "fxGrh": 7,
+   "lineaHechizosDat": 2319,
+   "enProyecto": true
+  },
+  "232": {
+   "nombre": "Invocar Arquero Capturado (NPCS)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 4,
+   "efectos": [
+    "invoca"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 242,
+   "fxGrh": 0,
+   "lineaHechizosDat": 2348,
+   "enProyecto": true,
+   "invocaNpc": 1228,
+   "invocaCant": 2
+  },
+  "233": {
+   "nombre": "Flecha de Arquero Capturado (NPCS)",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 25,
+   "maxHp": 40,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 19,
+   "fxGrh": 0,
+   "lineaHechizosDat": 2370,
+   "enProyecto": true
+  },
+  "234": {
+   "nombre": "Lluvia de flechas de Arquero Capturado (NPCS)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 50,
+   "maxHp": 70,
+   "areaRadio": 22,
+   "areaAfecta": 1,
+   "duration": 0,
+   "wav": 19,
+   "fxGrh": 0,
+   "lineaHechizosDat": 2395,
+   "enProyecto": true
+  },
+  "236": {
+   "nombre": "Implosión (NPCs)",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano"
+   ],
+   "minHp": 70,
+   "maxHp": 100,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 0,
+   "fxGrh": 12834,
+   "lineaHechizosDat": 2445,
+   "enProyecto": true
+  },
+  "242": {
+   "nombre": "Restauración 3",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 2,
+   "efectos": [
+    "cura",
+    "eot:1"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 17,
+   "fxGrh": 143,
+   "lineaHechizosDat": 2511,
+   "enProyecto": true
+  },
+  "247": {
+   "nombre": "Invocar Pequeño Lobo Gris(NPCS)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 4,
+   "efectos": [
+    "invoca"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 242,
+   "fxGrh": 0,
+   "lineaHechizosDat": 2653,
+   "enProyecto": true,
+   "invocaNpc": 1296,
+   "invocaCant": 3
+  },
+  "248": {
+   "nombre": "Flecha Cargada",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 10,
+   "efectos": [
+    "dano",
+    "eot:11"
+   ],
+   "minHp": 40,
+   "maxHp": 60,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 0,
+   "fxGrh": 0,
+   "lineaHechizosDat": 2676,
+   "enProyecto": true
+  },
+  "256": {
+   "nombre": "Cañonazo",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 10,
+   "efectos": [
+    "eot:20"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 1111,
+   "fxGrh": 0,
+   "lineaHechizosDat": 2898,
+   "enProyecto": true
+  },
+  "267": {
+   "nombre": "Ataque de Veneno (NPCS)",
+   "target": 3,
+   "targetNombre": "uUsuariosYnpc",
+   "autoLanzar": 0,
+   "tipo": 1,
+   "efectos": [
+    "dano",
+    "eot:38"
+   ],
+   "minHp": 10,
+   "maxHp": 20,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 249,
+   "fxGrh": 86,
+   "lineaHechizosDat": 3152,
+   "enProyecto": true
+  },
+  "293": {
+   "nombre": "Invocar Dragón (NPCS)",
+   "target": 4,
+   "targetNombre": "uTerreno",
+   "autoLanzar": 0,
+   "tipo": 4,
+   "efectos": [
+    "invoca"
+   ],
+   "minHp": 0,
+   "maxHp": 0,
+   "areaRadio": 0,
+   "areaAfecta": 0,
+   "duration": 0,
+   "wav": 242,
+   "fxGrh": 0,
+   "lineaHechizosDat": 3763,
+   "enProyecto": true,
+   "invocaNpc": 1332,
+   "invocaCant": 1
+  }
+ },
+ "npcs": [
+  {
+   "npcId": 30,
+   "nombre": "Capitan Wynne",
+   "hechizos": [
+    256
+   ],
+   "hechizosNombres": [
+    "Cañonazo"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 9000,
+   "minHit": 120,
+   "maxHit": 160,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 587,
+   "enProyecto": false,
+   "notas": [
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 262,
+   "nombre": "Sacerdote Imperial",
+   "hechizos": [
+    53
+   ],
+   "hechizosNombres": [
+    "Apocalipsis"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": 6,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 2,
+   "alineacion": 1,
+   "faccion": 3,
+   "nivel": null,
+   "maxHp": 10000,
+   "minHit": 100,
+   "maxHit": 100,
+   "rutaIA": "TryGuardAttackHostileNpc (vs NPC hostiles: hechizos fijos 25+204) y luego PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 1968,
+   "enProyecto": true,
+   "notas": [
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": [
+    29,
+    31,
+    59,
+    60,
+    61,
+    159,
+    294
+   ]
+  },
+  {
+   "npcId": 269,
+   "nombre": "Guardia de entradas",
+   "hechizos": [
+    9,
+    25
+   ],
+   "hechizosNombres": [
+    "Invocar Mascotas",
+    "Paralizar"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": 6,
+   "movement": 10,
+   "movementNombre": "GuardiaPersigueNpc",
+   "hostile": 0,
+   "npcType": 13,
+   "alineacion": 0,
+   "restriccionDeAtaque": 2,
+   "faccion": 0,
+   "nivel": null,
+   "maxHp": 10000,
+   "minHit": 25000,
+   "maxHit": 25000,
+   "rutaIA": "AI_GuardiaPersigueNpc: solo melee contra NPC (no usa Sp)",
+   "lineaNpcsDat": 2039,
+   "enProyecto": true,
+   "notas": [
+    "tiene invocacion pero CantidadInvocaciones=0: NpcLanzaSpellSobreArea sale sin invocar",
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": [
+    37,
+    40,
+    45,
+    310,
+    369
+   ]
+  },
+  {
+   "npcId": 270,
+   "nombre": "Mago del Caos",
+   "hechizos": [
+    9,
+    25
+   ],
+   "hechizosNombres": [
+    "Invocar Mascotas",
+    "Paralizar"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": 4,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 2,
+   "faccion": 2,
+   "nivel": null,
+   "maxHp": 9550,
+   "minHit": 100,
+   "maxHit": 100,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 2080,
+   "enProyecto": true,
+   "notas": [
+    "tiene invocacion pero CantidadInvocaciones=0: NpcLanzaSpellSobreArea sale sin invocar",
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": [
+    195,
+    197,
+    286,
+    295
+   ]
+  },
+  {
+   "npcId": 276,
+   "nombre": "Arquero Imperial",
+   "hechizos": [
+    205
+   ],
+   "hechizosNombres": [
+    "Flecha (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 1500,
+   "intervaloEfectivoMs": 1500,
+   "rangoSpell": 6,
+   "movement": 20,
+   "movementNombre": "Caminata",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 1,
+   "faccion": 2,
+   "nivel": null,
+   "maxHp": 7500,
+   "minHit": 100,
+   "maxHit": 150,
+   "rutaIA": "HacerCaminata (sin combate)",
+   "lineaNpcsDat": 2199,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 400,
+   "nombre": "Gran Dragón Negro",
+   "hechizos": [
+    4
+   ],
+   "hechizosNombres": [
+    "Aliento de Dragón"
+   ],
+   "intervaloLanzarHechizoMs": 4000,
+   "intervaloEfectivoMs": 4000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 6,
+   "alineacion": 0,
+   "dontHitVisiblePlayers": 1,
+   "nivel": null,
+   "maxHp": 500000,
+   "minHit": 100,
+   "maxHit": 150,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 2411,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 498,
+   "nombre": "Centinela",
+   "hechizos": [
+    9
+   ],
+   "hechizosNombres": [
+    "Invocar Mascotas"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": null,
+   "movement": 1,
+   "movementNombre": "Estatico",
+   "hostile": 0,
+   "npcType": 15,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 0,
+   "minHit": 0,
+   "maxHit": 0,
+   "rutaIA": "Estatico: NpcAI sale sin actuar (no castea)",
+   "lineaNpcsDat": 3030,
+   "enProyecto": false,
+   "notas": [
+    "tiene invocacion pero CantidadInvocaciones=0: NpcLanzaSpellSobreArea sale sin invocar",
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 499,
+   "nombre": "Centinela",
+   "hechizos": [
+    9
+   ],
+   "hechizosNombres": [
+    "Invocar Mascotas"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": null,
+   "movement": 1,
+   "movementNombre": "Estatico",
+   "hostile": 0,
+   "npcType": 15,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 0,
+   "minHit": 0,
+   "maxHit": 0,
+   "rutaIA": "Estatico: NpcAI sale sin actuar (no castea)",
+   "lineaNpcsDat": 3054,
+   "enProyecto": false,
+   "notas": [
+    "tiene invocacion pero CantidadInvocaciones=0: NpcLanzaSpellSobreArea sale sin invocar",
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 513,
+   "nombre": "Hechicera",
+   "hechizos": [
+    25,
+    41
+   ],
+   "hechizosNombres": [
+    "Paralizar",
+    "Tormenta de Fuego"
+   ],
+   "intervaloLanzarHechizoMs": 1500,
+   "intervaloEfectivoMs": 1500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 8750,
+   "minHit": 100,
+   "maxHit": 160,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 3423,
+   "enProyecto": true,
+   "mapasProyecto": [
+    311,
+    313
+   ]
+  },
+  {
+   "npcId": 526,
+   "nombre": "Filibustero Viejo",
+   "hechizos": [
+    51
+   ],
+   "hechizosNombres": [
+    "Descarga Eléctrica"
+   ],
+   "intervaloLanzarHechizoMs": 4000,
+   "intervaloEfectivoMs": 4000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 2500,
+   "minHit": 95,
+   "maxHit": 160,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 3751,
+   "enProyecto": true,
+   "mapasProyecto": [
+    100,
+    441
+   ]
+  },
+  {
+   "npcId": 528,
+   "nombre": "Hechicera Maldita",
+   "hechizos": [
+    25,
+    53
+   ],
+   "hechizosNombres": [
+    "Paralizar",
+    "Apocalipsis"
+   ],
+   "intervaloLanzarHechizoMs": 1400,
+   "intervaloEfectivoMs": 1400,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 12000,
+   "minHit": 130,
+   "maxHit": 160,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 3807,
+   "enProyecto": true,
+   "mapasProyecto": [
+    313
+   ]
+  },
+  {
+   "npcId": 529,
+   "nombre": "Chamán Ártico",
+   "hechizos": [
+    25,
+    51
+   ],
+   "hechizosNombres": [
+    "Paralizar",
+    "Descarga Eléctrica"
+   ],
+   "intervaloLanzarHechizoMs": 2500,
+   "intervaloEfectivoMs": 2500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 6000,
+   "minHit": 130,
+   "maxHit": 190,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 3842,
+   "enProyecto": true,
+   "mapasProyecto": [
+    309,
+    310
+   ]
+  },
+  {
+   "npcId": 533,
+   "nombre": "Mago Malvado",
+   "hechizos": [
+    41,
+    25
+   ],
+   "hechizosNombres": [
+    "Tormenta de Fuego",
+    "Paralizar"
+   ],
+   "intervaloLanzarHechizoMs": 4000,
+   "intervaloEfectivoMs": 4000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 3000,
+   "minHit": 100,
+   "maxHit": 115,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 3953,
+   "enProyecto": true,
+   "mapasProyecto": [
+    111,
+    113,
+    114,
+    146
+   ]
+  },
+  {
+   "npcId": 534,
+   "nombre": "Bruja",
+   "hechizos": [
+    25,
+    41
+   ],
+   "hechizosNombres": [
+    "Paralizar",
+    "Tormenta de Fuego"
+   ],
+   "intervaloLanzarHechizoMs": 4000,
+   "intervaloEfectivoMs": 4000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 4000,
+   "minHit": 90,
+   "maxHit": 120,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 3985,
+   "enProyecto": true,
+   "mapasProyecto": [
+    111,
+    140,
+    144,
+    145
+   ]
+  },
+  {
+   "npcId": 538,
+   "nombre": "Euríale",
+   "hechizos": [
+    25,
+    51
+   ],
+   "hechizosNombres": [
+    "Paralizar",
+    "Descarga Eléctrica"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": 45,
+   "maxHp": 11000,
+   "minHit": 175,
+   "maxHit": 190,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 4090,
+   "enProyecto": true,
+   "notas": [
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": [
+    314
+   ]
+  },
+  {
+   "npcId": 540,
+   "nombre": "Medusa",
+   "hechizos": [
+    51,
+    26
+   ],
+   "hechizosNombres": [
+    "Descarga Eléctrica",
+    "Inmovilizar"
+   ],
+   "intervaloLanzarHechizoMs": 7000,
+   "intervaloEfectivoMs": 7000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 7000,
+   "minHit": 115,
+   "maxHit": 160,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 4122,
+   "enProyecto": true,
+   "mapasProyecto": [
+    48,
+    140,
+    141,
+    142,
+    143,
+    144,
+    145,
+    146
+   ]
+  },
+  {
+   "npcId": 544,
+   "nombre": "Vytaiz",
+   "hechizos": [
+    25,
+    206
+   ],
+   "hechizosNombres": [
+    "Paralizar",
+    "Incinerar (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 1500,
+   "intervaloEfectivoMs": 1500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 20000,
+   "minHit": 160,
+   "maxHit": 180,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 4208,
+   "enProyecto": true,
+   "mapasProyecto": [
+    314
+   ]
+  },
+  {
+   "npcId": 549,
+   "nombre": "Gran Dragón Rojo",
+   "hechizos": [
+    4
+   ],
+   "hechizosNombres": [
+    "Aliento de Dragón"
+   ],
+   "intervaloLanzarHechizoMs": 3000,
+   "intervaloEfectivoMs": 3000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 6,
+   "alineacion": 0,
+   "dontHitVisiblePlayers": 1,
+   "nivel": null,
+   "maxHp": 200000,
+   "minHit": 1000,
+   "maxHit": 5000,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 4352,
+   "enProyecto": true,
+   "mapasProyecto": [
+    391
+   ]
+  },
+  {
+   "npcId": 555,
+   "nombre": "Orco Brujo",
+   "hechizos": [
+    43
+   ],
+   "hechizosNombres": [
+    "Flecha Eléctrica"
+   ],
+   "intervaloLanzarHechizoMs": 2000,
+   "intervaloEfectivoMs": 2000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 2500,
+   "minHit": 90,
+   "maxHit": 210,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 4505,
+   "enProyecto": true,
+   "mapasProyecto": [
+    111,
+    113,
+    114,
+    116,
+    141,
+    142
+   ]
+  },
+  {
+   "npcId": 556,
+   "nombre": "Fuego Fatuo",
+   "hechizos": [
+    51
+   ],
+   "hechizosNombres": [
+    "Descarga Eléctrica"
+   ],
+   "intervaloLanzarHechizoMs": 4500,
+   "intervaloEfectivoMs": 4500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 0,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 900,
+   "minHit": 100,
+   "maxHit": 100,
+   "rutaIA": "pasivo (AI_CaminarSinRumboCercaDeOrigen); al ser atacado NPCAtacado pone Hostile=1 -> PerseguirUsuarioCercano -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 4538,
+   "enProyecto": true,
+   "mapasProyecto": [
+    110,
+    112
+   ]
+  },
+  {
+   "npcId": 564,
+   "nombre": "Capitan Wynne",
+   "hechizos": [
+    256
+   ],
+   "hechizosNombres": [
+    "Cañonazo"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 9000,
+   "minHit": 120,
+   "maxHit": 160,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 4766,
+   "enProyecto": true,
+   "notas": [
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": [
+    311,
+    312
+   ]
+  },
+  {
+   "npcId": 571,
+   "nombre": "Devorador del Inframundo",
+   "hechizos": [
+    213,
+    214,
+    215,
+    216,
+    217,
+    218,
+    219,
+    228
+   ],
+   "hechizosNombres": [
+    "Muro de Espinas (Área)",
+    "Apocalipsis (Área)",
+    "Aliento de Dragón (Área)",
+    "Incinerar (Área)",
+    "Descarga Eléctrica (Área)",
+    "Partitura Maldita (Area)",
+    "Destierro (Área)",
+    "Invocar Elemental Infernal (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 800,
+   "intervaloEfectivoMs": 800,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "dontHitVisiblePlayers": 1,
+   "cantidadInvocaciones": 3,
+   "nivel": null,
+   "maxHp": 150000,
+   "minHit": 300,
+   "maxHit": 350,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 4901,
+   "enProyecto": true,
+   "mapasProyecto": [
+    368
+   ]
+  },
+  {
+   "npcId": 572,
+   "nombre": "Titán del Vacío Abisal",
+   "hechizos": [
+    15,
+    25,
+    141
+   ],
+   "hechizosNombres": [
+    "Detectar Invisibilidad",
+    "Paralizar",
+    "Vacío Abisal"
+   ],
+   "intervaloLanzarHechizoMs": 2000,
+   "intervaloEfectivoMs": 2000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 15000,
+   "minHit": 190,
+   "maxHit": 210,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 4967,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 575,
+   "nombre": "Azhran",
+   "hechizos": [
+    25,
+    131
+   ],
+   "hechizosNombres": [
+    "Paralizar",
+    "Destierro"
+   ],
+   "intervaloLanzarHechizoMs": 7000,
+   "intervaloEfectivoMs": 7000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 20000,
+   "minHit": 220,
+   "maxHit": 260,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 5033,
+   "enProyecto": true,
+   "mapasProyecto": [
+    48
+   ]
+  },
+  {
+   "npcId": 586,
+   "nombre": "Galeón Fantasmal",
+   "hechizos": [
+    256
+   ],
+   "hechizosNombres": [
+    "Cañonazo"
+   ],
+   "intervaloLanzarHechizoMs": 5000,
+   "intervaloEfectivoMs": 5000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 8000,
+   "minHit": 50,
+   "maxHit": 125,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 5157,
+   "enProyecto": true,
+   "mapasProyecto": [
+    385
+   ]
+  },
+  {
+   "npcId": 587,
+   "nombre": "Pequeño Dragón Rojo",
+   "hechizos": [
+    41
+   ],
+   "hechizosNombres": [
+    "Tormenta de Fuego"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 5000,
+   "minHit": 110,
+   "maxHit": 120,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 5183,
+   "enProyecto": true,
+   "notas": [
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": [
+    115,
+    391
+   ]
+  },
+  {
+   "npcId": 588,
+   "nombre": "Pirata Jack",
+   "hechizos": [
+    53
+   ],
+   "hechizosNombres": [
+    "Apocalipsis"
+   ],
+   "intervaloLanzarHechizoMs": 5000,
+   "intervaloEfectivoMs": 5000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 3000,
+   "minHit": 80,
+   "maxHit": 120,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 5213,
+   "enProyecto": true,
+   "mapasProyecto": [
+    201,
+    284
+   ]
+  },
+  {
+   "npcId": 590,
+   "nombre": "Dama Oscura",
+   "hechizos": [
+    25,
+    51
+   ],
+   "hechizosNombres": [
+    "Paralizar",
+    "Descarga Eléctrica"
+   ],
+   "intervaloLanzarHechizoMs": 1500,
+   "intervaloEfectivoMs": 1500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": 45,
+   "maxHp": 10500,
+   "minHit": 130,
+   "maxHit": 175,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 5272,
+   "enProyecto": true,
+   "mapasProyecto": [
+    313
+   ]
+  },
+  {
+   "npcId": 591,
+   "nombre": "Bufón Caótico",
+   "hechizos": [
+    15,
+    201,
+    25,
+    213
+   ],
+   "hechizosNombres": [
+    "Detectar Invisibilidad",
+    "Maldición del Bufón",
+    "Paralizar",
+    "Muro de Espinas (Área)"
+   ],
+   "intervaloLanzarHechizoMs": 1500,
+   "intervaloEfectivoMs": 1500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 2,
+   "faccion": 2,
+   "nivel": null,
+   "maxHp": 15000,
+   "minHit": 220,
+   "maxHit": 260,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 5303,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 592,
+   "nombre": "Bufón Real",
+   "hechizos": [
+    15,
+    201,
+    25,
+    213
+   ],
+   "hechizosNombres": [
+    "Detectar Invisibilidad",
+    "Maldición del Bufón",
+    "Paralizar",
+    "Muro de Espinas (Área)"
+   ],
+   "intervaloLanzarHechizoMs": 1500,
+   "intervaloEfectivoMs": 1500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 1,
+   "faccion": 0,
+   "nivel": null,
+   "maxHp": 15000,
+   "minHit": 170,
+   "maxHit": 220,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 5339,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 594,
+   "nombre": "Kobold",
+   "hechizos": [
+    43
+   ],
+   "hechizosNombres": [
+    "Flecha Eléctrica"
+   ],
+   "intervaloLanzarHechizoMs": 3000,
+   "intervaloEfectivoMs": 3000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 700,
+   "minHit": 50,
+   "maxHit": 57,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 5402,
+   "enProyecto": true,
+   "mapasProyecto": [
+    16,
+    21,
+    203
+   ]
+  },
+  {
+   "npcId": 595,
+   "nombre": "Pequeño Dragón Azul",
+   "hechizos": [
+    41
+   ],
+   "hechizosNombres": [
+    "Tormenta de Fuego"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 6500,
+   "minHit": 105,
+   "maxHit": 115,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 5432,
+   "enProyecto": true,
+   "notas": [
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": [
+    391
+   ]
+  },
+  {
+   "npcId": 606,
+   "nombre": "Araña Roja",
+   "hechizos": [
+    210
+   ],
+   "hechizosNombres": [
+    "Colmillo Venenoso (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 5000,
+   "intervaloEfectivoMs": 5000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 1000,
+   "minHit": 90,
+   "maxHit": 125,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 5618,
+   "enProyecto": true,
+   "mapasProyecto": [
+    327,
+    334,
+    382
+   ]
+  },
+  {
+   "npcId": 607,
+   "nombre": "Araña Verde",
+   "hechizos": [
+    211
+   ],
+   "hechizosNombres": [
+    "Colmillo Filoso (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 4000,
+   "intervaloEfectivoMs": 4000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 1000,
+   "minHit": 90,
+   "maxHit": 125,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 5649,
+   "enProyecto": true,
+   "mapasProyecto": [
+    321,
+    325,
+    328,
+    329,
+    388
+   ]
+  },
+  {
+   "npcId": 609,
+   "nombre": "Lagarto",
+   "hechizos": [
+    205
+   ],
+   "hechizosNombres": [
+    "Flecha (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 3500,
+   "intervaloEfectivoMs": 3500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 1200,
+   "minHit": 50,
+   "maxHit": 60,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 5681,
+   "enProyecto": true,
+   "mapasProyecto": [
+    321,
+    325,
+    327,
+    328,
+    331,
+    332,
+    376,
+    382,
+    384,
+    388
+   ]
+  },
+  {
+   "npcId": 631,
+   "nombre": "Kraken Gigante Body",
+   "hechizos": [
+    32,
+    26,
+    100
+   ],
+   "hechizosNombres": [
+    "Incinerar",
+    "Inmovilizar",
+    "Maldición de Kraken"
+   ],
+   "intervaloLanzarHechizoMs": 5000,
+   "intervaloEfectivoMs": 5000,
+   "rangoSpell": 18,
+   "movement": 3,
+   "movementNombre": "FixedInPos",
+   "hostile": 1,
+   "npcType": 19,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 35500,
+   "minHit": 170,
+   "maxHit": 250,
+   "rutaIA": "DummyTarget: el loop de IA solo llama NpcDummyUpdate (no castea)",
+   "lineaNpcsDat": 6073,
+   "enProyecto": true,
+   "mapasProyecto": [
+    184
+   ]
+  },
+  {
+   "npcId": 632,
+   "nombre": "Kraken Gigante 3",
+   "hechizos": [
+    32,
+    26,
+    100
+   ],
+   "hechizosNombres": [
+    "Incinerar",
+    "Inmovilizar",
+    "Maldición de Kraken"
+   ],
+   "intervaloLanzarHechizoMs": 5000,
+   "intervaloEfectivoMs": 5000,
+   "rangoSpell": 18,
+   "movement": 3,
+   "movementNombre": "FixedInPos",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 35500,
+   "minHit": 170,
+   "maxHit": 250,
+   "rutaIA": "AttackFromPos -> NpcLanzaUnSpell (sin melee: ElseIf)",
+   "lineaNpcsDat": 6115,
+   "enProyecto": true,
+   "mapasProyecto": [
+    184
+   ]
+  },
+  {
+   "npcId": 633,
+   "nombre": "Kraken Gigante 12",
+   "hechizos": [
+    32,
+    26,
+    100
+   ],
+   "hechizosNombres": [
+    "Incinerar",
+    "Inmovilizar",
+    "Maldición de Kraken"
+   ],
+   "intervaloLanzarHechizoMs": 5000,
+   "intervaloEfectivoMs": 5000,
+   "rangoSpell": 18,
+   "movement": 3,
+   "movementNombre": "FixedInPos",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 35500,
+   "minHit": 170,
+   "maxHit": 250,
+   "rutaIA": "AttackFromPos -> NpcLanzaUnSpell (sin melee: ElseIf)",
+   "lineaNpcsDat": 6150,
+   "enProyecto": true,
+   "mapasProyecto": [
+    184
+   ]
+  },
+  {
+   "npcId": 634,
+   "nombre": "Kraken Gigante 2",
+   "hechizos": [
+    32,
+    26,
+    100
+   ],
+   "hechizosNombres": [
+    "Incinerar",
+    "Inmovilizar",
+    "Maldición de Kraken"
+   ],
+   "intervaloLanzarHechizoMs": 5000,
+   "intervaloEfectivoMs": 5000,
+   "rangoSpell": 18,
+   "movement": 3,
+   "movementNombre": "FixedInPos",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 35500,
+   "minHit": 170,
+   "maxHit": 250,
+   "rutaIA": "AttackFromPos -> NpcLanzaUnSpell (sin melee: ElseIf)",
+   "lineaNpcsDat": 6187,
+   "enProyecto": true,
+   "mapasProyecto": [
+    184
+   ]
+  },
+  {
+   "npcId": 635,
+   "nombre": "Kraken Gigante 11",
+   "hechizos": [
+    32,
+    26,
+    100
+   ],
+   "hechizosNombres": [
+    "Incinerar",
+    "Inmovilizar",
+    "Maldición de Kraken"
+   ],
+   "intervaloLanzarHechizoMs": 5000,
+   "intervaloEfectivoMs": 5000,
+   "rangoSpell": 18,
+   "movement": 3,
+   "movementNombre": "FixedInPos",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 35500,
+   "minHit": 170,
+   "maxHit": 250,
+   "rutaIA": "AttackFromPos -> NpcLanzaUnSpell (sin melee: ElseIf)",
+   "lineaNpcsDat": 6223,
+   "enProyecto": true,
+   "mapasProyecto": [
+    184
+   ]
+  },
+  {
+   "npcId": 636,
+   "nombre": "Kraken Gigante 9",
+   "hechizos": [
+    32,
+    26,
+    100
+   ],
+   "hechizosNombres": [
+    "Incinerar",
+    "Inmovilizar",
+    "Maldición de Kraken"
+   ],
+   "intervaloLanzarHechizoMs": 5000,
+   "intervaloEfectivoMs": 5000,
+   "rangoSpell": 18,
+   "movement": 3,
+   "movementNombre": "FixedInPos",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 35500,
+   "minHit": 170,
+   "maxHit": 250,
+   "rutaIA": "AttackFromPos -> NpcLanzaUnSpell (sin melee: ElseIf)",
+   "lineaNpcsDat": 6258,
+   "enProyecto": true,
+   "mapasProyecto": [
+    184
+   ]
+  },
+  {
+   "npcId": 637,
+   "nombre": "Kraken Gigante 6",
+   "hechizos": [
+    32,
+    26,
+    100
+   ],
+   "hechizosNombres": [
+    "Incinerar",
+    "Inmovilizar",
+    "Maldición de Kraken"
+   ],
+   "intervaloLanzarHechizoMs": 5000,
+   "intervaloEfectivoMs": 5000,
+   "rangoSpell": 18,
+   "movement": 3,
+   "movementNombre": "FixedInPos",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 35500,
+   "minHit": 170,
+   "maxHit": 250,
+   "rutaIA": "AttackFromPos -> NpcLanzaUnSpell (sin melee: ElseIf)",
+   "lineaNpcsDat": 6293,
+   "enProyecto": true,
+   "mapasProyecto": [
+    184
+   ]
+  },
+  {
+   "npcId": 638,
+   "nombre": "Kraken Gigante 5",
+   "hechizos": [
+    32,
+    26,
+    100
+   ],
+   "hechizosNombres": [
+    "Incinerar",
+    "Inmovilizar",
+    "Maldición de Kraken"
+   ],
+   "intervaloLanzarHechizoMs": 5000,
+   "intervaloEfectivoMs": 5000,
+   "rangoSpell": 18,
+   "movement": 3,
+   "movementNombre": "FixedInPos",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 35500,
+   "minHit": 170,
+   "maxHit": 250,
+   "rutaIA": "AttackFromPos -> NpcLanzaUnSpell (sin melee: ElseIf)",
+   "lineaNpcsDat": 6328,
+   "enProyecto": true,
+   "mapasProyecto": [
+    184
+   ]
+  },
+  {
+   "npcId": 639,
+   "nombre": "Kraken Gigante 7",
+   "hechizos": [
+    32,
+    26,
+    100
+   ],
+   "hechizosNombres": [
+    "Incinerar",
+    "Inmovilizar",
+    "Maldición de Kraken"
+   ],
+   "intervaloLanzarHechizoMs": 5000,
+   "intervaloEfectivoMs": 5000,
+   "rangoSpell": 18,
+   "movement": 3,
+   "movementNombre": "FixedInPos",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 35500,
+   "minHit": 170,
+   "maxHit": 250,
+   "rutaIA": "AttackFromPos -> NpcLanzaUnSpell (sin melee: ElseIf)",
+   "lineaNpcsDat": 6363,
+   "enProyecto": true,
+   "mapasProyecto": [
+    184
+   ]
+  },
+  {
+   "npcId": 640,
+   "nombre": "Dragón Negro Legendario",
+   "hechizos": [
+    215,
+    215,
+    215,
+    215,
+    15,
+    15,
+    218,
+    215,
+    216,
+    217,
+    293,
+    217,
+    217,
+    217,
+    217,
+    293,
+    213,
+    213,
+    15,
+    293
+   ],
+   "hechizosNombres": [
+    "Aliento de Dragón (Área)",
+    "Aliento de Dragón (Área)",
+    "Aliento de Dragón (Área)",
+    "Aliento de Dragón (Área)",
+    "Detectar Invisibilidad",
+    "Detectar Invisibilidad",
+    "Partitura Maldita (Area)",
+    "Aliento de Dragón (Área)",
+    "Incinerar (Área)",
+    "Descarga Eléctrica (Área)",
+    "Invocar Dragón (NPCS)",
+    "Descarga Eléctrica (Área)",
+    "Descarga Eléctrica (Área)",
+    "Descarga Eléctrica (Área)",
+    "Descarga Eléctrica (Área)",
+    "Invocar Dragón (NPCS)",
+    "Muro de Espinas (Área)",
+    "Muro de Espinas (Área)",
+    "Detectar Invisibilidad",
+    "Invocar Dragón (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 1500,
+   "intervaloEfectivoMs": 1500,
+   "rangoSpell": 18,
+   "movement": 3,
+   "movementNombre": "FixedInPos",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "castAnimation": 4393,
+   "cantidadInvocaciones": 3,
+   "nivel": 45,
+   "maxHp": 150000,
+   "minHit": 70,
+   "maxHit": 110,
+   "rutaIA": "AttackFromPos -> NpcLanzaUnSpell (sin melee: ElseIf)",
+   "lineaNpcsDat": 6399,
+   "enProyecto": true,
+   "notas": [
+    "Sp repetidos = mas probabilidad (sorteo uniforme por slot)"
+   ],
+   "mapasProyecto": [
+    377
+   ]
+  },
+  {
+   "npcId": 641,
+   "nombre": "Araña New",
+   "hechizos": [
+    4
+   ],
+   "hechizosNombres": [
+    "Aliento de Dragón"
+   ],
+   "intervaloLanzarHechizoMs": 1500,
+   "intervaloEfectivoMs": 1500,
+   "rangoSpell": 18,
+   "movement": 3,
+   "movementNombre": "FixedInPos",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "castAnimation": 865,
+   "nivel": 45,
+   "maxHp": 100000,
+   "minHit": 65,
+   "maxHit": 50,
+   "rutaIA": "AttackFromPos -> NpcLanzaUnSpell (sin melee: ElseIf)",
+   "lineaNpcsDat": 6482,
+   "enProyecto": true,
+   "mapasProyecto": [
+    184,
+    323
+   ]
+  },
+  {
+   "npcId": 644,
+   "nombre": "Gúl Belthor",
+   "hechizos": [
+    15,
+    216,
+    57,
+    213,
+    218,
+    142,
+    220
+   ],
+   "hechizosNombres": [
+    "Detectar Invisibilidad",
+    "Incinerar (Área)",
+    "Ralentizar",
+    "Muro de Espinas (Área)",
+    "Partitura Maldita (Area)",
+    "Puntazo Incapacitador",
+    "Partitura Maldita (Area)"
+   ],
+   "intervaloLanzarHechizoMs": 4000,
+   "intervaloEfectivoMs": 4000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 500000,
+   "minHit": 300,
+   "maxHit": 300,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 6572,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 655,
+   "nombre": "Espíritu del bosque",
+   "hechizos": [
+    209
+   ],
+   "hechizosNombres": [
+    "Flecha Scramer (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 3500,
+   "intervaloEfectivoMs": 3500,
+   "rangoSpell": 18,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 0,
+   "npcType": 0,
+   "alineacion": 0,
+   "castAnimation": 4252,
+   "nivel": null,
+   "maxHp": 1600,
+   "minHit": 45,
+   "maxHit": 55,
+   "rutaIA": "pasivo (AI_CaminarSinRumboCercaDeOrigen); al ser atacado NPCAtacado pone Hostile=1 -> PerseguirUsuarioCercano -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 6867,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 670,
+   "nombre": "Scramer Anciano",
+   "hechizos": [
+    25,
+    0
+   ],
+   "hechizosNombres": [
+    "Paralizar",
+    null
+   ],
+   "intervaloLanzarHechizoMs": 3000,
+   "intervaloEfectivoMs": 3000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 3000,
+   "minHit": 50,
+   "maxHit": 150,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 7341,
+   "enProyecto": true,
+   "notas": [
+    "Sp vacio (0): si sale ese slot no castea pero gasta el intervalo"
+   ],
+   "mapasProyecto": [
+    274
+   ]
+  },
+  {
+   "npcId": 675,
+   "nombre": "Líder de la Manada",
+   "hechizos": [
+    247
+   ],
+   "hechizosNombres": [
+    "Invocar Pequeño Lobo Gris(NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "cantidadInvocaciones": 3,
+   "nivel": null,
+   "maxHp": 5750,
+   "minHit": 100,
+   "maxHit": 150,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 7493,
+   "enProyecto": true,
+   "notas": [
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": [
+    819
+   ]
+  },
+  {
+   "npcId": 719,
+   "nombre": "Esbirra Demoníaca",
+   "hechizos": [
+    26,
+    141
+   ],
+   "hechizosNombres": [
+    "Inmovilizar",
+    "Vacío Abisal"
+   ],
+   "intervaloLanzarHechizoMs": 2500,
+   "intervaloEfectivoMs": 2500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 5000,
+   "minHit": 100,
+   "maxHit": 135,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 8076,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 723,
+   "nombre": "Patriarca Drake",
+   "hechizos": [
+    15,
+    53,
+    208
+   ],
+   "hechizosNombres": [
+    "Detectar Invisibilidad",
+    "Apocalipsis",
+    "Partículas Tóxicas (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 1000,
+   "intervaloEfectivoMs": 1000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 45000,
+   "minHit": 160,
+   "maxHit": 280,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 8185,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 724,
+   "nombre": "Enviado de Nix",
+   "hechizos": [
+    15,
+    53,
+    208,
+    26,
+    213,
+    218,
+    214
+   ],
+   "hechizosNombres": [
+    "Detectar Invisibilidad",
+    "Apocalipsis",
+    "Partículas Tóxicas (NPCS)",
+    "Inmovilizar",
+    "Muro de Espinas (Área)",
+    "Partitura Maldita (Area)",
+    "Apocalipsis (Área)"
+   ],
+   "intervaloLanzarHechizoMs": 2000,
+   "intervaloEfectivoMs": 2000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 300000,
+   "minHit": 110,
+   "maxHit": 160,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 8216,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 750,
+   "nombre": "Frogian Azulino",
+   "hechizos": [
+    205
+   ],
+   "hechizosNombres": [
+    "Flecha (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 1000,
+   "intervaloEfectivoMs": 1000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 4150,
+   "minHit": 60,
+   "maxHit": 160,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 8268,
+   "enProyecto": true,
+   "mapasProyecto": [
+    199
+   ]
+  },
+  {
+   "npcId": 751,
+   "nombre": "Frogian Hechicero",
+   "hechizos": [
+    41,
+    25
+   ],
+   "hechizosNombres": [
+    "Tormenta de Fuego",
+    "Paralizar"
+   ],
+   "intervaloLanzarHechizoMs": 1000,
+   "intervaloEfectivoMs": 1000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 4150,
+   "minHit": 40,
+   "maxHit": 140,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 8302,
+   "enProyecto": true,
+   "mapasProyecto": [
+    199
+   ]
+  },
+  {
+   "npcId": 754,
+   "nombre": "Espíritu Poseído",
+   "hechizos": [
+    51
+   ],
+   "hechizosNombres": [
+    "Descarga Eléctrica"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": 18,
+   "movement": 11,
+   "movementNombre": "SupportAndAttack",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "castAnimation": 4248,
+   "nivel": null,
+   "maxHp": 4000,
+   "minHit": 60,
+   "maxHit": 160,
+   "rutaIA": "AI_SupportAndAttackNpc -> TrySupportThenAttackSpells (Cd, RangoSpell, RestriccionDeAtaque/Ayuda)",
+   "lineaNpcsDat": 8366,
+   "enProyecto": true,
+   "notas": [
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto",
+    "sin Cd: CanCastSpell siempre verdadero, solo limita IntervaloLanzarHechizo"
+   ],
+   "mapasProyecto": [
+    594,
+    595
+   ]
+  },
+  {
+   "npcId": 922,
+   "nombre": "Dragón Dorado",
+   "hechizos": [
+    4
+   ],
+   "hechizosNombres": [
+    "Aliento de Dragón"
+   ],
+   "intervaloLanzarHechizoMs": 1500,
+   "intervaloEfectivoMs": 1500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "intervaloAtaqueMs": 1600,
+   "nivel": 45,
+   "maxHp": 10000,
+   "minHit": 50,
+   "maxHit": 70,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 8599,
+   "enProyecto": true,
+   "mapasProyecto": [
+    377
+   ]
+  },
+  {
+   "npcId": 923,
+   "nombre": "Dragón Cárdeno",
+   "hechizos": [
+    4
+   ],
+   "hechizosNombres": [
+    "Aliento de Dragón"
+   ],
+   "intervaloLanzarHechizoMs": 1500,
+   "intervaloEfectivoMs": 1500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "intervaloAtaqueMs": 1600,
+   "nivel": 45,
+   "maxHp": 9000,
+   "minHit": 50,
+   "maxHit": 70,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 8639,
+   "enProyecto": true,
+   "mapasProyecto": [
+    377
+   ]
+  },
+  {
+   "npcId": 924,
+   "nombre": "Dragón Rojo",
+   "hechizos": [
+    4
+   ],
+   "hechizosNombres": [
+    "Aliento de Dragón"
+   ],
+   "intervaloLanzarHechizoMs": 1500,
+   "intervaloEfectivoMs": 1500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "intervaloAtaqueMs": 1600,
+   "nivel": 45,
+   "maxHp": 8000,
+   "minHit": 50,
+   "maxHit": 70,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 8678,
+   "enProyecto": true,
+   "mapasProyecto": [
+    377
+   ]
+  },
+  {
+   "npcId": 925,
+   "nombre": "Ninfa",
+   "hechizos": [
+    51
+   ],
+   "hechizosNombres": [
+    "Descarga Eléctrica"
+   ],
+   "intervaloLanzarHechizoMs": 4000,
+   "intervaloEfectivoMs": 4000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 2500,
+   "minHit": 75,
+   "maxHit": 140,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 8717,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 926,
+   "nombre": "Hada Oscura",
+   "hechizos": [
+    25
+   ],
+   "hechizosNombres": [
+    "Paralizar"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 2000,
+   "minHit": 60,
+   "maxHit": 125,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 8752,
+   "enProyecto": true,
+   "notas": [
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": [
+    111,
+    113
+   ]
+  },
+  {
+   "npcId": 947,
+   "nombre": "Fantasma Eléctrico",
+   "hechizos": [
+    51
+   ],
+   "hechizosNombres": [
+    "Descarga Eléctrica"
+   ],
+   "intervaloLanzarHechizoMs": 4000,
+   "intervaloEfectivoMs": 4000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 890,
+   "minHit": 80,
+   "maxHit": 135,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 9205,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 949,
+   "nombre": "Eztbron Vientogélido",
+   "hechizos": [
+    213,
+    216,
+    216,
+    218,
+    219,
+    217,
+    214,
+    214,
+    214,
+    214,
+    215,
+    215,
+    215,
+    217,
+    217,
+    217
+   ],
+   "hechizosNombres": [
+    "Muro de Espinas (Área)",
+    "Incinerar (Área)",
+    "Incinerar (Área)",
+    "Partitura Maldita (Area)",
+    "Destierro (Área)",
+    "Descarga Eléctrica (Área)",
+    "Apocalipsis (Área)",
+    "Apocalipsis (Área)",
+    "Apocalipsis (Área)",
+    "Apocalipsis (Área)",
+    "Aliento de Dragón (Área)",
+    "Aliento de Dragón (Área)",
+    "Aliento de Dragón (Área)",
+    "Descarga Eléctrica (Área)",
+    "Descarga Eléctrica (Área)",
+    "Descarga Eléctrica (Área)"
+   ],
+   "intervaloLanzarHechizoMs": 1900,
+   "intervaloEfectivoMs": 1900,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "dontHitVisiblePlayers": 1,
+   "nivel": null,
+   "maxHp": 200000,
+   "minHit": 160,
+   "maxHit": 260,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 9233,
+   "enProyecto": true,
+   "notas": [
+    "Sp repetidos = mas probabilidad (sorteo uniforme por slot)"
+   ],
+   "mapasProyecto": [
+    307
+   ]
+  },
+  {
+   "npcId": 962,
+   "nombre": "Elemental de Fuego",
+   "hechizos": [
+    41
+   ],
+   "hechizosNombres": [
+    "Tormenta de Fuego"
+   ],
+   "intervaloLanzarHechizoMs": 2000,
+   "intervaloEfectivoMs": 2000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "restriccionDeAtaque": 1,
+   "nivel": null,
+   "maxHp": 350,
+   "minHit": 0,
+   "maxHit": 0,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 9531,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 963,
+   "nombre": "Elemental de Viento",
+   "hechizos": [
+    51,
+    26
+   ],
+   "hechizosNombres": [
+    "Descarga Eléctrica",
+    "Inmovilizar"
+   ],
+   "intervaloLanzarHechizoMs": 3000,
+   "intervaloEfectivoMs": 3000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "restriccionDeAtaque": 1,
+   "nivel": null,
+   "maxHp": 350,
+   "minHit": 0,
+   "maxHit": 0,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 9556,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 964,
+   "nombre": "Fuego Fatuo",
+   "hechizos": [
+    51,
+    26
+   ],
+   "hechizosNombres": [
+    "Descarga Eléctrica",
+    "Inmovilizar"
+   ],
+   "intervaloLanzarHechizoMs": 4000,
+   "intervaloEfectivoMs": 4000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "restriccionDeAtaque": 1,
+   "nivel": null,
+   "maxHp": 250,
+   "minHit": 0,
+   "maxHit": 0,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 9582,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 992,
+   "nombre": "Kraken Gigante",
+   "hechizos": [
+    215,
+    215,
+    214,
+    214,
+    217,
+    217,
+    217,
+    213,
+    218
+   ],
+   "hechizosNombres": [
+    "Aliento de Dragón (Área)",
+    "Aliento de Dragón (Área)",
+    "Apocalipsis (Área)",
+    "Apocalipsis (Área)",
+    "Descarga Eléctrica (Área)",
+    "Descarga Eléctrica (Área)",
+    "Descarga Eléctrica (Área)",
+    "Muro de Espinas (Área)",
+    "Partitura Maldita (Area)"
+   ],
+   "intervaloLanzarHechizoMs": 1700,
+   "intervaloEfectivoMs": 1700,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "dontHitVisiblePlayers": 1,
+   "nivel": null,
+   "maxHp": 100000,
+   "minHit": 210,
+   "maxHit": 270,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 10093,
+   "enProyecto": true,
+   "notas": [
+    "Sp repetidos = mas probabilidad (sorteo uniforme por slot)"
+   ],
+   "mapasProyecto": [
+    285
+   ]
+  },
+  {
+   "npcId": 994,
+   "nombre": "Alma en Llamas",
+   "hechizos": [
+    53
+   ],
+   "hechizosNombres": [
+    "Apocalipsis"
+   ],
+   "intervaloLanzarHechizoMs": 2000,
+   "intervaloEfectivoMs": 2000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": 45,
+   "maxHp": 6100,
+   "minHit": 225,
+   "maxHit": 245,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 10167,
+   "enProyecto": true,
+   "mapasProyecto": [
+    366
+   ]
+  },
+  {
+   "npcId": 1002,
+   "nombre": "Esqueleto Mágico",
+   "hechizos": [
+    2
+   ],
+   "hechizosNombres": [
+    "Flecha Mágica"
+   ],
+   "intervaloLanzarHechizoMs": 2000,
+   "intervaloEfectivoMs": 2000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 2000,
+   "minHit": 20,
+   "maxHit": 35,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 10369,
+   "enProyecto": true,
+   "mapasProyecto": [
+    392
+   ]
+  },
+  {
+   "npcId": 1011,
+   "nombre": "Asesina Élfica",
+   "hechizos": [
+    25,
+    51
+   ],
+   "hechizosNombres": [
+    "Paralizar",
+    "Descarga Eléctrica"
+   ],
+   "intervaloLanzarHechizoMs": 2500,
+   "intervaloEfectivoMs": 2500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 2500,
+   "minHit": 90,
+   "maxHit": 130,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 10558,
+   "enProyecto": true,
+   "mapasProyecto": [
+    236,
+    237
+   ]
+  },
+  {
+   "npcId": 1016,
+   "nombre": "Aksha",
+   "hechizos": [
+    25,
+    51
+   ],
+   "hechizosNombres": [
+    "Paralizar",
+    "Descarga Eléctrica"
+   ],
+   "intervaloLanzarHechizoMs": 2500,
+   "intervaloEfectivoMs": 2500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 3850,
+   "minHit": 155,
+   "maxHit": 190,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 10714,
+   "enProyecto": true,
+   "mapasProyecto": [
+    303,
+    304
+   ]
+  },
+  {
+   "npcId": 1020,
+   "nombre": "Banshee",
+   "hechizos": [
+    55
+   ],
+   "hechizosNombres": [
+    "Lamento de la Banshee"
+   ],
+   "intervaloLanzarHechizoMs": 2000,
+   "intervaloEfectivoMs": 2000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": 45,
+   "maxHp": 9500,
+   "minHit": 150,
+   "maxHit": 250,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 10751,
+   "enProyecto": true,
+   "mapasProyecto": [
+    366
+   ]
+  },
+  {
+   "npcId": 1024,
+   "nombre": "Jinete Blanco",
+   "hechizos": [
+    53
+   ],
+   "hechizosNombres": [
+    "Apocalipsis"
+   ],
+   "intervaloLanzarHechizoMs": 2000,
+   "intervaloEfectivoMs": 2000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": 45,
+   "maxHp": 7500,
+   "minHit": 215,
+   "maxHit": 250,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 10858,
+   "enProyecto": true,
+   "mapasProyecto": [
+    367
+   ]
+  },
+  {
+   "npcId": 1025,
+   "nombre": "Esbirro Demoníaco",
+   "hechizos": [
+    26,
+    141
+   ],
+   "hechizosNombres": [
+    "Inmovilizar",
+    "Vacío Abisal"
+   ],
+   "intervaloLanzarHechizoMs": 2500,
+   "intervaloEfectivoMs": 2500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 5000,
+   "minHit": 100,
+   "maxHit": 135,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 10885,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 1026,
+   "nombre": "Esbirra Demoníaca",
+   "hechizos": [
+    26,
+    141
+   ],
+   "hechizosNombres": [
+    "Inmovilizar",
+    "Vacío Abisal"
+   ],
+   "intervaloLanzarHechizoMs": 2500,
+   "intervaloEfectivoMs": 2500,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 3000,
+   "minHit": 100,
+   "maxHit": 135,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 10915,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 1043,
+   "nombre": "Reina Gorgona",
+   "hechizos": [
+    213,
+    214,
+    215,
+    216,
+    217,
+    218,
+    219,
+    214,
+    217,
+    232
+   ],
+   "hechizosNombres": [
+    "Muro de Espinas (Área)",
+    "Apocalipsis (Área)",
+    "Aliento de Dragón (Área)",
+    "Incinerar (Área)",
+    "Descarga Eléctrica (Área)",
+    "Partitura Maldita (Area)",
+    "Destierro (Área)",
+    "Apocalipsis (Área)",
+    "Descarga Eléctrica (Área)",
+    "Invocar Arquero Capturado (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 1300,
+   "intervaloEfectivoMs": 1300,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "dontHitVisiblePlayers": 1,
+   "cantidadInvocaciones": 2,
+   "nivel": null,
+   "maxHp": 250000,
+   "minHit": 150,
+   "maxHit": 200,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 11388,
+   "enProyecto": true,
+   "notas": [
+    "Sp repetidos = mas probabilidad (sorteo uniforme por slot)"
+   ],
+   "mapasProyecto": [
+    315
+   ]
+  },
+  {
+   "npcId": 1044,
+   "nombre": "Titan Lugubre",
+   "hechizos": [
+    213,
+    213,
+    216,
+    216,
+    218,
+    218,
+    219,
+    219,
+    217,
+    217,
+    214,
+    214,
+    214,
+    214,
+    215,
+    215,
+    215,
+    215,
+    217,
+    217
+   ],
+   "hechizosNombres": [
+    "Muro de Espinas (Área)",
+    "Muro de Espinas (Área)",
+    "Incinerar (Área)",
+    "Incinerar (Área)",
+    "Partitura Maldita (Area)",
+    "Partitura Maldita (Area)",
+    "Destierro (Área)",
+    "Destierro (Área)",
+    "Descarga Eléctrica (Área)",
+    "Descarga Eléctrica (Área)",
+    "Apocalipsis (Área)",
+    "Apocalipsis (Área)",
+    "Apocalipsis (Área)",
+    "Apocalipsis (Área)",
+    "Aliento de Dragón (Área)",
+    "Aliento de Dragón (Área)",
+    "Aliento de Dragón (Área)",
+    "Aliento de Dragón (Área)",
+    "Descarga Eléctrica (Área)",
+    "Descarga Eléctrica (Área)"
+   ],
+   "intervaloLanzarHechizoMs": 1900,
+   "intervaloEfectivoMs": 1900,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "dontHitVisiblePlayers": 1,
+   "cantidadInvocaciones": 3,
+   "nivel": null,
+   "maxHp": 200000,
+   "minHit": 260,
+   "maxHit": 340,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 11460,
+   "enProyecto": true,
+   "notas": [
+    "Sp repetidos = mas probabilidad (sorteo uniforme por slot)"
+   ],
+   "mapasProyecto": [
+    173
+   ]
+  },
+  {
+   "npcId": 1051,
+   "nombre": "Arqueros de la Legión (Atacante)",
+   "hechizos": [
+    205
+   ],
+   "hechizosNombres": [
+    "Flecha (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 2000,
+   "intervaloEfectivoMs": 2000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 2,
+   "faccion": 2,
+   "nivel": null,
+   "maxHp": 5000,
+   "minHit": 50,
+   "maxHit": 75,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 11684,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 1056,
+   "nombre": "Har Nareth",
+   "hechizos": [
+    215,
+    215,
+    214,
+    214,
+    217,
+    217,
+    217,
+    213,
+    218
+   ],
+   "hechizosNombres": [
+    "Aliento de Dragón (Área)",
+    "Aliento de Dragón (Área)",
+    "Apocalipsis (Área)",
+    "Apocalipsis (Área)",
+    "Descarga Eléctrica (Área)",
+    "Descarga Eléctrica (Área)",
+    "Descarga Eléctrica (Área)",
+    "Muro de Espinas (Área)",
+    "Partitura Maldita (Area)"
+   ],
+   "intervaloLanzarHechizoMs": 1700,
+   "intervaloEfectivoMs": 1700,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "dontHitVisiblePlayers": 1,
+   "nivel": null,
+   "maxHp": 100000,
+   "minHit": 250,
+   "maxHit": 300,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 11821,
+   "enProyecto": true,
+   "notas": [
+    "Sp repetidos = mas probabilidad (sorteo uniforme por slot)"
+   ],
+   "mapasProyecto": [
+    334
+   ]
+  },
+  {
+   "npcId": 1057,
+   "nombre": "Jarl Morngrim",
+   "hechizos": [
+    213,
+    214,
+    215,
+    216,
+    217,
+    218
+   ],
+   "hechizosNombres": [
+    "Muro de Espinas (Área)",
+    "Apocalipsis (Área)",
+    "Aliento de Dragón (Área)",
+    "Incinerar (Área)",
+    "Descarga Eléctrica (Área)",
+    "Partitura Maldita (Area)"
+   ],
+   "intervaloLanzarHechizoMs": 1700,
+   "intervaloEfectivoMs": 1700,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 75000,
+   "minHit": 250,
+   "maxHit": 300,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 11891,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 1153,
+   "nombre": "Ghanly",
+   "hechizos": [
+    25,
+    41
+   ],
+   "hechizosNombres": [
+    "Paralizar",
+    "Tormenta de Fuego"
+   ],
+   "intervaloLanzarHechizoMs": 3000,
+   "intervaloEfectivoMs": 3000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 600,
+   "minHit": 75,
+   "maxHit": 100,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 14386,
+   "enProyecto": true,
+   "mapasProyecto": [
+    434,
+    457
+   ]
+  },
+  {
+   "npcId": 1220,
+   "nombre": "Orco Hechicero",
+   "hechizos": [
+    219,
+    217,
+    214
+   ],
+   "hechizosNombres": [
+    "Destierro (Área)",
+    "Descarga Eléctrica (Área)",
+    "Apocalipsis (Área)"
+   ],
+   "intervaloLanzarHechizoMs": 4000,
+   "intervaloEfectivoMs": 4000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 1750,
+   "minHit": 200,
+   "maxHit": 250,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 15427,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 1226,
+   "nombre": "Elemental Infernal",
+   "hechizos": [
+    229
+   ],
+   "hechizosNombres": [
+    "Devorador del Inframundo (NPCs) (Área)"
+   ],
+   "intervaloLanzarHechizoMs": 1200,
+   "intervaloEfectivoMs": 1200,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "intervaloAtaqueMs": 1000,
+   "nivel": null,
+   "maxHp": 150,
+   "minHit": 20,
+   "maxHit": 40,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 15561,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 1227,
+   "nombre": "Galeón Fantasmal",
+   "hechizos": [
+    231
+   ],
+   "hechizosNombres": [
+    "Explosión de Fuego (ÁREA) (NPCs)"
+   ],
+   "intervaloLanzarHechizoMs": 1200,
+   "intervaloEfectivoMs": 1200,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "intervaloAtaqueMs": 900,
+   "nivel": null,
+   "maxHp": 150,
+   "minHit": 15,
+   "maxHit": 30,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 15588,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 1228,
+   "nombre": "Arquero Capturado",
+   "hechizos": [
+    233,
+    233,
+    233,
+    233,
+    233,
+    233,
+    233,
+    233,
+    234,
+    234
+   ],
+   "hechizosNombres": [
+    "Flecha de Arquero Capturado (NPCS)",
+    "Flecha de Arquero Capturado (NPCS)",
+    "Flecha de Arquero Capturado (NPCS)",
+    "Flecha de Arquero Capturado (NPCS)",
+    "Flecha de Arquero Capturado (NPCS)",
+    "Flecha de Arquero Capturado (NPCS)",
+    "Flecha de Arquero Capturado (NPCS)",
+    "Flecha de Arquero Capturado (NPCS)",
+    "Lluvia de flechas de Arquero Capturado (NPCS)",
+    "Lluvia de flechas de Arquero Capturado (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 1000,
+   "intervaloEfectivoMs": 1000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "intervaloAtaqueMs": 1200,
+   "nivel": null,
+   "maxHp": 200,
+   "minHit": 0,
+   "maxHit": 0,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 15614,
+   "enProyecto": false,
+   "notas": [
+    "Sp repetidos = mas probabilidad (sorteo uniforme por slot)"
+   ],
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 1235,
+   "nombre": "Asesino Impieadoso <Orden de las Sombras>",
+   "hechizos": [
+    203,
+    236,
+    53,
+    25
+   ],
+   "hechizosNombres": [
+    "Remover Parálisis (NPCS)",
+    "Implosión (NPCs)",
+    "Apocalipsis",
+    "Paralizar"
+   ],
+   "intervaloLanzarHechizoMs": 2000,
+   "intervaloEfectivoMs": 2000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 2500,
+   "minHit": 75,
+   "maxHit": 160,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 15784,
+   "enProyecto": true,
+   "mapasProyecto": [
+    228
+   ]
+  },
+  {
+   "npcId": 1265,
+   "nombre": "Troll Lúgubre",
+   "hechizos": [
+    213,
+    213,
+    0,
+    0,
+    218,
+    218,
+    0,
+    0,
+    212,
+    212,
+    214,
+    214,
+    214,
+    214,
+    215,
+    215,
+    215,
+    215,
+    217,
+    217,
+    217,
+    217
+   ],
+   "hechizosNombres": [
+    "Muro de Espinas (Área)",
+    "Muro de Espinas (Área)",
+    null,
+    null,
+    "Partitura Maldita (Area)",
+    "Partitura Maldita (Area)",
+    null,
+    null,
+    "Invocar Hiena Demoníaca (NPCS)",
+    "Invocar Hiena Demoníaca (NPCS)",
+    "Apocalipsis (Área)",
+    "Apocalipsis (Área)",
+    "Apocalipsis (Área)",
+    "Apocalipsis (Área)",
+    "Aliento de Dragón (Área)",
+    "Aliento de Dragón (Área)",
+    "Aliento de Dragón (Área)",
+    "Aliento de Dragón (Área)",
+    "Descarga Eléctrica (Área)",
+    "Descarga Eléctrica (Área)",
+    "Descarga Eléctrica (Área)",
+    "Descarga Eléctrica (Área)"
+   ],
+   "intervaloLanzarHechizoMs": 1900,
+   "intervaloEfectivoMs": 1900,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "cantidadInvocaciones": 3,
+   "nivel": null,
+   "maxHp": 150000,
+   "minHit": 260,
+   "maxHit": 340,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 16773,
+   "enProyecto": false,
+   "notas": [
+    "Sp vacio (0): si sale ese slot no castea pero gasta el intervalo",
+    "Sp repetidos = mas probabilidad (sorteo uniforme por slot)"
+   ],
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 1308,
+   "nombre": "Bisporus",
+   "hechizos": [
+    267
+   ],
+   "hechizosNombres": [
+    "Ataque de Veneno (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 3500,
+   "intervaloEfectivoMs": 3500,
+   "rangoSpell": 16,
+   "movement": 3,
+   "movementNombre": "FixedInPos",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "castAnimation": 4260,
+   "nivel": null,
+   "maxHp": 1600,
+   "minHit": 45,
+   "maxHit": 55,
+   "rutaIA": "AttackFromPos -> NpcLanzaUnSpell (sin melee: ElseIf)",
+   "lineaNpcsDat": 17838,
+   "enProyecto": true,
+   "mapasProyecto": [
+    184
+   ]
+  },
+  {
+   "npcId": 1309,
+   "nombre": "Niscalo",
+   "hechizos": [
+    267
+   ],
+   "hechizosNombres": [
+    "Ataque de Veneno (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 3500,
+   "intervaloEfectivoMs": 3500,
+   "rangoSpell": 16,
+   "movement": 3,
+   "movementNombre": "FixedInPos",
+   "hostile": 0,
+   "npcType": 0,
+   "alineacion": 0,
+   "castAnimation": 4258,
+   "nivel": null,
+   "maxHp": 1600,
+   "minHit": 45,
+   "maxHit": 55,
+   "rutaIA": "FixedInPos no hostil: no ataca",
+   "lineaNpcsDat": 17870,
+   "enProyecto": true,
+   "mapasProyecto": [
+    184,
+    595
+   ]
+  },
+  {
+   "npcId": 1310,
+   "nombre": "Comatus",
+   "hechizos": [
+    267
+   ],
+   "hechizosNombres": [
+    "Ataque de Veneno (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": 3500,
+   "intervaloEfectivoMs": 3500,
+   "rangoSpell": 16,
+   "movement": 3,
+   "movementNombre": "FixedInPos",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "castAnimation": 4256,
+   "nivel": null,
+   "maxHp": 1600,
+   "minHit": 45,
+   "maxHit": 55,
+   "rutaIA": "AttackFromPos -> NpcLanzaUnSpell (sin melee: ElseIf)",
+   "lineaNpcsDat": 17904,
+   "enProyecto": true,
+   "mapasProyecto": [
+    184,
+    595
+   ]
+  },
+  {
+   "npcId": 1312,
+   "nombre": "Rowan",
+   "hechizos": [
+    248
+   ],
+   "hechizosNombres": [
+    "Flecha Cargada"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "cantidadInvocaciones": 1,
+   "nivel": null,
+   "maxHp": 5000,
+   "minHit": 140,
+   "maxHit": 260,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 17959,
+   "enProyecto": false,
+   "notas": [
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 1325,
+   "nombre": "Mago Pirata",
+   "hechizos": [
+    27,
+    242,
+    51
+   ],
+   "hechizosNombres": [
+    "Remover Parálisis",
+    "Restauración 3",
+    "Descarga Eléctrica"
+   ],
+   "cdSegundos": [
+    15,
+    15,
+    20
+   ],
+   "intervaloLanzarHechizoMs": 2000,
+   "intervaloEfectivoMs": 2000,
+   "rangoSpell": 16,
+   "movement": 13,
+   "movementNombre": "BGSupportBehavior",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "restriccionDeAtaque": 0,
+   "restriccionDeAyuda": 3,
+   "displayCastMessage": 1,
+   "addToMapAiList": 1,
+   "preferedRange": 5,
+   "team": 1,
+   "nivel": null,
+   "maxHp": 10000,
+   "minHit": 115,
+   "maxHit": 160,
+   "rutaIA": "AI_BGSupportBehavior -> TrySupportThenAttackSpells",
+   "lineaNpcsDat": 18182,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 1326,
+   "nombre": "Espíritu del bosque",
+   "hechizos": [
+    242
+   ],
+   "hechizosNombres": [
+    "Restauración 3"
+   ],
+   "cdSegundos": [
+    15
+   ],
+   "intervaloLanzarHechizoMs": 2000,
+   "intervaloEfectivoMs": 2000,
+   "rangoSpell": 16,
+   "movement": 11,
+   "movementNombre": "SupportAndAttack",
+   "hostile": 0,
+   "npcType": 0,
+   "alineacion": 0,
+   "restriccionDeAtaque": 1,
+   "restriccionDeAyuda": 2,
+   "castAnimation": 4252,
+   "displayCastMessage": 1,
+   "addToMapAiList": 1,
+   "nivel": null,
+   "maxHp": 4000,
+   "minHit": 115,
+   "maxHit": 160,
+   "rutaIA": "AI_SupportAndAttackNpc -> TrySupportThenAttackSpells (Cd, RangoSpell, RestriccionDeAtaque/Ayuda)",
+   "lineaNpcsDat": 18225,
+   "enProyecto": false,
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 1354,
+   "nombre": "Eyewarden Ártico",
+   "hechizos": [
+    26
+   ],
+   "hechizosNombres": [
+    "Inmovilizar"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 7000,
+   "minHit": 70,
+   "maxHit": 170,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 19102,
+   "enProyecto": true,
+   "notas": [
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": [
+    837
+   ]
+  },
+  {
+   "npcId": 1356,
+   "nombre": "Scramer Veterano",
+   "hechizos": [
+    25,
+    0
+   ],
+   "hechizosNombres": [
+    "Paralizar",
+    null
+   ],
+   "intervaloLanzarHechizoMs": 3000,
+   "intervaloEfectivoMs": 3000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 3000,
+   "minHit": 50,
+   "maxHit": 150,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 19164,
+   "enProyecto": false,
+   "notas": [
+    "Sp vacio (0): si sale ese slot no castea pero gasta el intervalo"
+   ],
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 1363,
+   "nombre": "Dovu",
+   "hechizos": [
+    267
+   ],
+   "hechizosNombres": [
+    "Ataque de Veneno (NPCS)"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": 16,
+   "movement": 3,
+   "movementNombre": "FixedInPos",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 2000,
+   "minHit": 75,
+   "maxHit": 100,
+   "rutaIA": "AttackFromPos -> NpcLanzaUnSpell (sin melee: ElseIf)",
+   "lineaNpcsDat": 19353,
+   "enProyecto": true,
+   "notas": [
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": [
+    15,
+    21,
+    101,
+    202
+   ]
+  },
+  {
+   "npcId": 1372,
+   "nombre": "Esqueleto de Elite",
+   "hechizos": [
+    26
+   ],
+   "hechizosNombres": [
+    "Inmovilizar"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 10000,
+   "minHit": 60,
+   "maxHit": 120,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 19603,
+   "enProyecto": false,
+   "notas": [
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": []
+  },
+  {
+   "npcId": 1385,
+   "nombre": "Pirata Cañonero",
+   "hechizos": [
+    256
+   ],
+   "hechizosNombres": [
+    "Cañonazo"
+   ],
+   "intervaloLanzarHechizoMs": null,
+   "intervaloEfectivoMs": 8000,
+   "rangoSpell": null,
+   "movement": 2,
+   "movementNombre": "MueveAlAzar",
+   "hostile": 1,
+   "npcType": 0,
+   "alineacion": 0,
+   "nivel": null,
+   "maxHp": 2200,
+   "minHit": 80,
+   "maxHit": 120,
+   "rutaIA": "PerseguirUsuarioCercano -> AI_AtacarUsuarioObjetivo -> NpcLanzaUnSpell",
+   "lineaNpcsDat": 19990,
+   "enProyecto": true,
+   "notas": [
+    "sin IntervaloLanzarHechizo: 8000 ms por defecto"
+   ],
+   "mapasProyecto": [
+    100
+   ]
+  }
+ ]
+}
