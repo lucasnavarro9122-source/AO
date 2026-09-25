@@ -41,7 +41,10 @@ Qué tiene que tener:
   - Seedream 5 Pro: job `5562a4c5-8624-4bd7-ad1a-b73d9c9802c4`.
 - **Elegido por Lucas: Seedream 5 Pro** (el más oscuro): "respeta el dibujo, tiene el nivel de detalle que busco, se sabe qué es y tiene calidad".
 - El prompt aprobado quedó en `Tools/hd_remake/ulla_piloto.py` (`MODEL = seedream_v5_pro`, 2k, 3:2). Agua y madera usan la misma estructura.
-- **Pendiente:** bajar el resultado para importarlo (pixel art 4×, sin costuras) y armar la vista de Ullathorpe. En el entorno de la nube, la red bloquea `d8j0ntlcm91z4.cloudfront.net`, que es de donde Higgsfield sirve los resultados. Hay que habilitar ese dominio en el acceso a la red del entorno, o hacer ese paso en la PC.
+- Agua y madera con Seedream 5 Pro (2k, 1:1), usando como referencia el pasto aprobado para que la oscuridad y el estilo coincidan. Costo: 5 créditos.
+  - Agua: job `db7cb9d6-399e-4145-98e8-f344cc6c441f`.
+  - Madera: job `8bcb1642-a468-49c6-b806-5049d5fa2508`.
+- **Pendiente:** bajar los resultados para importarlos (pixel art 4×, sin costuras) y armar la vista de Ullathorpe. En el entorno de la nube, la red bloquea `d8j0ntlcm91z4.cloudfront.net`, que es de donde Higgsfield sirve los resultados. Hay que habilitar ese dominio en el acceso a la red del entorno, o hacer ese paso en la PC.
 
 ## Piloto (3 generaciones, estimado 3–10 créditos con reintentos)
 | Familia | Sets | Entrada |
