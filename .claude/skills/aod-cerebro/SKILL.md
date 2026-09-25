@@ -40,8 +40,8 @@ Hay tres canales. Usá el más directo que sirva.
 [Nube → CEREBRO] <tema> · <dd/mm hh:mm>
 Rama: origin/<rama> @ <commit corto>
 Qué: <3 a 5 líneas>
-Leé: <archivos del repo, por ejemplo docs/claude/nube/reporte-*.md>
-Pedido: <qué tiene que hacer CEREBRO; si integra: candado de Unity + skill aod-respaldo antes de probar>
+Leé: <archivos del repo; si hay novedades para varios sectores, un docs/claude/nube/actualizacion-sectores-*.md con la parte de cada uno>
+Pedido: <qué tiene que hacer CEREBRO; si integra: candado de Unity + skill aod-respaldo antes de probar; que reparta a cada sector su parte>
 Respuesta: subí tu estado con la receta de .claude/skills/aod-cerebro (canal 3) o escribí en docs/claude/nube/buzon/.
 ```
 

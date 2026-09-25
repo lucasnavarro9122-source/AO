@@ -26,6 +26,7 @@ Rama `claude/nifty-thompson-r3ulpf`, basada en `384fe18`. **No incluye** lo que 
 | `CoopRoom.Duels.cs` + `test_duel_server.py` | Servidor | Retos: **Paralizar/Inmovilizar** a un rival (el servidor frena su movimiento `Duration/2` s) y **Remover parálisis** a un compañero |
 | `AOSkillShotProjectileV267.LaunchVisual` + `castX/castY` | Programación + Servidor | **Skill shot visible** para los compañeros (solo visual) |
 | `estado-qa-2509.md` | QA | Qué se verificó en la nube y qué falta probar en Unity |
+| **`actualizacion-sectores-2509.md`** | **CEREBRO → todos** | **Todo lo de la nube, por sector, con la receta de integración. Es lo que CEREBRO reparte.** |
 
 ## Cómo integrar (Cerebro, en la PC)
 1. Subir lo de la PC a una rama (`pc/noche-2509`) y mergear esta rama encima.
