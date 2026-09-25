@@ -12,6 +12,10 @@ def gz(data, **kw):
     out = gzip.compress(data, mtime=0, **kw)
     return out[:9] + b'\x0a' + out[10:]
 
+# NPC spells (Tools/export_npc_spells.py); the summoned creatures travel without their visuals, like map NPCs.
+npc_spells = read('MagicV129/npc_spells.json')
+npc_spells['summoned'] = [{k: v for k, v in e.items() if k != 'directions'} for e in npc_spells.get('summoned', [])]
+
 maps = []
 door_defs = {d['objIndex']: d for d in read('WorldV07/door_catalog.json')['doors']}
 for path in sorted((resources / 'WorldV07/Maps').glob('map_*.json')):
@@ -47,7 +51,7 @@ for spell in spells:
 catalog = dict(maps=maps, loot=read('LootV180/npc_loot.json'), items=items, spells=spells,
                summons=read('MagicV129/summons.json'), npcMagic=read('MagicV129/npc_magic.json'),
                # NPC spells of the original (Tools/export_npc_spells.py): the room casts them (CoopRoom.NpcMagic.cs).
-               npcSpells=read('MagicV129/npc_spells.json'),
+               npcSpells=npc_spells,
                shops=read('CityV130/city_npcs.json'),
                # Protocol 3: the server pays quest gold from here, never from the client.
                quests=[dict(id=q['id'], rewardGold=q.get('rewardGold',0), repeatable=bool(q.get('repeatable')))

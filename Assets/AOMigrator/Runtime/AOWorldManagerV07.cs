@@ -1377,6 +1377,15 @@ public partial class AOWorldManagerV07 : MonoBehaviour
         }
     }
 
+    // AONPCSpellCasterV902: a creature summoned by an NPC (Invoca), built like the map NPCs from npc_spells.json.
+    // networkId 0 = offline; online it is the room's summon id. Returns the new NPC (null without a loaded map).
+    public GameObject SpawnSummonedNpc(NPCEntry npc, int networkId)
+    {
+        if (npcRoot == null || grid == null || npc == null) return null;
+        CreateNPC(npc, networkId);
+        return npcRoot.transform.GetChild(npcRoot.transform.childCount - 1).gameObject;
+    }
+
     void CreateNPC(NPCEntry npc, int networkId)
     {
         GameObject go =

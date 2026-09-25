@@ -21,7 +21,7 @@ Rama `claude/nifty-thompson-r3ulpf`, sobre el trabajo de la PC `edcd99d5`. Para 
 
 ## Falta probar en Unity (con `aod-respaldo` antes y nunca con personajes de Lucas)
 1. **Compilar:** consola sin `error CS` (`Tools/aod_log_errors.ps1`). Archivos nuevos:
-   - `AONPCSpellCasterV902.cs`;
+   - `AONPCSpellCasterV902.cs` y `AONPCSummonLinkV902.cs`;
    - `Shared/AONpcSpellRulesV902.cs`;
    - `MagicV129/npc_spells.json`, que Unity va a crear con su `.meta`.
 2. **Mapa demo** (`docs/claude/demo/mapa/`): recorrer hub → cementerio (camino norte y capilla) → P1…P7 → portal al hub (D-20).
@@ -32,7 +32,12 @@ Rama `claude/nifty-thompson-r3ulpf`, sobre el trabajo de la PC `edcd99d5`. Para 
      - Se tienen que ver la animación de lanzamiento, el efecto, el daño y el mensaje.
      - La parálisis frena al personaje.
      - Un NPC sin hechizos pega igual que antes.
-   - En la sala: lo mismo con 2 clientes. El que recibe ve el hechizo y el mensaje "X lanzó Y".
+   - En la sala: lo mismo con 2 clientes. **Los dos** ven la animación (`npcCast`); el que recibe, además, ve el mensaje "X lanzó Y".
+   - **Invocaciones:**
+     - el Devorador del Inframundo (mapa 368) invoca hasta 3 Elementales;
+     - al morir el invocador desaparecen;
+     - en la sala las ven los 2 clientes y no quedan guardadas al reiniciar el servidor.
+   - **IA de apoyo:** el Espíritu Poseído (mapas 594 y 595) lanza desde lejos, hasta `RangoSpell` 18, y nunca pega cuerpo a cuerpo.
 4. **Retos:**
    - Paralizar o Inmovilizar a un rival lo congela `Duration/2` segundos.
    - "Remover parálisis" a un compañero lo libera.

@@ -3,7 +3,8 @@
 // AI_AtacarUsuarioObjetivo, NpcLanzaUnSpell, NpcLanzaSpellSobreUser y NpcLanzaSpellSobreArea
 // (docs/claude/contenido/npc_hechizos_original.md). Datos por NPC: MagicV129/npc_spells.json (Tools/export_npc_spells.py).
 // Shared source: OnlineServer rolls the dice online; the Unity client uses the same rules offline. No UnityEngine.
-// Not included: the Support/BG AI (Movement 11/13: heal allies first), summons (Invoca) and the NPC level filter.
+// Also the Support/BG AI (Movement 11/13: TrySupportThenAttackSpells) and summons (Invoca). Not included: NPC-vs-NPC
+// attacks and the NPC level filter.
 using System;
 
 public static class AONpcSpellRules
@@ -65,4 +66,36 @@ public static class AONpcSpellRules
 
     // Paralysis / immobilization on a user last Duration / 2 (Counters.Paralisis = Hechizos(Spell).Duration / 2).
     public static double StatusSeconds(int duration) => Math.Max(1, duration) / 2.0;
+
+    // ---- Support / BG AI (AI_SupportAndAttackNpc, AI_BGSupportBehavior: Movement 11 and 13) ----
+    // It never chases nor melees: it wanders near its origin and, every IntervaloLanzarHechizo, helps first and attacks
+    // only if it helped nobody (TrySupportThenAttackSpells, AI_NPC.bas:1443-1687).
+    public static bool IsSupportAi(int movement) => movement == 11 || movement == 13;
+
+    // BehaviorFlags from RestriccionDeAyuda (1 NPC, 2 users, 3 both; 0 = helps nobody) and RestriccionDeAtaque
+    // (0 users and NPC, 1 users, 2 NPC) (MODULO_NPCs.bas:1593-1611).
+    public static bool HelpsUsers(int restriccionAyuda) => restriccionAyuda == 2 || restriccionAyuda == 3;
+    public static bool HelpsNpcs(int restriccionAyuda) => restriccionAyuda == 1 || restriccionAyuda == 3;
+    public static bool AttacksUsers(int restriccionAtaque) => restriccionAtaque == 0 || restriccionAtaque == 1;
+
+    // Distance(...) < SpellRange (RangoSpell): Euclidean, strict.
+    public static bool InSupportRange(int dx, int dy, int rangeSpell) => dx * dx + dy * dy < rangeSpell * rangeSpell;
+
+    // CanCastSpell: each slot waits its own Cd (seconds) since its last use; no Cd = always ready.
+    public static bool SlotReady(long lastUseMs, int cooldownSeconds, long nowMs) =>
+        cooldownSeconds <= 0 || lastUseMs <= 0 || nowMs - lastUseMs > cooldownSeconds * 1000L;
+
+    // The selection loops keep the LAST ready slot whose spell has the wanted effect (no Exit For): -1 = none.
+    public static int LastReadySlot(bool[] ready, bool[] hasEffect)
+    {
+        int found = -1;
+        for (int i = 0; i < ready.Length && i < hasEffect.Length; i++)
+            if (ready[i] && hasEffect[i]) found = i;
+        return found;
+    }
+
+    // ---- Summons (NpcLanzaSpellSobreArea, Invoca = 1; modHechizos.bas:387-405) ----
+    // For x = 1 To Cant: stop when CriaturasInvocadas >= CantidadInvocaciones. A dead summon frees its slot; when the
+    // summoner dies its summons die too (MuereNpc with no killer: no experience).
+    public static int SummonsToCreate(int wanted, int alive, int limit) => Math.Max(0, Math.Min(wanted, limit - alive));
 }

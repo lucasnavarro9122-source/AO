@@ -45,6 +45,8 @@ public class AOOnlineClientV240 : MonoBehaviour
     readonly Dictionary<int, Avatar> avatars = new Dictionary<int, Avatar>();
     readonly Dictionary<string, Avatar> remotePets = new Dictionary<string, Avatar>();
     readonly Dictionary<int, AONPCCombatV09> npcs = new Dictionary<int, AONPCCombatV09>();
+    // Creatures summoned by NPCs in the room (CoopRoom.NpcMagic.cs): created here, removed when the room drops them.
+    readonly Dictionary<int, AONPCCombatV09> summoned = new Dictionary<int, AONPCCombatV09>();
     readonly Dictionary<int, AOLootPickupV09> drops = new Dictionary<int, AOLootPickupV09>();
     readonly List<AOCoopItem> pendingItems = new List<AOCoopItem>();
     readonly object writeGate = new object();
@@ -127,15 +129,24 @@ public class AOOnlineClientV240 : MonoBehaviour
     public static AOCoopItem[] CapturePendingItems() => instance != null && ProtectLocalSave ? instance.pendingItems.ToArray() : null;
     public static void RestorePendingItems(AOCoopItem[] items)
     { if (instance == null) return; instance.pendingItems.Clear(); if (items != null) instance.pendingItems.AddRange(items.Where(i => i != null && i.item > 0 && i.amount > 0)); }
-    // AONPCSpellCasterV902 online: the server decided the spell and the damage; show the cast and apply the other effects.
+    // Everybody on the map sees an NPC cast (CoopRoom.NpcMagic.cs "npcCast"): its animation and the spell toward its target.
+    void NpcCastArrived(AOCoopMessage m)
+    {
+        var spell = AOSpellDatabaseV120.Get(m.spell);
+        if (spell == null || player == null || !npcs.TryGetValue(m.id, out AONPCCombatV09 npc) || npc == null) return;
+        Vector3 from = npc.transform.position, to;
+        if (m.target == myId) to = player.transform.position;
+        else if (m.target > 0 && avatars.TryGetValue(m.target, out Avatar a) && a.root != null) to = a.root.transform.position;
+        else to = player.CurrentGrid.TileToWorld(m.x, m.y);
+        AOSpellFXV120.PlayFromNpc(npc.gameObject, spell, from, to);
+    }
+    // AONPCSpellCasterV902 online: the server decided the spell and the damage; here the other effects and the message.
     void NpcSpellArrived(int spellId, int npcId, string caster)
     {
         var spell = AOSpellDatabaseV120.Get(spellId);
         if (spell == null || player == null) return;
         npcs.TryGetValue(npcId, out AONPCCombatV09 npc);
-        Vector3 to = player.transform.position, from = npc != null ? npc.transform.position : to;
-        if (npc != null) AOSpellFXV120.PlayFromNpc(npc.gameObject, spell, from, to);
-        else AOSpellFXV120.Play(spell, from, to);
+        Vector3 from = npc != null ? npc.transform.position : player.transform.position;   // the cast itself came with npcCast
         var magic = player.GetComponent<AOPlayerMagicV120>();
         if (magic != null) magic.ApplyNpcSpell(spellId, from, false);
         if (!string.IsNullOrEmpty(caster)) AOInterfaceV0101.PushMessage(caster + " lanzó " + spell.name + ".");
@@ -380,6 +391,7 @@ public class AOOnlineClientV240 : MonoBehaviour
             // Server clock estimate for countdowns (latency makes it a little early, never late).
             if (m.serverTime > 0 && (m.type == "welcome" || m.type == "state")) serverOffset = m.serverTime - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
             if (m.type != null && (m.type.StartsWith("duel") || m.type == "fx")) { if (restored) HandleDuel(m); continue; }
+            if (m.type == "npcCast") { if (restored) NpcCastArrived(m); continue; }
             if (m.type == "welcome")
             {
                 myId = m.id; acknowledged = m.ack; connected = true; connecting = false;
@@ -496,9 +508,22 @@ public class AOOnlineClientV240 : MonoBehaviour
         if (cachedMap != m.map || npcs.Count == 0 || npcs.Values.Any(n => n == null))
         {
             ClearWorld(); cachedMap = m.map;
-            foreach (var n in UnityEngine.Object.FindObjectsByType<AONPCCombatV09>(FindObjectsSortMode.None)) if (n.NetworkId > 0) npcs[n.NetworkId] = n;
+            // Map NPCs only: summoned creatures are rebuilt from the state below (ClearWorld just destroyed them).
+            foreach (var n in UnityEngine.Object.FindObjectsByType<AONPCCombatV09>(FindObjectsSortMode.None)) if (n.NetworkId > 0 && !AONPCSpellCasterV902.IsSummonId(n.NetworkId)) npcs[n.NetworkId] = n;
         }
         foreach (var n in m.npcs ?? new AOCoopNpc[0]) if (npcs.TryGetValue(n.id,out var local) && local != null) local.ApplyOnline(n);
+        var summonedNow = new HashSet<int>();
+        foreach (var n in m.npcs ?? new AOCoopNpc[0])
+        {
+            if (!AONPCSpellCasterV902.IsSummonId(n.id)) continue;
+            summonedNow.Add(n.id);
+            if (summoned.TryGetValue(n.id, out var known) && known != null) continue;
+            var created = AONPCSpellCasterV902.SpawnSummoned(n.npc, n.x, n.y, n.id);
+            if (created == null) continue;
+            summoned[n.id] = npcs[n.id] = created; created.ApplyOnline(n);
+        }
+        foreach (int id in summoned.Keys.Where(id => !summonedNow.Contains(id)).ToArray())
+        { npcs.Remove(id); if (summoned[id] != null) Destroy(summoned[id].gameObject); summoned.Remove(id); }
         var seen = new HashSet<int>();
         foreach (var d in m.loot ?? new AOCoopLoot[0])
         {
@@ -654,6 +679,7 @@ public class AOOnlineClientV240 : MonoBehaviour
     void ClearWorld()
     {
         foreach(var d in drops.Values)if(d!=null)Destroy(d.gameObject);drops.Clear();npcs.Clear();cachedMap=0;
+        foreach(var s in summoned.Values)if(s!=null)Destroy(s.gameObject);summoned.Clear();
         foreach(var a in avatars.Values.Concat(remotePets.Values))if(a.root!=null)Destroy(a.root);avatars.Clear();remotePets.Clear();
     }
     void Disconnect()

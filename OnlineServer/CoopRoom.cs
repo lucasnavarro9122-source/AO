@@ -438,6 +438,7 @@ sealed partial class CoopRoom
         if(attacker!=null)n.provoked=attacker.Id;
         if(n.state.hp>0)return;
         n.state.dead=true;
+        NpcDied(map,n);   // CoopRoom.NpcMagic.cs: its summons die with it
         var def=lootDefs.GetValueOrDefault(n.state.npc)??n.source;
         // One rule online and offline (AODemoRates.RespawnRange): demo maps use their designed times, the original
         // maps use npcs.dat (npc_loot). 0 = original instant respawn (350 ms floor so it never revives in the same tick).
@@ -583,6 +584,7 @@ sealed partial class CoopRoom
         {
             if(n.state.dead)
             {
+                if(n.summoned)continue;   // summons never respawn: FlushSummons removes them
                 if(Now>=n.respawnAt)
                 {n.state.dead=false;n.state.hp=n.state.maxHp;n.state.x=Int(n.source,"x");n.state.y=Int(n.source,"y");n.provoked=0;n.poisonUntil=n.fireUntil=n.paralyzedUntil=n.immobileUntil=0;dirty=true;}
                 continue;
@@ -601,10 +603,12 @@ sealed partial class CoopRoom
                 .OrderBy(p=>Distance(p.State.x,p.State.y,n.state.x,n.state.y)).FirstOrDefault():null;
             n.state.target=target?.Id??0;
             if(Now<n.paralyzedUntil)continue;
+            // Support AI (Movement 11/13): helps or attacks with spells only, and wanders near its origin.
+            if(SupportAi(n)){NpcSupportTurn(map,n,present);WanderNearOrigin(map,n);continue;}
             if(target!=null)
             {
                 // Original magic AI (CoopRoom.NpcMagic.cs): spells first; melee only if it did not cast this turn.
-                bool cast=NpcCast(n,target,present);
+                bool cast=NpcCast(map,n,target,present);
                 int dist=Distance(target.State.x,target.State.y,n.state.x,n.state.y),range=Math.Max(1,Int(n.source,"attackRange"));
                 if(dist<=range&&Now>=n.nextAttack&&NpcMayMelee(n,cast))
                 {
@@ -628,6 +632,7 @@ sealed partial class CoopRoom
             else if(Now>=n.immobileUntil&&!IsStationary(n)&&random.Next(3)==0)
             {int h=random.Next(1,5);Move(map,n,h);}
         }
+        FlushSummons(map);
     }
     int EquipmentDefense(AOCoopPlayer p)
     {
@@ -692,6 +697,9 @@ sealed partial class CoopRoom
     void BindMap(MapRecord map)
     {
         map.source=templates[map.id];
+        // Summoned creatures are not part of the map (ids past the catalog list): a saved one is dropped.
+        int defined=map.source["npcs"]?.AsArray().Count??0;
+        map.npcs.RemoveAll(n=>n.state.id<1||n.state.id>defined);
         CheckNpcLayout(map);
         // Loot saved by older servers has no time: its 10 minutes start now.
         foreach(var l in map.loot)map.lootBorn.TryAdd(l.id,Now);
@@ -775,5 +783,7 @@ sealed class NpcRecord
     public AOCoopNpc state=new(); public long respawnAt,poisonUntil,fireUntil,paralyzedUntil,immobileUntil,nextPoison,nextFire;
     public int provoked,route;
     [JsonIgnore] public long nextMove,nextAttack,nextCast;
+    // CoopRoom.NpcMagic.cs: last use of each spell slot (support AI cooldowns) and summons (never saved: they vanish on restart).
+    [JsonIgnore] public long[]? slotUse; [JsonIgnore] public NpcRecord? summoner; [JsonIgnore] public bool summoned;
     [JsonIgnore] public JsonObject source=new();
 }
