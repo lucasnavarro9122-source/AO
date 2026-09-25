@@ -34,8 +34,9 @@ BOARD = 19543            # cartelera
 ARENA_SIGNS = [(2441, 50902), (2442, 50903), (2443, 50904), (2447, 50908)]   # "Arena I..IV" (objIndex, grh)
 FLOOR_SIGNS = {f"P{i}": 50848 + i for i in range(1, 8)}   # gráfico "Nº1..Nº7" (50849-50855); solo el gráfico:
                                                            # los OBJ 2406-2412 son carteles de casas y su texto no sirve
-FLOOR_EXTRA_SIGNS = {"P6": (2464, 50927), "P7": (1136, 50881)}   # originales completos ("¡Peligro! Dungeon Veril", "Dungeon Dragon")
+FLOOR_EXTRA_SIGNS = {"P7": (1136, 50881)}   # original completo ("Dungeon Dragon"); el de Veriil ya no va: P6 es la Cueva de las Gorgonas
 NEWBIE_SIGN = 50925      # gráfico "Bienvenido al Newbie Dungeon" (el texto del objeto lo pone Contenido)
+EMPTY_SIGN = 50876       # cartel vacío (arte.md §3): el texto lo pone Contenido
 
 
 def sign(x, y, role, grh, obj=None):
@@ -231,7 +232,7 @@ HOLE = 57950              # hueco oscuro de las salidas de los dungeons original
 TELEPORT = 49488          # teleport original (objeto tipo 19)
 CRYPT_DOOR = DUNGEON_DOOR
 FLOOR_IDS = {"P1": 1011, "P2": 1012, "P3": 1013, "P4": 1014, "P5": 1015, "P6": 1016, "P7": 1017}
-OUTDOOR = {"P2"}          # cementerio al aire libre: el corte se cierra con pinos, no con negro
+OUTDOOR = set()           # todos los pisos son bajo tierra (reglas-y-recorrido.md, regla 3); el cementerio es la entrada 1010
 
 
 def _walkable_source(source_id: int):
@@ -277,8 +278,6 @@ def spec_floor(map_id: int):
         x, y = stair["x"], stair["y"]
         if stair.get("destMap") == 1000:
             layer3[(x, y)] = TELEPORT                       # fin del dungeon: portal de regreso al hub
-        elif floor["id"] == "P2" and key == "escaleraBajada":
-            layer3[(x, y)] = CRYPT_DOOR                     # el cementerio baja al mausoleo por la puerta de la cripta
         else:
             layer2[(x, y)] = HOLE
         for side in ((x - 1, y - 1), (x + 1, y - 1)):
@@ -304,34 +303,33 @@ def spec_floor(map_id: int):
         "notas": "Copia del mapa original (datos de Contenido en dungeon-npcs.json). "
                  + ("Afuera del recorte queda el cementerio; los cortes del recorte se cierran con pinos. " if floor["id"] in OUTDOOR
                     else "Afuera del recorte: negro de vacío (GRH 1) sin capas, como el borde de los dungeons originales. ")
-                 + "Escaleras: hueco oscuro 57950 (como las salidas originales) con dos antorchas; la bajada del cementerio es la "
-                   "puerta de la cripta (1493) y el final del dungeon es el teleport original (49488).",
+                 + "Escaleras: hueco oscuro 57950 (como las salidas originales) con dos antorchas; "
+                   "el final del dungeon es el teleport original (49488).",
         "ops": ops,
         "carteles": signs,
     }
 
 
 def spec_1010():
-    """Entrada al dungeon (Programación): recorte x13-32, y16-22 del mapa 37 (Newbie Dungeon)."""
-    x0, y0, x1, y1 = 13, 16, 32, 22
-    outside = [rect(1, 1, 100, y0 - 1), rect(1, y1 + 1, 100, 100), rect(1, y0, x0 - 1, y1), rect(x1 + 1, y0, 100, y1)]
-    ops = []
-    for box in outside:
-        for layer in (2, 3, 4):
-            ops.append({"op": "erase", "layer": layer, "rect": box})
-        ops.append(paint(1, box=box, grh=VOID))
-    stairs = [(13, 17), (32, 17)]               # subida al hub / bajada a P1
-    layer3 = {}
-    for x, y in stairs:
-        for side in ((x - 1, y - 1), (x + 1, y - 1)):
-            if x0 <= side[0] <= x1 and y0 <= side[1] <= y1:
-                layer3[side] = TORCH
-    ops.append(paint(2, stairs, grh=HOLE))
-    for grh in sorted(set(layer3.values())):
-        ops.append(paint(3, [c for c, g in layer3.items() if g == grh], grh=grh))
-    return {"map": 1010, "autor": "Arte", "base": "copy 37",
-            "notas": "Afuera del recorte, negro de vacío como los pisos; huecos 57950 con antorchas en las dos escaleras.",
-            "ops": ops, "carteles": [sign(22, 21, "entrada del dungeon", NEWBIE_SIGN)]}
+    """Entrada al dungeon en la superficie: Cementerio de Nix (mapa 4), recorte x14-87, y11-90.
+    Al aire libre: los cortes del recorte se cierran con pinos. La capilla (20-21, 43) es la bajada original."""
+    x0, y0, x1, y1 = 14, 11, 87, 90
+    inside = lambda c: x0 <= c[0] <= x1 and y0 <= c[1] <= y1   # noqa: E731
+    walk = _walkable_source(4)
+    gaps = set()
+    for x in range(x0, x1 + 1):
+        for y in range(y0, y1 + 1):
+            if (x in (x0, x1) or y in (y0, y1)) and walk((x, y)):
+                for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                    o = (x + dx, y + dy)
+                    if not inside(o) and walk(o) and not (44 <= o[0] <= 48 and o[1] == y0 - 1):   # el camino norte queda abierto
+                        gaps.add(o)
+    ops = [paint(3, sorted(gaps), grh=PINE)] if gaps else []
+    return {"map": 1010, "autor": "Arte", "base": "copy 4",
+            "notas": "Cementerio de Nix al aire libre (entrada del dungeon). Los cortes del recorte se cierran con pinos; "
+                     "la bajada es la puerta original de la capilla y el camino norte vuelve a la plaza de la demo.",
+            "ops": ops,
+            "carteles": [sign(23, 47, "entrada del dungeon (capilla)", NEWBIE_SIGN), sign(49, 12, "camino a la plaza", EMPTY_SIGN)]}
 
 
 SPECS = {1000: spec_1000, 1001: spec_1001, 1010: spec_1010, **{map_id: (lambda m=map_id: spec_floor(m)) for map_id in FLOOR_IDS.values()}}

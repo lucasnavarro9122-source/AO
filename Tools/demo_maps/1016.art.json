@@ -1,9 +1,9 @@
 {
  "map": 1016,
  "autor": "Arte",
- "base": "copy 142",
- "nombre": "P6 Torre de Veriil",
- "notas": "Copia del mapa original (datos de Contenido en dungeon-npcs.json). Afuera del recorte: negro de vacío (GRH 1) sin capas, como el borde de los dungeons originales. Escaleras: hueco oscuro 57950 (como las salidas originales) con dos antorchas; la bajada del cementerio es la puerta de la cripta (1493) y el final del dungeon es el teleport original (49488).",
+ "base": "copy 311",
+ "nombre": "P6 Cueva de las Gorgonas",
+ "notas": "Copia del mapa original (datos de Contenido en dungeon-npcs.json). Afuera del recorte: negro de vacío (GRH 1) sin capas, como el borde de los dungeons originales. Escaleras: hueco oscuro 57950 (como las salidas originales) con dos antorchas; el final del dungeon es el teleport original (49488).",
  "ops": [
   {
    "op": "erase",
@@ -12,7 +12,7 @@
     1,
     1,
     100,
-    19
+    9
    ]
   },
   {
@@ -22,7 +22,7 @@
     1,
     1,
     100,
-    19
+    9
    ]
   },
   {
@@ -32,7 +32,7 @@
     1,
     1,
     100,
-    19
+    9
    ]
   },
   {
@@ -43,7 +43,7 @@
     1,
     1,
     100,
-    19
+    9
    ]
   },
   {
@@ -92,9 +92,9 @@
    "layer": 2,
    "rect": [
     1,
-    20,
-    19,
-    70
+    10,
+    12,
+    80
    ]
   },
   {
@@ -102,9 +102,9 @@
    "layer": 3,
    "rect": [
     1,
-    20,
-    19,
-    70
+    10,
+    12,
+    80
    ]
   },
   {
@@ -112,9 +112,9 @@
    "layer": 4,
    "rect": [
     1,
-    20,
-    19,
-    70
+    10,
+    12,
+    80
    ]
   },
   {
@@ -123,9 +123,9 @@
    "grh": 1,
    "rect": [
     1,
-    20,
-    19,
-    70
+    10,
+    12,
+    80
    ]
   },
   {
@@ -133,9 +133,9 @@
    "layer": 2,
    "rect": [
     90,
-    20,
+    10,
     11,
-    70
+    80
    ]
   },
   {
@@ -143,9 +143,9 @@
    "layer": 3,
    "rect": [
     90,
-    20,
+    10,
     11,
-    70
+    80
    ]
   },
   {
@@ -153,9 +153,9 @@
    "layer": 4,
    "rect": [
     90,
-    20,
+    10,
     11,
-    70
+    80
    ]
   },
   {
@@ -164,9 +164,9 @@
    "grh": 1,
    "rect": [
     90,
-    20,
+    10,
     11,
-    70
+    80
    ]
   },
   {
@@ -175,12 +175,12 @@
    "grh": 57950,
    "cells": [
     [
-     81,
-     48
+     14,
+     13
     ],
     [
-     23,
-     73
+     87,
+     13
     ]
    ]
   },
@@ -190,38 +190,31 @@
    "grh": 55254,
    "cells": [
     [
-     80,
-     47
+     13,
+     12
     ],
     [
-     82,
-     47
+     15,
+     12
     ],
     [
-     22,
-     72
+     86,
+     12
     ],
     [
-     24,
-     72
+     88,
+     12
     ]
    ]
   }
  ],
  "carteles": [
   {
-   "x": 25,
-   "y": 74,
+   "x": 16,
+   "y": 14,
    "rol": "cartel del piso (zona segura)",
    "grh": 50854,
    "texto": "textos-hub.md"
-  },
-  {
-   "x": 21,
-   "y": 74,
-   "rol": "cartel original junto a la entrada",
-   "grh": 50927,
-   "objIndex": 2464
   }
  ]
 }

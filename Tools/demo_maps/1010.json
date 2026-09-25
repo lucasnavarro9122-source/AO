@@ -1,62 +1,104 @@
 {
   "id": 1010,
-  "name": "Entrada al dungeon",
+  "name": "Cementerio de Nix",
+  "zone": "CAMPO",
+  "terrain": "BOSQUE",
+  "safe": true,
   "base": {
-    "copy": 37
+    "copy": 4
   },
   "remove": [
     "npcs",
     "exits"
   ],
+  "_": "Entrada al dungeon en la superficie (regla 3 de docs/claude/demo/mapa/reglas-y-recorrido.md): sin NPC hostiles; la capilla es la bajada, como en el original (mapa 4 -> Mausoleo).",
   "structure": [
     {
       "op": "clip",
       "rect": [
-        13,
-        16,
-        20,
-        7
+        14,
+        11,
+        74,
+        80
       ],
-      "_": "pasillo de arriba del Newbie Dungeon (x13-32, y16-22)"
+      "_": "cementerio y alrededores (x14-87, y11-90)"
     },
     {
       "op": "exit",
-      "x": 13,
-      "y": 17,
+      "x": 44,
+      "y": 11,
       "destMap": 1000,
       "dest": "arrival:from1010"
     },
     {
       "op": "exit",
-      "x": 32,
-      "y": 17,
+      "x": 45,
+      "y": 11,
+      "destMap": 1000,
+      "dest": "arrival:from1010"
+    },
+    {
+      "op": "exit",
+      "x": 46,
+      "y": 11,
+      "destMap": 1000,
+      "dest": "arrival:from1010"
+    },
+    {
+      "op": "exit",
+      "x": 47,
+      "y": 11,
+      "destMap": 1000,
+      "dest": "arrival:from1010"
+    },
+    {
+      "op": "exit",
+      "x": 48,
+      "y": 11,
+      "destMap": 1000,
+      "dest": "arrival:from1010",
+      "_": "camino norte: vuelta a la plaza de la demo"
+    },
+    {
+      "op": "exit",
+      "x": 20,
+      "y": 43,
       "destMap": 1011,
       "dest": "arrival:fromAbove"
+    },
+    {
+      "op": "exit",
+      "x": 21,
+      "y": 43,
+      "destMap": 1011,
+      "dest": "arrival:fromAbove",
+      "_": "puerta de la capilla: baja al Dungeon Newbie"
     }
   ],
   "spawn": [
-    15,
-    17
+    46,
+    13
   ],
   "arrivals": {
     "from1000": [
-      15,
-      17
+      46,
+      13
     ],
     "from1011": [
-      30,
-      17
+      20,
+      46
     ]
   },
-  "music": 7,
+  "music": 3,
   "environment": {
-    "baseLight": 9408399,
+    "baseLight": 11845330,
     "rain": false,
     "snow": false,
     "fog": false
   },
   "signTexts": {
-    "22,21": "Dungeon: siete pisos, de nivel 1 a 30. Cuanto más bajes, más fuertes serán las criaturas."
+    "23,47": "Dungeon: siete pisos, de nivel 1 a 30. La capilla baja al Dungeon Newbie. Cuanto más bajes, más fuertes serán las criaturas.",
+    "49,12": "Al norte: la plaza de la demo AO BATTLESERVER."
   },
   "_signTexts": "Textos de docs/claude/demo/textos-hub.md (Contenido); posiciones y gráficos de Arte (carteles)."
 }

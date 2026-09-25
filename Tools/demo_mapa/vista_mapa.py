@@ -1,12 +1,13 @@
 """Vista general de un mapa para diseñar la demo (sin Unity).
 
   python Tools/demo_mapa/vista_mapa.py SALIDA.png --mapa 392 [--px 8] [--sin-capas]
+  python Tools/demo_mapa/vista_mapa.py SALIDA.png --archivo otra/carpeta/map_1011.json
 
 Dibuja las capas 1-4 como el juego (reusa preview_luces) y encima:
 - rojo: casilla bloqueada; verde: salida (con su destino); punto amarillo: NPC; cruz cian: luz;
 - grilla cada 10 casillas con coordenadas, para elegir recortes (x, y de 1 a 100).
 Solo lee los mapas; no escribe nada fuera de SALIDA."""
-import argparse, sys
+import argparse, json, sys
 from pathlib import Path
 from PIL import Image, ImageDraw
 
@@ -14,8 +15,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'hd_remake'))
 import preview_luces as pl  # noqa: E402
 
 
-def render(num, px=8, capas=True):
-    m = pl.load(num)
+def render(num, px=8, capas=True, archivo=None):
+    if archivo:
+        m = json.loads(Path(archivo).read_text('utf-8-sig')); m['env'] = {}
+        num = m.get('mapNumber', num)
+    else:
+        m = pl.load(num)
     w, h = m['xmax'] - m['xmin'] + 1, m['ymax'] - m['ymin'] + 1
     if capas:
         base, _ = pl.albedo(m, m['xmin'], m['ymin'], w, h, chars=False, margin=2)
@@ -53,9 +58,11 @@ def render(num, px=8, capas=True):
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     ap.add_argument('salida', type=Path)
-    ap.add_argument('--mapa', type=int, required=True)
+    ap.add_argument('--mapa', type=int)
+    ap.add_argument('--archivo', type=Path, help='un map_N.json fuera de Assets (por ejemplo, de otra rama)')
     ap.add_argument('--px', type=int, default=8)
     ap.add_argument('--sin-capas', action='store_true')
     a = ap.parse_args()
-    render(a.mapa, a.px, not a.sin_capas).convert('RGB').save(a.salida)
+    if not a.mapa and not a.archivo: ap.error('falta --mapa o --archivo')
+    render(a.mapa, a.px, not a.sin_capas, a.archivo).convert('RGB').save(a.salida)
     print(a.salida)

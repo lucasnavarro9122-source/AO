@@ -49,7 +49,7 @@
  "pisos": [
   {
    "id": "P1",
-   "nombre": "Madriguera",
+   "nombre": "Dungeon Newbie",
    "nivelRecomendado": [
     1,
     4
@@ -541,10 +541,10 @@
     "nombreFuente": "Dungeon Newbie",
     "base": "copy",
     "recorte": {
-     "x": 14,
-     "y": 20,
-     "ancho": 70,
-     "alto": 70
+     "x": 12,
+     "y": 9,
+     "ancho": 76,
+     "alto": 85
     },
     "fueraDelRecorte": "bloquear (flags 15); Arte cierra el borde con los muros del set",
     "quitarDelOriginal": [
@@ -571,8 +571,8 @@
      "y": 65,
      "destMap": 1012,
      "dest": {
-      "x": 82,
-      "y": 25
+      "x": 46,
+      "y": 15
      },
      "nota": "escalera al piso siguiente, fuera de la sala del jefe"
     },
@@ -592,18 +592,18 @@
     "caminablesEnRecorte": 3497,
     "npcOriginalesEnRecorte": 60,
     "musicId": 7,
-    "baseLight": 9408399,
+    "baseLight": 10526880,
     "textos": "docs/claude/demo/textos-hub.md §3-4"
    }
   },
   {
    "id": "P2",
-   "nombre": "Cementerio",
+   "nombre": "Catacumbas",
    "nivelRecomendado": [
     4,
     10
    ],
-   "origen": "Cementerio de Nix (mapa 4)",
+   "origen": "Catacumbas Ullathorpe (mapa 40): los no-muertos del cementerio, bajo tierra",
    "respawnComunesSeg": 30,
    "npcVivos": 14,
    "grupos": {
@@ -851,8 +851,8 @@
       }
      ],
      "centro": {
-      "x": 74,
-      "y": 35
+      "x": 27,
+      "y": 37
      }
     },
     {
@@ -870,8 +870,8 @@
       }
      ],
      "centro": {
-      "x": 61,
-      "y": 46
+      "x": 70,
+      "y": 21
      }
     },
     {
@@ -889,8 +889,8 @@
       }
      ],
      "centro": {
-      "x": 52,
-      "y": 65
+      "x": 70,
+      "y": 39
      }
     },
     {
@@ -904,8 +904,8 @@
       }
      ],
      "centro": {
-      "x": 35,
-      "y": 50
+      "x": 46,
+      "y": 44
      }
     },
     {
@@ -919,8 +919,8 @@
       }
      ],
      "centro": {
-      "x": 33,
-      "y": 31
+      "x": 46,
+      "y": 60
      }
     },
     {
@@ -935,36 +935,36 @@
       }
      ],
      "centro": {
-      "x": 23,
-      "y": 83
+      "x": 22,
+      "y": 76
      },
      "radioSpawnTiles": 2
     }
    ],
    "mapa": {
     "id": 1012,
-    "fuente": 4,
-    "nombreFuente": "Cementerio de Nix",
+    "fuente": 40,
+    "nombreFuente": "Catacumbas Ullathorpe",
     "base": "copy",
     "recorte": {
-     "x": 17,
-     "y": 20,
+     "x": 14,
+     "y": 11,
      "ancho": 70,
-     "alto": 70
+     "alto": 82
     },
-    "fueraDelRecorte": "bloquear (flags 15); Arte cierra el borde con los muros del set",
+    "fueraDelRecorte": "bloquear (flags 15); afuera negro de vacío",
     "quitarDelOriginal": [
      "npcs",
      "exits"
     ],
     "entrada": {
-     "x": 83,
-     "y": 23
+     "x": 46,
+     "y": 13
     },
     "zonaSeguraRadio": 8,
     "escaleraSubida": {
-     "x": 83,
-     "y": 23,
+     "x": 46,
+     "y": 13,
      "destMap": 1011,
      "dest": {
       "x": 72,
@@ -972,36 +972,32 @@
      }
     },
     "llegadaDesdeArriba": {
-     "x": 82,
-     "y": 25
+     "x": 46,
+     "y": 15
     },
     "escaleraBajada": {
-     "x": 32,
-     "y": 78,
+     "x": 46,
+     "y": 90,
      "destMap": 1013,
      "dest": {
       "x": 78,
       "y": 79
      },
-     "nota": "escalera al piso siguiente, fuera de la sala del jefe"
+     "nota": "escalera al piso siguiente, al fondo del pasillo central; no pasa por la cripta del jefe"
     },
     "llegadaDesdeAbajo": {
-     "x": 30,
-     "y": 77
+     "x": 46,
+     "y": 88
     },
     "salaJefe": {
      "centro": {
-      "x": 23,
-      "y": 83
+      "x": 22,
+      "y": 76
      },
-     "tamano": "12x12"
+     "tamano": "11x20 (sala oeste; la cripta de la puerta con llave queda cerrada, como en el original)"
     },
-    "recorridoMaxTiles": 145,
-    "distanciaEntradaJefe": 120,
-    "caminablesEnRecorte": 4500,
-    "npcOriginalesEnRecorte": 22,
-    "musicId": 3,
-    "baseLight": 9408399,
+    "musicId": 9,
+    "baseLight": 9737364,
     "textos": "docs/claude/demo/textos-hub.md §3-4"
    }
   },
@@ -1292,10 +1288,10 @@
     "nombreFuente": "Mausoleo",
     "base": "copy",
     "recorte": {
-     "x": 14,
-     "y": 14,
-     "ancho": 70,
-     "alto": 70
+     "x": 12,
+     "y": 8,
+     "ancho": 79,
+     "alto": 87
     },
     "fueraDelRecorte": "bloquear (flags 15); Arte cierra el borde con los muros del set",
     "quitarDelOriginal": [
@@ -1312,8 +1308,8 @@
      "y": 80,
      "destMap": 1012,
      "dest": {
-      "x": 30,
-      "y": 77
+      "x": 46,
+      "y": 88
      }
     },
     "llegadaDesdeArriba": {
@@ -1325,8 +1321,8 @@
      "y": 22,
      "destMap": 1014,
      "dest": {
-      "x": 62,
-      "y": 48
+      "x": 49,
+      "y": 86
      },
      "nota": "escalera al piso siguiente, fuera de la sala del jefe"
     },
@@ -1352,7 +1348,7 @@
   },
   {
    "id": "P4",
-   "nombre": "Piramide",
+   "nombre": "Tumba del desierto",
    "nivelRecomendado": [
     15,
     20
@@ -1620,8 +1616,8 @@
       }
      ],
      "centro": {
-      "x": 26,
-      "y": 14
+      "x": 66,
+      "y": 76
      }
     },
     {
@@ -1639,8 +1635,8 @@
       }
      ],
      "centro": {
-      "x": 73,
-      "y": 49
+      "x": 87,
+      "y": 57
      }
     },
     {
@@ -1658,8 +1654,8 @@
       }
      ],
      "centro": {
-      "x": 46,
-      "y": 70
+      "x": 83,
+      "y": 41
      }
     },
     {
@@ -1677,8 +1673,8 @@
       }
      ],
      "centro": {
-      "x": 38,
-      "y": 53
+      "x": 63,
+      "y": 21
      }
     },
     {
@@ -1693,8 +1689,8 @@
       }
      ],
      "centro": {
-      "x": 37,
-      "y": 26
+      "x": 49,
+      "y": 34
      },
      "radioSpawnTiles": 2
     }
@@ -1705,10 +1701,10 @@
     "nombreFuente": "Pirámide",
     "base": "copy",
     "recorte": {
-     "x": 20,
-     "y": 11,
-     "ancho": 70,
-     "alto": 70
+     "x": 12,
+     "y": 9,
+     "ancho": 78,
+     "alto": 86
     },
     "fueraDelRecorte": "bloquear (flags 15); Arte cierra el borde con los muros del set",
     "quitarDelOriginal": [
@@ -1716,13 +1712,13 @@
      "exits"
     ],
     "entrada": {
-     "x": 61,
-     "y": 50
+     "x": 49,
+     "y": 88
     },
     "zonaSeguraRadio": 8,
     "escaleraSubida": {
-     "x": 61,
-     "y": 50,
+     "x": 49,
+     "y": 88,
      "destMap": 1013,
      "dest": {
       "x": 27,
@@ -1730,36 +1726,32 @@
      }
     },
     "llegadaDesdeArriba": {
-     "x": 62,
-     "y": 48
+     "x": 49,
+     "y": 86
     },
     "escaleraBajada": {
-     "x": 36,
-     "y": 36,
+     "x": 26,
+     "y": 14,
      "destMap": 1015,
      "dest": {
       "x": 19,
       "y": 30
      },
-     "nota": "escalera al piso siguiente, fuera de la sala del jefe"
+     "nota": "rincón noroeste, después del último grupo; la cámara de la Momia queda aparte"
     },
     "llegadaDesdeAbajo": {
-     "x": 36,
-     "y": 34
+     "x": 28,
+     "y": 14
     },
     "salaJefe": {
      "centro": {
-      "x": 37,
-      "y": 26
+      "x": 49,
+      "y": 34
      },
-     "tamano": "12x12"
+     "tamano": "cámara funeraria central (15x19), con estatuas"
     },
-    "recorridoMaxTiles": 400,
-    "distanciaEntradaJefe": 338,
-    "caminablesEnRecorte": 3315,
-    "npcOriginalesEnRecorte": 24,
     "musicId": 19,
-    "baseLight": 12566463,
+    "baseLight": 9208436,
     "textos": "docs/claude/demo/textos-hub.md §3-4"
    }
   },
@@ -2161,10 +2153,10 @@
     "nombreFuente": "Catacumbas Lvl2",
     "base": "copy",
     "recorte": {
-     "x": 14,
-     "y": 17,
-     "ancho": 70,
-     "alto": 70
+     "x": 12,
+     "y": 10,
+     "ancho": 76,
+     "alto": 82
     },
     "fueraDelRecorte": "bloquear (flags 15); Arte cierra el borde con los muros del set",
     "quitarDelOriginal": [
@@ -2181,8 +2173,8 @@
      "y": 30,
      "destMap": 1014,
      "dest": {
-      "x": 36,
-      "y": 34
+      "x": 28,
+      "y": 14
      }
     },
     "llegadaDesdeArriba": {
@@ -2194,8 +2186,8 @@
      "y": 39,
      "destMap": 1016,
      "dest": {
-      "x": 22,
-      "y": 75
+      "x": 16,
+      "y": 13
      },
      "nota": "escalera al piso siguiente, fuera de la sala del jefe"
     },
@@ -2215,18 +2207,18 @@
     "caminablesEnRecorte": 2143,
     "npcOriginalesEnRecorte": 9,
     "musicId": 9,
-    "baseLight": 15724527,
+    "baseLight": 7765124,
     "textos": "docs/claude/demo/textos-hub.md §3-4"
    }
   },
   {
    "id": "P6",
-   "nombre": "Torre de Veriil",
+   "nombre": "Cueva de las Gorgonas",
    "nivelRecomendado": [
     24,
     27
    ],
-   "origen": "Dungeon Veriil / Nueva Esperanza (mapas 111-114, 140-142)",
+   "origen": "Cueva de las Gorgonas (mapa 311): la Medusa es una gorgona; lago subterráneo",
    "respawnComunesSeg": 90,
    "npcVivos": 10,
    "grupos": {
@@ -2513,8 +2505,8 @@
       }
      ],
      "centro": {
-      "x": 34,
-      "y": 85
+      "x": 28,
+      "y": 19
      }
     },
     {
@@ -2532,8 +2524,8 @@
       }
      ],
      "centro": {
-      "x": 68,
-      "y": 76
+      "x": 49,
+      "y": 21
      }
     },
     {
@@ -2555,8 +2547,8 @@
       }
      ],
      "centro": {
-      "x": 84,
-      "y": 67
+      "x": 26,
+      "y": 44
      }
     },
     {
@@ -2570,8 +2562,8 @@
       }
      ],
      "centro": {
-      "x": 63,
-      "y": 31
+      "x": 71,
+      "y": 30
      }
     },
     {
@@ -2586,36 +2578,36 @@
       }
      ],
      "centro": {
-      "x": 83,
-      "y": 38
+      "x": 49,
+      "y": 50
      },
      "radioSpawnTiles": 2
     }
    ],
    "mapa": {
     "id": 1016,
-    "fuente": 142,
-    "nombreFuente": "Dungeon Veriil.",
+    "fuente": 311,
+    "nombreFuente": "Cueva de las Gorgonas",
     "base": "copy",
     "recorte": {
-     "x": 20,
-     "y": 20,
-     "ancho": 70,
-     "alto": 70
+     "x": 13,
+     "y": 10,
+     "ancho": 77,
+     "alto": 80
     },
-    "fueraDelRecorte": "bloquear (flags 15); Arte cierra el borde con los muros del set",
+    "fueraDelRecorte": "bloquear (flags 15); afuera negro de vacío; la isla del sur queda a la vista, sin paso",
     "quitarDelOriginal": [
      "npcs",
      "exits"
     ],
     "entrada": {
-     "x": 23,
-     "y": 73
+     "x": 14,
+     "y": 13
     },
     "zonaSeguraRadio": 8,
     "escaleraSubida": {
-     "x": 23,
-     "y": 73,
+     "x": 14,
+     "y": 13,
      "destMap": 1015,
      "dest": {
       "x": 69,
@@ -2623,36 +2615,32 @@
      }
     },
     "llegadaDesdeArriba": {
-     "x": 22,
-     "y": 75
+     "x": 16,
+     "y": 13
     },
     "escaleraBajada": {
-     "x": 81,
-     "y": 48,
+     "x": 87,
+     "y": 13,
      "destMap": 1017,
      "dest": {
-      "x": 78,
-      "y": 82
+      "x": 50,
+      "y": 87
      },
-     "nota": "escalera al piso siguiente, fuera de la sala del jefe"
+     "nota": "al fondo del pasillo noreste; no pasa por la orilla de la Medusa"
     },
     "llegadaDesdeAbajo": {
-     "x": 79,
-     "y": 47
+     "x": 85,
+     "y": 13
     },
     "salaJefe": {
      "centro": {
-      "x": 83,
-      "y": 38
+      "x": 49,
+      "y": 50
      },
-     "tamano": "12x12"
+     "tamano": "orilla del lago (14x4) + pasillo 6x14"
     },
-    "recorridoMaxTiles": 120,
-    "distanciaEntradaJefe": 109,
-    "caminablesEnRecorte": 1570,
-    "npcOriginalesEnRecorte": 7,
     "musicId": 18,
-    "baseLight": 9408399,
+    "baseLight": 6581890,
     "textos": "docs/claude/demo/textos-hub.md §3-4"
    }
   },
@@ -2663,7 +2651,7 @@
     27,
     30
    ],
-   "origen": "Dungeon Dragon (mapa 391) + Limbo de los Justos (mapa 314, jefe)",
+   "origen": "Magma Dungeon (mapa 366): caverna volcánica; dragones y Vytaiz",
    "respawnComunesSeg": 120,
    "npcVivos": 8,
    "grupos": {
@@ -2867,8 +2855,8 @@
       }
      ],
      "centro": {
-      "x": 74,
-      "y": 64
+      "x": 70,
+      "y": 75
      }
     },
     {
@@ -2882,8 +2870,8 @@
       }
      ],
      "centro": {
-      "x": 58,
-      "y": 52
+      "x": 30,
+      "y": 62
      }
     },
     {
@@ -2897,8 +2885,8 @@
       }
      ],
      "centro": {
-      "x": 35,
-      "y": 43
+      "x": 65,
+      "y": 35
      }
     },
     {
@@ -2912,8 +2900,8 @@
       }
      ],
      "centro": {
-      "x": 18,
-      "y": 39
+      "x": 28,
+      "y": 33
      }
     },
     {
@@ -2928,70 +2916,66 @@
       }
      ],
      "centro": {
-      "x": 20,
-      "y": 23
+      "x": 48,
+      "y": 17
      },
      "radioSpawnTiles": 2
     }
    ],
    "mapa": {
     "id": 1017,
-    "fuente": 391,
-    "nombreFuente": "Dungeon Dragon",
+    "fuente": 366,
+    "nombreFuente": "Magma Dungeon",
     "base": "copy",
     "recorte": {
-     "x": 14,
-     "y": 17,
-     "ancho": 70,
-     "alto": 70
+     "x": 21,
+     "y": 11,
+     "ancho": 66,
+     "alto": 80
     },
-    "fueraDelRecorte": "bloquear (flags 15); Arte cierra el borde con los muros del set",
+    "fueraDelRecorte": "bloquear (flags 15); afuera negro de vacío",
     "quitarDelOriginal": [
      "npcs",
      "exits"
     ],
     "entrada": {
-     "x": 80,
-     "y": 83
+     "x": 50,
+     "y": 89
     },
     "zonaSeguraRadio": 8,
     "escaleraSubida": {
-     "x": 80,
-     "y": 83,
+     "x": 50,
+     "y": 89,
      "destMap": 1016,
      "dest": {
-      "x": 79,
-      "y": 47
+      "x": 85,
+      "y": 13
      }
     },
     "llegadaDesdeArriba": {
-     "x": 78,
-     "y": 82
+     "x": 50,
+     "y": 87
     },
     "escaleraBajada": {
-     "x": 21,
-     "y": 31,
+     "x": 76,
+     "y": 17,
      "destMap": 1000,
      "dest": "aparicion del hub 1000",
      "nota": "portal de regreso al hub (fin del dungeon)"
     },
     "llegadaDesdeAbajo": {
-     "x": 19,
-     "y": 30
+     "x": 74,
+     "y": 19
     },
     "salaJefe": {
      "centro": {
-      "x": 20,
-      "y": 23
+      "x": 48,
+      "y": 17
      },
-     "tamano": "12x12"
+     "tamano": "cámara norte abierta"
     },
-    "recorridoMaxTiles": 132,
-    "distanciaEntradaJefe": 120,
-    "caminablesEnRecorte": 4892,
-    "npcOriginalesEnRecorte": 7,
     "musicId": 17,
-    "baseLight": 12566463,
+    "baseLight": 8278080,
     "textos": "docs/claude/demo/textos-hub.md §3-4"
    }
   }

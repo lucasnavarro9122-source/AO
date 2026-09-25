@@ -27,12 +27,12 @@ Gráfico (propuesta de Arte, 24/09): los carteles numerados «Nº1…Nº7» (GRH
 
 | Piso (mapa) | Texto del cartel [nuevo] | Cartel original extra |
 |---|---|---|
-| P1 Madriguera (1011) | `Madriguera · Nivel recomendado: 1 a 4. Serpientes, escorpiones y lobos. Al fondo acecha Wolfang.` | — |
-| P2 Cementerio (1012) | `Cementerio · Nivel recomendado: 4 a 10. Aquí los muertos no descansan.` | — |
+| P1 Dungeon Newbie (1011) | `Dungeon Newbie · Nivel recomendado: 1 a 4. Serpientes, escorpiones y lobos. Al fondo acecha Wolfang.` | — |
+| P2 Catacumbas (1012) | `Catacumbas · Nivel recomendado: 4 a 10. Aquí los muertos no descansan.` | — |
 | P3 Mausoleo (1013) | `Mausoleo · Nivel recomendado: 10 a 15. Nadie sale vivo de la cripta del Guardián.` | — |
-| P4 Pirámide (1014) | `Pirámide · Nivel recomendado: 15 a 20. Escorpiones y escarabajos custodian a la Momia.` | — |
+| P4 Tumba del desierto (1014) | `Tumba del desierto · Nivel recomendado: 15 a 20. Escorpiones y escarabajos custodian a la Momia.` | — |
 | P5 Nido de arañas (1015) | `Nido de arañas · Nivel recomendado: 20 a 24. Lleva antídotos: todas envenenan.` | — |
-| P6 Torre de Veriil (1016) | `Torre de Veriil · Nivel recomendado: 24 a 27. Liches y magos oscuros: mejor en grupo.` | OBJ 2464 [original]: `Peligro!!! Dungeon Veril adelante!!` |
+| P6 Cueva de las Gorgonas (1016) | `Cueva de las Gorgonas · Nivel recomendado: 24 a 27. Liches y magos oscuros; la Medusa espera en la orilla del lago. Mejor en grupo.` | — (el de Veriil ya no va) |
 | P7 Guarida del Dragón (1017) | `Guarida del Dragón · Nivel recomendado: 27 a 30. Solo un grupo fuerte vencerá a Vytaiz.` | OBJ 1136 [original]: `Bienvenido a Dungeon Dragon.` |
 
 - En P1, P4 y P5 hay NPC que envenenan (`Veneno` en npcs.dat): Serpiente Collet, Escorpión, Serpiente Bicéfala, Escorpión Califa y las cinco arañas más el Mutante.
@@ -41,31 +41,31 @@ Gráfico (propuesta de Arte, 24/09): los carteles numerados «Nº1…Nº7» (GRH
 ## 4. Consola al usar escaleras y portales [nuevo]
 | Evento | Texto |
 |---|---|
-| Entrar al dungeon desde la entrada (1010 → 1011) | `Bajas a la Madriguera (niveles 1 a 4).` |
+| Entrar al dungeon desde la capilla del cementerio (1010 → 1011) | `Bajas al Dungeon Newbie (niveles 1 a 4).` |
 | Bajar al piso siguiente | `Bajas a <nombre del piso> (niveles X a Y).` Por ejemplo: `Bajas al Mausoleo (niveles 10 a 15).` |
 | Subir al piso anterior | `Subes a <nombre del piso>.` Desde P1: `Subes a la entrada del dungeon.` |
 | Portal de P7 después del jefe | `El portal te devuelve a la plaza de la demo.` |
 | Aviso de nivel bajo (opcional) | `Estas criaturas te superan. Nivel recomendado: X a Y.` Solo si el nivel del jugador es menor que el mínimo del piso − 2, una vez por entrada. |
 
-Artículo delante de cada nombre: "a la Madriguera", "al Cementerio", "al Mausoleo", "a la Pirámide", "al Nido de arañas", "a la Torre de Veriil", "a la Guarida del Dragón".
+Artículo delante de cada nombre: "al Dungeon Newbie", "a las Catacumbas", "al Mausoleo", "a la Tumba del desierto", "al Nido de arañas", "a la Cueva de las Gorgonas", "a la Guarida del Dragón".
 
 ## 5. Muerte dentro de la demo
 Se usan los mensajes originales de muerte. El `/HOGAR` original ("Escribe /HOGAR si deseas regresar rápido a tu hogar.") lleva al hub: el hogar de la demo es el mapa 1000 (`arquitectura.md` §2.6). No hace falta texto nuevo.
 
 ## 6. Música y luz de los mapas nuevos (para `map_music.json` / `map_environment.json`)
-Todo es original: la música y la luz son las del mapa fuente.
+La música es la original de cada piso. **Luz (25/09, regla 8 de `mapa/reglas-y-recorrido.md`):** baja de más clara a más oscura según la profundidad; el P3 conserva su luz propia.
 
 | Mapa | Fuente | Música (`musicId`) | `baseLight` | Nota |
 |---|---|---|---|---|
 | 1000 Hub | 1 Ullathorpe | 4 | 0 | sin lluvia (la plaza es de la demo) |
 | 1001 Arenas | 324 Zona de Ring | 9 | −1 | |
-| 1010 Entrada del dungeon | 37 Newbie Dungeon | 7 | 9408399 | |
-| 1011 P1 Madriguera | 264 | 7 | 9408399 | |
-| 1012 P2 Cementerio | 4 | 3 | 9408399 | el original es exterior con lluvia (0); se usa la luz oscura del Newbie Dungeon (propuesta de Arte) |
-| 1013 P3 Mausoleo | 392 | 9 | −8355670 | |
-| 1014 P4 Pirámide | 564 | 19 | 12566463 | |
-| 1015 P5 Nido de arañas | 291 | 9 | 15724527 | |
-| 1016 P6 Torre de Veriil | 142 | 18 | 9408399 | |
-| 1017 P7 Guarida del Dragón | 391 | 17 | 12566463 | la sala de Vytaiz sin música propia (el Limbo, mapa 314, no tiene) |
+| 1010 Entrada: Cementerio de Nix | 4 | 3 | 11845330 | superficie de noche con luna, sin lluvia; la capilla baja al P1 |
+| 1011 P1 Dungeon Newbie | 264 | 7 | 10526880 | |
+| 1012 P2 Catacumbas | 40 Catacumbas Ullathorpe | 9 | 9737364 | |
+| 1013 P3 Mausoleo | 392 | 9 | −8355670 | la luz propia del Mausoleo |
+| 1014 P4 Tumba del desierto | 564 Pirámide | 19 | 9208436 | |
+| 1015 P5 Nido de arañas | 291 | 9 | 7765124 | |
+| 1016 P6 Cueva de las Gorgonas | 311 | 18 | 6581890 | |
+| 1017 P7 Guarida del Dragón | 366 Magma Dungeon | 17 | 8278080 | lava: roja y oscura, lo más profundo |
 
 Las migraciones ya conservan estas entradas ≥ 1000 al volver a correrlas (`music_migration.py`, `map_environment_migration.py`).
