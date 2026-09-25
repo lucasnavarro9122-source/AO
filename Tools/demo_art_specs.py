@@ -164,66 +164,22 @@ DUNGEON_DOOR = 1493      # "Puerta cerrada con llave Catas Ullathorpe" (96x96)
 
 
 def spec_1000():
-    """Hub: aldea recortada de Ullathorpe (plaza de la fuente + calle sur con casas),
-    camino al norte hacia las Arenas y puerta de dungeon al final de la calle sur."""
-    src = (35, 42, 62, 84)                 # rectángulo del mapa 1 (sin la casa cortada ni la entrada a las catacumbas)
-    dx, dy = 39, 30                        # destino de su esquina superior izquierda
-    sx0, sy0, sx1, sy1 = src
-    offset_x, offset_y = dx - sx0, dy - sy0
-    road_x = 51 + offset_x                 # la calle x51-54 del mapa 1 queda en x55-58
-    top = dy                               # borde norte del recorte
-    ops = [{"op": "erase", "layer": layer, "rect": rect(1, 1, 100, 100)} for layer in (2, 3, 4)]
-    ops.append(paint(1, box=rect(1, 1, 100, 100), tile4x4=GRASS))
-    ops.append({"op": "stamp", "src": 1, "x": sx0, "y": sy0, "w": sx1 - sx0 + 1, "h": sy1 - sy0 + 1,
-                "dx": dx, "dy": dy, "layers": [1, 2, 3, 4], "blocks": True, "triggers": True,
-                "objects": True, "lights": True, "particles": True})
-    north_end = 12
-    ops.append({"op": "erase", "layer": 3, "rect": rect(road_x, north_end, road_x + 3, top + 3)})
-    for layer in (2, 3, 4):                # resto de un edificio de piedra que queda cortado en el borde oeste
-        ops.append({"op": "erase", "layer": layer, "rect": rect(dx, dy + 12, dx + 1, dy + 23)})
-    road = {}
-    for y in range(north_end, top + 2):
-        row = ROAD[(y - offset_y) % 4]
-        for i in range(4):
-            road[(road_x + i, y)] = row[i]
-    layer3 = {(road_x - 1, north_end): TORCH, (road_x + 4, north_end): TORCH}
-    signs = [sign(road_x - 2, north_end + 2, "salida norte a las Arenas", ARENA_SIGNS[0][1])]
-    south = sy1 + offset_y + 1                                # primera fila bajo el recorte
-    layer3[(road_x + 2, south + 2)] = DUNGEON_DOOR
-    signs.append(sign(road_x - 2, south, "salida sur al Dungeon", NEWBIE_SIGN))
-    layer3[(road_x - 1, south + 2)] = TORCH
-    layer3[(road_x + 4, south + 2)] = TORCH
-    for y in range(south, south + 3):                         # tramo corto de calle hasta la puerta
-        row = ROAD[(y - offset_y) % 4]
-        for i in range(4):
-            road[(road_x + i, y)] = row[i]
-    trees = []
-    x0, y0, x1, y1 = dx - 2, north_end - 2, dx + (sx1 - sx0) + 2, south + 5
-    for x in range(x0, x1 + 1, 3):
-        trees += [(x, y0), (x, y1)]
-    for y in range(y0 + 3, y1, 3):
-        trees += [(x0, y), (x1, y)]
-    for cell in trees:
-        if not (road_x - 1 <= cell[0] <= road_x + 4):
-            layer3.setdefault(cell, PINE)
-    for grh in sorted(set(road.values())):
-        ops.append(paint(1, [c for c, g in road.items() if g == grh], grh=grh))
-    for grh in sorted(set(layer3.values())):
-        ops.append(paint(3, [c for c, g in layer3.items() if g == grh], grh=grh))
+    """Hub: Ullathorpe entero (copia del mapa 1), sin recortes ni pintura, como pidió Lucas
+    ("basarse en el entorno del mapa original"): caminos, bordes y transiciones quedan como en el original.
+    Estructura (Programación): borde norte (y=10) -> Arenas, borde sur (y=91) -> Dungeon, portal "Newbie D."
+    (x73-75, y21-22) -> Dungeon; bordes oeste y este bloqueados; catacumbas (x30-32,y50 y x22-24,y74) y puertas
+    de casas bloqueadas (la roca original ya tapa las bocas)."""
     return {
         "map": 1000,
         "autor": "Arte",
-        "base": "fill (Programación)",
-        "notas": f"Recorte de Ullathorpe (mapa 1, x{sx0}-{sx1}, y{sy0}-{sy1}) en x{dx}-{dx + sx1 - sx0}, y{dy}-{dy + sy1 - sy0}, "
-                 f"con sus bloqueos, techos, luces y partículas originales. Caminable: el recorte (respetando sus bloqueos) + "
-                 f"camino norte x{road_x}-{road_x + 3}, y{north_end}-{top + 1} (salida a Arenas en y{north_end}) + "
-                 f"calle sur x{road_x}-{road_x + 3}, y{south}-{south + 2} (puerta del dungeon en x{road_x + 2}, y{south + 2}: "
-                 f"la salida va en la fila de la puerta o la de arriba). Pinos alrededor como borde.",
-        "ops": ops,
-        "decorBloqueante": [list(c) for c in sorted(layer3, key=lambda c: (c[1], c[0]))],
-        "carteles": signs,
+        "base": "copy 1",
+        "notas": "Ullathorpe completo (mapa 1). Sin ops de arte: todo es el original. Ver docs/claude/demo/arte/hub-antes-despues.png.",
+        "ops": [],
+        "carteles": [
+            sign(26, 12, "salida norte a las Arenas (camino x27-30)", ARENA_SIGNS[0][1]),
+            sign(50, 89, "salida sur al Dungeon (camino x51-53)", NEWBIE_SIGN),
+        ],
     }
-
 
 DUNGEON_DATA = ROOT / "docs/claude/demo/dungeon-npcs.json"   # Contenido: fuente, recorte, entrada y escaleras por piso
 VOID = 1                  # negro de vacío del AO (capa 1)
@@ -234,13 +190,227 @@ FLOOR_IDS = {"P1": 1011, "P2": 1012, "P3": 1013, "P4": 1014, "P5": 1015, "P6": 1
 OUTDOOR = {"P2"}          # cementerio al aire libre: el corte se cierra con pinos, no con negro
 
 
-def _walkable_source(source_id: int):
+def _source(source_id: int) -> dict:
     data = json.loads((MAPS / f"map_{source_id}.json").read_text(encoding="utf-8"))
     floor = {(c["x"], c["y"]): c["grh"] for c in data["cells"] if c["layer"] == 1}
     blocked = {(b["x"], b["y"]) for b in data["blocks"] if b["flags"]}
     water = [(1505, 1520), (124, 139), (468, 483), (2948, 2963), (12628, 12643),
              (24143, 24158), (24223, 24238), (24303, 24318), (44668, 44683)]
-    return lambda c: c in floor and floor[c] != VOID and c not in blocked and not any(a <= floor[c] <= b for a, b in water)
+
+    def walk(c):
+        return c in floor and floor[c] != VOID and c not in blocked and not any(a <= floor[c] <= b for a, b in water)
+
+    return {"data": data, "walk": walk, "exits": {(e["x"], e["y"]) for e in data.get("exits", [])}, "blocked": blocked}
+
+
+def _bfs(starts, walk, limit=None):
+    """Distancias por pasos de 4 vecinos (como el movimiento del AO) desde varias casillas."""
+    from collections import deque
+    dist = {c: 0 for c in starts}
+    queue = deque(starts)
+    while queue:
+        c = queue.popleft()
+        if limit is not None and dist[c] >= limit:
+            continue
+        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            n = (c[0] + dx, c[1] + dy)
+            if n not in dist and walk(n):
+                dist[n] = dist[c] + 1
+                queue.append(n)
+    return dist
+
+
+def _path(a, b, walk):
+    from collections import deque
+    prev = {a: None}
+    queue = deque([a])
+    while queue:
+        c = queue.popleft()
+        if c == b:
+            break
+        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            n = (c[0] + dx, c[1] + dy)
+            if n not in prev and walk(n):
+                prev[n] = c
+                queue.append(n)
+    if b not in prev:
+        return []
+    out, c = [], b
+    while c is not None:
+        out.append(c)
+        c = prev[c]
+    return out[::-1]
+
+
+def _snap(point, walk):
+    """La casilla caminable más cercana (por si un centro de zona cae en una pared)."""
+    if walk(point):
+        return point
+    for radius in range(1, 8):
+        for dx in range(-radius, radius + 1):
+            for dy in range(-radius, radius + 1):
+                c = (point[0] + dx, point[1] + dy)
+                if walk(c):
+                    return c
+    return point
+
+
+def _closure_decor(source: dict, crop) -> list:
+    """Decoración original del propio mapa para tapar aberturas: los sprites medianos o grandes que más
+    usa como obstáculo (capa 3 bloqueada) dentro del recorte."""
+    import collections
+    x0, y0, x1, y1 = crop
+    sizes = {s["id"]: (s["width"], s["height"]) for s in source["data"]["sprites"]}
+    counts = collections.Counter()
+    for c in source["data"]["cells"]:
+        if c["layer"] != 3 or (c["x"], c["y"]) not in source["blocked"]:
+            continue
+        if not (x0 <= c["x"] <= x1 and y0 <= c["y"] <= y1):
+            continue
+        w, h = sizes.get(c["sprite"], (0, 0))
+        if 48 <= w <= 160 and 48 <= h <= 192:
+            counts[c["grh"]] += 1
+    return [grh for grh, _ in counts.most_common(3)]
+
+
+def closed_route(source: dict, crop, waypoints, keep, radius=5, extra=()):
+    """Zona jugable lineal: casillas a <= radius pasos del recorrido entre waypoints (dentro del recorte),
+    más `extra` (sala del jefe, radios de zona). Aberturas = casillas caminables que tocan la zona desde
+    afuera, más las entradas originales que quedaron adentro (salvo las de `keep`)."""
+    x0, y0, x1, y1 = crop
+
+    def walk_in(c):
+        return x0 <= c[0] <= x1 and y0 <= c[1] <= y1 and source["walk"](c)
+
+    points = [_snap(p, walk_in) for p in waypoints]
+    route = []
+    for a, b in zip(points, points[1:]):
+        route += _path(a, b, walk_in)
+    starts = list(dict.fromkeys(route)) or points[:1]
+    zone = set(_bfs(starts, walk_in, radius))
+    zone |= {c for c in extra if walk_in(c)}
+    openings = set()
+    for c in zone:
+        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            n = (c[0] + dx, c[1] + dy)
+            if n not in zone and source["walk"](n):
+                openings.add(n)
+    openings |= {c for c in source["exits"] if c in zone and c not in keep}
+    zone -= openings
+    return zone, openings, points
+
+
+CLOSURE_DECOR = {   # decoración original suelta para tapar pasillos (se lee como derrumbe o cierre del lugar)
+    "P1": [1481, 1480, 1472],        # estalagmitas (cueva)
+    "P2": [50960, 50962, PINE],      # lápidas y pinos (cementerio al aire libre)
+    "P3": [50952, 50950],            # sarcófagos (mausoleo)
+    "P4": [88],                      # roca de arenisca (pirámide)
+    "P5": [1481, 1480, 1472],        # estalagmitas (catacumbas)
+    "P6": [18239, 18276, 18734],     # columnas de piedra y tótem de hueso (cripta)
+    "P7": [18239, 18276, 1472],      # columnas y estalagmitas (guarida)
+    "1010": [1481, 1480],
+}
+
+
+def rooms_route(source: dict, crop, waypoints, keep, extra_points=()):
+    """Zona jugable según la arquitectura del mapa original: salas (>= 5 casillas de ancho) y pasillos
+    (lo angosto) por los que pasa el recorrido entre waypoints, enteros. Aberturas = primeras casillas de
+    los pasillos o salas fuera del recorrido, y entradas originales que quedaron adentro."""
+    x0, y0, x1, y1 = crop
+
+    def walk_in(c):
+        return x0 <= c[0] <= x1 and y0 <= c[1] <= y1 and source["walk"](c)
+
+    cells = {(x, y) for x in range(x0, x1 + 1) for y in range(y0, y1 + 1) if walk_in((x, y))}
+    core = {c for c in cells if all((c[0] + dx, c[1] + dy) in cells for dx in range(-2, 3) for dy in range(-2, 3))}
+    node = {}
+    next_id = 0
+    for c in core:                                   # salas: componentes del núcleo
+        if c in node:
+            continue
+        stack = [c]
+        node[c] = next_id
+        while stack:
+            cur = stack.pop()
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                n = (cur[0] + dx, cur[1] + dy)
+                if n in core and n not in node:
+                    node[n] = next_id
+                    stack.append(n)
+        next_id += 1
+    frontier = list(node)                            # la sala completa: hasta 2 pasos del núcleo
+    for _ in range(2):
+        grown = []
+        for c in frontier:
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                n = (c[0] + dx, c[1] + dy)
+                if n in cells and n not in node:
+                    node[n] = node[c]
+                    grown.append(n)
+        frontier = grown
+    for c in cells:                                  # pasillos: lo que queda, por componentes
+        if c in node:
+            continue
+        stack = [c]
+        node[c] = next_id
+        while stack:
+            cur = stack.pop()
+            for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+                n = (cur[0] + dx, cur[1] + dy)
+                if n in cells and n not in node:
+                    node[n] = next_id
+                    stack.append(n)
+        next_id += 1
+
+    points = [_snap(p, walk_in) for p in waypoints]
+    route = []
+    for a, b in zip(points, points[1:]):
+        route += _path(a, b, walk_in)
+    wanted = {node[c] for c in route if c in node}
+    wanted |= {node[_snap(p, walk_in)] for p in extra_points if _snap(p, walk_in) in node}
+    zone = {c for c in cells if node[c] in wanted}
+    openings = set()
+    for c in zone:
+        for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
+            n = (c[0] + dx, c[1] + dy)
+            if n not in zone and source["walk"](n):
+                openings.add(n)
+    openings |= {c for c in source["exits"] if c in zone and c not in keep}
+    zone -= openings
+    return zone, openings, points
+
+
+def close_openings(openings, decor, layer3, blocking):
+    """Tapa cada abertura (bloqueada) con decoración original: una pieza por casilla si es chica
+    (<= 64 px), una cada dos si es más grande, y la misma variante en todo el tramo."""
+    import collections
+    cells = set(openings)
+    clusters, seen = [], set()
+    for c in sorted(cells, key=lambda c: (c[1], c[0])):
+        if c in seen:
+            continue
+        stack, group = [c], []
+        seen.add(c)
+        while stack:
+            cur = stack.pop()
+            group.append(cur)
+            for dx in (-1, 0, 1):
+                for dy in (-1, 0, 1):
+                    n = (cur[0] + dx, cur[1] + dy)
+                    if n in cells and n not in seen:
+                        seen.add(n)
+                        stack.append(n)
+        clusters.append(sorted(group, key=lambda c: (c[1], c[0])))
+    for index, group in enumerate(clusters):
+        grh = decor[index % len(decor)] if decor else 0
+        step = 1 if grh in SMALL_DECOR else 2
+        for i, cell in enumerate(group):
+            blocking.add(cell)
+            if grh and i % step == 0 and cell not in layer3:
+                layer3[cell] = grh
+
+
+SMALL_DECOR = {1481, 1480, 50960, 50962, 18239, 18276, 18734}
 
 
 def spec_floor(map_id: int):
@@ -248,28 +418,33 @@ def spec_floor(map_id: int):
     floor = next(f for f in floors if FLOOR_IDS.get(f["id"]) == map_id)
     m = floor["mapa"]
     r = m["recorte"]
-    x0, y0, x1, y1 = r["x"], r["y"], r["x"] + r["ancho"] - 1, r["y"] + r["alto"] - 1
-    inside = lambda c: x0 <= c[0] <= x1 and y0 <= c[1] <= y1   # noqa: E731
-    walk = _walkable_source(m["fuente"])
-    ops, layer2, layer3 = [], {}, {}
-    if floor["id"] in OUTDOOR:
-        gaps = set()
-        for x in range(x0, x1 + 1):
-            for y in range(y0, y1 + 1):
-                if (x in (x0, x1) or y in (y0, y1)) and walk((x, y)):
-                    for dx, dy in ((1, 0), (-1, 0), (0, 1), (0, -1)):
-                        o = (x + dx, y + dy)
-                        if not inside(o) and walk(o):
-                            gaps.add(o)
-        for x, y in gaps:
-            layer3[(x, y)] = PINE
-    else:
-        outside = [rect(1, 1, 100, y0 - 1), rect(1, y1 + 1, 100, 100), rect(1, y0, x0 - 1, y1), rect(x1 + 1, y0, 100, y1)]
-        outside = [box for box in outside if box[2] > 0 and box[3] > 0]
-        for box in outside:
-            for layer in (2, 3, 4):
-                ops.append({"op": "erase", "layer": layer, "rect": box})
-            ops.append(paint(1, box=box, grh=VOID))
+    crop = (r["x"], r["y"], r["x"] + r["ancho"] - 1, r["y"] + r["alto"] - 1)
+
+    def inside(c):
+        return crop[0] <= c[0] <= crop[2] and crop[1] <= c[1] <= crop[3]
+
+    source = _source(m["fuente"])
+    stairs = [(m[k]["x"], m[k]["y"]) for k in ("escaleraSubida", "escaleraBajada") if m.get(k)]
+    boss = m.get("salaJefe", {}).get("centro")
+    zones = sorted(floor.get("zonas", []), key=lambda z: z.get("ordenRecorrido", 99))
+    waypoints = [(m["entrada"]["x"], m["entrada"]["y"])]
+    waypoints += [(z["centro"]["x"], z["centro"]["y"]) for z in zones if z.get("centro")]
+    if boss:
+        waypoints.append((boss["x"], boss["y"]))
+    if m.get("escaleraBajada"):
+        waypoints.append((m["escaleraBajada"]["x"], m["escaleraBajada"]["y"]))
+    extra = set()
+    if boss:
+        extra |= {(boss["x"] + dx, boss["y"] + dy) for dx in range(-6, 6) for dy in range(-6, 6)}
+    for z in zones:
+        if z.get("centro"):
+            rad = z.get("radioSpawnTiles", 3) + 1
+            extra |= {(z["centro"]["x"] + dx, z["centro"]["y"] + dy) for dx in range(-rad, rad + 1) for dy in range(-rad, rad + 1)}
+    extra_points = [(boss["x"], boss["y"])] if boss else []
+    extra_points += [(z["centro"]["x"], z["centro"]["y"]) for z in zones if z.get("centro")] + stairs
+    zone, openings, _ = rooms_route(source, crop, waypoints, set(stairs), extra_points)
+    ops, layer2, layer3, blocking = [], {}, {}, set()
+    close_openings(openings, CLOSURE_DECOR[floor["id"]], layer3, blocking)
     for key in ("escaleraSubida", "escaleraBajada"):
         stair = m.get(key)
         if not stair:
@@ -282,7 +457,7 @@ def spec_floor(map_id: int):
         else:
             layer2[(x, y)] = HOLE
         for side in ((x - 1, y - 1), (x + 1, y - 1)):
-            if inside(side) and side not in layer3:
+            if side in zone and side not in layer3:
                 layer3[side] = TORCH
     entry = m["entrada"]
     signs = [sign(entry["x"] + 2, entry["y"] + 1, "cartel del piso (zona segura)", FLOOR_SIGNS[floor["id"]])]
@@ -301,37 +476,36 @@ def spec_floor(map_id: int):
         "autor": "Arte",
         "base": f"copy {m['fuente']}",
         "nombre": f"{floor['id']} {floor['nombre']}",
-        "notas": "Copia del mapa original (datos de Contenido en dungeon-npcs.json). "
-                 + ("Afuera del recorte queda el cementerio; los cortes del recorte se cierran con pinos. " if floor["id"] in OUTDOOR
-                    else "Afuera del recorte: negro de vacío (GRH 1) sin capas, como el borde de los dungeons originales. ")
-                 + "Escaleras: hueco oscuro 57950 (como las salidas originales) con dos antorchas; la bajada del cementerio es la "
-                   "puerta de la cripta (1493) y el final del dungeon es el teleport original (49488).",
+        "notas": "Recorrido lineal (entrada -> grupos -> jefe -> escalera) según la arquitectura del original: salas (>= 5 de "
+                 "ancho) y pasillos por los que pasa el recorrido, enteros. Cada abertura hacia el resto del mapa (y cada "
+                 f"entrada original que quedaba a la vista) se tapa con decoración original del mapa {m['fuente']} y se "
+                 "bloquea. Sin negro: afuera se ve el original.",
         "ops": ops,
+        "decorBloqueante": [list(c) for c in sorted(blocking, key=lambda c: (c[1], c[0]))],
         "carteles": signs,
+        "zonaJugable": len(zone),
     }
 
 
 def spec_1010():
     """Entrada al dungeon (Programación): recorte x13-32, y16-22 del mapa 37 (Newbie Dungeon)."""
-    x0, y0, x1, y1 = 13, 16, 32, 22
-    outside = [rect(1, 1, 100, y0 - 1), rect(1, y1 + 1, 100, 100), rect(1, y0, x0 - 1, y1), rect(x1 + 1, y0, 100, y1)]
-    ops = []
-    for box in outside:
-        for layer in (2, 3, 4):
-            ops.append({"op": "erase", "layer": layer, "rect": box})
-        ops.append(paint(1, box=box, grh=VOID))
+    crop = (13, 16, 32, 22)
+    source = _source(37)
     stairs = [(13, 17), (32, 17)]               # subida al hub / bajada a P1
-    layer3 = {}
+    zone, openings, _ = rooms_route(source, crop, stairs, set(stairs), stairs)
+    layer3, blocking = {}, set()
+    close_openings(openings, CLOSURE_DECOR["1010"], layer3, blocking)
     for x, y in stairs:
         for side in ((x - 1, y - 1), (x + 1, y - 1)):
-            if x0 <= side[0] <= x1 and y0 <= side[1] <= y1:
+            if side in zone and side not in layer3:
                 layer3[side] = TORCH
-    ops.append(paint(2, stairs, grh=HOLE))
+    ops = [paint(2, stairs, grh=HOLE)]
     for grh in sorted(set(layer3.values())):
         ops.append(paint(3, [c for c, g in layer3.items() if g == grh], grh=grh))
     return {"map": 1010, "autor": "Arte", "base": "copy 37",
-            "notas": "Afuera del recorte, negro de vacío como los pisos; huecos 57950 con antorchas en las dos escaleras.",
-            "ops": ops, "carteles": [sign(22, 21, "entrada del dungeon", NEWBIE_SIGN)]}
+            "notas": "Pasillo entre las dos escaleras; aberturas tapadas con decoración original del mapa 37. Sin negro.",
+            "ops": ops, "decorBloqueante": [list(c) for c in sorted(blocking, key=lambda c: (c[1], c[0]))],
+            "carteles": [sign(22, 21, "entrada del dungeon", NEWBIE_SIGN)], "zonaJugable": len(zone)}
 
 
 SPECS = {1000: spec_1000, 1001: spec_1001, 1010: spec_1010, **{map_id: (lambda m=map_id: spec_floor(m)) for map_id in FLOOR_IDS.values()}}
