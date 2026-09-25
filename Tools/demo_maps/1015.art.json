@@ -1,0 +1,220 @@
+{
+ "map": 1015,
+ "autor": "Arte",
+ "base": "copy 291",
+ "nombre": "P5 Nido de aranas",
+ "notas": "Copia del mapa original (datos de Contenido en dungeon-npcs.json). Afuera del recorte: negro de vacío (GRH 1) sin capas, como el borde de los dungeons originales. Escaleras: hueco oscuro 57950 (como las salidas originales) con dos antorchas; la bajada del cementerio es la puerta de la cripta (1493) y el final del dungeon es el teleport original (49488).",
+ "ops": [
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    1,
+    1,
+    100,
+    16
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    1,
+    1,
+    100,
+    16
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    1,
+    1,
+    100,
+    16
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    1,
+    1,
+    100,
+    16
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    1,
+    87,
+    100,
+    14
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    1,
+    87,
+    100,
+    14
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    1,
+    87,
+    100,
+    14
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    1,
+    87,
+    100,
+    14
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    1,
+    17,
+    13,
+    70
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    1,
+    17,
+    13,
+    70
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    1,
+    17,
+    13,
+    70
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    1,
+    17,
+    13,
+    70
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    84,
+    17,
+    17,
+    70
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    84,
+    17,
+    17,
+    70
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    84,
+    17,
+    17,
+    70
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    84,
+    17,
+    17,
+    70
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 2,
+   "grh": 57950,
+   "cells": [
+    [
+     17,
+     30
+    ],
+    [
+     67,
+     39
+    ]
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 3,
+   "grh": 55254,
+   "cells": [
+    [
+     16,
+     29
+    ],
+    [
+     18,
+     29
+    ],
+    [
+     66,
+     38
+    ],
+    [
+     68,
+     38
+    ]
+   ]
+  }
+ ],
+ "carteles": [
+  {
+   "x": 19,
+   "y": 31,
+   "rol": "cartel del piso (zona segura)",
+   "grh": 50853,
+   "texto": "textos-hub.md"
+  }
+ ]
+}

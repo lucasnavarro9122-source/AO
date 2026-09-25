@@ -1,5 +1,5 @@
 {
- "version": "fase1-2026-09-24",
+ "version": "fase2-2026-09-24",
  "autor": "Contenido y Fidelidad AO",
  "fuente": "ao-org AO20: Recursos-master/Dat (npcs.dat, obj.dat, Hechizos.dat, Balance.dat) + argentum-online-server-master (SistemaCombate.bas, modHechizos.bas, Trabajo.bas, intervalos.ini, Example.Configuracion.ini). Drops: Resources/AOMigrator/LootV180/npc_loot.json",
  "reglas": "Stats de NPC y clases sin cambios. Solo eleccion, ubicacion, cantidad y respawn. Multiplicadores de EXP/oro = config de servidor (ExpMult/OroMult), requieren OK de Lucas.",
@@ -101,7 +101,9 @@
      ],
      "cantidad": 4,
      "rol": "comun",
-     "respawnSeg": 20
+     "respawnSeg": 20,
+     "respawnMinSeconds": 16,
+     "respawnMaxSeconds": 24
     },
     {
      "npcIndex": 509,
@@ -150,7 +152,9 @@
      ],
      "cantidad": 3,
      "rol": "comun",
-     "respawnSeg": 20
+     "respawnSeg": 20,
+     "respawnMinSeconds": 16,
+     "respawnMaxSeconds": 24
     },
     {
      "npcIndex": 506,
@@ -199,7 +203,9 @@
      ],
      "cantidad": 3,
      "rol": "comun",
-     "respawnSeg": 20
+     "respawnSeg": 20,
+     "respawnMinSeconds": 16,
+     "respawnMaxSeconds": 24
     },
     {
      "npcIndex": 511,
@@ -248,7 +254,9 @@
      ],
      "cantidad": 2,
      "rol": "comun",
-     "respawnSeg": 20
+     "respawnSeg": 20,
+     "respawnMinSeconds": 16,
+     "respawnMaxSeconds": 24
     },
     {
      "npcIndex": 113,
@@ -297,7 +305,9 @@
      ],
      "cantidad": 2,
      "rol": "fondo",
-     "respawnSeg": 20
+     "respawnSeg": 20,
+     "respawnMinSeconds": 16,
+     "respawnMaxSeconds": 24
     },
     {
      "npcIndex": 500,
@@ -352,7 +362,9 @@
      ],
      "cantidad": 2,
      "rol": "fondo",
-     "respawnSeg": 20
+     "respawnSeg": 20,
+     "respawnMinSeconds": 16,
+     "respawnMaxSeconds": 24
     }
    ],
    "jefe": {
@@ -408,7 +420,9 @@
     ],
     "cantidad": 1,
     "rol": "jefe",
-    "respawnSeg": 60
+    "respawnSeg": 60,
+    "respawnMinSeconds": 60,
+    "respawnMaxSeconds": 60
    },
    "mapId": 1011,
    "zonas": [
@@ -425,7 +439,11 @@
        "npcIndex": 506,
        "cantidad": 2
       }
-     ]
+     ],
+     "centro": {
+      "x": 39,
+      "y": 35
+     }
     },
     {
      "zona": "G2",
@@ -440,7 +458,11 @@
        "npcIndex": 511,
        "cantidad": 2
       }
-     ]
+     ],
+     "centro": {
+      "x": 21,
+      "y": 69
+     }
     },
     {
      "zona": "G3",
@@ -459,7 +481,11 @@
        "npcIndex": 509,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 65,
+      "y": 35
+     }
     },
     {
      "zona": "G4",
@@ -470,7 +496,11 @@
        "npcIndex": 113,
        "cantidad": 2
       }
-     ]
+     ],
+     "centro": {
+      "x": 46,
+      "y": 70
+     }
     },
     {
      "zona": "G5",
@@ -481,7 +511,11 @@
        "npcIndex": 500,
        "cantidad": 2
       }
-     ]
+     ],
+     "centro": {
+      "x": 58,
+      "y": 85
+     }
     },
     {
      "zona": "JEFE",
@@ -493,9 +527,74 @@
        "npcIndex": 965,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 77,
+      "y": 76
+     },
+     "radioSpawnTiles": 2
     }
-   ]
+   ],
+   "mapa": {
+    "id": 1011,
+    "fuente": 264,
+    "nombreFuente": "Dungeon Newbie",
+    "base": "copy",
+    "recorte": {
+     "x": 14,
+     "y": 20,
+     "ancho": 70,
+     "alto": 70
+    },
+    "fueraDelRecorte": "bloquear (flags 15); Arte cierra el borde con los muros del set",
+    "quitarDelOriginal": [
+     "npcs",
+     "exits"
+    ],
+    "entrada": {
+     "x": 19,
+     "y": 23
+    },
+    "zonaSeguraRadio": 8,
+    "escaleraSubida": {
+     "x": 19,
+     "y": 23,
+     "destMap": 1010,
+     "dest": "casilla de llegada que defina el mapa 1010"
+    },
+    "llegadaDesdeArriba": {
+     "x": 19,
+     "y": 25
+    },
+    "escaleraBajada": {
+     "x": 74,
+     "y": 65,
+     "destMap": 1012,
+     "dest": {
+      "x": 82,
+      "y": 25
+     },
+     "nota": "escalera al piso siguiente, fuera de la sala del jefe"
+    },
+    "llegadaDesdeAbajo": {
+     "x": 72,
+     "y": 64
+    },
+    "salaJefe": {
+     "centro": {
+      "x": 77,
+      "y": 76
+     },
+     "tamano": "12x12"
+    },
+    "recorridoMaxTiles": 123,
+    "distanciaEntradaJefe": 111,
+    "caminablesEnRecorte": 3497,
+    "npcOriginalesEnRecorte": 60,
+    "musicId": 7,
+    "baseLight": 9408399,
+    "textos": "docs/claude/demo/textos-hub.md §3-4"
+   }
   },
   {
    "id": "P2",
@@ -556,7 +655,9 @@
      ],
      "cantidad": 4,
      "rol": "comun",
-     "respawnSeg": 30
+     "respawnSeg": 30,
+     "respawnMinSeconds": 24,
+     "respawnMaxSeconds": 36
     },
     {
      "npcIndex": 946,
@@ -595,7 +696,9 @@
      ],
      "cantidad": 4,
      "rol": "comun",
-     "respawnSeg": 30
+     "respawnSeg": 30,
+     "respawnMinSeconds": 24,
+     "respawnMaxSeconds": 36
     },
     {
      "npcIndex": 945,
@@ -634,7 +737,9 @@
      ],
      "cantidad": 3,
      "rol": "comun",
-     "respawnSeg": 30
+     "respawnSeg": 30,
+     "respawnMinSeconds": 24,
+     "respawnMaxSeconds": 36
     },
     {
      "npcIndex": 507,
@@ -683,7 +788,9 @@
      ],
      "cantidad": 3,
      "rol": "fondo",
-     "respawnSeg": 30
+     "respawnSeg": 30,
+     "respawnMinSeconds": 24,
+     "respawnMaxSeconds": 36
     }
    ],
    "jefe": {
@@ -723,7 +830,9 @@
     ],
     "cantidad": 1,
     "rol": "jefe",
-    "respawnSeg": 180
+    "respawnSeg": 180,
+    "respawnMinSeconds": 180,
+    "respawnMaxSeconds": 180
    },
    "mapId": 1012,
    "zonas": [
@@ -740,7 +849,11 @@
        "npcIndex": 946,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 74,
+      "y": 35
+     }
     },
     {
      "zona": "G2",
@@ -755,7 +868,11 @@
        "npcIndex": 946,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 61,
+      "y": 46
+     }
     },
     {
      "zona": "G3",
@@ -770,7 +887,11 @@
        "npcIndex": 945,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 52,
+      "y": 65
+     }
     },
     {
      "zona": "G4",
@@ -781,7 +902,11 @@
        "npcIndex": 945,
        "cantidad": 2
       }
-     ]
+     ],
+     "centro": {
+      "x": 35,
+      "y": 50
+     }
     },
     {
      "zona": "G5",
@@ -792,7 +917,11 @@
        "npcIndex": 507,
        "cantidad": 3
       }
-     ]
+     ],
+     "centro": {
+      "x": 33,
+      "y": 31
+     }
     },
     {
      "zona": "JEFE",
@@ -804,9 +933,77 @@
        "npcIndex": 563,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 23,
+      "y": 83
+     },
+     "radioSpawnTiles": 2
     }
-   ]
+   ],
+   "mapa": {
+    "id": 1012,
+    "fuente": 4,
+    "nombreFuente": "Cementerio de Nix",
+    "base": "copy",
+    "recorte": {
+     "x": 17,
+     "y": 20,
+     "ancho": 70,
+     "alto": 70
+    },
+    "fueraDelRecorte": "bloquear (flags 15); Arte cierra el borde con los muros del set",
+    "quitarDelOriginal": [
+     "npcs",
+     "exits"
+    ],
+    "entrada": {
+     "x": 83,
+     "y": 23
+    },
+    "zonaSeguraRadio": 8,
+    "escaleraSubida": {
+     "x": 83,
+     "y": 23,
+     "destMap": 1011,
+     "dest": {
+      "x": 72,
+      "y": 64
+     }
+    },
+    "llegadaDesdeArriba": {
+     "x": 82,
+     "y": 25
+    },
+    "escaleraBajada": {
+     "x": 32,
+     "y": 78,
+     "destMap": 1013,
+     "dest": {
+      "x": 78,
+      "y": 79
+     },
+     "nota": "escalera al piso siguiente, fuera de la sala del jefe"
+    },
+    "llegadaDesdeAbajo": {
+     "x": 30,
+     "y": 77
+    },
+    "salaJefe": {
+     "centro": {
+      "x": 23,
+      "y": 83
+     },
+     "tamano": "12x12"
+    },
+    "recorridoMaxTiles": 145,
+    "distanciaEntradaJefe": 120,
+    "caminablesEnRecorte": 4500,
+    "npcOriginalesEnRecorte": 22,
+    "musicId": 3,
+    "baseLight": 9408399,
+    "textos": "docs/claude/demo/textos-hub.md §3-4"
+   }
   },
   {
    "id": "P3",
@@ -871,7 +1068,9 @@
      ],
      "cantidad": 4,
      "rol": "comun",
-     "respawnSeg": 45
+     "respawnSeg": 45,
+     "respawnMinSeconds": 36,
+     "respawnMaxSeconds": 54
     },
     {
      "npcIndex": 1003,
@@ -910,7 +1109,9 @@
      ],
      "cantidad": 3,
      "rol": "comun",
-     "respawnSeg": 45
+     "respawnSeg": 45,
+     "respawnMinSeconds": 36,
+     "respawnMaxSeconds": 54
     },
     {
      "npcIndex": 1001,
@@ -949,7 +1150,9 @@
      ],
      "cantidad": 3,
      "rol": "fondo",
-     "respawnSeg": 45
+     "respawnSeg": 45,
+     "respawnMinSeconds": 36,
+     "respawnMaxSeconds": 54
     }
    ],
    "jefe": {
@@ -995,7 +1198,9 @@
     ],
     "cantidad": 1,
     "rol": "jefe",
-    "respawnSeg": 120
+    "respawnSeg": 120,
+    "respawnMinSeconds": 120,
+    "respawnMaxSeconds": 120
    },
    "mapId": 1013,
    "zonas": [
@@ -1008,7 +1213,11 @@
        "npcIndex": 1002,
        "cantidad": 2
       }
-     ]
+     ],
+     "centro": {
+      "x": 79,
+      "y": 55
+     }
     },
     {
      "zona": "G2",
@@ -1023,7 +1232,11 @@
        "npcIndex": 1003,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 54,
+      "y": 54
+     }
     },
     {
      "zona": "G3",
@@ -1034,7 +1247,11 @@
        "npcIndex": 1003,
        "cantidad": 2
       }
-     ]
+     ],
+     "centro": {
+      "x": 63,
+      "y": 18
+     }
     },
     {
      "zona": "G4",
@@ -1045,7 +1262,11 @@
        "npcIndex": 1001,
        "cantidad": 3
       }
-     ]
+     ],
+     "centro": {
+      "x": 17,
+      "y": 40
+     }
     },
     {
      "zona": "JEFE",
@@ -1057,9 +1278,77 @@
        "npcIndex": 524,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 20,
+      "y": 20
+     },
+     "radioSpawnTiles": 2
     }
-   ]
+   ],
+   "mapa": {
+    "id": 1013,
+    "fuente": 392,
+    "nombreFuente": "Mausoleo",
+    "base": "copy",
+    "recorte": {
+     "x": 14,
+     "y": 14,
+     "ancho": 70,
+     "alto": 70
+    },
+    "fueraDelRecorte": "bloquear (flags 15); Arte cierra el borde con los muros del set",
+    "quitarDelOriginal": [
+     "npcs",
+     "exits"
+    ],
+    "entrada": {
+     "x": 80,
+     "y": 80
+    },
+    "zonaSeguraRadio": 8,
+    "escaleraSubida": {
+     "x": 80,
+     "y": 80,
+     "destMap": 1012,
+     "dest": {
+      "x": 30,
+      "y": 77
+     }
+    },
+    "llegadaDesdeArriba": {
+     "x": 78,
+     "y": 79
+    },
+    "escaleraBajada": {
+     "x": 29,
+     "y": 22,
+     "destMap": 1014,
+     "dest": {
+      "x": 62,
+      "y": 48
+     },
+     "nota": "escalera al piso siguiente, fuera de la sala del jefe"
+    },
+    "llegadaDesdeAbajo": {
+     "x": 27,
+     "y": 21
+    },
+    "salaJefe": {
+     "centro": {
+      "x": 20,
+      "y": 20
+     },
+     "tamano": "12x12"
+    },
+    "recorridoMaxTiles": 132,
+    "distanciaEntradaJefe": 120,
+    "caminablesEnRecorte": 3188,
+    "npcOriginalesEnRecorte": 13,
+    "musicId": 9,
+    "baseLight": -8355670,
+    "textos": "docs/claude/demo/textos-hub.md §3-4"
+   }
   },
   {
    "id": "P4",
@@ -1125,7 +1414,9 @@
      ],
      "cantidad": 4,
      "rol": "comun",
-     "respawnSeg": 60
+     "respawnSeg": 60,
+     "respawnMinSeconds": 48,
+     "respawnMaxSeconds": 72
     },
     {
      "npcIndex": 1224,
@@ -1169,7 +1460,9 @@
      ],
      "cantidad": 3,
      "rol": "comun",
-     "respawnSeg": 60
+     "respawnSeg": 60,
+     "respawnMinSeconds": 48,
+     "respawnMaxSeconds": 72
     },
     {
      "npcIndex": 647,
@@ -1213,7 +1506,9 @@
      ],
      "cantidad": 3,
      "rol": "comun",
-     "respawnSeg": 60
+     "respawnSeg": 60,
+     "respawnMinSeconds": 48,
+     "respawnMaxSeconds": 72
     },
     {
      "npcIndex": 646,
@@ -1257,7 +1552,9 @@
      ],
      "cantidad": 2,
      "rol": "fondo",
-     "respawnSeg": 60
+     "respawnSeg": 60,
+     "respawnMinSeconds": 48,
+     "respawnMaxSeconds": 72
     }
    ],
    "jefe": {
@@ -1302,7 +1599,9 @@
     ],
     "cantidad": 1,
     "rol": "jefe",
-    "respawnSeg": 300
+    "respawnSeg": 300,
+    "respawnMinSeconds": 300,
+    "respawnMaxSeconds": 300
    },
    "mapId": 1014,
    "zonas": [
@@ -1319,7 +1618,11 @@
        "npcIndex": 1224,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 26,
+      "y": 14
+     }
     },
     {
      "zona": "G2",
@@ -1334,7 +1637,11 @@
        "npcIndex": 1224,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 73,
+      "y": 49
+     }
     },
     {
      "zona": "G3",
@@ -1349,7 +1656,11 @@
        "npcIndex": 1224,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 46,
+      "y": 70
+     }
     },
     {
      "zona": "G4",
@@ -1364,7 +1675,11 @@
        "npcIndex": 646,
        "cantidad": 2
       }
-     ]
+     ],
+     "centro": {
+      "x": 38,
+      "y": 53
+     }
     },
     {
      "zona": "JEFE",
@@ -1376,9 +1691,77 @@
        "npcIndex": 645,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 37,
+      "y": 26
+     },
+     "radioSpawnTiles": 2
     }
-   ]
+   ],
+   "mapa": {
+    "id": 1014,
+    "fuente": 564,
+    "nombreFuente": "Pirámide",
+    "base": "copy",
+    "recorte": {
+     "x": 20,
+     "y": 11,
+     "ancho": 70,
+     "alto": 70
+    },
+    "fueraDelRecorte": "bloquear (flags 15); Arte cierra el borde con los muros del set",
+    "quitarDelOriginal": [
+     "npcs",
+     "exits"
+    ],
+    "entrada": {
+     "x": 61,
+     "y": 50
+    },
+    "zonaSeguraRadio": 8,
+    "escaleraSubida": {
+     "x": 61,
+     "y": 50,
+     "destMap": 1013,
+     "dest": {
+      "x": 27,
+      "y": 21
+     }
+    },
+    "llegadaDesdeArriba": {
+     "x": 62,
+     "y": 48
+    },
+    "escaleraBajada": {
+     "x": 36,
+     "y": 36,
+     "destMap": 1015,
+     "dest": {
+      "x": 19,
+      "y": 30
+     },
+     "nota": "escalera al piso siguiente, fuera de la sala del jefe"
+    },
+    "llegadaDesdeAbajo": {
+     "x": 36,
+     "y": 34
+    },
+    "salaJefe": {
+     "centro": {
+      "x": 37,
+      "y": 26
+     },
+     "tamano": "12x12"
+    },
+    "recorridoMaxTiles": 400,
+    "distanciaEntradaJefe": 338,
+    "caminablesEnRecorte": 3315,
+    "npcOriginalesEnRecorte": 24,
+    "musicId": 19,
+    "baseLight": 12566463,
+    "textos": "docs/claude/demo/textos-hub.md §3-4"
+   }
   },
   {
    "id": "P5",
@@ -1439,7 +1822,9 @@
      ],
      "cantidad": 3,
      "rol": "comun",
-     "respawnSeg": 60
+     "respawnSeg": 60,
+     "respawnMinSeconds": 48,
+     "respawnMaxSeconds": 72
     },
     {
      "npcIndex": 975,
@@ -1488,7 +1873,9 @@
      ],
      "cantidad": 3,
      "rol": "comun",
-     "respawnSeg": 60
+     "respawnSeg": 60,
+     "respawnMinSeconds": 48,
+     "respawnMaxSeconds": 72
     },
     {
      "npcIndex": 977,
@@ -1532,7 +1919,9 @@
      ],
      "cantidad": 2,
      "rol": "comun",
-     "respawnSeg": 60
+     "respawnSeg": 60,
+     "respawnMinSeconds": 48,
+     "respawnMaxSeconds": 72
     },
     {
      "npcIndex": 973,
@@ -1576,7 +1965,9 @@
      ],
      "cantidad": 2,
      "rol": "fondo",
-     "respawnSeg": 60
+     "respawnSeg": 60,
+     "respawnMinSeconds": 48,
+     "respawnMaxSeconds": 72
     },
     {
      "npcIndex": 978,
@@ -1615,7 +2006,9 @@
      ],
      "cantidad": 2,
      "rol": "fondo",
-     "respawnSeg": 60
+     "respawnSeg": 60,
+     "respawnMinSeconds": 48,
+     "respawnMaxSeconds": 72
     }
    ],
    "jefe": {
@@ -1655,7 +2048,9 @@
     ],
     "cantidad": 1,
     "rol": "jefe",
-    "respawnSeg": 300
+    "respawnSeg": 300,
+    "respawnMinSeconds": 300,
+    "respawnMaxSeconds": 300
    },
    "mapId": 1015,
    "zonas": [
@@ -1672,7 +2067,11 @@
        "npcIndex": 975,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 20,
+      "y": 51
+     }
     },
     {
      "zona": "G2",
@@ -1687,7 +2086,11 @@
        "npcIndex": 970,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 41,
+      "y": 56
+     }
     },
     {
      "zona": "G3",
@@ -1698,7 +2101,11 @@
        "npcIndex": 977,
        "cantidad": 2
       }
-     ]
+     ],
+     "centro": {
+      "x": 42,
+      "y": 39
+     }
     },
     {
      "zona": "G4",
@@ -1709,7 +2116,11 @@
        "npcIndex": 973,
        "cantidad": 2
       }
-     ]
+     ],
+     "centro": {
+      "x": 58,
+      "y": 74
+     }
     },
     {
      "zona": "G5",
@@ -1720,7 +2131,11 @@
        "npcIndex": 978,
        "cantidad": 2
       }
-     ]
+     ],
+     "centro": {
+      "x": 59,
+      "y": 36
+     }
     },
     {
      "zona": "JEFE",
@@ -1732,9 +2147,77 @@
        "npcIndex": 979,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 77,
+      "y": 37
+     },
+     "radioSpawnTiles": 2
     }
-   ]
+   ],
+   "mapa": {
+    "id": 1015,
+    "fuente": 291,
+    "nombreFuente": "Catacumbas Lvl2",
+    "base": "copy",
+    "recorte": {
+     "x": 14,
+     "y": 17,
+     "ancho": 70,
+     "alto": 70
+    },
+    "fueraDelRecorte": "bloquear (flags 15); Arte cierra el borde con los muros del set",
+    "quitarDelOriginal": [
+     "npcs",
+     "exits"
+    ],
+    "entrada": {
+     "x": 17,
+     "y": 30
+    },
+    "zonaSeguraRadio": 8,
+    "escaleraSubida": {
+     "x": 17,
+     "y": 30,
+     "destMap": 1014,
+     "dest": {
+      "x": 36,
+      "y": 34
+     }
+    },
+    "llegadaDesdeArriba": {
+     "x": 19,
+     "y": 30
+    },
+    "escaleraBajada": {
+     "x": 67,
+     "y": 39,
+     "destMap": 1016,
+     "dest": {
+      "x": 22,
+      "y": 75
+     },
+     "nota": "escalera al piso siguiente, fuera de la sala del jefe"
+    },
+    "llegadaDesdeAbajo": {
+     "x": 69,
+     "y": 39
+    },
+    "salaJefe": {
+     "centro": {
+      "x": 77,
+      "y": 37
+     },
+     "tamano": "12x12"
+    },
+    "recorridoMaxTiles": 122,
+    "distanciaEntradaJefe": 105,
+    "caminablesEnRecorte": 2143,
+    "npcOriginalesEnRecorte": 9,
+    "musicId": 9,
+    "baseLight": 15724527,
+    "textos": "docs/claude/demo/textos-hub.md §3-4"
+   }
   },
   {
    "id": "P6",
@@ -1800,7 +2283,9 @@
      ],
      "cantidad": 4,
      "rol": "comun",
-     "respawnSeg": 90
+     "respawnSeg": 90,
+     "respawnMinSeconds": 72,
+     "respawnMaxSeconds": 108
     },
     {
      "npcIndex": 533,
@@ -1869,7 +2354,9 @@
      ],
      "cantidad": 4,
      "rol": "comun",
-     "respawnSeg": 90
+     "respawnSeg": 90,
+     "respawnMinSeconds": 72,
+     "respawnMaxSeconds": 108
     },
     {
      "npcIndex": 555,
@@ -1933,7 +2420,9 @@
      ],
      "cantidad": 2,
      "rol": "elite",
-     "respawnSeg": 90
+     "respawnSeg": 90,
+     "respawnMinSeconds": 72,
+     "respawnMaxSeconds": 108
     }
    ],
    "jefe": {
@@ -2003,7 +2492,9 @@
     ],
     "cantidad": 1,
     "rol": "jefe",
-    "respawnSeg": 480
+    "respawnSeg": 480,
+    "respawnMinSeconds": 480,
+    "respawnMaxSeconds": 480
    },
    "mapId": 1016,
    "zonas": [
@@ -2020,7 +2511,11 @@
        "npcIndex": 533,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 34,
+      "y": 85
+     }
     },
     {
      "zona": "G2",
@@ -2035,7 +2530,11 @@
        "npcIndex": 557,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 68,
+      "y": 76
+     }
     },
     {
      "zona": "G3",
@@ -2054,7 +2553,11 @@
        "npcIndex": 555,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 84,
+      "y": 67
+     }
     },
     {
      "zona": "G4",
@@ -2065,7 +2568,11 @@
        "npcIndex": 555,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 63,
+      "y": 31
+     }
     },
     {
      "zona": "JEFE",
@@ -2077,9 +2584,77 @@
        "npcIndex": 540,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 83,
+      "y": 38
+     },
+     "radioSpawnTiles": 2
     }
-   ]
+   ],
+   "mapa": {
+    "id": 1016,
+    "fuente": 142,
+    "nombreFuente": "Dungeon Veriil.",
+    "base": "copy",
+    "recorte": {
+     "x": 20,
+     "y": 20,
+     "ancho": 70,
+     "alto": 70
+    },
+    "fueraDelRecorte": "bloquear (flags 15); Arte cierra el borde con los muros del set",
+    "quitarDelOriginal": [
+     "npcs",
+     "exits"
+    ],
+    "entrada": {
+     "x": 23,
+     "y": 73
+    },
+    "zonaSeguraRadio": 8,
+    "escaleraSubida": {
+     "x": 23,
+     "y": 73,
+     "destMap": 1015,
+     "dest": {
+      "x": 69,
+      "y": 39
+     }
+    },
+    "llegadaDesdeArriba": {
+     "x": 22,
+     "y": 75
+    },
+    "escaleraBajada": {
+     "x": 81,
+     "y": 48,
+     "destMap": 1017,
+     "dest": {
+      "x": 78,
+      "y": 82
+     },
+     "nota": "escalera al piso siguiente, fuera de la sala del jefe"
+    },
+    "llegadaDesdeAbajo": {
+     "x": 79,
+     "y": 47
+    },
+    "salaJefe": {
+     "centro": {
+      "x": 83,
+      "y": 38
+     },
+     "tamano": "12x12"
+    },
+    "recorridoMaxTiles": 120,
+    "distanciaEntradaJefe": 109,
+    "caminablesEnRecorte": 1570,
+    "npcOriginalesEnRecorte": 7,
+    "musicId": 18,
+    "baseLight": 9408399,
+    "textos": "docs/claude/demo/textos-hub.md §3-4"
+   }
   },
   {
    "id": "P7",
@@ -2150,7 +2725,9 @@
      ],
      "cantidad": 4,
      "rol": "comun",
-     "respawnSeg": 120
+     "respawnSeg": 120,
+     "respawnMinSeconds": 96,
+     "respawnMaxSeconds": 144
     },
     {
      "npcIndex": 587,
@@ -2209,7 +2786,9 @@
      ],
      "cantidad": 4,
      "rol": "comun",
-     "respawnSeg": 120
+     "respawnSeg": 120,
+     "respawnMinSeconds": 96,
+     "respawnMaxSeconds": 144
     }
    ],
    "jefe": {
@@ -2271,7 +2850,9 @@
     ],
     "cantidad": 1,
     "rol": "jefe",
-    "respawnSeg": 360
+    "respawnSeg": 360,
+    "respawnMinSeconds": 360,
+    "respawnMaxSeconds": 360
    },
    "mapId": 1017,
    "zonas": [
@@ -2284,7 +2865,11 @@
        "npcIndex": 595,
        "cantidad": 2
       }
-     ]
+     ],
+     "centro": {
+      "x": 74,
+      "y": 64
+     }
     },
     {
      "zona": "G2",
@@ -2295,7 +2880,11 @@
        "npcIndex": 587,
        "cantidad": 2
       }
-     ]
+     ],
+     "centro": {
+      "x": 58,
+      "y": 52
+     }
     },
     {
      "zona": "G3",
@@ -2306,7 +2895,11 @@
        "npcIndex": 595,
        "cantidad": 2
       }
-     ]
+     ],
+     "centro": {
+      "x": 35,
+      "y": 43
+     }
     },
     {
      "zona": "G4",
@@ -2317,7 +2910,11 @@
        "npcIndex": 587,
        "cantidad": 2
       }
-     ]
+     ],
+     "centro": {
+      "x": 18,
+      "y": 39
+     }
     },
     {
      "zona": "JEFE",
@@ -2329,9 +2926,74 @@
        "npcIndex": 544,
        "cantidad": 1
       }
-     ]
+     ],
+     "centro": {
+      "x": 20,
+      "y": 23
+     },
+     "radioSpawnTiles": 2
     }
-   ]
+   ],
+   "mapa": {
+    "id": 1017,
+    "fuente": 391,
+    "nombreFuente": "Dungeon Dragon",
+    "base": "copy",
+    "recorte": {
+     "x": 14,
+     "y": 17,
+     "ancho": 70,
+     "alto": 70
+    },
+    "fueraDelRecorte": "bloquear (flags 15); Arte cierra el borde con los muros del set",
+    "quitarDelOriginal": [
+     "npcs",
+     "exits"
+    ],
+    "entrada": {
+     "x": 80,
+     "y": 83
+    },
+    "zonaSeguraRadio": 8,
+    "escaleraSubida": {
+     "x": 80,
+     "y": 83,
+     "destMap": 1016,
+     "dest": {
+      "x": 79,
+      "y": 47
+     }
+    },
+    "llegadaDesdeArriba": {
+     "x": 78,
+     "y": 82
+    },
+    "escaleraBajada": {
+     "x": 21,
+     "y": 31,
+     "destMap": 1000,
+     "dest": "aparicion del hub 1000",
+     "nota": "portal de regreso al hub (fin del dungeon)"
+    },
+    "llegadaDesdeAbajo": {
+     "x": 19,
+     "y": 30
+    },
+    "salaJefe": {
+     "centro": {
+      "x": 20,
+      "y": 23
+     },
+     "tamano": "12x12"
+    },
+    "recorridoMaxTiles": 132,
+    "distanciaEntradaJefe": 120,
+    "caminablesEnRecorte": 4892,
+    "npcOriginalesEnRecorte": 7,
+    "musicId": 17,
+    "baseLight": 12566463,
+    "textos": "docs/claude/demo/textos-hub.md §3-4"
+   }
   }
  ],
  "tiempoPorNivel": {
@@ -2411,7 +3073,7 @@
    {
     "nivel": 10,
     "piso": "P3",
-    "min_x1": 8.5,
+    "min_x1": 8.4,
     "mult": 2,
     "min_demo": 4.2,
     "acum_h_demo": 0.58
@@ -2427,7 +3089,7 @@
    {
     "nivel": 12,
     "piso": "P3",
-    "min_x1": 15.9,
+    "min_x1": 16.0,
     "mult": 2,
     "min_demo": 8.0,
     "acum_h_demo": 0.81
@@ -2443,7 +3105,7 @@
    {
     "nivel": 14,
     "piso": "P3",
-    "min_x1": 30.5,
+    "min_x1": 30.4,
     "mult": 2,
     "min_demo": 15.2,
     "acum_h_demo": 1.26
@@ -2451,7 +3113,7 @@
    {
     "nivel": 15,
     "piso": "P4",
-    "min_x1": 52.9,
+    "min_x1": 53.2,
     "mult": 7,
     "min_demo": 7.6,
     "acum_h_demo": 1.39
@@ -2459,7 +3121,7 @@
    {
     "nivel": 16,
     "piso": "P4",
-    "min_x1": 69.1,
+    "min_x1": 69.3,
     "mult": 7,
     "min_demo": 9.9,
     "acum_h_demo": 1.55
@@ -2467,7 +3129,7 @@
    {
     "nivel": 17,
     "piso": "P4",
-    "min_x1": 91.5,
+    "min_x1": 91.7,
     "mult": 7,
     "min_demo": 13.1,
     "acum_h_demo": 1.77
@@ -2475,7 +3137,7 @@
    {
     "nivel": 18,
     "piso": "P4",
-    "min_x1": 123.8,
+    "min_x1": 123.9,
     "mult": 7,
     "min_demo": 17.7,
     "acum_h_demo": 2.07
@@ -2483,7 +3145,7 @@
    {
     "nivel": 19,
     "piso": "P4",
-    "min_x1": 171.3,
+    "min_x1": 171.5,
     "mult": 7,
     "min_demo": 24.5,
     "acum_h_demo": 2.47
@@ -2491,7 +3153,7 @@
    {
     "nivel": 20,
     "piso": "P5",
-    "min_x1": 205.9,
+    "min_x1": 205.7,
     "mult": 17,
     "min_demo": 12.1,
     "acum_h_demo": 2.68
@@ -2499,7 +3161,7 @@
    {
     "nivel": 21,
     "piso": "P5",
-    "min_x1": 275.7,
+    "min_x1": 275.4,
     "mult": 17,
     "min_demo": 16.2,
     "acum_h_demo": 2.95
@@ -2507,7 +3169,7 @@
    {
     "nivel": 22,
     "piso": "P5",
-    "min_x1": 371.2,
+    "min_x1": 370.6,
     "mult": 17,
     "min_demo": 21.8,
     "acum_h_demo": 3.31
@@ -2515,7 +3177,7 @@
    {
     "nivel": 23,
     "piso": "P5",
-    "min_x1": 520.5,
+    "min_x1": 520.2,
     "mult": 17,
     "min_demo": 30.6,
     "acum_h_demo": 3.82
@@ -2523,7 +3185,7 @@
    {
     "nivel": 24,
     "piso": "P5",
-    "min_x1": 731.5,
+    "min_x1": 732.0,
     "mult": 30,
     "min_demo": 24.4,
     "acum_h_demo": 4.23
@@ -2531,42 +3193,42 @@
    {
     "nivel": 25,
     "piso": "P6",
-    "min_x1": 922.6,
+    "min_x1": 987.0,
     "mult": 30,
-    "min_demo": 30.8,
-    "acum_h_demo": 4.74
+    "min_demo": 32.9,
+    "acum_h_demo": 4.78
    },
    {
     "nivel": 26,
     "piso": "P6",
-    "min_x1": 1104.2,
+    "min_x1": 1179.0,
     "mult": 30,
-    "min_demo": 36.8,
-    "acum_h_demo": 5.35
+    "min_demo": 39.3,
+    "acum_h_demo": 5.43
    },
    {
     "nivel": 27,
     "piso": "P7",
-    "min_x1": 1328.1,
+    "min_x1": 1425.6,
     "mult": 44,
-    "min_demo": 30.2,
-    "acum_h_demo": 5.86
+    "min_demo": 32.4,
+    "acum_h_demo": 5.97
    },
    {
     "nivel": 28,
     "piso": "P7",
-    "min_x1": 1588.6,
+    "min_x1": 1702.8,
     "mult": 44,
-    "min_demo": 36.1,
-    "acum_h_demo": 6.46
+    "min_demo": 38.7,
+    "acum_h_demo": 6.62
    },
    {
     "nivel": 29,
     "piso": "P7",
-    "min_x1": 1896.9,
+    "min_x1": 2032.8,
     "mult": 44,
-    "min_demo": 43.1,
-    "acum_h_demo": 7.18
+    "min_demo": 46.2,
+    "acum_h_demo": 7.39
    }
   ],
   "Mago": [
@@ -2661,7 +3323,7 @@
    {
     "nivel": 12,
     "piso": "P3",
-    "min_x1": 20.3,
+    "min_x1": 20.4,
     "mult": 2,
     "min_demo": 10.2,
     "acum_h_demo": 0.92
@@ -2669,7 +3331,7 @@
    {
     "nivel": 13,
     "piso": "P3",
-    "min_x1": 32.1,
+    "min_x1": 32.0,
     "mult": 2,
     "min_demo": 16.0,
     "acum_h_demo": 1.19
@@ -2677,7 +3339,7 @@
    {
     "nivel": 14,
     "piso": "P3",
-    "min_x1": 43.1,
+    "min_x1": 43.0,
     "mult": 2,
     "min_demo": 21.5,
     "acum_h_demo": 1.55
@@ -2685,7 +3347,7 @@
    {
     "nivel": 15,
     "piso": "P4",
-    "min_x1": 68.4,
+    "min_x1": 68.6,
     "mult": 7,
     "min_demo": 9.8,
     "acum_h_demo": 1.71
@@ -2701,7 +3363,7 @@
    {
     "nivel": 17,
     "piso": "P4",
-    "min_x1": 122.9,
+    "min_x1": 123.2,
     "mult": 7,
     "min_demo": 17.6,
     "acum_h_demo": 2.23
@@ -2717,7 +3379,7 @@
    {
     "nivel": 19,
     "piso": "P4",
-    "min_x1": 238.1,
+    "min_x1": 238.0,
     "mult": 7,
     "min_demo": 34.0,
     "acum_h_demo": 3.2
@@ -2725,82 +3387,82 @@
    {
     "nivel": 20,
     "piso": "P5",
-    "min_x1": 337.5,
+    "min_x1": 343.4,
     "mult": 17,
-    "min_demo": 19.9,
-    "acum_h_demo": 3.53
+    "min_demo": 20.2,
+    "acum_h_demo": 3.54
    },
    {
     "nivel": 21,
     "piso": "P5",
-    "min_x1": 469.0,
+    "min_x1": 477.7,
     "mult": 17,
-    "min_demo": 27.6,
-    "acum_h_demo": 3.99
+    "min_demo": 28.1,
+    "acum_h_demo": 4.01
    },
    {
     "nivel": 22,
     "piso": "P5",
-    "min_x1": 658.9,
+    "min_x1": 671.5,
     "mult": 17,
-    "min_demo": 38.8,
-    "acum_h_demo": 4.64
+    "min_demo": 39.5,
+    "acum_h_demo": 4.67
    },
    {
     "nivel": 23,
     "piso": "P5",
-    "min_x1": 936.9,
+    "min_x1": 953.7,
     "mult": 17,
-    "min_demo": 55.1,
-    "acum_h_demo": 5.56
+    "min_demo": 56.1,
+    "acum_h_demo": 5.6
    },
    {
     "nivel": 24,
     "piso": "P6",
-    "min_x1": 944.6,
+    "min_x1": 963.0,
     "mult": 30,
-    "min_demo": 31.5,
-    "acum_h_demo": 6.08
+    "min_demo": 32.1,
+    "acum_h_demo": 6.13
    },
    {
     "nivel": 25,
     "piso": "P6",
-    "min_x1": 1410.0,
+    "min_x1": 1434.0,
     "mult": 30,
-    "min_demo": 47.0,
-    "acum_h_demo": 6.87
+    "min_demo": 47.8,
+    "acum_h_demo": 6.93
    },
    {
     "nivel": 26,
     "piso": "P6",
-    "min_x1": 1722.7,
+    "min_x1": 1752.0,
     "mult": 30,
-    "min_demo": 57.4,
-    "acum_h_demo": 7.82
+    "min_demo": 58.4,
+    "acum_h_demo": 7.91
    },
    {
     "nivel": 27,
     "piso": "P7",
-    "min_x1": 2219.6,
+    "min_x1": 2261.6,
     "mult": 44,
-    "min_demo": 50.4,
-    "acum_h_demo": 8.66
+    "min_demo": 51.4,
+    "acum_h_demo": 8.76
    },
    {
     "nivel": 28,
     "piso": "P7",
-    "min_x1": 2713.8,
+    "min_x1": 2763.2,
     "mult": 44,
-    "min_demo": 61.7,
-    "acum_h_demo": 9.69
+    "min_demo": 62.8,
+    "acum_h_demo": 9.81
    },
    {
     "nivel": 29,
     "piso": "P7",
-    "min_x1": 3325.3,
+    "min_x1": 3388.0,
     "mult": 44,
-    "min_demo": 75.6,
-    "acum_h_demo": 10.95
+    "min_demo": 77.0,
+    "acum_h_demo": 11.09
    }
   ],
   "Clerigo": [
@@ -2879,7 +3541,7 @@
    {
     "nivel": 10,
     "piso": "P3",
-    "min_x1": 13.1,
+    "min_x1": 13.2,
     "mult": 2,
     "min_demo": 6.6,
     "acum_h_demo": 0.82
@@ -2887,7 +3549,7 @@
    {
     "nivel": 11,
     "piso": "P3",
-    "min_x1": 18.3,
+    "min_x1": 18.4,
     "mult": 2,
     "min_demo": 9.2,
     "acum_h_demo": 0.97
@@ -2895,7 +3557,7 @@
    {
     "nivel": 12,
     "piso": "P3",
-    "min_x1": 24.5,
+    "min_x1": 24.6,
     "mult": 2,
     "min_demo": 12.3,
     "acum_h_demo": 1.18
@@ -2919,7 +3581,7 @@
    {
     "nivel": 15,
     "piso": "P4",
-    "min_x1": 76.5,
+    "min_x1": 76.3,
     "mult": 7,
     "min_demo": 10.9,
     "acum_h_demo": 2.11
@@ -2927,7 +3589,7 @@
    {
     "nivel": 16,
     "piso": "P4",
-    "min_x1": 102.3,
+    "min_x1": 102.2,
     "mult": 7,
     "min_demo": 14.6,
     "acum_h_demo": 2.35
@@ -2935,7 +3597,7 @@
    {
     "nivel": 17,
     "piso": "P4",
-    "min_x1": 137.7,
+    "min_x1": 137.9,
     "mult": 7,
     "min_demo": 19.7,
     "acum_h_demo": 2.68
@@ -2943,7 +3605,7 @@
    {
     "nivel": 18,
     "piso": "P4",
-    "min_x1": 188.8,
+    "min_x1": 189.0,
     "mult": 7,
     "min_demo": 27.0,
     "acum_h_demo": 3.13
@@ -2951,7 +3613,7 @@
    {
     "nivel": 19,
     "piso": "P4",
-    "min_x1": 261.3,
+    "min_x1": 261.1,
     "mult": 7,
     "min_demo": 37.3,
     "acum_h_demo": 3.75
@@ -2959,7 +3621,7 @@
    {
     "nivel": 20,
     "piso": "P5",
-    "min_x1": 345.6,
+    "min_x1": 345.1,
     "mult": 17,
     "min_demo": 20.3,
     "acum_h_demo": 4.09
@@ -2967,7 +3629,7 @@
    {
     "nivel": 21,
     "piso": "P5",
-    "min_x1": 474.2,
+    "min_x1": 474.3,
     "mult": 17,
     "min_demo": 27.9,
     "acum_h_demo": 4.56
@@ -2975,7 +3637,7 @@
    {
     "nivel": 22,
     "piso": "P5",
-    "min_x1": 673.1,
+    "min_x1": 673.2,
     "mult": 17,
     "min_demo": 39.6,
     "acum_h_demo": 5.22
@@ -2983,7 +3645,7 @@
    {
     "nivel": 23,
     "piso": "P5",
-    "min_x1": 953.0,
+    "min_x1": 953.7,
     "mult": 17,
     "min_demo": 56.1,
     "acum_h_demo": 6.15
@@ -2991,50 +3653,50 @@
    {
     "nivel": 24,
     "piso": "P6",
-    "min_x1": 1033.1,
+    "min_x1": 1032.0,
     "mult": 30,
     "min_demo": 34.4,
     "acum_h_demo": 6.73
    },
    {
     "nivel": 25,
-    "piso": "P5",
-    "min_x1": 1857.5,
+    "piso": "P6",
+    "min_x1": 1527.0,
     "mult": 30,
-    "min_demo": 61.9,
-    "acum_h_demo": 7.76
+    "min_demo": 50.9,
+    "acum_h_demo": 7.57
    },
    {
     "nivel": 26,
-    "piso": "P5",
-    "min_x1": 2347.4,
+    "piso": "P6",
+    "min_x1": 1848.0,
     "mult": 30,
-    "min_demo": 78.2,
-    "acum_h_demo": 9.06
+    "min_demo": 61.6,
+    "acum_h_demo": 8.6
    },
    {
     "nivel": 27,
-    "piso": "P5",
-    "min_x1": 3013.8,
+    "piso": "P6",
+    "min_x1": 2362.8,
     "mult": 44,
-    "min_demo": 68.5,
-    "acum_h_demo": 10.2
+    "min_demo": 53.7,
+    "acum_h_demo": 9.5
    },
    {
     "nivel": 28,
-    "piso": "P5",
-    "min_x1": 3888.8,
+    "piso": "P6",
+    "min_x1": 3027.2,
     "mult": 44,
-    "min_demo": 88.4,
-    "acum_h_demo": 11.68
+    "min_demo": 68.8,
+    "acum_h_demo": 10.64
    },
    {
     "nivel": 29,
     "piso": "P6",
-    "min_x1": 4325.0,
+    "min_x1": 3902.8,
     "mult": 44,
-    "min_demo": 98.3,
-    "acum_h_demo": 13.31
+    "min_demo": 88.7,
+    "acum_h_demo": 12.12
    }
   ],
   "Cazador": [
@@ -3113,7 +3775,7 @@
    {
     "nivel": 10,
     "piso": "P3",
-    "min_x1": 9.9,
+    "min_x1": 10.0,
     "mult": 2,
     "min_demo": 5.0,
     "acum_h_demo": 0.68
@@ -3129,7 +3791,7 @@
    {
     "nivel": 12,
     "piso": "P3",
-    "min_x1": 18.7,
+    "min_x1": 18.6,
     "mult": 2,
     "min_demo": 9.3,
     "acum_h_demo": 0.95
@@ -3153,7 +3815,7 @@
    {
     "nivel": 15,
     "piso": "P4",
-    "min_x1": 60.4,
+    "min_x1": 60.2,
     "mult": 7,
     "min_demo": 8.6,
     "acum_h_demo": 1.63
@@ -3161,7 +3823,7 @@
    {
     "nivel": 16,
     "piso": "P4",
-    "min_x1": 78.9,
+    "min_x1": 79.1,
     "mult": 7,
     "min_demo": 11.3,
     "acum_h_demo": 1.81
@@ -3169,7 +3831,7 @@
    {
     "nivel": 17,
     "piso": "P4",
-    "min_x1": 104.2,
+    "min_x1": 104.3,
     "mult": 7,
     "min_demo": 14.9,
     "acum_h_demo": 2.06
@@ -3177,98 +3839,98 @@
    {
     "nivel": 18,
     "piso": "P4",
-    "min_x1": 133.2,
+    "min_x1": 140.0,
     "mult": 7,
-    "min_demo": 19.0,
-    "acum_h_demo": 2.38
+    "min_demo": 20.0,
+    "acum_h_demo": 2.4
    },
    {
     "nivel": 19,
     "piso": "P4",
-    "min_x1": 182.3,
+    "min_x1": 191.8,
     "mult": 7,
-    "min_demo": 26.0,
-    "acum_h_demo": 2.81
+    "min_demo": 27.4,
+    "acum_h_demo": 2.85
    },
    {
     "nivel": 20,
     "piso": "P5",
-    "min_x1": 214.7,
+    "min_x1": 226.1,
     "mult": 17,
-    "min_demo": 12.6,
-    "acum_h_demo": 3.02
+    "min_demo": 13.3,
+    "acum_h_demo": 3.08
    },
    {
     "nivel": 21,
     "piso": "P5",
-    "min_x1": 286.7,
+    "min_x1": 302.6,
     "mult": 17,
-    "min_demo": 16.9,
-    "acum_h_demo": 3.31
+    "min_demo": 17.8,
+    "acum_h_demo": 3.37
    },
    {
     "nivel": 22,
     "piso": "P5",
-    "min_x1": 388.5,
+    "min_x1": 409.7,
     "mult": 17,
-    "min_demo": 22.9,
-    "acum_h_demo": 3.69
+    "min_demo": 24.1,
+    "acum_h_demo": 3.77
    },
    {
     "nivel": 23,
     "piso": "P5",
-    "min_x1": 544.8,
+    "min_x1": 572.9,
     "mult": 17,
-    "min_demo": 32.0,
-    "acum_h_demo": 4.22
+    "min_demo": 33.7,
+    "acum_h_demo": 4.33
    },
    {
     "nivel": 24,
     "piso": "P6",
-    "min_x1": 731.1,
+    "min_x1": 768.0,
     "mult": 30,
-    "min_demo": 24.4,
-    "acum_h_demo": 4.63
+    "min_demo": 25.6,
+    "acum_h_demo": 4.76
    },
    {
     "nivel": 25,
     "piso": "P6",
-    "min_x1": 1062.1,
+    "min_x1": 1116.0,
     "mult": 30,
-    "min_demo": 35.4,
-    "acum_h_demo": 5.22
+    "min_demo": 37.2,
+    "acum_h_demo": 5.38
    },
    {
     "nivel": 26,
     "piso": "P6",
-    "min_x1": 1271.8,
+    "min_x1": 1332.0,
     "mult": 30,
-    "min_demo": 42.4,
-    "acum_h_demo": 5.92
+    "min_demo": 44.4,
+    "acum_h_demo": 6.12
    },
    {
     "nivel": 27,
     "piso": "P7",
-    "min_x1": 1526.3,
+    "min_x1": 1606.0,
     "mult": 44,
-    "min_demo": 34.7,
-    "acum_h_demo": 6.5
+    "min_demo": 36.5,
+    "acum_h_demo": 6.73
    },
    {
     "nivel": 28,
     "piso": "P7",
-    "min_x1": 1828.1,
+    "min_x1": 1922.8,
     "mult": 44,
-    "min_demo": 41.5,
-    "acum_h_demo": 7.19
+    "min_demo": 43.7,
+    "acum_h_demo": 7.46
    },
    {
     "nivel": 29,
     "piso": "P7",
-    "min_x1": 2188.3,
+    "min_x1": 2296.8,
     "mult": 44,
-    "min_demo": 49.7,
-    "acum_h_demo": 8.02
+    "min_demo": 52.2,
+    "acum_h_demo": 8.33
    }
   ]
  },
@@ -3292,6 +3954,40 @@
   },
   "farmeableSolo": "dano recibido <=30 PV/s y golpe max tras armadura <=50% de la vida (mago 100%)",
   "pocion": "roja 27 PV, 18 oro, 380 ms",
-  "modeloReproducible": "docs/claude/demo/modelo_progresion.py (--check compara con tiempoPorNivel)"
+  "modeloReproducible": "docs/claude/demo/modelo_progresion.py (--check compara con tiempoPorNivel)",
+  "equipoTope": "Hacha de Barbaro (guerrero/clerigo), Arco Compuesto + Flecha +1 (cazador), Baston Nudoso (mago): lo que venden los comerciantes originales del hub. Hacha Dos Filos, Arco de Roble y Baculo Engarzado solo los venden mercaderes que no estan en ningun mapa.",
+  "aparicionPiso": "llegadaDesdeArriba (la entrada es la escalera de subida y el centro de la zona segura)"
+ },
+ "estado": "DEFINITIVO para demo_map_builder (decisiones de Lucas aprobadas 24/09, docs/claude/demo/decisiones.md)",
+ "configDemo": {
+  "expMultPorTramo": {
+   "1-9": 1,
+   "10-14": 2,
+   "15-19": 7,
+   "20-23": 17,
+   "24-26": 30,
+   "27-29": 44
+  },
+  "oroMult": 2,
+  "nota": "Solo personajes de la demo (AO_BattleDemo). No cambian stats de NPC ni de clases. Lo aplican Servidor/Programacion."
+ },
+ "coordenadas": "Todas en coordenadas del mapa fuente: la base es copy del mapa fuente completo y se bloquea todo lo que queda fuera del recorte, asi que no hay traslacion.",
+ "mapasExtra": {
+  "1000": {
+   "fuente": 1,
+   "musicId": 4,
+   "baseLight": 0,
+   "lluvia": false
+  },
+  "1001": {
+   "fuente": 324,
+   "musicId": 9,
+   "baseLight": -1
+  },
+  "1010": {
+   "fuente": 37,
+   "musicId": 7,
+   "baseLight": 9408399
+  }
  }
 }

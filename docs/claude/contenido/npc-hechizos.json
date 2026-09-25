@@ -1,0 +1,2747 @@
+{
+ "version": "2026-09-24",
+ "autor": "Contenido y Fidelidad AO",
+ "fuente": "npcs.dat (LanzaSpells, Sp#, Cd#, IntervaloLanzarHechizo, RangoSpell) + Hechizos.dat; IA de AI_NPC.bas",
+ "reglasIA": {
+  "cuando": "Si el NPC tiene LanzaSpells>0 y paso IntervaloLanzarHechizo (8000 ms si no esta en npcs.dat) desde el ultimo, lanza en vez de pegar (AI_NPC.bas l.235 y l.721).",
+  "rango": "Solo si el objetivo esta a <= NPCSpellRangeX=11 en X y <= NPCSpellRangeY=9 en Y (Example.Configuracion.ini [AI]).",
+  "eleccion": "Un hechizo al azar entre sus Sp1..SpN (NpcLanzaUnSpell). Los Cd# por hechizo solo los usa la IA de apoyo (NPC que curan o potencian aliados, AddToMapAiList=1).",
+  "objetivo": "usuarios: al jugador objetivo si es atacable con magia y el NPC no esta paralizado; npc/autolanzar: sobre si mismo; terreno: en area.",
+  "melee": "Con el toggle Magic_and_Punch=1 (ejemplo), un NPC que lanza hechizos tambien pega cuerpo a cuerpo si esta pegado al jugador, salvo que tenga el comportamiento eDontHitVisiblePlayers. Si el jugador esta invisible u oculto, pega en vez de lanzar.",
+  "danoAlJugador": "modHechizos.NpcLanzaSpellSobreUser: dano = RandomNumber(MinHP,MaxHP) x (1 + MagicBonus del NPC); si el hechizo no es AntiRm: dano -= Porcentaje(dano, GetUserMRForNpc) = ResistenciaMagica de armadura+anillo+escudo+casco (+ skill Resistencia x MagicResistanceSkillProtectionModifierNpc, sin dato publico -> 0; + 100 x MODRESISTENCIAMAGICA de clase = 0). Curas: RandomNumber(MinHP,MaxHP).",
+  "casillerosVacios": "Algunos NPC tienen Sp#=0 (casillero vacio): se ignora (NpcLanzaUnSpell sale si SpellIndex=0)."
+ },
+ "npcs": [
+  {
+   "npcIndex": 30,
+   "nombre": "Capitan Wynne",
+   "nivelNpc": 16,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 256,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 262,
+   "nombre": "Sacerdote Imperial",
+   "nivelNpc": 39,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": 6,
+   "hechizos": [
+    {
+     "hechizo": 53,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 269,
+   "nombre": "Guardia de entradas",
+   "nivelNpc": 39,
+   "hostil": false,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": 6,
+   "hechizos": [
+    {
+     "hechizo": 9,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 270,
+   "nombre": "Mago del Caos",
+   "nivelNpc": 39,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": 4,
+   "hechizos": [
+    {
+     "hechizo": 9,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 276,
+   "nombre": "Arquero Imperial",
+   "nivelNpc": 45,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 1500,
+   "rangoSpell": 6,
+   "hechizos": [
+    {
+     "hechizo": 205,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 400,
+   "nombre": "Gran Dragón Negro",
+   "nivelNpc": 40,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 4000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 4,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 498,
+   "nombre": "Centinela",
+   "nivelNpc": 6,
+   "hostil": false,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 9,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 499,
+   "nombre": "Centinela",
+   "nivelNpc": 6,
+   "hostil": false,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 9,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 513,
+   "nombre": "Hechicera",
+   "nivelNpc": 27,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 41,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 526,
+   "nombre": "Filibustero Viejo",
+   "nivelNpc": 20,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 4000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 51,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 528,
+   "nombre": "Hechicera Maldita",
+   "nivelNpc": 27,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1400,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 53,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 529,
+   "nombre": "Chamán Ártico",
+   "nivelNpc": 31,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 2500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 51,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 533,
+   "nombre": "Mago Malvado",
+   "nivelNpc": 22,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 4000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 41,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 534,
+   "nombre": "Bruja",
+   "nivelNpc": 35,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 4000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 41,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 538,
+   "nombre": "Euríale",
+   "nivelNpc": 25,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 51,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 540,
+   "nombre": "Medusa",
+   "nivelNpc": 23,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 7000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 51,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 544,
+   "nombre": "Vytaiz",
+   "nivelNpc": 27,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 206,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 549,
+   "nombre": "Gran Dragón Rojo",
+   "nivelNpc": 40,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 3000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 4,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 555,
+   "nombre": "Orco Brujo",
+   "nivelNpc": 24,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 2000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 43,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 556,
+   "nombre": "Fuego Fatuo",
+   "nivelNpc": 44,
+   "hostil": false,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 4500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 51,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 564,
+   "nombre": "Capitan Wynne",
+   "nivelNpc": 16,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 256,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 571,
+   "nombre": "Devorador del Inframundo",
+   "nivelNpc": 45,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 800,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 216,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 218,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 219,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 228,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 572,
+   "nombre": "Titán del Vacío Abisal",
+   "nivelNpc": 13,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 2000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 15,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 141,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 575,
+   "nombre": "Azhran",
+   "nivelNpc": 33,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 7000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 131,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 586,
+   "nombre": "Galeón Fantasmal",
+   "nivelNpc": 43,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 5000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 256,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 587,
+   "nombre": "Pequeño Dragón Rojo",
+   "nivelNpc": 25,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 41,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 588,
+   "nombre": "Pirata Jack",
+   "nivelNpc": 19,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 5000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 53,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 590,
+   "nombre": "Dama Oscura",
+   "nivelNpc": 22,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 51,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 591,
+   "nombre": "Bufón Caótico",
+   "nivelNpc": 30,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 1500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 15,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 201,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 592,
+   "nombre": "Bufón Real",
+   "nivelNpc": 31,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 1500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 15,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 201,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 594,
+   "nombre": "Kobold",
+   "nivelNpc": 30,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 3000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 43,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 595,
+   "nombre": "Pequeño Dragón Azul",
+   "nivelNpc": 25,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 41,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 606,
+   "nombre": "Araña Roja",
+   "nivelNpc": 12,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 5000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 210,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 607,
+   "nombre": "Araña Verde",
+   "nivelNpc": 12,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 4000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 211,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 609,
+   "nombre": "Lagarto",
+   "nivelNpc": 15,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 3500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 205,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 631,
+   "nombre": "Kraken Gigante Body",
+   "nivelNpc": 38,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 5000,
+   "rangoSpell": 18,
+   "hechizos": [
+    {
+     "hechizo": 32,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 100,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 632,
+   "nombre": "Kraken Gigante 3",
+   "nivelNpc": 38,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 5000,
+   "rangoSpell": 18,
+   "hechizos": [
+    {
+     "hechizo": 32,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 100,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 633,
+   "nombre": "Kraken Gigante 12",
+   "nivelNpc": 38,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 5000,
+   "rangoSpell": 18,
+   "hechizos": [
+    {
+     "hechizo": 32,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 100,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 634,
+   "nombre": "Kraken Gigante 2",
+   "nivelNpc": 38,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 5000,
+   "rangoSpell": 18,
+   "hechizos": [
+    {
+     "hechizo": 32,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 100,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 635,
+   "nombre": "Kraken Gigante 11",
+   "nivelNpc": 38,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 5000,
+   "rangoSpell": 18,
+   "hechizos": [
+    {
+     "hechizo": 32,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 100,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 636,
+   "nombre": "Kraken Gigante 9",
+   "nivelNpc": 38,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 5000,
+   "rangoSpell": 18,
+   "hechizos": [
+    {
+     "hechizo": 32,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 100,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 637,
+   "nombre": "Kraken Gigante 6",
+   "nivelNpc": 38,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 5000,
+   "rangoSpell": 18,
+   "hechizos": [
+    {
+     "hechizo": 32,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 100,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 638,
+   "nombre": "Kraken Gigante 5",
+   "nivelNpc": 38,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 5000,
+   "rangoSpell": 18,
+   "hechizos": [
+    {
+     "hechizo": 32,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 100,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 639,
+   "nombre": "Kraken Gigante 7",
+   "nivelNpc": 38,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 5000,
+   "rangoSpell": 18,
+   "hechizos": [
+    {
+     "hechizo": 32,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 100,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 640,
+   "nombre": "Dragón Negro Legendario",
+   "nivelNpc": 39,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1500,
+   "rangoSpell": 18,
+   "hechizos": [
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 15,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 15,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 218,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 216,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 293,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 293,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 15,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 293,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 641,
+   "nombre": "Araña New",
+   "nivelNpc": 39,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1500,
+   "rangoSpell": 18,
+   "hechizos": [
+    {
+     "hechizo": 4,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 644,
+   "nombre": "Gúl Belthor",
+   "nivelNpc": 47,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 4000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 15,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 216,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 57,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 218,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 142,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 220,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 655,
+   "nombre": "Espíritu del bosque",
+   "nivelNpc": 15,
+   "hostil": false,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 3500,
+   "rangoSpell": 18,
+   "hechizos": [
+    {
+     "hechizo": 209,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 670,
+   "nombre": "Scramer Anciano",
+   "nivelNpc": 7,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 3000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 51,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 0,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 675,
+   "nombre": "Líder de la Manada",
+   "nivelNpc": 26,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 247,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 719,
+   "nombre": "Esbirra Demoníaca",
+   "nivelNpc": 16,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 2500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 141,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 723,
+   "nombre": "Patriarca Drake",
+   "nivelNpc": 38,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 1000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 15,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 53,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 208,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 724,
+   "nombre": "Enviado de Nix",
+   "nivelNpc": 13,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 2000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 15,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 53,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 208,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 218,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 750,
+   "nombre": "Frogian Azulino",
+   "nivelNpc": 6,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 205,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 751,
+   "nombre": "Frogian Hechicero",
+   "nivelNpc": 6,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 41,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 754,
+   "nombre": "Espíritu Poseído",
+   "nivelNpc": 15,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": 18,
+   "hechizos": [
+    {
+     "hechizo": 51,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 922,
+   "nombre": "Dragón Dorado",
+   "nivelNpc": 39,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 4,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 923,
+   "nombre": "Dragón Cárdeno",
+   "nivelNpc": 39,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 4,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 924,
+   "nombre": "Dragón Rojo",
+   "nivelNpc": 24,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 4,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 925,
+   "nombre": "Ninfa",
+   "nivelNpc": 30,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 4000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 51,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 926,
+   "nombre": "Hada Oscura",
+   "nivelNpc": 30,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 947,
+   "nombre": "Fantasma Eléctrico",
+   "nivelNpc": 15,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 4000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 51,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 949,
+   "nombre": "Eztbron Vientogélido",
+   "nivelNpc": 17,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1900,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 216,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 216,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 218,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 219,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 962,
+   "nombre": "Elemental de Fuego",
+   "nivelNpc": 12,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 2000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 41,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 963,
+   "nombre": "Elemental de Viento",
+   "nivelNpc": 41,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 3000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 51,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 964,
+   "nombre": "Fuego Fatuo",
+   "nivelNpc": 13,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 4000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 51,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 992,
+   "nombre": "Kraken Gigante",
+   "nivelNpc": 17,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1700,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 218,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 994,
+   "nombre": "Alma en Llamas",
+   "nivelNpc": 45,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 2000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 53,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1002,
+   "nombre": "Esqueleto Mágico",
+   "nivelNpc": 11,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 2000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 2,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1011,
+   "nombre": "Asesina Élfica",
+   "nivelNpc": 24,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 2500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 51,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1016,
+   "nombre": "Aksha",
+   "nivelNpc": 26,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 2500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 51,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1020,
+   "nombre": "Banshee",
+   "nivelNpc": 45,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 2000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 55,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1024,
+   "nombre": "Jinete Blanco",
+   "nivelNpc": 45,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 2000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 53,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1025,
+   "nombre": "Esbirro Demoníaco",
+   "nivelNpc": 16,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 2500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 141,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1026,
+   "nombre": "Esbirra Demoníaca",
+   "nivelNpc": 16,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 2500,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 141,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1043,
+   "nombre": "Reina Gorgona",
+   "nivelNpc": 38,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1300,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 216,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 218,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 219,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 232,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1044,
+   "nombre": "Titan Lugubre",
+   "nivelNpc": 17,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1900,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 216,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 216,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 218,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 218,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 219,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 219,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1051,
+   "nombre": "Arqueros de la Legión (Atacante)",
+   "nivelNpc": 35,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 2000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 205,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1056,
+   "nombre": "Har Nareth",
+   "nivelNpc": 24,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 1700,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 218,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1057,
+   "nombre": "Jarl Morngrim",
+   "nivelNpc": 30,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 1700,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 216,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 218,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1153,
+   "nombre": "Ghanly",
+   "nivelNpc": 30,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 3000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 41,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1220,
+   "nombre": "Orco Hechicero",
+   "nivelNpc": 42,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 4000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 219,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1226,
+   "nombre": "Elemental Infernal",
+   "nivelNpc": 12,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 1200,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 229,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1227,
+   "nombre": "Galeón Fantasmal",
+   "nivelNpc": 12,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 1200,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 231,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1228,
+   "nombre": "Arquero Capturado",
+   "nivelNpc": 12,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 1000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 233,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 233,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 233,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 233,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 233,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 233,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 233,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 233,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 234,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 234,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1235,
+   "nombre": "Asesino Impieadoso <Orden de las Sombras>",
+   "nivelNpc": 31,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 2000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 203,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 236,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 53,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 25,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1265,
+   "nombre": "Troll Lúgubre",
+   "nivelNpc": 17,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 1900,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 213,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 0,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 0,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 218,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 218,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 0,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 0,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 212,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 212,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 214,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 215,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 217,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1308,
+   "nombre": "Bisporus",
+   "nivelNpc": 15,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 3500,
+   "rangoSpell": 16,
+   "hechizos": [
+    {
+     "hechizo": 267,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1309,
+   "nombre": "Niscalo",
+   "nivelNpc": 15,
+   "hostil": false,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 3500,
+   "rangoSpell": 16,
+   "hechizos": [
+    {
+     "hechizo": 267,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1310,
+   "nombre": "Comatus",
+   "nivelNpc": 15,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 3500,
+   "rangoSpell": 16,
+   "hechizos": [
+    {
+     "hechizo": 267,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1312,
+   "nombre": "Rowan",
+   "nivelNpc": 26,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 248,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1325,
+   "nombre": "Mago Pirata",
+   "nivelNpc": 23,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 2000,
+   "rangoSpell": 16,
+   "hechizos": [
+    {
+     "hechizo": 27,
+     "cdSeg": 15
+    },
+    {
+     "hechizo": 242,
+     "cdSeg": 15
+    },
+    {
+     "hechizo": 51,
+     "cdSeg": 20
+    }
+   ]
+  },
+  {
+   "npcIndex": 1326,
+   "nombre": "Espíritu del bosque",
+   "nivelNpc": 23,
+   "hostil": false,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 2000,
+   "rangoSpell": 16,
+   "hechizos": [
+    {
+     "hechizo": 242,
+     "cdSeg": 15
+    }
+   ]
+  },
+  {
+   "npcIndex": 1354,
+   "nombre": "Eyewarden Ártico",
+   "nivelNpc": 10,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1356,
+   "nombre": "Scramer Veterano",
+   "nivelNpc": 7,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 3000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 51,
+     "cdSeg": 0
+    },
+    {
+     "hechizo": 0,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1363,
+   "nombre": "Dovu",
+   "nivelNpc": 10,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": 16,
+   "hechizos": [
+    {
+     "hechizo": 267,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1372,
+   "nombre": "Esqueleto de Elite",
+   "nivelNpc": 6,
+   "hostil": true,
+   "enMapas": false,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 26,
+     "cdSeg": 0
+    }
+   ]
+  },
+  {
+   "npcIndex": 1385,
+   "nombre": "Pirata Cañonero",
+   "nivelNpc": 16,
+   "hostil": true,
+   "enMapas": true,
+   "intervaloLanzarHechizoMs": 8000,
+   "rangoSpell": null,
+   "hechizos": [
+    {
+     "hechizo": 256,
+     "cdSeg": 0
+    }
+   ]
+  }
+ ],
+ "hechizos": {
+  "0": {
+   "nombre": null,
+   "nota": "no existe en Hechizos.dat"
+  },
+  "2": {
+   "nombre": "Flecha Mágica",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    18,
+    25
+   ],
+   "wav": 19,
+   "fx": 86
+  },
+  "4": {
+   "nombre": "Aliento de Dragón",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    92,
+    96
+   ],
+   "wav": 231,
+   "fx": 121
+  },
+  "9": {
+   "nombre": "Invocar Mascotas",
+   "objetivo": "terreno",
+   "efectos": {
+    "invoca": "2"
+   },
+   "wav": 17,
+   "fx": 0
+  },
+  "15": {
+   "nombre": "Detectar Invisibilidad",
+   "objetivo": "terreno",
+   "efectos": {
+    "areaafecta": "1"
+   },
+   "wav": 16,
+   "areaRadio": 22
+  },
+  "25": {
+   "nombre": "Paralizar",
+   "objetivo": "usuarios y npc",
+   "efectos": {
+    "paraliza": "1"
+   },
+   "wav": 16,
+   "fx": 8
+  },
+  "26": {
+   "nombre": "Inmovilizar",
+   "objetivo": "usuarios y npc",
+   "efectos": {
+    "inmoviliza": "1"
+   },
+   "wav": 16,
+   "fx": 12
+  },
+  "27": {
+   "nombre": "Remover Parálisis",
+   "objetivo": "usuarios y npc",
+   "wav": 16
+  },
+  "32": {
+   "nombre": "Incinerar",
+   "objetivo": "usuarios y npc",
+   "efectos": {
+    "incinera": "1"
+   },
+   "fx": 0
+  },
+  "41": {
+   "nombre": "Tormenta de Fuego",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    45,
+    55
+   ],
+   "wav": 27,
+   "fx": 7
+  },
+  "43": {
+   "nombre": "Flecha Eléctrica",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    25,
+    35
+   ],
+   "wav": 19,
+   "fx": 86
+  },
+  "51": {
+   "nombre": "Descarga Eléctrica",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    69,
+    77
+   ],
+   "wav": 520,
+   "fx": 11
+  },
+  "53": {
+   "nombre": "Apocalipsis",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    91,
+    100
+   ],
+   "wav": 162,
+   "fx": 13
+  },
+  "55": {
+   "nombre": "Lamento de la Banshee",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    80,
+    100
+   ],
+   "efectos": {
+    "antirm": "1"
+   },
+   "wav": 99,
+   "fx": 0
+  },
+  "57": {
+   "nombre": "Ralentizar",
+   "objetivo": "usuarios",
+   "fx": 17
+  },
+  "100": {
+   "nombre": "Maldición de Kraken",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    135,
+    175
+   ],
+   "efectos": {
+    "antirm": "1"
+   },
+   "wav": 234
+  },
+  "131": {
+   "nombre": "Destierro",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    125,
+    135
+   ],
+   "wav": 520
+  },
+  "141": {
+   "nombre": "Vacío Abisal",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    100,
+    150
+   ],
+   "efectos": {
+    "antirm": "1"
+   },
+   "wav": 138
+  },
+  "142": {
+   "nombre": "Puntazo Incapacitador",
+   "objetivo": "usuarios",
+   "wav": 109,
+   "fx": 0
+  },
+  "201": {
+   "nombre": "Maldición del Bufón",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    180,
+    220
+   ],
+   "wav": 100
+  },
+  "203": {
+   "nombre": "Remover Parálisis (NPCS)",
+   "objetivo": "npc",
+   "efectos": {
+    "autolanzar": "1"
+   },
+   "wav": 16,
+   "fx": 6
+  },
+  "205": {
+   "nombre": "Flecha (NPCS)",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    18,
+    27
+   ],
+   "wav": 249,
+   "fx": 86
+  },
+  "206": {
+   "nombre": "Incinerar (NPCS)",
+   "objetivo": "usuarios y npc",
+   "efectos": {
+    "incinera": "1"
+   },
+   "fx": 0
+  },
+  "208": {
+   "nombre": "Partículas Tóxicas (NPCS)",
+   "objetivo": "terreno",
+   "dano": [
+    100,
+    120
+   ],
+   "efectos": {
+    "envenena": "3",
+    "antirm": "1",
+    "areaafecta": "3"
+   },
+   "wav": 127,
+   "fx": 1,
+   "areaRadio": 4
+  },
+  "209": {
+   "nombre": "Flecha Scramer (NPCS)",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    10,
+    20
+   ],
+   "efectos": {
+    "antirm": "1"
+   },
+   "eotId": 13,
+   "wav": 249,
+   "fx": 86
+  },
+  "210": {
+   "nombre": "Colmillo Venenoso (NPCS)",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    55,
+    65
+   ],
+   "efectos": {
+    "envenena": "3"
+   },
+   "wav": 127,
+   "fx": 1
+  },
+  "211": {
+   "nombre": "Colmillo Filoso (NPCS)",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    35,
+    45
+   ],
+   "wav": 19,
+   "fx": 86
+  },
+  "212": {
+   "nombre": "Invocar Hiena Demoníaca (NPCS)",
+   "objetivo": "terreno",
+   "efectos": {
+    "invoca": "3"
+   },
+   "wav": 3,
+   "fx": 0
+  },
+  "213": {
+   "nombre": "Muro de Espinas (Área)",
+   "objetivo": "terreno",
+   "efectos": {
+    "paraliza": "1",
+    "areaafecta": "1"
+   },
+   "wav": 253,
+   "areaRadio": 22
+  },
+  "214": {
+   "nombre": "Apocalipsis (Área)",
+   "objetivo": "terreno",
+   "dano": [
+    150,
+    180
+   ],
+   "efectos": {
+    "antirm": "1",
+    "areaafecta": "1"
+   },
+   "wav": 162,
+   "fx": 13,
+   "areaRadio": 22
+  },
+  "215": {
+   "nombre": "Aliento de Dragón (Área)",
+   "objetivo": "terreno",
+   "dano": [
+    170,
+    200
+   ],
+   "efectos": {
+    "areaafecta": "1"
+   },
+   "wav": 231,
+   "fx": 121,
+   "areaRadio": 22
+  },
+  "216": {
+   "nombre": "Incinerar (Área)",
+   "objetivo": "terreno",
+   "efectos": {
+    "incinera": "1",
+    "areaafecta": "1"
+   },
+   "fx": 0,
+   "areaRadio": 22
+  },
+  "217": {
+   "nombre": "Descarga Eléctrica (Área)",
+   "objetivo": "terreno",
+   "dano": [
+    70,
+    80
+   ],
+   "efectos": {
+    "areaafecta": "1"
+   },
+   "wav": 520,
+   "fx": 11,
+   "areaRadio": 22
+  },
+  "218": {
+   "nombre": "Partitura Maldita (Area)",
+   "objetivo": "terreno",
+   "efectos": {
+    "areaafecta": "1"
+   },
+   "wav": 253,
+   "areaRadio": 22
+  },
+  "219": {
+   "nombre": "Destierro (Área)",
+   "objetivo": "terreno",
+   "dano": [
+    200,
+    220
+   ],
+   "efectos": {
+    "areaafecta": "1"
+   },
+   "wav": 520,
+   "areaRadio": 22
+  },
+  "220": {
+   "nombre": "Partitura Maldita (Area)",
+   "objetivo": "terreno",
+   "efectos": {
+    "areaafecta": "1"
+   },
+   "wav": 253,
+   "areaRadio": 22
+  },
+  "228": {
+   "nombre": "Invocar Elemental Infernal (NPCS)",
+   "objetivo": "terreno",
+   "efectos": {
+    "invoca": "1"
+   },
+   "wav": 242,
+   "fx": 0
+  },
+  "229": {
+   "nombre": "Devorador del Inframundo (NPCs) (Área)",
+   "objetivo": "terreno",
+   "dano": [
+    25,
+    40
+   ],
+   "efectos": {
+    "areaafecta": "1"
+   },
+   "wav": 242,
+   "fx": 0,
+   "areaRadio": 4
+  },
+  "231": {
+   "nombre": "Explosión de Fuego (ÁREA) (NPCs)",
+   "objetivo": "terreno",
+   "dano": [
+    20,
+    45
+   ],
+   "efectos": {
+    "areaafecta": "1"
+   },
+   "wav": 27,
+   "fx": 7,
+   "areaRadio": 3
+  },
+  "232": {
+   "nombre": "Invocar Arquero Capturado (NPCS)",
+   "objetivo": "terreno",
+   "efectos": {
+    "invoca": "1"
+   },
+   "wav": 242,
+   "fx": 0
+  },
+  "233": {
+   "nombre": "Flecha de Arquero Capturado (NPCS)",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    25,
+    40
+   ],
+   "wav": 19
+  },
+  "234": {
+   "nombre": "Lluvia de flechas de Arquero Capturado (NPCS)",
+   "objetivo": "terreno",
+   "dano": [
+    50,
+    70
+   ],
+   "efectos": {
+    "areaafecta": "1"
+   },
+   "wav": 19,
+   "areaRadio": 22
+  },
+  "236": {
+   "nombre": "Implosión (NPCs)",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    70,
+    100
+   ],
+   "fx": 12834
+  },
+  "242": {
+   "nombre": "Restauración 3",
+   "objetivo": "usuarios y npc",
+   "cura": [
+    0,
+    0
+   ],
+   "eotId": 1,
+   "wav": 17,
+   "fx": 143
+  },
+  "247": {
+   "nombre": "Invocar Pequeño Lobo Gris(NPCS)",
+   "objetivo": "terreno",
+   "efectos": {
+    "invoca": "1"
+   },
+   "wav": 242,
+   "fx": 0
+  },
+  "248": {
+   "nombre": "Flecha Cargada",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    40,
+    60
+   ],
+   "eotId": 11,
+   "fx": 0
+  },
+  "256": {
+   "nombre": "Cañonazo",
+   "objetivo": "usuarios y npc",
+   "eotId": 20,
+   "wav": 1111,
+   "fx": 0
+  },
+  "267": {
+   "nombre": "Ataque de Veneno (NPCS)",
+   "objetivo": "usuarios y npc",
+   "dano": [
+    10,
+    20
+   ],
+   "efectos": {
+    "antirm": "1"
+   },
+   "eotId": 38,
+   "wav": 249,
+   "fx": 86
+  },
+  "293": {
+   "nombre": "Invocar Dragón (NPCS)",
+   "objetivo": "terreno",
+   "efectos": {
+    "invoca": "1"
+   },
+   "wav": 242,
+   "fx": 0
+  }
+ }
+}

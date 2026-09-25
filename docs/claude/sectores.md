@@ -12,6 +12,12 @@ Cómo se complementan: Contenido trae los datos originales → Programación los
 | 4 | **AO BATTLESERVER: Contenido y Fidelidad AO** | Datos originales → bases de datos del juego: mapas, NPC, objetos, hechizos (datos), quests, drops, audio/música, balance fiel al AO |
 | 5 | **AO BATTLESERVER: Interfaz y Controles** | HUD clásico, ventanas, menú, creación de personaje, ajustes, controles AO/MOBA, hotbar, marcadores y feedback en pantalla |
 | 6 | **AO BATTLESERVER: QA y Releases** | Pruebas, verificadores, respaldos, build del cliente, ZIP para amigos, versión, informes |
+| 7 | **AO BATTLESERVER: Higgsfield** (chat local) | **Todo lo de Higgsfield**: generaciones, créditos, presupuestos, pilotos, remaster HD, FX/video, audio, 3D y material para mostrar. Carpeta propia: `docs/claude/higgsfield/` |
+
+**Higgsfield (sector 7):**
+- Ningún otro chat usa Higgsfield directamente: todo pedido va a "AO BATTLESERVER: Higgsfield" con SendMessage. Ojo: hay otro chat **en la nube** con el nombre viejo ("Higgsfield mejoras AO Battleserver"); ese no es el sector.
+- Arte prepara los pedidos (atlas, hojas, referencias, reglas 4×) e integra los resultados a Unity. Higgsfield entrega los archivos en su carpeta o donde Arte indique, sin tocar `Assets/`.
+- Créditos: nada se genera sin el OK de Lucas y sin mostrar el costo antes. Cada lote se anota en `docs/claude/higgsfield/`.
 
 ## Mapa de archivos (`Assets/AOMigrator/Runtime` salvo que se indique)
 

@@ -34,6 +34,8 @@ public static class AONPCLootDatabaseV180
 
         public int giveExp;
         public int giveGold;
+        // NPCLVL de npcs.dat (penalizacion de EXP por nivel del NPC).
+        public int level;
 
         public int respawnMinSeconds;
         public int respawnMaxSeconds;

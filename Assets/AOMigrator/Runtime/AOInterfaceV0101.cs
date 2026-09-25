@@ -151,6 +151,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
     {
         Active = false;
         InputCaptured = false;
+        SetGameCursor(GameCursor.Normal);
 
         if (gameCamera != null)
         {
@@ -208,6 +209,8 @@ public partial class AOInterfaceV0101 : MonoBehaviour
 
         UpdateGeometry();
         UpdateCameraViewport();
+        UpdateDuel();
+        UpdateGameCursor();
     }
 
     void FindReferences()
@@ -612,6 +615,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
 
         DrawDragGhost();
         DrawMagicStatusOverlay();
+        DrawDuelOverlay();
         DrawTopButtons();
         if (AOPlayerSettingsV230.ShowFps && Event.current.type == EventType.Repaint)
             GUI.Label(R(673, 4, 85, 27),
@@ -735,6 +739,9 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                     PushMessage(
                         homeResult);
                 }
+            }
+            else if (TryHandleDuelCommand(clean))
+            {
             }
             else
             {
@@ -2226,6 +2233,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                 PushMessage("Diario de misiones no disponible.");
         }
 
+        DrawDuelInfoButton();
     }
 
     void DrawExperience()

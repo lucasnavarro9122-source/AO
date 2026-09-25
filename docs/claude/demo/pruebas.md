@@ -26,9 +26,9 @@ Base: C# puro, SplitMix64, sin float, `GenVersion`, simetría `0 = rot180 / 1 = 
 | G-06 | Spawns | Caminables, distintos, con ≥ 2 vecinos libres y simétricos, para 1v1 a 5v5 (orden `(2,9),(2,7),(2,11),(2,5),(2,13)`). |
 | G-07 | Borde | El perímetro queda cerrado salvo las puertas. Ningún obstáculo tapa una puerta ni un spawn. Las cuerdas no tapan la vista pero bloquean el paso y los proyectiles (decisión 14). |
 | G-08 | Justicia | Camino más corto spawn→rival y cobertura cerca de cada spawn iguales para los dos equipos. |
-| G-09 | Densidad | % de obstáculos dentro del rango de cada tema (límites de Arte/Programación). |
+| G-09 | Densidad | % de obstáculos sobre las 437 celdas del interior, dentro del rango del tema: Bosque 10–18, Desierto 8–14, Nieve 8–15, Mazmorra 12–20, Pantano 10–18, Ciudad 8–14. Fuente de verdad: campo `densidad` de `StreamingAssets/AOMigrator/ArenaGen/arena_palette.json`; la prueba lee el JSON, no copia los números. |
 | G-10 | Variedad | Con 10.000 semillas por tema, ≥ 99 % de layouts distintos. Ninguna celda interior no fija está bloqueada el 100 % de las veces. |
-| G-11 | Tema válido | Cada tile, objeto o variante existe en el set del tema de `arte.md` y su GRH existe. |
+| G-11 | Tema válido | Paleta: `python Tools/demo_arena_palette_check.py` (de Arte; sale con 1 si falla) verifica los 6 temas, cada GRH con su textura, los sets de piso y agua y los límites de sprite. 24/09: **OK**. Generador: cada tile, objeto o variante que usa un layout está en la paleta de su tema. |
 | G-12 | Semillas límite | 0, 1, negativas, `int.MaxValue`, `int.MinValue`: layout válido, sin excepción ni bucle. |
 | G-13 | Respaldo y rendimiento | Uso del layout de respaldo (`Attempt = 255`) ≤ 0,1 % de las semillas (reportado por tema); ≤ 5 ms por arena con reintentos. |
 
@@ -111,16 +111,16 @@ Entradas de Contenido: `dungeon-npcs.json` (tabla de EXP, 7 pisos, NPC con stats
 
 | ID | Qué | Criterio |
 |---|---|---|
-| D-00 | `python docs/claude/demo/modelo_progresion.py --check` | Reproduce `tiempoPorNivel` ("check: OK"). Corrido el 24/09: **OK** (Guerrero 7,2 h, Mago 10,9 h, Clérigo 13,3 h, Cazador 8,0 h hasta el nivel 30). Si cambian los datos, se vuelve a correr. |
+| D-00 | `python docs/claude/demo/modelo_progresion.py --check` | Reproduce `tiempoPorNivel` ("check: OK"). Última corrida, 24/09 22:45 (equipo tope = el que venden los comerciantes del hub): **OK**. Hasta el nivel 30: Guerrero 7,4 h, Mago 11,1 h, Clérigo 12,1 h y Cazador 8,3 h (antes 7,2 / 10,9 / 13,3 / 8,0). Si cambian los datos, se vuelve a correr. |
 | D-01 | Monte Carlo (`Tools/sim_dungeon.py`, 1.000 corridas por clase y tramo, semilla fija), con las mismas fórmulas y supuestos | p50 de minutos por nivel dentro de ±30 % de `tiempoPorNivel`; se reportan p90 y la dispersión. |
-| D-02 | Diferencia entre clases | Por tramo, la más lenta tarda ≤ 1,5× la más rápida. Hoy el total da 13,3 h / 7,2 h = 1,85× (Clérigo vs Guerrero): **lo marco para revisar** con Contenido y Cerebro. Ninguna clase queda trabada (0 kills posibles). |
+| D-02 | Diferencia entre clases | Por tramo, la más lenta tarda **≤ 2×** la más rápida (Cerebro, 24/09: el balance de clases no se toca). Hoy el total da 12,1 h / 7,4 h = 1,64× (Clérigo vs Guerrero): se reporta como **característica del AO original**, no como falla. Ninguna clase queda trabada (0 kills posibles). |
 | D-03 | "No demasiado fácil" | Al nivel del piso: vida perdida promedio por pelea ≥ 25 %; muertes por hora entre 0,2 y 2. |
 | D-04 | "Farmeo cómodo" | Caminar ≤ 25 % del tiempo; esperar respawns ≤ 15 % con 2 jugadores. Se simula con 1, 2 y 5 jugadores por piso. |
 | D-05 | Orden de dificultad | EXP por hora y daño recibido suben piso a piso; ningún NPC de un piso supera a los del siguiente. |
 | D-06 | Economía | Con `OroMult` ×2 (decisión 2), el oro por hora alcanza para las pociones de cada tramo y cualquier clase puede equiparse. |
 | D-07 | Configuración | Multiplicadores de EXP por tramo (decisión 1) y `OroMult`: los mismos valores en el servidor, el cliente y `dungeon-npcs.json`. |
 | D-10 | Calibración contra Unity | Un bot en Play aislado pelea K NPC por piso con un fixture de clase y nivel fijos, y mide tiempo por kill y vida perdida. Tiene que dar ±20 % del modelo. |
-| D-20 | Auditoría de los pisos | Todo piso se alcanza desde el hub y toda salida tiene su vuelta. Los spawns de NPC son caminables y están en su zona, y el respawn funciona (estilo `AOMapFullAudit`). |
+| D-20 | Auditoría de los pisos | Todo piso se alcanza desde el hub y toda salida tiene su vuelta. El punto de aparición de cada piso es `mapa.llegadaDesdeArriba` (no `entrada`, que es la escalera de subida): tiene que ser caminable y no estar sobre una salida. Los spawns de NPC son caminables y están en su zona, y el respawn funciona (estilo `AOMapFullAudit`). |
 | D-21 | `npcLayoutVersion` | Cambiar la lista de NPC de un piso sube la versión y el servidor reinicia esos NPC en vez de enlazarlos mal (`arquitectura.md` §2.5). |
 
 **D-10 y las diferencias conocidas (decisión 17).** El juego hoy:
@@ -138,7 +138,7 @@ Contenido avisa que el cuerpo a cuerpo va a dar ~35 % más rápido que el modelo
 | Servidor | Libro + `op`; `--test`/`testLedger`; `--test-time-scale`; oro autoritativo; tabla de desconexiones; protocolo 2↔3; cliente en modo prueba | Diseñado (`red.md`). **Falta:** la línea del libro para el resto de la división (§2). |
 | Contenido | Datos del dungeon, modelo reproducible, reglas de retos | Entregado. D-00 = OK |
 | Interfaz | Nombres o estados de las pantallas para verificarlas sin clics de píxel | Nombres en `ui.md` (tomados por `red.md`) |
-| Arte | Set de tiles y objetos por tema con GRH (G-11) y límites de densidad (G-09) | Sets en `arte.md`; **falta** el rango de densidad numérico por tema |
+| Arte | Set de tiles y objetos por tema con GRH (G-11) y límites de densidad (G-09) | Entregado: `arena_palette.json` + `demo_arena_palette_check.py` (OK) |
 
 ## 6. Orden en la fase 2
 1. D-00 (ya pasa) y G-01…G-13 en cuanto exista `AOArenaGen` (no necesita Unity ni red).

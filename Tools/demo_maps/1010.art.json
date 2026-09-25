@@ -1,0 +1,211 @@
+{
+ "map": 1010,
+ "autor": "Arte",
+ "base": "copy 37",
+ "notas": "Afuera del recorte, negro de vacío como los pisos; huecos 57950 con antorchas en las dos escaleras.",
+ "ops": [
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    1,
+    1,
+    100,
+    15
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    1,
+    1,
+    100,
+    15
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    1,
+    1,
+    100,
+    15
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    1,
+    1,
+    100,
+    15
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    1,
+    23,
+    100,
+    78
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    1,
+    23,
+    100,
+    78
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    1,
+    23,
+    100,
+    78
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    1,
+    23,
+    100,
+    78
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    1,
+    16,
+    12,
+    7
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    1,
+    16,
+    12,
+    7
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    1,
+    16,
+    12,
+    7
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    1,
+    16,
+    12,
+    7
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    33,
+    16,
+    68,
+    7
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    33,
+    16,
+    68,
+    7
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    33,
+    16,
+    68,
+    7
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    33,
+    16,
+    68,
+    7
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 2,
+   "grh": 57950,
+   "cells": [
+    [
+     13,
+     17
+    ],
+    [
+     32,
+     17
+    ]
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 3,
+   "grh": 55254,
+   "cells": [
+    [
+     14,
+     16
+    ],
+    [
+     31,
+     16
+    ]
+   ]
+  }
+ ],
+ "carteles": [
+  {
+   "x": 22,
+   "y": 21,
+   "rol": "entrada del dungeon",
+   "grh": 50925,
+   "texto": "textos-hub.md"
+  }
+ ]
+}

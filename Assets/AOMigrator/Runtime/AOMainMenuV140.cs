@@ -20,6 +20,11 @@ public class AOMainMenuV140 : MonoBehaviour
         instance.visible &&
         instance.showEntrance;
 
+    // V272 · El jugador eligió "DEMO AO BATTLESERVER" en INGRESAR. Programación lo usa para la carpeta
+    // de guardado AO_BattleDemo/ y el hub de la demo; Servidor, para la sala de la demo.
+    public static bool BattleDemo { get; private set; }
+    public static bool BattleDemoOnline { get; private set; }
+
 #if UNITY_EDITOR
     public void HideForVisualQA()
     {
@@ -44,6 +49,7 @@ public class AOMainMenuV140 : MonoBehaviour
     GUIStyle selectionHint;
     GUIStyle entrancePrimary;
     GUIStyle entranceSecondary;
+    GUIStyle entranceDemo;
     Texture2D entranceFrame;
     Texture2D entranceLogo;
     string selectionSummary = "";
@@ -61,6 +67,7 @@ public class AOMainMenuV140 : MonoBehaviour
     bool exitNextFrame;
     bool showEntrance = true;
     bool showOnlineSetup;
+    bool demoSetup;
     string onlineAddress = "";
     string onlineKey = "";
 
@@ -77,6 +84,17 @@ public class AOMainMenuV140 : MonoBehaviour
     {
         instance = null;
         SessionActive = false;
+        BattleDemo = false;
+        BattleDemoOnline = false;
+    }
+
+    void SetBattleDemo(bool demo, bool online)
+    {
+        bool changed = BattleDemo != demo;
+        BattleDemo = demo;
+        BattleDemoOnline = demo && online;
+        if (changed)
+            RefreshSelection();
     }
 
     void Awake()
@@ -285,6 +303,9 @@ public class AOMainMenuV140 : MonoBehaviour
         entrancePrimary.active.textColor = Color.white;
         entrancePrimary.border = new RectOffset(12, 12, 10, 10);
 
+        entranceDemo = new GUIStyle(entrancePrimary);
+        entranceDemo.fontSize = 18;
+
         entranceSecondary = new GUIStyle(entrancePrimary);
         entranceSecondary.fontSize = 18;
         entranceSecondary.normal.background = Resources.Load<Texture2D>(
@@ -330,8 +351,9 @@ public class AOMainMenuV140 : MonoBehaviour
                 new Rect(0f, 715f / 1024f, 856f / 1024f,
                          309f / 1024f), true);
 
+        bool demoPanel = showOnlineSetup && demoSetup;
         Rect panel = new Rect(277, showOnlineSetup ? 290 : 326,
-            470, showOnlineSetup ? 405 : 350);
+            470, showOnlineSetup ? (demoPanel ? 450 : 405) : 410);
         if (entranceFrame != null)
             GUI.DrawTexture(panel, entranceFrame, ScaleMode.StretchToFill,
                             true);
@@ -339,7 +361,9 @@ public class AOMainMenuV140 : MonoBehaviour
             GUI.Box(panel, GUIContent.none);
 
         GUI.Label(new Rect(310, showOnlineSetup ? 316 : 353, 404, 40),
-            showOnlineSetup ? "SALA PRIVADA" : "INGRESAR",
+            showOnlineSetup
+                ? (demoPanel ? "DEMO AO BATTLESERVER" : "SALA PRIVADA")
+                : "INGRESAR",
                   selectionTitle);
         if (showOnlineSetup)
         {
@@ -352,20 +376,38 @@ public class AOMainMenuV140 : MonoBehaviour
             onlineKey = GUI.PasswordField(new Rect(338, 494, 348, 36),
                 onlineKey, '*', 128);
             if (AOAudioV190.Clicked(GUI.Button(new Rect(350, 549, 324, 48),
-                    "CONECTAR", entrancePrimary)))
+                    demoPanel ? "JUGAR CON AMIGOS" : "CONECTAR",
+                    entrancePrimary)))
             {
                 if (AOOnlineClientV240.Prepare(onlineAddress, onlineKey,
                         out string onlineError))
                 {
+                    SetBattleDemo(demoPanel, true);
                     showEntrance = false;
-                    status = "Sala online seleccionada.";
+                    status = demoPanel ? "Demo AO BATTLESERVER con amigos."
+                                       : "Sala online seleccionada.";
                 }
                 else status = onlineError;
             }
-            if (AOAudioV190.Clicked(GUI.Button(new Rect(390, 608, 244, 40),
+            if (demoPanel &&
+                AOAudioV190.Clicked(GUI.Button(new Rect(350, 604, 324, 44),
+                    "SOLO DUNGEON", entrancePrimary)))
+            {
+                AOOnlineClientV240.UseLocalMode();
+                SetBattleDemo(true, false);
+                showEntrance = false;
+                status = "Demo AO BATTLESERVER sin conexión: las arenas requieren jugar con amigos.";
+            }
+            if (AOAudioV190.Clicked(GUI.Button(
+                    new Rect(390, demoPanel ? 657 : 608, 244, 40),
                     "VOLVER", entranceSecondary)))
+            {
                 showOnlineSetup = false;
-            GUI.Label(new Rect(302, 657, 420, 28), status, selectionHint);
+                demoSetup = false;
+                status = "";
+            }
+            GUI.Label(new Rect(302, demoPanel ? 703 : 657, 420, 28), status,
+                      selectionHint);
         }
         else
         {
@@ -375,18 +417,28 @@ public class AOMainMenuV140 : MonoBehaviour
                     "JUGAR SIN CONEXIÓN", entrancePrimary)))
             {
                 AOOnlineClientV240.UseLocalMode();
+                SetBattleDemo(false, false);
                 showEntrance = false;
             }
             if (AOAudioV190.Clicked(GUI.Button(new Rect(350, 526, 324, 49),
                     "JUGAR CON AMIGOS", entrancePrimary)))
             {
+                SetBattleDemo(false, false);
                 showOnlineSetup = true;
+                demoSetup = false;
                 status = "";
             }
-            if (AOAudioV190.Clicked(GUI.Button(new Rect(390, 593, 244, 43),
+            if (AOAudioV190.Clicked(GUI.Button(new Rect(350, 585, 324, 49),
+                    "DEMO AO BATTLESERVER", entranceDemo)))
+            {
+                showOnlineSetup = true;
+                demoSetup = true;
+                status = "Con amigos: arenas y dungeon. Sin conexión: solo el dungeon.";
+            }
+            if (AOAudioV190.Clicked(GUI.Button(new Rect(390, 649, 244, 43),
                     "SALIR", entranceSecondary)))
                 exitNextFrame = true;
-            GUI.Label(new Rect(305, 644, 414, 24),
+            GUI.Label(new Rect(305, 698, 414, 24),
                 "Sala privada: hasta 10 jugadores.", selectionHint);
         }
 

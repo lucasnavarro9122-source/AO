@@ -65,6 +65,7 @@ public class AOSaveGameV140 : MonoBehaviour
         public int helmet;
         public int amulet;
         public int magicAccessory;
+        public int munition;   // optional: equipped arrows (0 in older saves)
     }
 
     [Serializable]
@@ -832,6 +833,9 @@ public class AOSaveGameV140 : MonoBehaviour
         data.inventory.magicAccessory =
             inventory.EquippedMagicAccessory;
 
+        data.inventory.munition =
+            inventory.EquippedMunition;
+
         if (magic != null)
         {
             data.magic.learnedSpells =
@@ -959,7 +963,8 @@ public class AOSaveGameV140 : MonoBehaviour
                 data.inventory.shield,
                 data.inventory.helmet,
                 data.inventory.amulet,
-                data.inventory.magicAccessory);
+                data.inventory.magicAccessory,
+                data.inventory.munition);
         }
 
         if (profileVisual != null &&

@@ -60,7 +60,8 @@ public class AOOnlineClientV240 : MonoBehaviour
     bool connected, connecting, requested, sessionStarted, restored, showGroup;
     string address, roomKey, status = "", pendingRequest;
     int myId, generation, cachedMap;
-    long acknowledged;
+    long acknowledged, wallet, bank, serverOffset;
+    readonly HashSet<string> duelRequests = new HashSet<string>();
     float nextPosition, nextCheckpoint, transactionAt;
     AOCoopPlayer[] players = new AOCoopPlayer[0];
     AOCoopMessage latestState;
@@ -83,6 +84,10 @@ public class AOOnlineClientV240 : MonoBehaviour
         Application.runInBackground = true;
         if (instance != null) return;
         instance = new GameObject("AO Online Client").AddComponent<AOOnlineClientV240>();
+        // Retos (demo): the duel UI of Interfaz talks to the room through these hooks.
+        AODuelUI.Backend = new DuelBackend();
+        AODuelUI.ServerNowMs = () => ServerNowMs;
+        AODuelUI.RemotePlayerAtGUI = RemotePlayerAtGUI;
     }
     public static bool Prepare(string host, string secret, out string error)
     {
@@ -130,6 +135,12 @@ public class AOOnlineClientV240 : MonoBehaviour
     public static int Stock(int npc,int item,int fallback) => instance?.stocks.FirstOrDefault(s=>s.npc==npc&&s.item==item)?.amount ?? fallback;
     public static bool Trade(string type,int npc,int item,int amount) => Request(new AOCoopMessage{type=type,id=npc,item=item,amount=amount},true);
     public static bool Drop(int item, int amount) => Request(new AOCoopMessage { type = "drop", item = item, amount = amount }, true);
+    // Gold (protocol 3): the server moves it; wallet/bank come back as absolute values.
+    public static long Wallet => instance == null ? 0 : instance.wallet;
+    public static long BankGold => instance == null ? 0 : instance.bank;
+    public static bool RequestBank(long gold) => gold != 0 && Request(new AOCoopMessage { type = "bank", gold = gold }, true);
+    // Call after the quest is marked completed; time = completion number (1 for non-repeatable quests).
+    public static bool RequestQuestReward(int quest, int time) => Request(new AOCoopMessage { type = "questReward", id = quest, amount = Math.Max(1, time) }, true);
     public static int PlayerAt(int x, int y) => !Connected ? 0 : instance.players.FirstOrDefault(p => p.id != instance.myId && p.map == instance.world.CurrentMapNumber && p.x == x && p.y == y)?.id ?? 0;
     public static bool CastAlly(int spell, int x, int y)
     {
@@ -169,7 +180,74 @@ public class AOOnlineClientV240 : MonoBehaviour
         if (!Connected || InputBlocked) return false;
         message.request = Guid.NewGuid().ToString("N");
         if (transaction) { instance.pendingRequest = message.request; instance.transactionAt = Time.unscaledTime; }
+        if (message.type.StartsWith("duel")) instance.duelRequests.Add(message.request);
         instance.SendSnapshot(message); return true;
+    }
+
+    // ---- Retos de la demo (red.md §8). The server decides; the UI (AODuelUI) and AODuelClient only show. ----
+    // duel*/fx pushes and journal events (warp, duelHurt, duelEnd) for Programación's AODuelClient.
+    public static event Action<AOCoopMessage> DuelMessage;
+    public static event Action<AOCoopEvent> DuelEvent;
+    public static long ServerNowMs => DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() + (instance == null ? 0 : instance.serverOffset);
+    public static bool AttackPlayer(int playerId) => playerId > 0 && Request(new AOCoopMessage { type = "attack", id = playerId });
+    // Spells and skill shots on a player (duel rival or teammate); the flight time is picked up as in CastNpc.
+    public static bool CastPlayer(int spell, int playerId, int x, int y) =>
+        playerId > 0 && Request(new AOCoopMessage { type = "cast", spell = spell, id = playerId, x = x, y = y, amount = TakeSkillShotFlightMs() });
+    // Potions inside a duel go to the server (it heals the duel life and removes the item).
+    public static bool UseInDuel(int item) => Request(new AOCoopMessage { type = "use", item = item });
+    sealed class DuelBackend : IAODuelBackend
+    {
+        public bool Available => Connected && AOMainMenuV140.BattleDemoOnline;
+        public void Challenge(string[] players, int bet, int maxRedPotions) =>
+            Request(new AOCoopMessage { type = "duelChallenge", text = string.Join(";", players ?? new string[0]), gold = bet, item = maxRedPotions });
+        public void Accept(string challenger) => Request(new AOCoopMessage { type = "duelAccept", name = challenger });
+        public void Reject(string challenger) => Request(new AOCoopMessage { type = "duelReject", name = challenger });
+        public void Cancel() => Request(new AOCoopMessage { type = "duelCancel" });
+        public void Abandon() => Request(new AOCoopMessage { type = "duelAbandon" });
+        public void List() => Request(new AOCoopMessage { type = "duelList" });
+    }
+    // Remote avatar under the mouse (GUI coordinates, y down) for the "Retar" user menu.
+    static string RemotePlayerAtGUI(Vector2 gui)
+    {
+        var cam = AOActionBarV260.GameCamera;
+        if (!Connected || cam == null) return null;
+        Vector3 world = cam.ScreenToWorldPoint(new Vector3(gui.x, Screen.height - gui.y, Mathf.Abs(cam.transform.position.z)));
+        foreach (var a in instance.avatars.Values)
+        {
+            if (a.root == null || a.state == null) continue;
+            Vector3 p = a.root.transform.position;
+            if (Mathf.Abs(world.x - p.x) <= .5f && world.y - p.y >= -.5f && world.y - p.y <= 1.5f) return a.state.name;
+        }
+        return null;
+    }
+    static int Gold(long value) => (int)Math.Min(int.MaxValue, Math.Max(0, value));
+    static string[] Names(string[] names) => names ?? new string[0];
+    void HandleDuel(AOCoopMessage m)
+    {
+        var d = m.duel ?? new AOCoopDuel();
+        switch (m.type)
+        {
+            case "duelInvite": AODuelUI.ReceiveInvite(d.from, d.level, Names(d.teamA), Names(d.teamB), Gold(d.bet), d.maxPotions, Mathf.Max(0, (d.expiresAt - d.serverTime) / 1000f)); break;
+            case "duelInviteClosed": AODuelUI.ReceiveInviteClosed(d.from, d.reason); break;
+            case "duelWaiting":
+                AODuelUI.ReceiveWaiting(Names(d.missing));
+                if (!string.IsNullOrEmpty(m.text)) AOInterfaceV0101.PushMessage(Short(m.text, 180));
+                break;
+            case "duelStart": AODuelUI.ReceiveStart(d.sala, Names(d.teamA), Names(d.teamB), Gold(d.bet), (int)Math.Max(0, (d.endsAt - d.serverTime) / 1000)); break;
+            case "duelRoundStart":
+                AODuelUI.ReceiveDown(false);
+                AODuelUI.ReceiveRoundStart(d.round, Mathf.CeilToInt(Mathf.Max(0, d.startsAt - d.serverTime) / 1000f), d.serverTime);
+                break;
+            case "duelRoundEnd": AODuelUI.ReceiveRoundEnd(d.round, d.winner, d.winsA, d.winsB); break;
+            case "duelAnnounce": AODuelUI.ReceiveAnnounce(m.text); break;
+            case "duelNotice": AOInterfaceV0101.PushMessage(Short(m.text, 180)); break;
+            case "duelRingState":
+                bool free = d.phase == "libre";
+                AODuelUI.ReceiveRingState(d.sala, d.phase, free ? "" : string.Join(", ", Names(d.teamA)) + " vs " + string.Join(", ", Names(d.teamB)),
+                    Gold(d.bet), d.round, d.winsA, d.winsB, free ? 0 : (int)Math.Max(0, (d.endsAt - d.serverTime) / 1000));
+                break;
+        }
+        DuelMessage?.Invoke(m);
     }
     void Connect()
     {
@@ -195,8 +273,10 @@ public class AOOnlineClientV240 : MonoBehaviour
         }
         var hello = new AOCoopMessage { type = "hello", version = AOCoopMessage.Protocol, key = roomKey,
             characterId = identity.Substring(0,32), token = identity.Substring(33), snapshot = snapshot, player = CapturePlayer() };
-        connecting = true; status = "Conectando a " + address + ":7777...";
-        int port=7777;
+        // The demo is its own server instance (--demo --data SavesDemo --port 7778), apart from the normal room.
+        int port = AOMainMenuV140.BattleDemoOnline ? 7778 : 7777;
+        connecting = true; status = "Conectando a " + address + ":" + port + "...";
+        AODuelUI.LocalName = name;
 #if UNITY_EDITOR
         if(TestPortOverride>0)port=TestPortOverride;
 #endif
@@ -277,27 +357,39 @@ public class AOOnlineClientV240 : MonoBehaviour
             AOCoopMessage m;
             try { m = JsonUtility.FromJson<AOCoopMessage>(line); } catch (Exception) { continue; }
             if (m == null) continue;
+            // Server clock estimate for countdowns (latency makes it a little early, never late).
+            if (m.serverTime > 0 && (m.type == "welcome" || m.type == "state")) serverOffset = m.serverTime - DateTimeOffset.UtcNow.ToUnixTimeMilliseconds();
+            if (m.type != null && (m.type.StartsWith("duel") || m.type == "fx")) { if (restored) HandleDuel(m); continue; }
             if (m.type == "welcome")
             {
                 myId = m.id; acknowledged = m.ack; connected = true; connecting = false;
                 restored = save.ApplyOnline(m.snapshot);
                 if (!restored) { status = "No se pudo recuperar el personaje."; Disconnect(); continue; }
-                ApplyEvents(m.events); Checkpoint(false);
+                ApplyEvents(m.events); ApplyServerGold(m); Checkpoint(false);
                 status = ""; AOInterfaceV0101.PushMessage("Sala cooperativa. EXP compartida cerca del enemigo; botín único. Botón Grupo para entregar objetos.");
             }
-            else if (m.type == "state" && restored) { latestState = m; players = m.players ?? new AOCoopPlayer[0]; stocks = m.stocks ?? new AOCoopStock[0]; ApplyEvents(m.events); }
+            else if (m.type == "state" && restored) { latestState = m; players = m.players ?? new AOCoopPlayer[0]; stocks = m.stocks ?? new AOCoopStock[0]; ApplyEvents(m.events); ApplyServerGold(m); }
             else if (m.type == "result")
             {
-                ApplyEvents(m.events);
+                ApplyEvents(m.events); ApplyServerGold(m);
                 if (m.request == pendingRequest) { pendingRequest = null; Checkpoint(false); }
-                if (!m.ok) AOInterfaceV0101.PushMessage(Short(m.text, 180));
+                bool duel = m.request != null && duelRequests.Remove(m.request);
+                if (!m.ok && duel) AODuelUI.ReceiveError(Short(m.text, 180));
+                else if (!m.ok) AOInterfaceV0101.PushMessage(Short(m.text, 180));
+                if (duel && m.duels != null) foreach (var ring in m.duels) HandleDuel(new AOCoopMessage { type = "duelRingState", duel = ring });
             }
             else if (m.type == "chat" && m.id != myId)
             {
                 AOInterfaceV0101.PushMessage(Short(m.name,20) + ": " + Short(m.text,160));
                 if (avatars.TryGetValue(m.id, out var a)) { a.speech = Short(m.text,160); a.speechUntil = Time.unscaledTime + 6; }
             }
-            else if (m.type == "error") { status = Short(m.text,180); AOInterfaceV0101.PushMessage("Red: " + status); }
+            else if (m.type == "error")
+            {
+                status = Short(m.text,180);
+                // An older server answers "incompatible" too: this client is already the new one.
+                if (!restored && status.Contains("incompatible")) status += " Si ya tenés el cliente nuevo (protocolo " + AOCoopMessage.Protocol + "), el anfitrión tiene que actualizar el servidor.";
+                AOInterfaceV0101.PushMessage("Red: " + status);
+            }
             else if (m.type == "closed") { if (string.IsNullOrEmpty(status)) status = "Servidor desconectado. Reconectá para recuperar la partida."; Disconnect(); }
         }
         if (Connected && world != null && !world.IsLoading)
@@ -325,8 +417,10 @@ public class AOOnlineClientV240 : MonoBehaviour
                 if (e.items != null) foreach (var item in e.items)
                     if (item != null && quests != null && quests.NeedsQuestItem(item.quest,item.item,out _)) pendingItems.Add(item);
             }
-            else if (e.type == "buy") { combat.SpendGold(-e.gold); pendingItems.Add(new AOCoopItem { item=e.item,amount=e.amount }); }
-            else if (e.type == "sell") { inv.RemoveItemByIndexPublic(e.item,e.amount); combat.AddGold(e.gold); }
+            // Protocol 3: gold never comes from events; the absolute wallet follows every message.
+            else if (e.type == "buy") pendingItems.Add(new AOCoopItem { item=e.item,amount=e.amount });
+            else if (e.type == "sell") inv.RemoveItemByIndexPublic(e.item,e.amount);
+            else if (e.type == "item" && e.item == AONPCLootDatabaseV180.GoldItemIndex) AOInterfaceV0101.PushMessage("Recogiste " + e.amount + " monedas de oro.");
             else if (e.type == "item") pendingItems.Add(new AOCoopItem { item = e.item, amount = e.amount });
             else if (e.type == "remove")
             {
@@ -334,9 +428,24 @@ public class AOOnlineClientV240 : MonoBehaviour
             }
             else if (e.type == "hurt") combat.ReceiveOnlineDamage(e.damage);
             else if (e.type == "spell") player.GetComponent<AOPlayerMagicV120>().ApplyOnlineSpell(e.spell);
+            // Duel journal (it survives a disconnection): the life shown in a duel is the server's (e.hp).
+            else if (e.type == "duelHurt") { if (e.hp <= 0) AODuelUI.ReceiveDown(true); DuelEvent?.Invoke(e); }
+            else if (e.type == "warp") DuelEvent?.Invoke(e);
+            else if (e.type == "duelEnd") { AODuelUI.ReceiveEnd(e.duel?.result ?? "", Gold(e.duel?.prize ?? 0), Gold(e.duel?.tax ?? 0)); DuelEvent?.Invoke(e); }
             acknowledged = e.seq;
         }
     }
+    // Protocol 3: the server owns gold. The local wallet only mirrors it (AddGold/SpendGold are silent).
+    void ApplyServerGold(AOCoopMessage m)
+    {
+        if (!restored || player == null) return;
+        wallet = m.wallet; bank = m.bank;
+        var combat = player.GetComponent<AOPlayerCombatV09>();
+        if (combat.Gold < wallet) combat.AddGold(wallet - combat.Gold); else combat.SpendGold(combat.Gold - wallet);
+        if (cityBank == null) cityBank = UnityEngine.Object.FindFirstObjectByType<AOCityBankV130>();
+        if (cityBank != null && cityBank.BankGold != bank) cityBank.SetServerGold(bank);
+    }
+    AOCityBankV130 cityBank;
     void DeliverPendingItems()
     {
         var inv = player.GetComponent<AOInventoryV10>(); var combat = player.GetComponent<AOPlayerCombatV09>();

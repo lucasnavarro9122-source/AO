@@ -104,7 +104,8 @@ public class AOMagicEffectRuntimeV129 : MonoBehaviour
 
         if(d.type==1){
             int amount=Mathf.RoundToInt(Roll(d.tickPowerMin,d.tickPowerMax));
-            if(playerCombat!=null){if(amount>=0)playerCombat.RestoreHealth(ApplyHealing(amount));else playerCombat.ReceiveMagicDamage(ModifyIncomingMagic(-amount),"Efecto mágico");}
+            // Player: RestoreHealth already applies the self-healing bonus and ReceiveMagicDamage the magic reduction/absorb.
+            if(playerCombat!=null){if(amount>=0)playerCombat.RestoreHealth(ApplyOutgoingMagicHealing(amount));else playerCombat.ReceiveMagicDamage(-amount,"Efecto mágico");}
             else if(npcCombat!=null){if(amount>=0)npcCombat.HealMagic(ApplyHealing(amount));else npcCombat.TakeMagicDamage(ModifyIncomingMagic(-amount),a.caster);}
         } else if(d.type==9 && rpg!=null){
             int amount=Mathf.RoundToInt(Roll(d.tickPowerMin,d.tickPowerMax));rpg.ModifyMana(amount);

@@ -1,0 +1,182 @@
+{
+ "piloto": "demo AO BATTLESERVER",
+ "escala": 4,
+ "items": [
+  {
+   "archivo": "6000_pasto.png",
+   "texturaOriginal": "tex_6000.png",
+   "tamanoOriginal": [
+    512,
+    512
+   ],
+   "recorte": [
+    0,
+    0,
+    512,
+    128
+   ],
+   "tamano": [
+    512,
+    128
+   ],
+   "tamano4x": [
+    2048,
+    512
+   ]
+  },
+  {
+   "archivo": "6021_arena.png",
+   "texturaOriginal": "tex_6021.png",
+   "tamanoOriginal": [
+    1024,
+    1024
+   ],
+   "recorte": [
+    0,
+    0,
+    768,
+    768
+   ],
+   "tamano": [
+    768,
+    768
+   ],
+   "tamano4x": [
+    3072,
+    3072
+   ]
+  },
+  {
+   "archivo": "6640_nieve.png",
+   "texturaOriginal": "tex_6640.png",
+   "tamanoOriginal": [
+    512,
+    512
+   ],
+   "recorte": [
+    0,
+    0,
+    512,
+    128
+   ],
+   "tamano": [
+    512,
+    128
+   ],
+   "tamano4x": [
+    2048,
+    512
+   ]
+  },
+  {
+   "archivo": "5129_cripta.png",
+   "texturaOriginal": "tex_5129.png",
+   "tamanoOriginal": [
+    1024,
+    1024
+   ],
+   "recorte": [
+    0,
+    0,
+    800,
+    640
+   ],
+   "tamano": [
+    800,
+    640
+   ],
+   "tamano4x": [
+    3200,
+    2560
+   ]
+  },
+  {
+   "archivo": "5114_pantano.png",
+   "texturaOriginal": "tex_5114.png",
+   "tamanoOriginal": [
+    1024,
+    1024
+   ],
+   "recorte": [
+    0,
+    0,
+    1024,
+    1024
+   ],
+   "tamano": [
+    1024,
+    1024
+   ],
+   "tamano4x": [
+    4096,
+    4096
+   ]
+  },
+  {
+   "archivo": "5043_empedrado.png",
+   "texturaOriginal": "tex_5043.png",
+   "tamanoOriginal": [
+    512,
+    512
+   ],
+   "recorte": [
+    0,
+    0,
+    512,
+    192
+   ],
+   "tamano": [
+    512,
+    192
+   ],
+   "tamano4x": [
+    2048,
+    768
+   ]
+  },
+  {
+   "archivo": "5067_postes-cuerdas.png",
+   "texturaOriginal": "tex_5067.png",
+   "tamanoOriginal": [
+    512,
+    512
+   ],
+   "recorte": [
+    0,
+    0,
+    512,
+    384
+   ],
+   "tamano": [
+    512,
+    384
+   ],
+   "tamano4x": [
+    2048,
+    1536
+   ]
+  },
+  {
+   "archivo": "6028_alfombra.png",
+   "texturaOriginal": "tex_6028.png",
+   "tamanoOriginal": [
+    512,
+    512
+   ],
+   "recorte": [
+    0,
+    0,
+    512,
+    256
+   ],
+   "tamano": [
+    512,
+    256
+   ],
+   "tamano4x": [
+    2048,
+    1024
+   ]
+  }
+ ]
+}

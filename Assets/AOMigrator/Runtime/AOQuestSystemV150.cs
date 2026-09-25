@@ -21,6 +21,7 @@ public class AOQuestSystemV150 : MonoBehaviour
     {
         public ActiveQuestSave[] active;
         public int[] completed;
+        public int[] completedTimes;   // pares (questId, veces); opcional: los guardados viejos no lo traen
         public int trackedQuestId;
     }
 
@@ -31,6 +32,11 @@ public class AOQuestSystemV150 : MonoBehaviour
     readonly HashSet<int>
         completed =
             new HashSet<int>();
+
+    // Cuántas veces se completó cada misión: el servidor paga cada vez una sola vez (RequestQuestReward).
+    readonly Dictionary<int, int>
+        completedTimes =
+            new Dictionary<int, int>();
 
     int trackedQuestId;
 
@@ -828,8 +834,13 @@ public class AOQuestSystemV150 : MonoBehaviour
                 quest.rewardExp);
         }
 
+        bool onlineGoldReward =
+            quest.rewardGold > 0 &&
+            AOOnlineClientV240.Requested;
+
         if (quest.rewardGold > 0 &&
-            combat != null)
+            combat != null &&
+            !onlineGoldReward)
         {
             // Igual que el servidor: recompensas grandes van al banco.
             if (quest.rewardGold >=
@@ -888,6 +899,13 @@ public class AOQuestSystemV150 : MonoBehaviour
         completed.Add(
             questId);
 
+        int times =
+            TimesCompleted(
+                questId) + 1;
+
+        completedTimes[questId] =
+            times;
+
         if (trackedQuestId ==
             questId)
         {
@@ -910,7 +928,27 @@ public class AOQuestSystemV150 : MonoBehaviour
 
         SaveAfterChange();
 
+        // Después de guardar: el servidor revisa la misión completada en el estado que acaba de recibir.
+        if (onlineGoldReward)
+            AOOnlineClientV240.RequestQuestReward(
+                questId,
+                times);
+
         return true;
+    }
+
+    public int TimesCompleted(
+        int questId)
+    {
+        if (completedTimes.TryGetValue(
+                questId,
+                out int times))
+            return times;
+
+        return completed.Contains(
+            questId)
+            ? 1
+            : 0;
     }
 
     public bool NeedsQuestItem(
@@ -1409,6 +1447,21 @@ public class AOQuestSystemV150 : MonoBehaviour
         data.completed =
             done;
 
+        data.completedTimes =
+            new int[
+                done.Length * 2];
+
+        for (int i = 0;
+             i < done.Length;
+             i++)
+        {
+            data.completedTimes[i * 2] =
+                done[i];
+            data.completedTimes[i * 2 + 1] =
+                TimesCompleted(
+                    done[i]);
+        }
+
         data.trackedQuestId =
             trackedQuestId;
 
@@ -1420,10 +1473,23 @@ public class AOQuestSystemV150 : MonoBehaviour
     {
         active.Clear();
         completed.Clear();
+        completedTimes.Clear();
         trackedQuestId = 0;
 
         if (data == null)
             return;
+
+        if (data.completedTimes != null)
+        {
+            for (int i = 0;
+                 i + 1 < data.completedTimes.Length;
+                 i += 2)
+            {
+                if (data.completedTimes[i + 1] > 0)
+                    completedTimes[data.completedTimes[i]] =
+                        data.completedTimes[i + 1];
+            }
+        }
 
         if (data.completed != null)
         {
@@ -1499,6 +1565,7 @@ public class AOQuestSystemV150 : MonoBehaviour
     {
         active.Clear();
         completed.Clear();
+        completedTimes.Clear();
         trackedQuestId = 0;
     }
 

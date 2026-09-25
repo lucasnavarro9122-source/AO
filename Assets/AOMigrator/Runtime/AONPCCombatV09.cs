@@ -32,6 +32,7 @@ public class AONPCCombatV09 : MonoBehaviour
     int attackIntervalMs;
     int respawnMinSeconds;
     int respawnMaxSeconds;
+    AOWorldManagerV07 world;
     int giveExp;
     int giveGold;
     DropSpec[] drops;
@@ -390,6 +391,20 @@ public class AONPCCombatV09 : MonoBehaviour
                 ? giveExp
                 : source.giveExp;
 
+            // AO original (GetExpPenalty): -5 % per level above NPCLVL + 4.
+            AOPlayerRPGV11 killerRpg =
+                killer.GetComponent<AOPlayerRPGV11>();
+
+            if (source != null &&
+                killerRpg != null)
+            {
+                expReward =
+                    (int)AOExpRules.ApplyNpcLevelPenalty(
+                        expReward,
+                        killerRpg.Level,
+                        source.level);
+            }
+
             // El oro en AO cae físicamente al piso.
             killer.AddRewards(
                 expReward,
@@ -665,25 +680,18 @@ public class AONPCCombatV09 : MonoBehaviour
     float GetSourceRespawnDelay(
         AONPCLootDatabaseV180.NPCDef source)
     {
-        int min =
-            source == null
-            ? respawnMinSeconds
-            : source.respawnMinSeconds;
+        if (world == null)
+            world = UnityEngine.Object.FindFirstObjectByType<AOWorldManagerV07>();
 
-        int max =
-            source == null
-            ? respawnMaxSeconds
-            : source.respawnMaxSeconds;
-
-        min =
-            Mathf.Max(
-                0,
-                min);
-
-        max =
-            Mathf.Max(
-                min,
-                max);
+        // Same rule as the server (AODemoRates.RespawnRange): demo maps use the map times, the normal game npcs.dat.
+        AODemoRates.RespawnRange(
+            world == null ? 0 : world.CurrentMapNumber,
+            respawnMinSeconds,
+            respawnMaxSeconds,
+            source == null ? respawnMinSeconds : source.respawnMinSeconds,
+            source == null ? respawnMaxSeconds : source.respawnMaxSeconds,
+            out int min,
+            out int max);
 
         if (max <= 0)
         {

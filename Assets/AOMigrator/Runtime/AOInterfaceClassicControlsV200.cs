@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 
 public partial class AOInterfaceV0101
 {
-    enum TopDialog { None, Settings, Manual, Market, Exit }
+    enum TopDialog { None, Settings, Manual, Market, Exit, Retos }
     enum SettingsTab { Gameplay, Audio, Video, Controls }
 
     TopDialog topDialog;
@@ -130,6 +130,14 @@ public partial class AOInterfaceV0101
             return;
         }
 
+        if (topDialog == TopDialog.Retos)
+        {
+            DrawDuelForm();
+            GUI.depth = previousDepth;
+            GUI.skin = previousSkin;
+            return;
+        }
+
         GUI.Box(R(263, 186, 500, 344), "");
         GUI.Label(R(294, 215, 440, 31), DialogTitle());
 
@@ -145,7 +153,8 @@ public partial class AOInterfaceV0101
                 "   ·   Mapa: " + AOPlayerSettingsV230.KeyName(AOGameAction.Map) +
                 "   ·   Misiones: " + AOPlayerSettingsV230.KeyName(AOGameAction.Quests) + "\n" +
                 "Guardar: " + AOPlayerSettingsV230.KeyName(AOGameAction.QuickSave) +
-                "   ·   Cargar: " + AOPlayerSettingsV230.KeyName(AOGameAction.QuickLoad));
+                "   ·   Cargar: " + AOPlayerSettingsV230.KeyName(AOGameAction.QuickLoad) + "\n" +
+                "Retos: /RETAR · /ACEPTAR nombre · /CANCELAR · /ABANDONAR · /RETOS");
             if (AOAudioV190.Clicked(GUI.Button(R(294, 382, 440, 35),
                                              "Abrir wiki original")))
                 Application.OpenURL("https://www.argentumonline.com.ar/wiki");
@@ -307,6 +316,7 @@ public partial class AOInterfaceV0101
             case TopDialog.Manual: return "MANUAL";
             case TopDialog.Market: return "MERCADO AO";
             case TopDialog.Exit: return "SALIR";
+            case TopDialog.Retos: return "RETOS";
             default: return "";
         }
     }

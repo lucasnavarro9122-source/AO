@@ -1,0 +1,315 @@
+{
+  "version": 2,
+  "autor": "Arte y Animación",
+  "fuente": "docs/claude/demo/arte.md (GRH originales sacados de los 842 mapas)",
+  "uso": "Paleta visual de AOArenaGen. Las claves de 'kinds' son el enum AOArenaGen.Kind (Pillar, Rock, Wall, Tree, Pool, Deco). El cliente dibuja grh[variant % count]. Solo 'densidad' entra en el generador (Programación la copia como constante, G-09).",
+  "reglas": {
+    "piso4x4": "grh = base + (y % 4) * 4 + (x % 4), con x,y del mapa (1..100), igual que el original",
+    "piso3x3": "grh = base + (y % 3) * 3 + (x % 3)",
+    "anclaje": "sprite centrado en X sobre la celda (o sobre el bloque 2x2), apoyado abajo, como los objetos del mapa",
+    "porCelda": "muro y L: un tile de 32x32 por celda bloqueada",
+    "agua": "Water sin costa: piso4x4 del set de agua (el servidor lo reconoce por HayAgua)",
+    "deco": "capa 2, caminable, sin bloqueo",
+    "formas": "Pillar y Tree: 1 sprite por celda (1x1). Rock: 1 sprite centrado sobre el bloque 2x2. Wall (recta o L): 1 tile de 32x32 por celda. Pool: set de agua 4x4 sin costa. Deco: sprite en capa 2, caminable."
+  },
+  "limitesSprite": {
+    "solido1x1": [
+      64,
+      128
+    ],
+    "roca2x2": [
+      96,
+      128
+    ],
+    "porCelda": [
+      32,
+      32
+    ],
+    "deco": [
+      96,
+      64
+    ]
+  },
+  "temas": {
+    "Bosque": {
+      "densidad": {
+        "min": 10,
+        "max": 18
+      },
+      "piso": {
+        "base": 6000,
+        "patron": "4x4",
+        "nombre": "pasto"
+      },
+      "kinds": {
+        "Tree": {
+          "grh": [
+            12579,
+            27308,
+            29258
+          ],
+          "nombre": "tocón con pasto, arbusto, tocón chico"
+        },
+        "Rock": {
+          "grh": [
+            147,
+            11916
+          ],
+          "nombre": "roca aguja, tocón musgoso"
+        },
+        "Pillar": {
+          "grh": [
+            49550
+          ],
+          "nombre": "poste de madera"
+        },
+        "Pool": {
+          "base": 1505,
+          "patron": "4x4",
+          "nombre": "charco: agua"
+        },
+        "Deco": {
+          "grh": [
+            28,
+            4703,
+            950,
+            943
+          ],
+          "nombre": "pasto alto, flores rojas, rosas, amarillas"
+        }
+      }
+    },
+    "Desierto": {
+      "densidad": {
+        "min": 8,
+        "max": 14
+      },
+      "piso": {
+        "base": 7704,
+        "patron": "4x4",
+        "nombre": "arena"
+      },
+      "kinds": {
+        "Rock": {
+          "grh": [
+            88,
+            2347,
+            2348
+          ],
+          "nombre": "roca arenisca, cactus redondo, cactus"
+        },
+        "Pillar": {
+          "grh": [
+            2386,
+            2350,
+            2351
+          ],
+          "nombre": "columna de arenisca, cactus alto, cactus chico"
+        },
+        "Wall": {
+          "grh": [
+            9126,
+            9127,
+            9128,
+            9129,
+            9130,
+            9131
+          ],
+          "nombre": "ladrillo de arenisca"
+        },
+        "Deco": {
+          "grh": [
+            27334,
+            748,
+            45562
+          ],
+          "nombre": "restos, calavera con huesos, calavera"
+        }
+      }
+    },
+    "Nieve": {
+      "densidad": {
+        "min": 8,
+        "max": 15
+      },
+      "piso": {
+        "base": 7380,
+        "patron": "4x4",
+        "nombre": "nieve"
+      },
+      "kinds": {
+        "Rock": {
+          "grh": [
+            12915
+          ],
+          "nombre": "roca nevada"
+        },
+        "Pillar": {
+          "grh": [
+            18239,
+            18276
+          ],
+          "nombre": "columna de piedra"
+        },
+        "Tree": {
+          "grh": [
+            27308,
+            27338
+          ],
+          "nombre": "arbusto, tocón oscuro"
+        },
+        "Pool": {
+          "base": 1505,
+          "patron": "4x4",
+          "nombre": "hielo: agua (no hay textura de hielo original)"
+        },
+        "Deco": {
+          "grh": [
+            57204,
+            57205,
+            57207
+          ],
+          "nombre": "montículos de nieve"
+        }
+      }
+    },
+    "Mazmorra": {
+      "densidad": {
+        "min": 12,
+        "max": 20
+      },
+      "piso": {
+        "base": 9428,
+        "patron": "4x4",
+        "nombre": "piedra con musgo (cripta); contrasta con los muros grises"
+      },
+      "kinds": {
+        "Pillar": {
+          "grh": [
+            18239,
+            18276,
+            18734
+          ],
+          "nombre": "columnas de piedra, tótem de hueso"
+        },
+        "Wall": {
+          "grh": [
+            18248,
+            18249,
+            18250,
+            18251
+          ],
+          "nombre": "bloque de piedra"
+        },
+        "Rock": {
+          "grh": [
+            1472,
+            1481
+          ],
+          "nombre": "estalagmitas"
+        },
+        "Deco": {
+          "grh": [
+            48695,
+            48696,
+            48697,
+            48698,
+            748,
+            45562
+          ],
+          "nombre": "baldosas rotas, calaveras"
+        }
+      }
+    },
+    "Pantano": {
+      "densidad": {
+        "min": 10,
+        "max": 18
+      },
+      "piso": {
+        "base": 16404,
+        "patron": "4x4",
+        "nombre": "barro"
+      },
+      "kinds": {
+        "Tree": {
+          "grh": [
+            12579,
+            642,
+            27341
+          ],
+          "nombre": "tocón, helecho, arbusto seco"
+        },
+        "Rock": {
+          "grh": [
+            11916
+          ],
+          "nombre": "tocón musgoso"
+        },
+        "Pool": {
+          "base": 1505,
+          "patron": "4x4",
+          "nombre": "charco: agua (el 84 % del agua de los pantanos originales; la verde 12628 no se lee sobre el barro)"
+        },
+        "Deco": {
+          "grh": [
+            4703,
+            748,
+            45562,
+            28
+          ],
+          "nombre": "flores rojas, calaveras, pasto alto"
+        }
+      }
+    },
+    "Ciudad": {
+      "densidad": {
+        "min": 8,
+        "max": 14
+      },
+      "piso": {
+        "base": 58114,
+        "patron": "3x3",
+        "nombre": "empedrado gris"
+      },
+      "kinds": {
+        "Wall": {
+          "grh": [
+            60192,
+            60035
+          ],
+          "nombre": "bloque de piedra oscura (contrasta con el empedrado)"
+        },
+        "Pillar": {
+          "grh": [
+            2386,
+            5624,
+            5625,
+            48886
+          ],
+          "nombre": "columna, faroles, barril"
+        },
+        "Rock": {
+          "grh": [
+            21721
+          ],
+          "nombre": "cantero con seto"
+        },
+        "Pool": {
+          "base": 1505,
+          "patron": "4x4",
+          "nombre": "fuente: agua"
+        },
+        "Deco": {
+          "grh": [
+            48695,
+            48696,
+            48697,
+            48698
+          ],
+          "nombre": "adoquines rotos"
+        }
+      }
+    }
+  }
+}

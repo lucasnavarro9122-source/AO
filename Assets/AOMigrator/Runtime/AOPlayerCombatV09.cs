@@ -18,7 +18,6 @@ public class AOPlayerCombatV09 : MonoBehaviour
     [SerializeField] int defense = 5;
     [SerializeField] int strength = 18;
     [SerializeField] float meleeClassModifier = 1f;
-    [SerializeField] float attackIntervalSeconds = 0.75f;
 
     AOTestPlayer player;
     AOInventoryV10 inventoryV10;
@@ -29,6 +28,22 @@ public class AOPlayerCombatV09 : MonoBehaviour
     long gold;
     bool dead;
     float nextAttackAt;
+    float lastNpcAttackAt = -999f;
+    bool rangedTargeting;
+    int rangedInputFrame = -1;
+
+    public bool IsRangedTargeting => rangedTargeting;
+    public bool ConsumedInputThisFrame => rangedInputFrame == Time.frameCount;
+
+    // Original ranged rules (arco-original.md, Protocol.bas HandleWorkLeftClick / Proyectiles).
+    const int RangedMaxDx = 11;
+    const int RangedMaxDy = 9;
+    const int RangedMinStamina = 10;
+    float healCounterSeconds;
+
+    // AO original (EfectoStamina + Sanar, 40 ms ticks): SanaIntervaloSinDescansar=200 ticks, IntervaloEnCombate=10 s.
+    const float HealIntervalSeconds = 200 * 0.04f;
+    const float CombatWindowSeconds = 10f;
     string combatText = "";
     float combatTextUntil;
     readonly Dictionary<int, int> inventory =
@@ -414,14 +429,238 @@ public class AOPlayerCombatV09 : MonoBehaviour
         if (dead || player == null)
             return;
 
+        UpdateHealthRegen();
+
         if (AOInterfaceV0101.InputCaptured)
             return;
+
+        if (rangedTargeting)
+        {
+            UpdateRangedTargeting();
+            return;
+        }
 
         if (PressedAttack())
             TryAttack();
 
         if (PressedPickup())
             TryPickup();
+    }
+
+    // Sanar: fed, watered, out of combat (10 s since an NPC attacked) and wearing armor (naked characters don't heal):
+    // every 8 s restores RandomNumber(5 %, 10 %) of max HP. Resting (2 s) is not in the client yet.
+    // In a duel the server owns HP, so nothing regenerates locally.
+    void UpdateHealthRegen()
+    {
+        if (hp >= MaxHP || AODuelUI.InDuel)
+            return;
+
+        if (rpgV11 == null)
+            rpgV11 = GetComponent<AOPlayerRPGV11>();
+        if (inventoryV10 == null)
+            inventoryV10 = GetComponent<AOInventoryV10>();
+
+        if (rpgV11 == null ||
+            rpgV11.Hunger <= 0 ||
+            rpgV11.Thirst <= 0 ||
+            Time.time - lastNpcAttackAt < CombatWindowSeconds ||
+            inventoryV10 == null ||
+            inventoryV10.GetArmor() == null)
+            return;
+
+        healCounterSeconds += Time.deltaTime;
+        if (healCounterSeconds < HealIntervalSeconds)
+            return;
+
+        healCounterSeconds = 0f;
+        int min = (int)AOPvpFormulas.VbRound(MaxHP * 5 / 100.0);
+        int max = (int)AOPvpFormulas.VbRound(MaxHP * 10 / 100.0);
+        RestoreHealth(UnityEngine.Random.Range(min, Mathf.Max(min, max) + 1));
+    }
+
+    // Original intervals: melee 1165 ms (IntervaloUserPuedeAtacar), bow 1200 ms (IntervaloFlechasCazadores).
+    float AttackIntervalSeconds()
+    {
+        AOItemDatabaseV10.ItemDef weapon =
+            inventoryV10 == null ? null : inventoryV10.GetWeapon();
+
+        bool bow =
+            weapon != null &&
+            (weapon.projectile > 0 ||
+             weapon.weaponType == 3 ||
+             weapon.weaponType == 11);
+
+        return (bow
+            ? AOPvpFormulas.IntervalArrowMs
+            : AOPvpFormulas.IntervalMeleeMs) / 1000f;
+    }
+
+    // "Usar" on the equipped projectile weapon (WorkRequestTarget Proyectiles): next left click shoots.
+    public void BeginRangedTargeting()
+    {
+        if (dead)
+            return;
+
+        if (inventoryV10 == null)
+            inventoryV10 = GetComponent<AOInventoryV10>();
+        if (rpgV11 == null)
+            rpgV11 = GetComponent<AOPlayerRPGV11>();
+
+        AOItemDatabaseV10.ItemDef weapon = inventoryV10 == null ? null : inventoryV10.GetWeapon();
+        if (weapon == null || weapon.projectile <= 0)
+            return;
+
+        if (rpgV11 != null && rpgV11.Stamina <= 0)
+        {
+            Flash("Estás muy cansado.");
+            return;
+        }
+
+        GetComponent<AOPlayerMagicV120>()?.CancelTargeting();
+        rangedTargeting = true;
+        AOInterfaceV0101.PushMessage("Haz click sobre la victima...");
+    }
+
+    public void CancelRangedTargeting() => rangedTargeting = false;
+
+    // For other control schemes (MOBA): shoot directly at a tile with the same rules as the click.
+    public bool HasRangedWeapon
+    {
+        get
+        {
+            if (inventoryV10 == null)
+                inventoryV10 = GetComponent<AOInventoryV10>();
+            AOItemDatabaseV10.ItemDef weapon = inventoryV10 == null ? null : inventoryV10.GetWeapon();
+            return weapon != null && weapon.projectile > 0;
+        }
+    }
+
+    public void ShootFromControls(int tx, int ty)
+    {
+        if (!dead && !AOInterfaceV0101.InputCaptured && !AOOnlineClientV240.InputBlocked && HasRangedWeapon)
+        {
+            rangedInputFrame = Time.frameCount;
+            TryShootAt(tx, ty);
+        }
+    }
+
+    void UpdateRangedTargeting()
+    {
+#if ENABLE_INPUT_SYSTEM
+        bool cancel = Keyboard.current != null && Keyboard.current.escapeKey.wasPressedThisFrame;
+        bool click = Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame;
+#else
+        bool cancel = Input.GetKeyDown(KeyCode.Escape);
+        bool click = Input.GetMouseButtonDown(0);
+#endif
+        if (cancel)
+        {
+            rangedTargeting = false;
+            return;
+        }
+
+        if (!click)
+            return;
+
+        rangedInputFrame = Time.frameCount;
+        rangedTargeting = false;
+        if (AOActionBarV260.CursorTile(player, out int tx, out int ty))
+            TryShootAt(tx, ty);
+    }
+
+    void TryShootAt(int tx, int ty)
+    {
+        AOPlayerMagicStatusV120 magicStatus = GetComponent<AOPlayerMagicStatusV120>();
+        if (magicStatus != null && magicStatus.IsParalyzed)
+        {
+            Flash("Estás paralizado.");
+            return;
+        }
+
+        // Only tiles on screen (InRangoVision); otherwise the original just ignores the click.
+        if (Mathf.Abs(tx - player.TileX) > RangedMaxDx || Mathf.Abs(ty - player.TileY) > RangedMaxDy)
+            return;
+
+        GetComponent<AOPlayerMagicV120>()?.InterruptMeditation();
+
+        if (Time.time < nextAttackAt)
+        {
+            Flash("No puedes lanzar flechas tan rápido.");
+            return;
+        }
+
+        AOItemDatabaseV10.ItemDef weapon = inventoryV10 == null ? null : inventoryV10.GetWeapon();
+        if (weapon == null || weapon.projectile <= 0)
+            return;
+
+        if (weapon.munition > 0)
+        {
+            AOItemDatabaseV10.ItemDef ammo = inventoryV10.GetMunition();
+            if (ammo == null ||
+                ammo.objType != AOInventoryV10.ObjTypeMunition ||
+                ammo.subType != weapon.munition ||
+                inventoryV10.CountItem(ammo.index) < 1)
+            {
+                inventoryV10.UnequipMunition();
+                Flash("No tienes municiones.");
+                return;
+            }
+        }
+
+        if (rpgV11 != null)
+        {
+            if (rpgV11.Stamina < RangedMinStamina)
+            {
+                Flash("Estás muy cansado para luchar.");
+                return;
+            }
+            rpgV11.TrySpendStamina(UnityEngine.Random.Range(1, 11));
+        }
+
+        AONPCCombatV09 target = FindNpcAt(tx, ty);
+        if (target == null || !target.IsAlive)
+            return;   // empty tile: no shot, no ammo spent
+
+        if (!target.Attackable)
+        {
+            Flash(target.DisplayName + " no es atacable.");
+            return;
+        }
+
+        if (AOOnlineClientV240.Requested)
+        {
+            // Pending: the server resolves ranged attacks and consumes the ammo (request sent to Servidor).
+            Flash("El disparo a distancia en línea todavía no está disponible.");
+            return;
+        }
+
+        nextAttackAt = Time.time + AttackIntervalSeconds();
+
+        if (characterVisual == null)
+            characterVisual = GetComponentInChildren<AOCharacterRenderer>(true);
+        AOCombatFeedbackV113.PlayAttack(characterVisual, player.Heading, weapon.weaponType);
+
+        ResolveAttackOnNpc(target, true);
+
+        // One unit per attack, hit or miss.
+        if (weapon.munition > 0)
+            inventoryV10.ConsumeMunition();
+    }
+
+    static AONPCCombatV09 FindNpcAt(int tx, int ty)
+    {
+        foreach (AONPCCombatV09 npc in UnityEngine.Object.FindObjectsByType<AONPCCombatV09>(FindObjectsSortMode.None))
+        {
+            if (npc == null || !npc.IsAlive)
+                continue;
+            AONPCMovementV08 movement = npc.GetComponent<AONPCMovementV08>();
+            if (movement != null && movement.TileX == tx && movement.TileY == ty)
+                return npc;
+            AOInteractable interactable = npc.GetComponent<AOInteractable>();
+            if (interactable != null && interactable.TileX == tx && interactable.TileY == ty)
+                return npc;
+        }
+        return null;
     }
 
     public void AttackFromControls() { if (!dead && !AOInterfaceV0101.InputCaptured && !AOOnlineClientV240.InputBlocked) TryAttack(); }
@@ -463,7 +702,7 @@ public class AOPlayerCombatV09 : MonoBehaviour
 
         nextAttackAt =
             Time.time +
-            Mathf.Max(0.15f, attackIntervalSeconds);
+            AttackIntervalSeconds();
 
         if (characterVisual == null)
         {
@@ -524,6 +763,13 @@ public class AOPlayerCombatV09 : MonoBehaviour
 
         if (AOOnlineClientV240.Requested) { AOOnlineClientV240.Attack(target); return; }
 
+        ResolveAttackOnNpc(target, false);
+    }
+
+    // Hit roll and damage against an NPC, melee or ranged. Offline only: online the server resolves attacks.
+    void ResolveAttackOnNpc(AONPCCombatV09 target, bool ranged)
+    {
+
         float chance =
             Mathf.Clamp(
                 50f +
@@ -574,7 +820,8 @@ public class AOPlayerCombatV09 : MonoBehaviour
                     activeMinHit,
                     activeMaxHit,
                     activeStrength,
-                    damageModifier)
+                    damageModifier,
+                    ranged)
             : UnityEngine.Random.Range(
                 Mathf.Max(
                     0,
@@ -604,7 +851,7 @@ public class AOPlayerCombatV09 : MonoBehaviour
                 target,
                 this);
         Flash(
-            "Golpeas a " + target.DisplayName +
+            (ranged ? "Le disparas a " : "Golpeas a ") + target.DisplayName +
             " por " + damage + ".");
     }
 
@@ -715,6 +962,8 @@ public class AOPlayerCombatV09 : MonoBehaviour
     {
         if (dead)
             return;
+
+        lastNpcAttackAt = Time.time;   // IntervaloEnCombate: set even if the attack misses
 
         float chance =
             Mathf.Clamp(

@@ -176,6 +176,19 @@ public class AOCityBankV130 : MonoBehaviour
         Save();
     }
 
+    // Protocolo 3: el banco lo lleva el servidor (red.md §3). AOOnlineClientV240 fija el valor absoluto.
+    // Sin guardado local: en línea el guardado va al servidor.
+    public void SetServerGold(
+        long gold)
+    {
+        Ensure();
+
+        data.gold =
+            Math.Max(
+                0L,
+                gold);
+    }
+
     public int GetItemIndex(
         int slot)
     {
@@ -417,6 +430,13 @@ public class AOCityBankV130 : MonoBehaviour
                 amount,
                 combat.Gold);
 
+        if (amount > 0 &&
+            AOOnlineClientV240.Requested)
+            return RequestOnline(
+                amount,
+                "Depositaste " + amount + " de oro.",
+                out message);
+
         if (amount <= 0 ||
             !combat.SpendGold(
                 amount))
@@ -435,6 +455,24 @@ public class AOCityBankV130 : MonoBehaviour
             amount +
             " de oro.";
 
+        return true;
+    }
+
+    // En línea no se mueve oro local: el servidor responde con la billetera y el banco absolutos.
+    bool RequestOnline(
+        long signedAmount,
+        string okMessage,
+        out string message)
+    {
+        if (!AOOnlineClientV240.RequestBank(
+                signedAmount))
+        {
+            message =
+                "No se pudo contactar al servidor.";
+            return false;
+        }
+
+        message = okMessage;
         return true;
     }
 
@@ -472,6 +510,12 @@ public class AOCityBankV130 : MonoBehaviour
                 "No hay oro depositado.";
             return false;
         }
+
+        if (AOOnlineClientV240.Requested)
+            return RequestOnline(
+                -amount,
+                "Retiraste " + amount + " de oro.",
+                out message);
 
         data.gold -= amount;
 

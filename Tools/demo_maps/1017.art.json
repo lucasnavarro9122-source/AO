@@ -1,0 +1,234 @@
+{
+ "map": 1017,
+ "autor": "Arte",
+ "base": "copy 391",
+ "nombre": "P7 Guarida del Dragon",
+ "notas": "Copia del mapa original (datos de Contenido en dungeon-npcs.json). Afuera del recorte: negro de vacío (GRH 1) sin capas, como el borde de los dungeons originales. Escaleras: hueco oscuro 57950 (como las salidas originales) con dos antorchas; la bajada del cementerio es la puerta de la cripta (1493) y el final del dungeon es el teleport original (49488).",
+ "ops": [
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    1,
+    1,
+    100,
+    16
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    1,
+    1,
+    100,
+    16
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    1,
+    1,
+    100,
+    16
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    1,
+    1,
+    100,
+    16
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    1,
+    87,
+    100,
+    14
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    1,
+    87,
+    100,
+    14
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    1,
+    87,
+    100,
+    14
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    1,
+    87,
+    100,
+    14
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    1,
+    17,
+    13,
+    70
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    1,
+    17,
+    13,
+    70
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    1,
+    17,
+    13,
+    70
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    1,
+    17,
+    13,
+    70
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 2,
+   "rect": [
+    84,
+    17,
+    17,
+    70
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 3,
+   "rect": [
+    84,
+    17,
+    17,
+    70
+   ]
+  },
+  {
+   "op": "erase",
+   "layer": 4,
+   "rect": [
+    84,
+    17,
+    17,
+    70
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 1,
+   "grh": 1,
+   "rect": [
+    84,
+    17,
+    17,
+    70
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 2,
+   "grh": 57950,
+   "cells": [
+    [
+     80,
+     83
+    ]
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 3,
+   "grh": 49488,
+   "cells": [
+    [
+     21,
+     31
+    ]
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 3,
+   "grh": 55254,
+   "cells": [
+    [
+     20,
+     30
+    ],
+    [
+     22,
+     30
+    ],
+    [
+     79,
+     82
+    ],
+    [
+     81,
+     82
+    ]
+   ]
+  }
+ ],
+ "carteles": [
+  {
+   "x": 82,
+   "y": 84,
+   "rol": "cartel del piso (zona segura)",
+   "grh": 50855,
+   "texto": "textos-hub.md"
+  },
+  {
+   "x": 78,
+   "y": 84,
+   "rol": "cartel original junto a la entrada",
+   "grh": 50881,
+   "objIndex": 1136
+  }
+ ]
+}

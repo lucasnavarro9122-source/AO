@@ -26,7 +26,7 @@ Migración de Argentum Online a Unity + alpha cooperativa privada para amigos (s
 - Proyecto/repo: esta carpeta. Unity **6000.3.17f1** (`C:\Program Files\Unity\Hub\Editor\6000.3.17f1\Editor\Unity.exe`).
 - Scripts juego: `Assets/AOMigrator/Runtime`. Editor: `Assets/AOMigrator/Editor`.
 - Escena: `Assets/Scenes/AOMigrator/Generated/AO_Ciudad_de_Ullathorpe_Playable.unity` (27 MB: nunca leer entera, solo grep).
-- Servidor propio C#: `OnlineServer/` (protocolo 2). Distribución: `../AO_Online` (`VERSION.txt`, `LEEME.md`).
+- Servidor propio C#: `OnlineServer/`. El repo está en **protocolo 3** (oro del servidor + retos de la demo); el ZIP 0.26 y `Server-next-v260` siguen en protocolo 2. La demo corre con `--demo --data SavesDemo --port 7778`. Distribución: `../AO_Online` (`VERSION.txt`, `LEEME.md`).
 - Material original: `Archivos Originales/` (1,2 GB: solo grep puntual).
 - Cámara: no asumir tag `MainCamera`; usar `AOCameraFollow` / `AOActionBarV260.GameCamera`.
 
@@ -44,19 +44,13 @@ python Tools/package_online_client.py    # genera ../AO_Online/Cliente-para-amig
 ## No leer (sumideros de tokens)
 `Builds/`, `Library/`, `Temp/`, `Logs/`, `obj/`, `bin/`, `AO_Migrator_Backup_*`, `MigrationReports/editor-recovery-*`, `ProjectSettings.zip`, `.meta` en masa, imágenes, `.unity`/`.prefab` completos. Varios están bloqueados en `.claude/settings.json`.
 
-## Estado (24/09/2026)
-- Último commit: `d69daef` (cliente 0.25, servidor 0.25.1, protocolo 2). El ZIP para amigos es 0.25 (23/09) y NO incluye nada posterior.
-- Sin commit: controles AO/MOBA (V260) + módulos de la tarde del 24/09 (V261 drag&drop barra, V267 skill shots, V268 animación de lanzamiento, V269 meditación, V130 efectos persistentes/overrides) + cambios en renderizador, magia, efectos y grilla.
-- Hecho el 24/09 (tarde), sobre el código actual sin commit:
-  - Respaldo en `../Respaldos/guardados-20260924-1741`: LocalLow, `ServerSaves`, `PlayerPrefs.reg` y el informe viejo `controls_v260_0023.json`.
-  - `dotnet build` auxiliar: 0 errores (107 warnings).
-  - Consola de Unity (Editor.log): sin errores de compilación ni excepciones.
-  - `python Tools/test_controls_unity.py`: PASA (etapa 7), 7 guardados intactos. `MigrationReports/controls_v260.json` ya es de esta corrida.
-  - Creados `CLAUDE.md`, `.claude/rules/`, `.claude/agents/` (4 subagentes), `.claude/settings.json` y `docs/claude/` para ahorrar tokens.
-- Falta verificar: V261, V267, V268, V269 y V130. `AOControlsQA260` no los prueba; solo se sabe que compilan y cargan sin excepciones.
-- Informes en `MigrationReports/` son históricos (el audit dice que no hay red: obsoleto).
-- Existe `Assets/_Recovery` y `MigrationReports/editor-recovery-20260924-001627`: no borrar sin revisar.
-
+## Estado (24/09/2026, noche)
+- Último commit: `384fe18`. Incluye V260–V270 verificados (controles, hotbar, skill shots, casteo, meditación, EOT, QA), la organización por sectores y el diseño de la demo.
+- Sin commitear a propósito: `Assets/_Recovery`, `MigrationReports/editor-recovery-*` y `ProjectSettings.zip` (306 MB). No borrar sin revisar.
+- El ZIP para amigos sigue siendo el 0.25. El 0.26 está en preparación (QA).
+- Pruebas: `test_modules_unity.py` y `test_controls_unity.py` pasan; builds del cliente y del servidor sin errores.
+- **Demo AO BATTLESERVER:** fase 1 (diseño) terminada; las 17 decisiones están aprobadas (`docs/claude/demo/decisiones.md`). Fase 2 (implementación) en curso.
+- Informes viejos de `MigrationReports/` son históricos (el audit dice que no hay red: obsoleto).
 ## Sectores (chats), ver `docs/claude/sectores.md`
 7 chats:
 - **AO BATTLESERVER: CEREBRO** coordina, integra y commitea.

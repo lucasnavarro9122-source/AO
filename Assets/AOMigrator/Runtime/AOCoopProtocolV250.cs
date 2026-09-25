@@ -4,10 +4,16 @@ using System;
 // Shared by Unity and the private .NET room. Fields keep JsonUtility compatible.
 [Serializable] public class AOCoopMessage
 {
-    public const int Protocol = 2;
+    // 3: the server owns gold (wallet/bank + append-only ledger); gold in snapshots is ignored.
+    public const int Protocol = 3;
     public string type, key, characterId, token, name, text, snapshot, request;
     public int version, id, map, x, y, heading, target, item, amount, spell, damage;
     public long ack;
+    // Absolute server balances (welcome/result/state); gold = signed amount for "bank" (+ deposit, - withdraw)
+    // and the bet of "duelChallenge".
+    public long wallet, bank, gold;
+    // Server clock in ms (welcome/state/duel messages): the client counts down locally.
+    public long serverTime;
     public bool ok;
     public AOCoopPlayer player;
     public AOCoopPlayer[] players;
@@ -16,6 +22,8 @@ using System;
     public AOCoopDoor[] doors;
     public AOCoopStock[] stocks;
     public AOCoopEvent[] events;
+    public AOCoopDuel duel;
+    public AOCoopDuel[] duels;
 }
 [Serializable] public class AOCoopPlayer
 {
@@ -24,6 +32,9 @@ using System;
     public float damageModifier = 1;
     // Visual only: 0 = not meditating; castSeq changes on every local cast.
     public int meditationFx, castSpell, castSeq;
+    // Duels: arena = room (0 = none), team 0/1; magicDefense reported by the client (clamped by the server).
+    public int arena, team, magicDefense;
+    public bool paralyzed, immobile;
     public string name;
     public bool dead;
     public AOCoopPet[] pets;
@@ -43,7 +54,24 @@ using System;
     public string type, text;
     public int exp, npc, item, amount, damage, spell;
     public long gold;
+    // "warp" (map, x, y) and "duelEnd" (duel) are journal events: they survive a disconnection.
+    public int map, x, y, hp;
     public AOCoopItem[] items;
+    public AOCoopDuel duel;
 }
 
 [Serializable] public class AOCoopStock { public int npc,item,amount; }
+
+// One challenge (ModRetos.bas). teamA = the challenger's team, teamB = the rivals.
+// phase: invite, queued, countdown, fight, done (libre = free ring in duelRingState).
+// result (duelRoundEnd/duelEnd, for the receiver): victoria, derrota, empate, tiempo, abandono.
+// team = the receiver's team (0 = A, 1 = B); winner = winning team (-1 = none); winsA/winsB = rounds won
+// (score = winsA − winsB).
+[Serializable] public class AOCoopDuel
+{
+    public string id, phase, from, reason, result;
+    public string[] teamA, teamB, missing;
+    public int[] idsA, idsB;
+    public int sala, map, x, y, width, height, theme, seed, genVersion, round, score, winsA, winsB, maxPotions, level, team, winner, hp, mana;
+    public long bet, prize, tax, serverTime, startsAt, endsAt, expiresAt;
+}

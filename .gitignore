@@ -39,3 +39,6 @@ MigrationReports/*.pdb
 *.tmp
 Thumbs.db
 .DS_Store
+
+# Capturas de QA (se regeneran con las pruebas)
+MigrationReports/interface_v274/

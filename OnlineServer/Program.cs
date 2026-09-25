@@ -13,13 +13,18 @@ string keyPath=Path.GetFullPath(Option("--key-file",Path.Combine(AppContext.Base
 if(!File.Exists(keyPath))File.WriteAllText(keyPath,Convert.ToHexString(RandomNumberGenerator.GetBytes(18)));
 string key=File.ReadAllText(keyPath).Trim();
 if(key.Length<24)throw new InvalidOperationException("Clave de sala inválida.");
-var room=new CoopRoom(catalog,data);
-var listener=new TcpListener(IPAddress.Any,port);
+// --test: loopback only + testLedger. --test-time-scale speeds up duel timers (only with --test). --demo: demo rules.
+bool test=args.Contains("--test");
+double timeScale=double.Parse(Option("--test-time-scale","1"),System.Globalization.CultureInfo.InvariantCulture);
+if(!test&&timeScale!=1)throw new InvalidOperationException("--test-time-scale solo se permite junto con --test.");
+var options=new RoomOptions(test,Math.Clamp(timeScale,.01,1),args.Contains("--demo"));
+var room=new CoopRoom(catalog,data,options);
+var listener=new TcpListener(test?IPAddress.Loopback:IPAddress.Any,port);
 var clients=new ConcurrentDictionary<int,Connection>();
 using var permits=new SemaphoreSlim(32);
 using var stop=new CancellationTokenSource();
 listener.Start(32);
-Console.WriteLine($"AO cooperativo v2: TCP {port}; anfitrión + 10 amigos. Guardados: {data}");
+Console.WriteLine($"AO cooperativo v{AOCoopMessage.Protocol}: TCP {port}; anfitrión + 10 amigos. Guardados: {data}"+(options.Demo?" · DEMO":"")+(test?$" · MODO PRUEBA (solo 127.0.0.1, tiempos ×{options.TimeScale})":""));
 Console.WriteLine("Clave de acceso disponible en room-key.txt.");
 Console.CancelKeyPress+=(_,e)=>{e.Cancel=true;stop.Cancel();listener.Stop();};
 var ticker=Task.Run(async()=>
@@ -29,9 +34,10 @@ var ticker=Task.Run(async()=>
         while(!stop.IsCancellationRequested)
         {
             await Task.Delay(150,stop.Token);
-            (Session,AOCoopMessage)[] updates;
-            lock(room.Gate)updates=room.Tick().ToArray();
+            (Session,AOCoopMessage)[] updates;(int,AOCoopMessage)[] pushes;
+            lock(room.Gate){updates=room.Tick().ToArray();pushes=room.DrainOutbox();}
             foreach(var (s,message) in updates)if(clients.TryGetValue(s.Id,out var c))c.Send(message);
+            Deliver(pushes);
         }
     }
     catch(OperationCanceledException) { }
@@ -50,7 +56,7 @@ catch(Exception e) when(e is OperationCanceledException or SocketException) { }
 finally
 {
     stop.Cancel();listener.Stop();foreach(var c in clients.Values)c.Close();
-    lock(room.Gate)room.Save();
+    lock(room.Gate){room.Save();room.Close();}
 }
 void Handle(TcpClient socket)
 {
@@ -60,7 +66,9 @@ void Handle(TcpClient socket)
         socket.NoDelay=true;socket.ReceiveTimeout=60000;socket.SendTimeout=1500;
         var hello=connection.Read();
         if(hello?.type!="hello"||!SameKey(hello.key??"",key))throw new InvalidOperationException("Clave de sala inválida.");
-        lock(room.Gate){session=room.Join(hello);connection.Send(room.Welcome(session));clients[session.Id]=connection;}
+        (int,AOCoopMessage)[] joined;
+        lock(room.Gate){session=room.Join(hello);connection.Send(room.Welcome(session));clients[session.Id]=connection;joined=room.DrainOutbox();}
+        Deliver(joined);
         Console.WriteLine("Entró "+session.State.name);
         long chatAt=0,windowAt=Environment.TickCount64;int received=0;
         while(!stop.IsCancellationRequested)
@@ -78,18 +86,32 @@ void Handle(TcpClient socket)
                 foreach(int id in recipients)if(clients.TryGetValue(id,out var c))c.Send(new AOCoopMessage{type="chat",id=session.Id,name=session.State.name,text=text});
                 continue;
             }
-            AOCoopMessage result;lock(room.Gate)result=room.Process(session,m);
+            AOCoopMessage result;(int,AOCoopMessage)[] pushes;
+            lock(room.Gate){result=room.Process(session,m);pushes=room.DrainOutbox();}
             if(result.type!="noop")connection.Send(result);
+            Deliver(pushes);
         }
     }
     catch(Exception e) when(e is IOException or SocketException or JsonException or InvalidOperationException or ArgumentException or FormatException or OverflowException)
     {connection.Send(new AOCoopMessage{type="error",text=e is InvalidOperationException?e.Message:"Conexión cerrada por datos inválidos."});}
+    catch(Exception e)
+    {
+        // A server bug must not vanish silently: log it and tell the player.
+        Console.Error.WriteLine("Error inesperado con "+(session?.State.name??"un cliente")+": "+e);
+        connection.Send(new AOCoopMessage{type="error",text="Error del servidor; reconectá."});
+    }
     finally
     {
-        if(session!=null){clients.TryRemove(session.Id,out _);lock(room.Gate)room.Leave(session);Console.WriteLine("Salió "+session.State.name);}
+        if(session!=null)
+        {
+            clients.TryRemove(session.Id,out _);(int,AOCoopMessage)[] left;
+            lock(room.Gate){room.Leave(session);left=room.DrainOutbox();}
+            Deliver(left);Console.WriteLine("Salió "+session.State.name);
+        }
         connection.Close();permits.Release();
     }
 }
+void Deliver((int,AOCoopMessage)[] pushes){foreach(var (id,message) in pushes)if(clients.TryGetValue(id,out var c))c.Send(message);}
 static bool SameKey(string a,string b){var x=Encoding.UTF8.GetBytes(a);var y=Encoding.UTF8.GetBytes(b);return x.Length==y.Length&&CryptographicOperations.FixedTimeEquals(x,y);}
 sealed class Connection(TcpClient socket)
 {
