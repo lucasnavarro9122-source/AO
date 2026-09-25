@@ -1,0 +1,93 @@
+AO SPELL TESTER v1.3 - ZOOM, FRAME A FRAME, PIVOTE, TUNING Y ORIGINAL vs HD
+==========================================================================
+
+Parte de la v1.2. No modifica index.html, app.js ni los datos: todo lo nuevo está en
+archivos aparte. La meditación sigue en index.html (v1.2); hay un enlace arriba a la derecha.
+
+ARCHIVOS NUEVOS
+- index_v13.html          página de la v1.3 (abrir con doble clic, funciona con file://).
+- v13.js / v13.css        lógica y estilos.
+- tuning_data.js          GENERADO: copia de spell_visual_tuning.json (y solo visualScale
+                          de skillshot_tuning.json) porque file:// no permite fetch().
+- generar_tuning_data.py  regenera tuning_data.js:  python Tools/SpellTester/generar_tuning_data.py
+- Usa los mismos spell_data.js y assets/ que la v1.2.
+
+USO
+1. Abrí index_v13.html con Chrome o Edge (probado en Chromium).
+2. Elegí un hechizo. Se muestra quieto el primer frame de su capa principal.
+3. LANZAR (o Espacio): proyectil -> impacto -> EOT persistente, con los tiempos del juego.
+4. Pausá (P) y recorré frame a frame con ← →. La barra muestra "Frame N/M", los ms por frame
+   y de dónde salen (impactDuration ÷ frames, 1 ÷ persistentFps, etc.).
+5. El selector de capa (Proyectil / Impacto / Persistente / Tick / On-hit) muestra una sola
+   capa en loop; la tira de miniaturas permite saltar a cualquier frame.
+
+TECLAS
+- Espacio   lanzar                 - P      pausa / reanudar
+- ← →       frame anterior / siguiente
+- ↑ ↓       offset Y de la capa activa ±1 px original (1/32 de casilla)
+- 1 2 3 4   zoom 1× 2× 4× 8×       - G      grilla on/off
+- Arrastrar el escenario mueve la cámara; doble clic (o "Centrar") la vuelve a su lugar.
+
+QUÉ SE VE EN EL ESCENARIO (igual que en Unity)
+- Render pixelado (vecino más cercano) a 1×, 2×, 4× u 8×. 1 casilla = 32 px originales.
+- Grilla de casillas de 32 px. La casilla del objetivo está resaltada en dorado.
+- Cruz celeste: ancla de la casilla = borde inferior-centro (AOGridMap.TileToWorld).
+- Cruz magenta: pivote del FX = ancla + offset Y. Los sprites del juego tienen pivote
+  abajo-centro (0.5, 0) y 32 px por unidad (AOSpellVisualOverridesV130). El recuadro punteado
+  es el tamaño del sprite ya escalado.
+- Los personajes son solo siluetas de referencia (imágenes de UI a 1/4, ~1,5 casillas).
+  Se pueden ocultar con "Personajes".
+- "Distancia" = casillas entre lanzador y objetivo (cambia la duración del viaje).
+
+TUNING (spell_visual_tuning.json)
+Campos por hechizo, con los nombres exactos del archivo:
+  projectileScale, projectileYOffset, projectileSpeed    (proyectil)
+  impactScale, impactYOffset, impactDuration             (impacto)
+  persistentScale, persistentYOffset, persistentFps      (EOT persistente, tick y on-hit)
+  transientFps                                           (tick, on-hit y skillshots)
+Unidades: offsets en casillas (0,25 = 8 px), velocidad en casillas/s, duración en segundos.
+Reglas del juego que el tester imita:
+- Proyectil: viaje lineal de lanzador a objetivo, duración = distancia ÷ projectileSpeed
+  limitada a 0,12-1,2 s.
+- Impacto: dura impactDuration en total (0 = automática: 1 frame 0,35 s; si no frames/14 s
+  entre 0,28 y 1,2 s).
+- Escalas mínimas 0,1; fps y velocidad mínimos 1.
+- El formato NO tiene offset X: solo se ajusta Y.
+- En skillshots (V267) el proyectil usa transientFps y su velocidad real es de gameplay
+  (skillshot_tuning.json); acá se muestra con projectileSpeed. speed, range y hitRadius NO se
+  exponen: son gameplay y necesitan el OK de Programación.
+Los campos cambiados se marcan en dorado; "archivo: X" muestra el valor original. El panel
+lista todos los cambios (clic en uno para ir al hechizo). Los cambios quedan guardados en
+este navegador hasta exportar o "Restaurar"; si se borra el almacenamiento del navegador,
+se pierden (exportá antes de cerrar si importa).
+
+CÓMO APLICAR EL TUNING EXPORTADO (responsabilidad de Arte y Animación)
+1. "Exportar tuning" descarga spell_visual_tuning.json con la MISMA estructura, orden de
+   campos y formato que el original: solo cambian las líneas que tocaste (la versión no cambia).
+2. Revisá el diff contra el archivo del repo (git diff --no-index o un comparador).
+3. Copialo sobre Assets/StreamingAssets/AOMigrator/SpellOverrides/spell_visual_tuning.json
+   (antes, respaldá el anterior o confirmá que está commiteado).
+4. Probalo en Unity (Play) y avisá a Cerebro para el commit. No hace falta tocar código.
+5. Si el archivo del repo cambió desde que se generó tuning_data.js (por ejemplo, en otra PC),
+   regenerá con generar_tuning_data.py, o cargá el archivo actual con "Base distinta" en el
+   panel de tuning antes de ajustar. Si no, el export parte de la base vieja.
+
+ORIGINAL vs HD
+Hallazgo (25/09/2026): NO hay versiones HD de los FX de hechizos en el repo.
+- Assets/StreamingAssets/AOMigrator/SpellOverrides/02_Por_Hechizo: 966 PNG (122 hechizos).
+  Tamaño máximo 192×192; los más comunes 32×32, 64×64, 128×128, 192×192, 145×145.
+  Ninguno >= 512 ni con sufijos HD/4x.
+- Tools/SpellTester/assets/spells: los mismos 966 PNG, idénticos byte a byte.
+- assets/meditation: 95 PNG de 96×128 (originales).
+Por eso la vista HD funciona con archivos del usuario:
+- "Original vs HD" divide el escenario: izquierda original, derecha HD, misma cámara,
+  zoom, frame y tuning.
+- Cargá una carpeta (Carpeta HD) o varios PNG/WebP (archivos sueltos) con los MISMOS nombres
+  de frame que assets/spells/<hechizo>/. Se empareja por carpeta/nombre, después por nombre y
+  por último por el número GRH del nombre. Se ignoran sufijos _hd, _4x o @4x.
+- El HD se dibuja al mismo tamaño en el mundo que el original (un HD 4× se ve 1:1 en zoom 4×).
+  El cartel indica "HD WxH = 4×" o avisa si el factor no es 4× o si la proporción cambió
+  (el pivote se correría).
+- Sin HD cargado, la derecha muestra el original ampliado con vecino más cercano y el cartel
+  "sin HD". En la tira de miniaturas, los frames con HD llevan la marca "HD".
+- Los archivos HD no se suben a ningún lado: quedan en memoria del navegador.
