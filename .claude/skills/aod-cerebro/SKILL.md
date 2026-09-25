@@ -20,6 +20,11 @@ Hay tres canales. Usá el más directo que sirva.
 ## 2. Mandarle un mensaje (escribe un turno en su chat de la PC)
 **Solo con el OK de Lucas para ESE mensaje.** CEREBRO actúa en la PC (Unity, archivos, commits), así que primero mostrale a Lucas el texto.
 
+**Antes de mandar (regla de Lucas, 25/09): actualizá el paquete.**
+- Los mensajes programados no llevan un texto fijo.
+- A la hora del envío, sumá al `docs/claude/nube/actualizacion-sectores-*.md` todo lo hecho desde el último envío (`git log <último commit enviado>..HEAD`), verificá, hacé commit y push, y recién ahí creá la Routine con el commit nuevo.
+- Para programarlo: un `send_later` a **esta** sesión unos minutos antes, con esos pasos. No una Routine a CEREBRO con el texto armado de antemano.
+
 **Antes de mandar:**
 - CEREBRO tiene que estar `connected` y sin `rejected`.
 - Si está `RUNNING`, el mensaje entra cuando termine.
