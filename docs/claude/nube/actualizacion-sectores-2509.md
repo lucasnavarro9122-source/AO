@@ -1,7 +1,7 @@
 # Actualización para todos los sectores: todo lo de la nube (25/09)
 
 CEREBRO: pasale a cada sector su parte de este documento (SendMessage a "AO BATTLESERVER: <Sector>"). Contenido está archivado: sus tareas las asignás vos.
-- **Rama:** `origin/claude/nifty-thompson-r3ulpf`. El último cambio de código es `0a085f4` (portales con luz); el commit exacto de este paquete va en el mensaje.
+- **Rama:** `origin/claude/nifty-thompson-r3ulpf`. El último cambio de código es `2214305` (arena más viva); el commit exacto de este paquete va en el mensaje.
 - **Base:** tu `edcd99d5`. Todo lo de la madrugada (hasta `439bea9`) ya lo integraste en `acca325`.
 
 ## Cómo integrar (CEREBRO, una sola vez)
@@ -23,7 +23,7 @@ Queda abierto de entonces:
 
 ---
 
-## Lo nuevo, por sector (commits `e9c90aa` … `0a085f4`)
+## Lo nuevo, por sector (commits `e9c90aa` … `2214305`)
 
 ### CEREBRO
 - **Integrar y repartir** con este documento.
