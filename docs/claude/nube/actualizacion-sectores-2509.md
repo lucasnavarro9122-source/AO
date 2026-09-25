@@ -1,7 +1,7 @@
 # Actualización para todos los sectores: todo lo de la nube (25/09)
 
 CEREBRO: pasale a cada sector su parte de este documento (SendMessage a "AO BATTLESERVER: <Sector>"). Contenido está archivado: sus tareas las asignás vos.
-- **Rama:** `origin/claude/nifty-thompson-r3ulpf`, último commit `5bf287a`.
+- **Rama:** `origin/claude/nifty-thompson-r3ulpf`. El último cambio de código es `0a085f4` (portales con luz); el commit exacto de este paquete va en el mensaje.
 - **Base:** tu `edcd99d5`. Todo lo de la madrugada (hasta `439bea9`) ya lo integraste en `acca325`.
 
 ## Cómo integrar (CEREBRO, una sola vez)
@@ -23,7 +23,7 @@ Queda abierto de entonces:
 
 ---
 
-## Lo nuevo, por sector (commits `e9c90aa` … `5bf287a`)
+## Lo nuevo, por sector (commits `e9c90aa` … `0a085f4`)
 
 ### CEREBRO
 - **Integrar y repartir** con este documento.
@@ -31,12 +31,14 @@ Queda abierto de entonces:
   - La nube puede ver el estado de los chats y escribirte con una Routine, siempre con el OK de Lucas.
   - Vos respondés por GitHub, con la receta de subida a `pc/<tema>` o en `docs/claude/nube/buzon/`.
   - Toca archivos compartidos (`CLAUDE.md`, `.claude/`): este es el aviso.
+  - Regla de Lucas (`1a0add6`): antes de cada envío programado, la nube actualiza este paquete con todo lo hecho hasta ese momento.
 - **Módulos provisorios V902:** `AONpcSpellRulesV902` (Shared), `AONPCSpellCasterV902` y `AONPCSummonLinkV902`. Renumeralos a V290 y siguientes si querés, y subí la "próxima versión libre".
 - Las decisiones de Lucas de esta tarde están en `docs/claude/demo/mapa/reglas-y-recorrido.md`: 12 reglas del mapa demo, aprobadas.
 
 ### Programación
 **Mapa demo** (`docs/claude/nube/reporte-mapa-demo.md`):
 - se cambiaron `Tools/demo_maps/1010.json` (entrada en el Cementerio de Nix, mapa 4), los carteles de 1011–1017 y `oneWayExits` del 1017;
+- `demo_map_builder.py` tiene un op nuevo, `light`, que Arte usa para poner luces del mapa desde los `.art.json`;
 - `demo_map_builder.py --check` da igual.
 
 **IA mágica de NPC** (`docs/claude/nube/npc-magia.md`), con archivos nuevos y enganches chicos:
@@ -73,6 +75,7 @@ Queda abierto de entonces:
   - `test_duel_server` tiene un caso de parálisis;
   - `test_coop_server` prueba el reenvío de `castX`/`castY`;
   - las 7 pasan en la nube y en GitHub Actions.
+- Los portales con luz no cambian el catálogo: las luces y los gráficos no van en él.
 - **Guía** `docs/claude/nube/guia-amigos.md`: demo en el 7778, con firewall y Tailscale para el 7778, y no pisar `SavesDemo`. Llevarlo a `../AO_Online/LEEME.md`.
 
 ### Contenido y Fidelidad AO (archivado → lo asigna CEREBRO)
@@ -97,6 +100,13 @@ Queda abierto de entonces:
   - P1, P3, P4 y P5 están enteros, sin cortes;
   - `demo_art_specs.py`: `OUTDOOR` queda vacío, `spec_1010` pasa al cementerio y se saca el cartel de Veriil.
   - Revisar en Unity la luz nueva, los carteles y los minimapas.
+- **Salidas con portal y luz** (`0a085f4`, pedido de Lucas; ver `docs/claude/demo/mapa/reglas-y-recorrido.md` § Salidas):
+  - ninguna salida es un punto negro: las 14 escaleras de los pisos (antes el hueco 57950), el portal doble al norte del hub, la vuelta de las arenas, el camino norte y la capilla del cementerio, y el portal del P7 usan el teleport original 49488, animado;
+  - cada portal tiene un halo violeta `B47CFF` de radio 4, antorchas con luz cálida `FFB45A` de radio 3 y luz frente a las puertas;
+  - se usan luces redondas (`range` 100 o más). Con menos de 100, `AOMapLighting` pinta un cuadrado plano;
+  - cambia `demo_art_specs.py` (función `light`) y se regeneraron los `.art.json`, los mapas y los minimapas;
+  - imagen: `docs/claude/demo/mapa/portales_antes_despues.jpg`;
+  - revisar en Unity que se animen y brillen, con la luz clásica y con "Luz: Mejorada".
 - **Magia de NPC:** se usan `AOSpellFXV120.PlayFromNpc` y `AOCastAnimationRuntimeV268.PlayNpc`. Revisar cómo se ven los lanzamientos de NPC y las criaturas invocadas; la Hiena Demoníaca usa las texturas de `MagicV129`.
 - **Imágenes** en `docs/claude/demo/mapa/`: `antes_despues.jpg` y `recorrido_dungeon.jpg`.
 
@@ -107,6 +117,7 @@ Queda abierto de entonces:
   - invocaciones;
   - IA de apoyo;
   - retos con parálisis;
-  - skill shot visible.
+  - skill shot visible;
+  - portales con luz en todas las salidas.
 - **Antes de cada prueba:** `aod-respaldo`, y nunca con personajes de Lucas.
 - **Release 0.27:** cliente y servidor juntos, porque cambian el catálogo y los mapas de la demo.
