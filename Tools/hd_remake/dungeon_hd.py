@@ -36,19 +36,27 @@ PISOS = {
     "P1": {
         "mapa": 1011, "texturas": [5095], "piso": {"tex": 5095, "sx": 512, "sy": 288}, "textura_nueva": 90001,
         "omitir": [[5095, 4, 3]],   # franja de piso (sale de las variantes) y sombras semitransparentes (sin detalle)
-        "apagar": {"paredes": [0.72, 0.88, 0.95], "piso": [0.5, 0.8, 0.85]},   # saturación, contraste, brillo (Lucas: "daña la vista")
-        "vacio_transparente": True,  # el negro de "vacío" dibujado dentro de las paredes deja ver el abismo de abajo
-        "color_piso": {"ref": "p1_idea_hielo.webp", "box": [232, 60, 422, 205]},   # paleta del piso de la idea de Lucas
-        "referencias": ["p1_idea_hielo.webp", "ref3_bosque_nevado.webp"],
-        "tema": ("a FROZEN ICE DUNGEON: blue-grey stone bricks and carved marble covered in frost, thin snow resting on "
-                 "the top edges of walls, ledges, balustrades and pillar capitals, small icicles hanging from edges, a few "
-                 "small glowing blue ice crystals at the foot of walls. Dark or black areas inside the pieces become deep "
-                 "dark-blue frozen mist (a cold abyss), never pure black."),
-        "variantes": ["the same floor with fine cracks and frost in the mortar",
-                      "the same floor with thin drifts of snow along some joints",
-                      "the same floor with a few patches of clear blue ice over the stones",
-                      "the same floor with a few tiny blue ice crystals and frozen pebbles"],
-        "abismo": "a deep dark-blue frozen abyss seen from above: cold blue mist, faint ice shards far below, no floor",
+        "apagar": {"paredes": [0.85, 0.95, 0.95], "piso": [0.75, 0.9, 0.9]},   # saturación, contraste, brillo
+        "vacio_transparente": True,  # el negro del vacío dentro de las paredes sigue el degradé del original (queda negro)
+        # Ronda 2 (Lucas 25/09): fiel al estilo de sus referencias, diseño libre de piso y paredes, oscuridad de
+        # dungeon y el vacío siempre negro (nada de abismo azul).
+        "referencias": ["ref4_bosque_azul_cristales.webp", "ref1_ullathorpe_noche.webp"],
+        "tema": ("a dark FROZEN DUNGEON, in the exact rendering style of the reference images (dense souls-like HD pixel "
+                 "art, rich hand-placed detail, crisp pixels, painterly shading): ancient dark slate and granite masonry "
+                 "dusted with snow and hoarfrost, snow caps on every top edge, icicles hanging from ledges, rails and "
+                 "capitals, cracked weathered stone, and here and there a small embedded glowing blue ice crystal. "
+                 "Dungeon darkness: low-key, deep shadows, muted and desaturated colors; the only saturated accents are the "
+                 "small blue crystal glows. Areas that are black in the source stay PURE BLACK (the void): never mist, "
+                 "fog or blue."),
+        "piso_diseno": ("REDESIGN the floor freely: dark irregular frozen flagstones of varied sizes (NOT a regular brick "
+                        "grid), with snow and hoarfrost packed in the cracks"),
+        "variantes": ["clean flagstones with hoarfrost",
+                      "a thin drift of snow crossing part of the block",
+                      "a patch of dark clear ice over the stones",
+                      "cracked flagstones with frozen pebbles and small rubble",
+                      "two or three tiny glowing blue ice crystals growing from a crack",
+                      "a frozen puddle and scattered frost crystals"],
+        "abismo": None,
     },
 }
 
@@ -67,18 +75,21 @@ def prompt_piezas(tema: str) -> str:
     )
 
 
-def prompt_variantes(tema: str, variantes: list[str], abismo: str) -> str:
+def prompt_variantes(tema: str, variantes: list[str], abismo: str | None, diseno: str | None = None) -> str:
     slots = "; ".join(f"block {i + 1}: {v}" for i, v in enumerate(variantes))
     n = len(variantes)
+    layout = (f"{diseno}. All {n} floor blocks share EXACTLY the same stone layout and joints (so they fit together "
+              "seamlessly in any order and each one repeats seamlessly)" if diseno else
+              f"Every floor block keeps EXACTLY the same stone and brick layout, joints and proportions as the source "
+              "(so they fit together seamlessly)")
+    tail = f" Blocks {n + 1} and {n + 2}: {abismo}, seamless." if abismo else ""
     return (
         "The FIRST reference image is the source: a sheet of 6 square blocks (3 columns x 2 rows) of a top-down RPG "
-        f"dungeon floor. Blocks 1 to {n} are the SAME seamless floor tile; redraw each one as high-detail dark-fantasy "
-        f"pixel art, like modern souls-like HD pixel-art games, as {tema} Every floor block keeps EXACTLY the same "
-        "stone and brick layout, joints and proportions as the source (so they fit together seamlessly), and only the "
-        f"surface detail changes: {slots}. Blocks {n + 1} and {n + 2}: {abismo}, seamless. The other images are STYLE "
-        "references only: copy their pixel-art rendering, palette and detail density, not their layout. Flat neutral "
-        "lighting: no cast shadows, no light spots, no vignette, no glow. Orthographic top-down view. No borders, gaps "
-        "or text between blocks."
+        f"dungeon floor. Blocks 1 to {n} are the SAME floor tile; redraw each one as high-detail dark-fantasy "
+        f"pixel art, like modern souls-like HD pixel-art games, as {tema} {layout}, and only the surface detail "
+        f"changes: {slots}.{tail} The other images are STYLE references only: copy their pixel-art rendering, palette and "
+        "detail density, not their layout. Flat neutral lighting: no cast shadows, no light spots, no vignette, no glow. "
+        "Orthographic top-down view. No borders, gaps or text between blocks."
     )
 
 
@@ -155,14 +166,15 @@ def preparar(nombre: str, out: Path):
     n = len(piso["variantes"])
     for i in range(n):
         var.paste(sobre_magenta(src), ((i % 3) * BLOCK, (i // 3) * BLOCK))
-    for j in range(2):
+    for j in range(2 if piso.get("abismo") else 0):
         k = n + j
         var.paste(abismo_fuente(j), ((k % 3) * BLOCK, (k // 3) * BLOCK))
     var.resize((var.width * SCALE, var.height * SCALE), Image.NEAREST).save(out / "variantes_entrada.png")
     (out / "piezas_prompt.txt").write_text(prompt_piezas(piso["tema"]) + "\n", "utf-8")
-    (out / "variantes_prompt.txt").write_text(prompt_variantes(piso["tema"], piso["variantes"], piso["abismo"]) + "\n", "utf-8")
+    (out / "variantes_prompt.txt").write_text(prompt_variantes(piso["tema"], piso["variantes"], piso.get("abismo"),
+                                                               piso.get("piso_diseno")) + "\n", "utf-8")
     manifest = {"piso": nombre, **{k: piso[k] for k in ("mapa", "texturas", "piso", "textura_nueva", "referencias")},
-                "hojas_piezas": sheets, "variantes": n, "abismos": 2}
+                "hojas_piezas": sheets, "variantes": n, "abismos": 2 if piso.get("abismo") else 0}
     (out / "manifest.json").write_text(json.dumps(manifest, indent=1), "utf-8")
     total = len(sheets) + 1
     print(f"{nombre}: {len(sheets)} hojas de piezas ({sum(len(s['comps']) for s in sheets)} piezas) + 1 de variantes "
@@ -260,6 +272,19 @@ def fundir_bordes(pieces: dict, pairs: dict, band: int):
         pieces[a], pieces[b] = A.astype(np.uint8), Bp.astype(np.uint8)
 
 
+def parche_rediseno(img: Image.Image, umbral: float = 85, inset: int = 8):
+    """Si el piso rediseñado (oscuro) ocupa solo un rectángulo de la hoja, devuelve (x0, y0, lado) de 3x2 cuadrados."""
+    dark = np.asarray(img.convert("RGB"), np.float32).mean(2) < umbral
+    rows, cols = np.where(dark.mean(1) > 0.3)[0], np.where(dark.mean(0) > 0.3)[0]
+    if not len(rows) or not len(cols):
+        return None
+    y0, y1, x0, x1 = rows.min() + inset, rows.max() - inset, cols.min() + inset, cols.max() - inset
+    if (x1 - x0) > 0.9 * img.width and (y1 - y0) > 0.9 * img.height:
+        return None                                        # ocupa toda la hoja: la grilla normal sirve
+    side = int(min((x1 - x0) / 3, (y1 - y0) / 2))
+    return x0 + ((x1 - x0) - 3 * side) // 2, y0 + ((y1 - y0) - 2 * side) // 2, side
+
+
 def bloquear_bordes(var: np.ndarray, base: np.ndarray, band: int) -> np.ndarray:
     """Los bordes de una variante pasan a ser los de la base (con fundido): cualquier combinación encaja."""
     n = var.shape[0]
@@ -325,8 +350,16 @@ def importar(nombre: str, out: Path, generadas: Path, aplicar: bool, pixel: int 
         rgb.putalpha(Image.fromarray(alpha))
         atlas(c["tex"]).paste(rgb, (c["bx"] * B, c["by"] * B))
     # Variantes del piso y abismo -> textura nueva de la demo (4 x 2 bloques de 128 a 1x).
-    var = Image.open(generadas / "variantes.png").convert("RGB").resize((3 * B, 2 * B), Image.LANCZOS)
-    blocks = [np.asarray(var.crop(((k % 3) * B, (k // 3) * B, (k % 3 + 1) * B, (k // 3 + 1) * B))) for k in range(6)]
+    raw = Image.open(generadas / "variantes.png").convert("RGB")
+    patch = parche_rediseno(raw) if piso.get("piso_diseno") else None
+    if patch:   # el modelo dibujó el piso nuevo como un rectángulo dentro de la hoja: se cortan 3x2 cuadrados de ahí
+        x0, y0, side = patch
+        blocks = [np.asarray(raw.crop((x0 + (k % 3) * side, y0 + (k // 3) * side, x0 + (k % 3 + 1) * side,
+                                       y0 + (k // 3 + 1) * side)).resize((B, B), Image.LANCZOS)) for k in range(6)]
+        print(f"piso: rectángulo rediseñado en ({x0},{y0}), 6 cuadrados de {side} px")
+    else:
+        var = raw.resize((3 * B, 2 * B), Image.LANCZOS)
+        blocks = [np.asarray(var.crop(((k % 3) * B, (k // 3) * B, (k % 3 + 1) * B, (k // 3 + 1) * B))) for k in range(6)]
     n = man["variantes"]
     if piso.get("color_piso"):
         cp = piso["color_piso"]
@@ -336,20 +369,19 @@ def importar(nombre: str, out: Path, generadas: Path, aplicar: bool, pixel: int 
         blocks[:n] = [apagar(b, *piso["apagar"]["piso"]) for b in blocks[:n]]
     base = up.make_tileable(blocks[0], "xy")
     floors = [base] + [bloquear_bordes(blocks[k], base, B // 10) for k in range(1, n)]
-    # Un abismo tiene que ser oscuro: si el modelo mezcló piso en uno, se usa el otro espejado.
-    dark = [b for b in blocks[n:n + 2] if np.asarray(b, np.float32).mean() < 70]
-    if not dark:
-        raise SystemExit("ningún bloque de abismo salió oscuro: hay que regenerar la hoja de variantes")
-    abyss0 = up.make_tileable(dark[0], "xy")
-    second = dark[1] if len(dark) > 1 else np.ascontiguousarray(np.flipud(np.fliplr(dark[0])))
-    abysses = [abyss0, bloquear_bordes(up.make_tileable(second, "xy"), abyss0, B // 10)]
-    print(f"abismo: {len(dark)} de 2 bloques salieron oscuros" + ("" if len(dark) > 1 else "; el segundo es el primero espejado"))
+    abysses = []
+    if man.get("abismos"):
+        # Un abismo tiene que ser oscuro: si el modelo mezcló piso en uno, se usa el otro espejado.
+        dark = [b for b in blocks[n:n + 2] if np.asarray(b, np.float32).mean() < 70]
+        if not dark:
+            raise SystemExit("ningún bloque de abismo salió oscuro: hay que regenerar la hoja de variantes")
+        abyss0 = up.make_tileable(dark[0], "xy")
+        second = dark[1] if len(dark) > 1 else np.ascontiguousarray(np.flipud(np.fliplr(dark[0])))
+        abysses = [abyss0, bloquear_bordes(up.make_tileable(second, "xy"), abyss0, B // 10)]
     tiles = [np.asarray(up.pixelize(Image.fromarray(t), pixel, colores)) for t in floors + abysses]
-    new_hd = Image.new("RGBA", (4 * B, 2 * B), (0, 0, 0, 0))
-    for k, t in enumerate(tiles[:n]):
-        new_hd.paste(Image.fromarray(t), (k * B, 0))
-    for k, t in enumerate(tiles[n:]):
-        new_hd.paste(Image.fromarray(t), (k * B, B))
+    new_hd = Image.new("RGBA", (4 * B, 2 * B), (0, 0, 0, 0))   # fila 0-1: pisos en orden (4 por fila); abismos al final
+    for k, t in enumerate(tiles):
+        new_hd.paste(Image.fromarray(t), ((k % 4) * B, (k // 4) * B))
     new_1x = new_hd.resize((new_hd.width // SCALE, new_hd.height // SCALE), Image.BOX)
     p = piso["piso"]   # el piso del atlas (el del mapa original) queda como la variante base
     atlas(p["tex"]).paste(Image.fromarray(tiles[0]).convert("RGBA"), (p["sx"] * SCALE, p["sy"] * SCALE))
@@ -364,7 +396,7 @@ def importar(nombre: str, out: Path, generadas: Path, aplicar: bool, pixel: int 
     new_1x.save(dest_1x / f"tex_{new_id}.png")
     (out / "importar_informe.json").write_text(json.dumps(informe, indent=1), "utf-8")
     ok = sum(1 for r in informe if r["ok"])
-    print(f"{nombre}: {ok}/{len(informe)} piezas aceptadas; {n} variantes de piso y 2 de abismo en tex_{new_id}. "
+    print(f"{nombre}: {ok}/{len(informe)} piezas aceptadas; {n} variantes de piso y {len(abysses)} de abismo en tex_{new_id}. "
           f"-> {dest_hd}" + ("" if aplicar else " (simulación: --aplicar para instalar en Assets)"))
 
 
