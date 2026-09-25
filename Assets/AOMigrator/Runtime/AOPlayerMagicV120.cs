@@ -378,9 +378,17 @@ public class AOPlayerMagicV120 : MonoBehaviour
         else ApplyToPlayer(s);
         AOSpellFXV120.Play(s,transform.position,transform.position);
     }
-    bool ApplyToPlayer(AOSpellDatabaseV120.SpellDef s){
+    // AONPCSpellCasterV902: a creature's spell. The life change comes already computed (by the caster offline, by the
+    // server online) with the player's magic resistance; here only the rest of the spell's effects and, if asked, the FX.
+    public void ApplyNpcSpell(int id,Vector3 from,bool fx)
+    {
+        FindReferences(); var s=AOSpellDatabaseV120.Get(id); if(s==null||combat==null||combat.IsDead)return;
+        ApplyToPlayer(s,true);
+        if(fx)AOSpellFXV120.Play(s,from,transform.position);
+    }
+    bool ApplyToPlayer(AOSpellDatabaseV120.SpellDef s,bool skipHp=false){
         bool a=false;
-        if(s.raiseHp!=0){int n=Roll(s.minHp,s.maxHp);if(s.raiseHp==1){combat.RestoreHealth(MagicHealing(n));a=true;}else if(s.raiseHp==2){combat.ReceiveMagicDamage(MagicDamage(n,null,s),"Magia: "+s.name);a=true;}}
+        if(!skipHp&&s.raiseHp!=0){int n=Roll(s.minHp,s.maxHp);if(s.raiseHp==1){combat.RestoreHealth(MagicHealing(n));a=true;}else if(s.raiseHp==2){combat.ReceiveMagicDamage(MagicDamage(n,null,s),"Magia: "+s.name);a=true;}}
         if(s.raiseMana!=0){int n=Roll(s.minMana,s.maxMana)*(s.raiseMana==1?1:-1);rpg.ModifyMana(n);a=true;}
         if(s.raiseStamina!=0){int n=Roll(s.minStamina,s.maxStamina)*(s.raiseStamina==1?1:-1);rpg.ModifyStamina(n);a=true;}
         if(s.raiseHunger!=0){rpg.ModifyHunger(Roll(s.minHunger,s.maxHunger)*(s.raiseHunger==1?1:-1));a=true;}

@@ -587,13 +587,14 @@
      },
      "tamano": "12x12"
     },
-    "recorridoMaxTiles": 123,
-    "distanciaEntradaJefe": 111,
-    "caminablesEnRecorte": 3497,
-    "npcOriginalesEnRecorte": 60,
+    "recorridoMaxTiles": 127,
+    "distanciaEntradaJefe": 110,
+    "caminablesEnRecorte": 4053,
+    "npcOriginalesEnRecorte": 62,
     "musicId": 7,
     "baseLight": 10526880,
-    "textos": "docs/claude/demo/textos-hub.md §3-4"
+    "textos": "docs/claude/demo/textos-hub.md §3-4",
+    "distanciaEntradaBajada": 96
    }
   },
   {
@@ -998,7 +999,12 @@
     },
     "musicId": 9,
     "baseLight": 9737364,
-    "textos": "docs/claude/demo/textos-hub.md §3-4"
+    "textos": "docs/claude/demo/textos-hub.md §3-4",
+    "recorridoMaxTiles": 106,
+    "distanciaEntradaJefe": 90,
+    "distanciaEntradaBajada": 76,
+    "caminablesEnRecorte": 1371,
+    "npcOriginalesEnRecorte": 13
    }
   },
   {
@@ -1337,13 +1343,14 @@
      },
      "tamano": "12x12"
     },
-    "recorridoMaxTiles": 132,
-    "distanciaEntradaJefe": 120,
-    "caminablesEnRecorte": 3188,
-    "npcOriginalesEnRecorte": 13,
+    "recorridoMaxTiles": 133,
+    "distanciaEntradaJefe": 119,
+    "caminablesEnRecorte": 3782,
+    "npcOriginalesEnRecorte": 14,
     "musicId": 9,
     "baseLight": -8355670,
-    "textos": "docs/claude/demo/textos-hub.md §3-4"
+    "textos": "docs/claude/demo/textos-hub.md §3-4",
+    "distanciaEntradaBajada": 108
    }
   },
   {
@@ -1752,7 +1759,12 @@
     },
     "musicId": 19,
     "baseLight": 9208436,
-    "textos": "docs/claude/demo/textos-hub.md §3-4"
+    "textos": "docs/claude/demo/textos-hub.md §3-4",
+    "recorridoMaxTiles": 286,
+    "distanciaEntradaJefe": 255,
+    "distanciaEntradaBajada": 228,
+    "caminablesEnRecorte": 4134,
+    "npcOriginalesEnRecorte": 26
    }
   },
   {
@@ -2202,13 +2214,14 @@
      },
      "tamano": "12x12"
     },
-    "recorridoMaxTiles": 122,
-    "distanciaEntradaJefe": 105,
-    "caminablesEnRecorte": 2143,
+    "recorridoMaxTiles": 123,
+    "distanciaEntradaJefe": 104,
+    "caminablesEnRecorte": 2211,
     "npcOriginalesEnRecorte": 9,
     "musicId": 9,
     "baseLight": 7765124,
-    "textos": "docs/claude/demo/textos-hub.md §3-4"
+    "textos": "docs/claude/demo/textos-hub.md §3-4",
+    "distanciaEntradaBajada": 92
    }
   },
   {
@@ -2641,7 +2654,12 @@
     },
     "musicId": 18,
     "baseLight": 6581890,
-    "textos": "docs/claude/demo/textos-hub.md §3-4"
+    "textos": "docs/claude/demo/textos-hub.md §3-4",
+    "recorridoMaxTiles": 103,
+    "distanciaEntradaJefe": 71,
+    "distanciaEntradaBajada": 84,
+    "caminablesEnRecorte": 1395,
+    "npcOriginalesEnRecorte": 3
    }
   },
   {
@@ -2976,7 +2994,12 @@
     },
     "musicId": 17,
     "baseLight": 8278080,
-    "textos": "docs/claude/demo/textos-hub.md §3-4"
+    "textos": "docs/claude/demo/textos-hub.md §3-4",
+    "recorridoMaxTiles": 102,
+    "distanciaEntradaJefe": 73,
+    "distanciaEntradaBajada": 97,
+    "caminablesEnRecorte": 3971,
+    "npcOriginalesEnRecorte": 6
    }
   }
  ],

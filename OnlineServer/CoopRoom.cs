@@ -602,8 +602,10 @@ sealed partial class CoopRoom
             if(Now<n.paralyzedUntil)continue;
             if(target!=null)
             {
+                // Original magic AI (CoopRoom.NpcMagic.cs): spells first; melee only if it did not cast this turn.
+                bool cast=NpcCast(n,target,present);
                 int dist=Distance(target.State.x,target.State.y,n.state.x,n.state.y),range=Math.Max(1,Int(n.source,"attackRange"));
-                if(dist<=range&&Now>=n.nextAttack)
+                if(dist<=range&&Now>=n.nextAttack&&NpcMayMelee(n,cast))
                 {
                     n.nextAttack=Now+Math.Clamp(Int(n.source,"attackIntervalMs"),500,10000);
                     n.state.heading=Heading(target.State.x-n.state.x,target.State.y-n.state.y);
@@ -771,6 +773,6 @@ sealed class NpcRecord
 {
     public AOCoopNpc state=new(); public long respawnAt,poisonUntil,fireUntil,paralyzedUntil,immobileUntil,nextPoison,nextFire;
     public int provoked,route;
-    [JsonIgnore] public long nextMove,nextAttack;
+    [JsonIgnore] public long nextMove,nextAttack,nextCast;
     [JsonIgnore] public JsonObject source=new();
 }

@@ -127,6 +127,19 @@ public class AOOnlineClientV240 : MonoBehaviour
     public static AOCoopItem[] CapturePendingItems() => instance != null && ProtectLocalSave ? instance.pendingItems.ToArray() : null;
     public static void RestorePendingItems(AOCoopItem[] items)
     { if (instance == null) return; instance.pendingItems.Clear(); if (items != null) instance.pendingItems.AddRange(items.Where(i => i != null && i.item > 0 && i.amount > 0)); }
+    // AONPCSpellCasterV902 online: the server decided the spell and the damage; show the cast and apply the other effects.
+    void NpcSpellArrived(int spellId, int npcId, string caster)
+    {
+        var spell = AOSpellDatabaseV120.Get(spellId);
+        if (spell == null || player == null) return;
+        npcs.TryGetValue(npcId, out AONPCCombatV09 npc);
+        Vector3 to = player.transform.position, from = npc != null ? npc.transform.position : to;
+        if (npc != null) AOSpellFXV120.PlayFromNpc(npc.gameObject, spell, from, to);
+        else AOSpellFXV120.Play(spell, from, to);
+        var magic = player.GetComponent<AOPlayerMagicV120>();
+        if (magic != null) magic.ApplyNpcSpell(spellId, from, false);
+        if (!string.IsNullOrEmpty(caster)) AOInterfaceV0101.PushMessage(caster + " lanzó " + spell.name + ".");
+    }
     public static void Attack(AONPCCombatV09 npc) { if (npc != null) Request(new AOCoopMessage { type = "attack", target = npc.NetworkId }); }
     public static void PetAttack(AOSummonedPetV129 pet, AONPCCombatV09 npc)
     { if (pet != null && npc != null) Request(new AOCoopMessage { type = "petHit", target = npc.NetworkId, item = pet.GetInstanceID() }); }
@@ -430,7 +443,12 @@ public class AOOnlineClientV240 : MonoBehaviour
             {
                 if (!inv.RemoveItemByIndexPublic(e.item,e.amount)) { status = "Inventario cambió durante la entrega. Reconectá para recuperarlo."; Disconnect(); return; }
             }
-            else if (e.type == "hurt") combat.ReceiveOnlineDamage(e.damage);
+            else if (e.type == "hurt")
+            {
+                combat.ReceiveOnlineDamage(e.damage);
+                // A creature's spell (server CoopRoom.NpcMagic.cs): e.spell = spell id, e.npc = the caster's network id.
+                if (e.spell > 0) NpcSpellArrived(e.spell, e.npc, e.text);
+            }
             else if (e.type == "spell") player.GetComponent<AOPlayerMagicV120>().ApplyOnlineSpell(e.spell);
             // Duel journal (it survives a disconnection): the life shown in a duel is the server's (e.hp).
             // A hurt reaches us with the next state, possibly after the next round already started (QA R-08): only the

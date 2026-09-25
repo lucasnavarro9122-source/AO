@@ -421,8 +421,14 @@ public class AONPCMovementV08 : MonoBehaviour
         int effectiveAttackRange =
             Mathf.Max(1, attackRange);
 
+        // AONPCSpellCasterV902: magic has priority (AI_AtacarUsuarioObjetivo); melee only if it did not cast.
+        bool cast =
+            combat != null &&
+            AONPCSpellCasterV902.TryCast(combat, dx, dy);
+
         if (distance <= effectiveAttackRange &&
-            combat != null)
+            combat != null &&
+            AONPCSpellCasterV902.MayMelee(combat, cast))
         {
             combat.TryAttackPlayer();
         }

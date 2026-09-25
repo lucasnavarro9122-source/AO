@@ -7,6 +7,11 @@ resources = project / "Assets/Resources/AOMigrator"
 def read(path):
     return json.loads((resources / path).read_text(encoding="utf-8-sig"))
 
+def gz(data, **kw):
+    # gzip stores the OS in byte 9: fixed to Windows (0x0a) so the PC and the cloud write the same catalog bytes.
+    out = gzip.compress(data, mtime=0, **kw)
+    return out[:9] + b'\x0a' + out[10:]
+
 maps = []
 door_defs = {d['objIndex']: d for d in read('WorldV07/door_catalog.json')['doors']}
 for path in sorted((resources / 'WorldV07/Maps').glob('map_*.json')):
@@ -18,7 +23,7 @@ for path in sorted((resources / 'WorldV07/Maps').glob('map_*.json')):
     flags, triggers = [0]*10201, [0]*10201
     for b in data.pop('blocks'): flags[b['y']*101+b['x']] = b['flags']
     for b in data.pop('triggers'): triggers[b['y']*101+b['x']] = b['trigger']
-    data['grid'] = base64.b64encode(gzip.compress(struct.pack('<20402H', *(flags+triggers)), mtime=0)).decode('ascii')
+    data['grid'] = base64.b64encode(gz(struct.pack('<20402H', *(flags+triggers)))).decode('ascii')
     data['npcs'] = [{k:v for k,v in npc.items() if k != 'directions'} for npc in source.get('npcs', [])]
     # NPC ids are array positions: if the list changes, the server must reset that map's NPCs.
     layout = json.dumps([[n.get('npcIndex'), n.get('x'), n.get('y')] for n in data['npcs']], separators=(',',':'))
@@ -41,6 +46,8 @@ for spell in spells:
     spell['hostileEffect'] = int(effect.get('buffType') in (2,4) or (effect.get('type') == 1 and effect.get('tickPowerMax', 0) < 0))
 catalog = dict(maps=maps, loot=read('LootV180/npc_loot.json'), items=items, spells=spells,
                summons=read('MagicV129/summons.json'), npcMagic=read('MagicV129/npc_magic.json'),
+               # NPC spells of the original (Tools/export_npc_spells.py): the room casts them (CoopRoom.NpcMagic.cs).
+               npcSpells=read('MagicV129/npc_spells.json'),
                shops=read('CityV130/city_npcs.json'),
                # Protocol 3: the server pays quest gold from here, never from the client.
                quests=[dict(id=q['id'], rewardGold=q.get('rewardGold',0), repeatable=bool(q.get('repeatable')))
@@ -66,5 +73,5 @@ for summon in catalog['summons'].get('summons',[]):
     summon.pop('directions', None)
 target = project / 'OnlineServer/Data/catalog.json.gz'
 target.parent.mkdir(parents=True, exist_ok=True)
-target.write_bytes(gzip.compress(json.dumps(catalog, ensure_ascii=False, separators=(',',':')).encode('utf-8'), compresslevel=6, mtime=0))
+target.write_bytes(gz(json.dumps(catalog, ensure_ascii=False, separators=(',',':')).encode('utf-8'), compresslevel=6))
 print(f'Catálogo: {len(maps)} mapas, {sum(len(m["npcs"]) for m in maps)} NPC; {target.stat().st_size:,} bytes.')

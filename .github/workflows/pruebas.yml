@@ -58,3 +58,6 @@ jobs:
 
       - name: Pérdida al morir en el dungeon de la demo
         run: python Tools/test_death_drop.py
+
+      - name: IA mágica de NPC (rango 11 x 9, resistencia, área, parálisis sin melee)
+        run: python Tools/test_npc_magic.py
