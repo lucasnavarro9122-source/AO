@@ -63,9 +63,10 @@ PISOS = {
                           "cajas": [[900, 405, 1358, 560], [75, 0, 130, 800], [540, 0, 600, 390], [800, 812, 1358, 870]]},
         "color_escombros": {"imagen": "p1_objetivo_lucas.webp",     # son piedra de las paredes: misma paleta
                             "cajas": [[900, 405, 1358, 560], [75, 0, 130, 800], [540, 0, 600, 390], [800, 812, 1358, 870]]},
-        # Su imagen es la pantalla final; el juego multiplica la textura por la luz del piso (P1: base 0xA0A0A0, que la
-        # vista y el juego muestran a ~0,85). Se sube todo en la misma proporción para que en el juego se vea como ella.
-        "compensar_luz": 1.18,
+        # Lo sacado de su imagen es su pantalla en las zonas sin luz. El juego (luz Original, AOMapVertexLit) dibuja
+        # textura x luz, con tope 1: con la base del P1 (0xA0A0A0 = 0,627) la textura va x1/0,627 = 1,6 para que lo
+        # que no tiene luz se vea igual a su imagen, y bajo los haces (luz de luna ~1) llegue a su brillo.
+        "compensar_luz": 1.6,
         "tema": ("the SAME dungeon shown in the reference image, remastered exactly in its look: cold blue-grey carved "
                  "marble and stone walls with cracks, darker veins and worn chipped edges, finely detailed fluted pillars "
                  "and balustrades, small rubble and pebbles at the foot of the walls; add even MORE micro-detail than the "
@@ -953,26 +954,29 @@ def _ruido(rng, H: int, W: int, octavas=(4, 8, 16, 32)) -> np.ndarray:
     return acc / max(acc.max(), 1e-6)
 
 
-def nieblas(n: int = 3, color=(160, 178, 230), seed: int = 5) -> list:
-    """Jirones de niebla fría (128x64 de juego) al pie de las paredes: bordes que se desvanecen del todo."""
+def nieblas(n: int = 3, color=(200, 214, 255), seed: int = 5) -> list:
+    """Jirones de niebla fría (128x64 de juego) al pie de las paredes, como los de su imagen: un par de volutas
+    definidas dentro de una elipse que se desvanece del todo antes del borde."""
     rng = np.random.default_rng(seed)
     W, H = 128 * SCALE, 64 * SCALE
     yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
     out = []
     for i in range(n):
-        f = _ruido(rng, H, W)
-        env = (np.sin(np.pi * xx / W) ** 1.5) * (np.sin(np.pi * yy / H) ** 1.2)   # 0 en todo el borde
-        a = np.clip((f - 0.2) * 2.4, 0, 1) * env * 0.85
+        f = _ruido(rng, H, W, (4, 8, 16, 32, 64))
+        cx, cy = W * (0.42 + 0.16 * rng.random()), H * 0.58
+        env = np.clip(1 - (((xx - cx) / (W * 0.40)) ** 2 + ((yy - cy) / (H * 0.40)) ** 2), 0, 1) ** 1.3
+        env *= np.sin(np.pi * xx / W) * np.sin(np.pi * yy / H)          # 0 en todo el borde
+        a = np.clip((f - 0.42) * 3.2, 0, 1) * env * 0.9
         img = np.zeros((H, W, 4), np.uint8)
         img[..., :3] = color
         img[..., 3] = (a * 255).astype(np.uint8)
-        out.append(Image.fromarray(img, "RGBA").filter(ImageFilter.GaussianBlur(3)))
+        out.append(Image.fromarray(img, "RGBA").filter(ImageFilter.GaussianBlur(2)))
     return out
 
 
-def haces(n: int = 2, color=(185, 200, 255), seed: int = 9) -> list:
-    """Haces de luz de luna como los de su imagen (128x256 de juego, casi verticales): franja suave con destellos.
-    Van en la capa 2 sobre el piso; las paredes (capa 3) los tapan."""
+def haces(n: int = 2, color=(200, 214, 255), seed: int = 9) -> list:
+    """Haces de luz de luna como los de su imagen (128x256 de juego, casi verticales). La luz de verdad la ponen las
+    luces de luna del mapa (multiplican y dejan ver la piedra); el calco suma un velo muy suave y los destellos."""
     rng = np.random.default_rng(seed)
     W, H = 128 * SCALE, 256 * SCALE
     yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
@@ -981,12 +985,15 @@ def haces(n: int = 2, color=(185, 200, 255), seed: int = 9) -> list:
         xt, xb = W * (0.66 - 0.1 * i), W * (0.34 + 0.1 * i)          # de arriba a la derecha hacia abajo a la izquierda
         cx = xt + (xb - xt) * yy / H
         wob = np.asarray(Image.fromarray((rng.random((8, 2)) * 255).astype(np.uint8)).resize((W, H), Image.BICUBIC), np.float32) / 255
-        band = np.exp(-(((xx - cx) / (W * (0.13 + 0.05 * wob))) ** 2))
+        band = np.exp(-(((xx - cx) / (W * (0.12 + 0.05 * wob))) ** 2))
+        core = np.exp(-(((xx - cx) / (W * 0.05)) ** 2))
         env = np.clip(yy / (H * 0.2), 0, 1) * np.clip((H - yy) / (H * 0.25), 0, 1)
-        grain = np.asarray(Image.fromarray((rng.random((H // 8, W // 8)) * 255).astype(np.uint8)).resize((W, H), Image.BICUBIC), np.float32) / 255
-        specks = (rng.random((H, W)) > 0.994).astype(np.float32)
-        specks = np.asarray(Image.fromarray((specks * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.2)), np.float32) / 255 * 3
-        a = band * env * (0.30 + 0.15 * grain) + np.clip(specks, 0, 1) * band * env * 0.9
+        grain = _ruido(rng, H, W, (8, 32, 64))
+        specks = (rng.random((H, W)) > 0.992).astype(np.float32)
+        big = (rng.random((H, W)) > 0.9993).astype(np.float32)
+        sp = np.asarray(Image.fromarray((specks * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.8)), np.float32) / 255 * 4
+        sp += np.asarray(Image.fromarray((big * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(2.2)), np.float32) / 255 * 12
+        a = band * env * (0.14 + 0.12 * grain) + core * env * 0.10 + np.clip(sp, 0, 1) * band * env * 0.95
         img = np.zeros((H, W, 4), np.uint8)
         img[..., :3] = color
         img[..., 3] = np.clip(a * 255, 0, 255).astype(np.uint8)
@@ -994,9 +1001,26 @@ def haces(n: int = 2, color=(185, 200, 255), seed: int = 9) -> list:
     return out
 
 
+def halos(tipos=((160, (150, 195, 255)), (224, (200, 150, 255)))) -> list:
+    """Resplandor del piso bajo una luz de color: chico celeste (brillos) y grande violeta (portal). Va pintado del
+    color: en la luz Original el sprite toma la luz de SU casilla (que queda fuera del radio de la luz)."""
+    out = []
+    for lado, color in tipos:
+        W = lado * SCALE
+        yy, xx = np.mgrid[0:W, 0:W].astype(np.float32)
+        r = np.sqrt((xx - W / 2) ** 2 + (yy - W / 2) ** 2) / (W / 2)
+        a = np.clip(1 - r, 0, 1) ** 2.0 * 0.55
+        img = np.zeros((W, W, 4), np.uint8)
+        img[..., :3] = color
+        img[..., 3] = np.clip(a * 255, 0, 255).astype(np.uint8)
+        out.append(Image.fromarray(img, "RGBA"))
+    return out
+
+
 def decoracion(generadas: Path, dest_hd: Path, dest_1x: Path, color: dict | None = None, k_luz: float = 1.0):
-    """tex_90002 (512x512 a 1x): fila 0 = 6 escombros de 64x64; fila 1 (y 64) = 3 nieblas de 128x64;
-    y 128 = 2 haces de luz de 128x256."""
+    """tex_90002 (512x512 a 1x). Lo lee el builder (DEMO_DECOR en demo_map_builder.py): si cambia, cambiar los dos.
+    y 0: 6 escombros de 64x64 | y 64: 3 nieblas de 128x64 | y 128: 2 haces de luz de 128x256 (x 0 y 128)
+    | x 256, y 128: halo celeste de 160x160 | x 256, y 288: halo violeta de 224x224."""
     rub = escombros_desde_hoja(Image.open(generadas / "escombros.png"), BLOCK * SCALE) if (generadas / "escombros.png").exists() else []
     if rub and color:   # piedra gris azulada como los montones de su imagen (no cristal)
         arrs = [np.asarray(r)[..., :3] for r in rub]
@@ -1012,9 +1036,12 @@ def decoracion(generadas: Path, dest_hd: Path, dest_1x: Path, color: dict | None
         hd.paste(s, (k * 128 * SCALE, 64 * SCALE))
     for k, s in enumerate(rays):
         hd.paste(s, (k * 128 * SCALE, 128 * SCALE))
+    glows = halos()
+    hd.paste(glows[0], (256 * SCALE, 128 * SCALE))
+    hd.paste(glows[1], (256 * SCALE, 288 * SCALE))
     hd.save(dest_hd / f"tex_{DECOR_ID}.png")
     hd.resize((hd.width // SCALE, hd.height // SCALE), Image.LANCZOS).save(dest_1x / f"tex_{DECOR_ID}.png")
-    print(f"decoración: {len(rub)} escombros, {len(mist)} nieblas y {len(rays)} haces de luz en tex_{DECOR_ID}")
+    print(f"decoración: {len(rub)} escombros, {len(mist)} nieblas, {len(rays)} haces de luz y 2 halos en tex_{DECOR_ID}")
 
 
 def main():

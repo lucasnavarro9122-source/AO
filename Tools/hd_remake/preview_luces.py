@@ -187,10 +187,12 @@ def light_propuesta(m, x0, y0, w, h, ambient, strength=1.05):
         cx, cy = (l['x'] - x0) * T + T // 2, (l['y'] - y0) * T + T // 2
         r = (max(2.5, rng * 1.25) if l['range'] >= 100 else max(3.5, rng * 1.6)) * T
         if cx < -r or cy < -r or cx > W + r or cy > H + r: continue
-        col = warm(decode(l['color']))
+        raw = decode(l['color'])
+        moon = raw.min() <= .85 and raw[2] - raw[0] >= .1 and raw.max() - raw.min() < .25   # luna: suave (AOLighting2DV283)
+        col = warm(raw)
         d = np.sqrt((xx - cx) ** 2 + (yy - cy) ** 2) / r
         fall = np.clip(1 - d, 0, 1) ** 2
-        L += col * fall[..., None] * strength
+        L += col * fall[..., None] * (strength * .55 / 1.05 if moon else strength)
         L += col * (np.clip(1 - d / 1.8, 0, 1) ** 3)[..., None] * .22  # luz de relleno lejana
         lamp_y = cy + T // 2 - tall[(l['x'], l['y'])] * S + 14 * S if (l['x'], l['y']) in tall else cy
         core = np.exp(-(((xx - cx) ** 2 + (yy - lamp_y) ** 2) / (18 * S) ** 2))

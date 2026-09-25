@@ -1,96 +1,201 @@
-"""Vista del P1 remasterizado contra la imagen de Lucas, sin instalar nada (nube, 25/09).
+"""Vista del juego sin Unity, fiel a los dos modos de luz, contra la imagen de Lucas (nube, 25/09).
 
-  python Tools/hd_remake/dungeon_vista_p1.py SALIDA RESULTADO [variantes] [decor] [nombre]
+  python Tools/hd_remake/dungeon_vista_p1.py SALIDA [--mapa-json RUTA] [--nombre p1] [--ventana X Y W H]
 
-RESULTADO = carpeta de "dungeon_hd.py importar ... --salida" (usa RESULTADO/resultado/hd). Hace lo que tiene que
-hacer el builder: variantes de piso (tex_90001) con bordes compatibles (dungeon_hd.bordes_piso), escombros y niebla
-al pie de las paredes y haces de luz sobre piso libre (tex_90002). Escribe NOMBRE_vs_ref.jpg, _solo y _detalle."""
-import sys, copy, hashlib
+- Original (AOMapLighting + AOMapVertexLit): cada sprite = textura x luz de las 4 esquinas de SU casilla (la de apoyo),
+  interpolada sobre todo el sprite; tope 1 (no hay sobrebrillo). La luz de cada esquina: ambiente del mapa y cada luz
+  redonda la lleva a su color (Color32.Lerp por distancia^2 / radio^2).
+- Mejorada (AOLighting2DV283): textura x (luz global + luces 2D sumadas, por píxel) y la viñeta propia. Sin bloom:
+  el posproceso está apagado en el juego (PostProcessing = false).
+Usa las texturas HD instaladas (Resources/AOMigratorHD) y el mapa armado (Assets o --mapa-json).
+Escribe NOMBRE_luces.jpg (Original | Mejorada | su imagen) y NOMBRE_original.jpg / NOMBRE_mejorada.jpg a tamaño real."""
+import argparse
+import json
+import sys
 from pathlib import Path
+
 import numpy as np
-from PIL import Image, ImageDraw
-sys.path.insert(0, 'Tools/hd_remake'); import preview_luces as pl
-SP = Path(sys.argv[1]); RES = Path(sys.argv[2]) / 'resultado/hd'
-FLOOR = {'tex': 5095, 'sx': 512, 'sy': 288}; NEW = 90001; DECOR = len(sys.argv) > 4 and sys.argv[4] == 'decor'; NV = int(sys.argv[3]) if len(sys.argv) > 3 else 6
-def variant_map(m):
-    m = copy.deepcopy(m)
-    spr = {s['id']: s for s in m['sprites']}
-    nid = [900000]
-    def add(sx, sy):
-        nid[0] += 1
-        m['sprites'].append({'id': nid[0], 'fileNum': NEW, 'sx': sx, 'sy': sy, 'width': 32, 'height': 32, 'key': f'n{nid[0]}'})
-        return nid[0]
-    cache = {}
-    def sid(sx, sy):
-        if (sx, sy) not in cache: cache[(sx, sy)] = add(sx, sy)
-        return cache[(sx, sy)]
-    h = lambda *a: int(hashlib.md5(repr(a).encode()).hexdigest(), 16)
-    isfloor = lambda s: s and s['fileNum'] == FLOOR['tex'] and FLOOR['sx'] <= s['sx'] < FLOOR['sx'] + 128 and FLOOR['sy'] <= s['sy'] < FLOOR['sy'] + 128 and s['width'] == 32
-    blocks = sorted({((c['x'] - (spr[c['sprite']]['sx'] - FLOOR['sx']) // 32) // 4, (c['y'] - (spr[c['sprite']]['sy'] - FLOOR['sy']) // 32) // 4)
-                     for c in m['cells'] if c['layer'] == 1 and isfloor(spr.get(c['sprite']))}, key=lambda b: (b[1], b[0]))
-    pick = {}
-    for bx, by in blocks:   # de izquierda a derecha: el borde izquierdo tiene que ser el derecho del vecino
-        need = ((pick[(bx - 1, by)] // 2) % 2) if (bx - 1, by) in pick else None
-        cand = [k for k in range(NV) if need is None or k % 2 == need]
-        r = h('p', bx, by) % 20
-        base_ok = 0 in cand and r < 7
-        pick[(bx, by)] = 0 if base_ok else cand[h('q', bx, by) % len(cand)]
-    for c in m['cells']:
-        if c['layer'] != 1: continue
-        s = spr.get(c['sprite'])
-        if isfloor(s):
-            col, row = (s['sx'] - FLOOR['sx']) // 32, (s['sy'] - FLOOR['sy']) // 32
-            k = pick[((c['x'] - col) // 4, (c['y'] - row) // 4)]
-            c['sprite'] = sid((k % 4) * 128 + col * 32, (k // 4) * 128 + row * 32)
-    if DECOR:   # escombros y niebla al pie de las paredes (lo que haría el builder)
-        blocked = {(b['x'], b['y']) for b in m['blocks'] if b['flags']}
-        floor = {(c['x'], c['y']) for c in m['cells'] if c['layer'] == 1 and c['grh'] != 1}
-        used = {(c['x'], c['y']) for c in m['cells'] if c['layer'] in (2, 3)}
-        def dsid(fx, sx, sy, w, hh):
-            key = (fx, sx, sy)
-            if key not in cache:
-                nid[0] += 1
-                m['sprites'].append({'id': nid[0], 'fileNum': 90002, 'sx': sx, 'sy': sy, 'width': w, 'height': hh, 'key': f'd{nid[0]}'})
-                cache[key] = nid[0]
-            return cache[key]
-        for (x, y) in sorted(floor):
-            if (x, y) in blocked or (x, y) in used: continue
-            wall_n = (x, y - 1) in blocked or (x, y - 1) not in floor
-            wall_w = (x - 1, y) in blocked or (x - 1, y) not in floor
-            wall_e = (x + 1, y) in blocked or (x + 1, y) not in floor
-            if not (wall_n or wall_w or wall_e): continue
-            r = h('d', x, y) % 100
-            if r < 24:
-                m['cells'].append({'x': x, 'y': y, 'layer': 2, 'grh': 0, 'sprite': dsid(1, (r % 6) * 64, 0, 64, 64)})
-            elif r < 38 and (x, y + 1) in floor:   # apoyada una casilla más abajo: queda sobre el piso, no sobre la pared
-                m['cells'].append({'x': x, 'y': y + 1, 'layer': 2, 'grh': 0, 'sprite': dsid(2, (r % 3) * 128, 64, 128, 64)})
-        free = lambda x, y: (x, y) in floor and (x, y) not in blocked
-        for (x, y) in sorted(floor):   # haces de luz: uno cada tanto, con toda la huella (4x8) sobre piso libre
-            if x % 5 != 2 or y % 7 != 4 or h('haz', x, y) % 3: continue
-            if not all(free(x + dx, y - dy) for dx in range(-2, 2) for dy in range(0, 8)): continue
-            m['cells'].insert(0, {'x': x, 'y': y, 'layer': 2, 'grh': 0, 'sprite': dsid(3, (h('k', x, y) % 2) * 128, 128, 128, 256)})
-    return m
-def render(m, x0, y0, w, h, hd):
-    pl.S, pl.HD, pl.T = (4, True, 128) if hd else (1, False, 32)
-    pl._tex.clear()
-    if hd:
-        for f in (5095, NEW, 90002):
-            if (RES / f'tex_{f}.png').exists():
-                pl._tex[f] = Image.open(RES / f'tex_{f}.png').convert('RGBA')
-    base, _ = pl.albedo(m, x0, y0, w, h, chars=True, margin=3)
-    light = pl.light_actual(m, x0, y0, w, h)
-    if hd:
-        light = np.asarray(Image.fromarray((np.clip(light, 0, 1) * 255).astype(np.uint8)).resize(base.size, Image.BILINEAR), np.float32) / 255
-    rgb = pl.to_np(base) * light * 1.35
-    return Image.fromarray((np.clip(rgb, 0, 1) * 255).astype(np.uint8))
-m = pl.load(1011)
-mv = variant_map(m)
-OUT = sys.argv[5] if len(sys.argv) > 5 else 'p1r5'
-after = render(mv, 14, 22, 26, 22, True)
-ref = Image.open('docs/claude/nube/hd/referencias/p1_objetivo_lucas.webp').convert('RGB')
-a = after.resize(ref.size, Image.LANCZOS)
-out = Image.new('RGB', (a.width * 2 + 12, a.height), (20, 20, 20)); out.paste(a, (0, 0)); out.paste(ref, (a.width + 12, 0))
-out.thumbnail((2000, 2000), Image.LANCZOS); out.save(SP / f'{OUT}_vs_ref.jpg', quality=88)
-a.save(SP / f'{OUT}_solo.jpg', quality=90)
-render(mv, 20, 30, 8, 6, True).save(SP / f'{OUT}_detalle.jpg', quality=92)
-print(out.size, a.size)
+from PIL import Image
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import preview_luces as pl  # noqa: E402
+
+ROOT = Path(__file__).resolve().parents[2]
+REF = ROOT / "docs/claude/nube/hd/referencias/p1_objetivo_lucas.webp"
+K = 4                       # 4x
+T = 32 * K
+
+
+def decode(packed):
+    packed &= 0xFFFFFF
+    return np.array([(packed >> 16) & 255, (packed >> 8) & 255, packed & 255], np.float32) / 255
+
+
+def corners_original(m):
+    """AOMapLighting.Build: 4 colores por casilla (0 = abajo-izq, 1 = arriba-izq, 2 = abajo-der, 3 = arriba-der)."""
+    base = m["env"].get("baseLight", 0)
+    amb = decode(base) if base else np.array([120, 120, 120], np.float32) / 255
+    W = m["xmax"] - m["xmin"] + 1
+    H = m["ymax"] - m["ymin"] + 1
+    c = np.tile(amb, (H, W, 4, 1)).astype(np.float32)
+    for L in m["lights"]:
+        rng = L["range"] - 99 if L["range"] >= 100 else L["range"]
+        if rng <= 0 or rng > 128 or L["range"] < 100:
+            continue   # las cuadradas (range < 100) no se usan en la demo
+        col = decode(L["color"])
+        radius2 = (rng * 32 + 16) ** 2
+        for y in range(max(m["ymin"], L["y"] - rng), min(m["ymax"], L["y"] + rng) + 1):
+            for x in range(max(m["xmin"], L["x"] - rng), min(m["xmax"], L["x"] + rng) + 1):
+                for k in range(4):
+                    vx = x * 32 + (32 if k >= 2 else 0)
+                    vy = y * 32 + (32 if (k & 1) == 0 else 0)
+                    d2 = (L["x"] * 32 + 16 - vx) ** 2 + (L["y"] * 32 + 16 - vy) ** 2
+                    if d2 <= radius2:
+                        cur = c[y - m["ymin"], x - m["xmin"], k]
+                        c[y - m["ymin"], x - m["xmin"], k] = col + (cur - col) * (d2 / radius2)
+    return c
+
+
+def tint(size, cs):
+    """Color de la luz sobre un sprite (AOMapVertexLit): bilineal de las 4 esquinas sobre todo el sprite."""
+    w, h = size
+    tx = np.linspace(0, 1, w, dtype=np.float32)[None, :, None]
+    ty = np.linspace(1, 0, h, dtype=np.float32)[:, None, None]        # fila 0 = arriba
+    lower = cs[0] + (cs[2] - cs[0]) * tx
+    upper = cs[1] + (cs[3] - cs[1]) * tx
+    return lower + (upper - lower) * ty
+
+
+def draw_list(m, x0, y0, w, h, margin=4):
+    """Qué se dibuja y en qué orden, como AOWorldManagerV07: capa 1, capa 2 (por fila), capa 3 y personajes (por fila),
+    capa 4. Cada elemento: (imagen RGBA, x, y de la casilla de apoyo)."""
+    spr = {s["id"]: s for s in m["sprites"]}
+    inside = lambda c: x0 - margin <= c["x"] < x0 + w + margin and y0 - margin <= c["y"] < y0 + h + margin + 4  # noqa: E731
+    cells = [c for c in m["cells"] if inside(c) and c["sprite"] in spr]
+    out = []
+    for layer in (1, 2):
+        for c in sorted((c for c in cells if c["layer"] == layer), key=lambda c: (c["y"], c["x"])):
+            s = pl.crop(spr[c["sprite"]])
+            if s:
+                out.append((s, c["x"], c["y"]))
+    row = [(c["y"], c["x"], "c", c) for c in cells if c["layer"] == 3]
+    row += [(n["y"], n["x"], "n", n) for n in m["npcs"] if inside(n)]
+    for _, _, kind, c in sorted(row, key=lambda r: (r[0], r[1])):
+        s = pl.crop(spr[c["sprite"]]) if kind == "c" else pl.npc_img(c)
+        if s:
+            out.append((s, c["x"], c["y"]))
+    for c in cells:
+        if c["layer"] == 4:
+            s = pl.crop(spr[c["sprite"]])
+            if s:
+                out.append((s, c["x"], c["y"]))
+    return out
+
+
+def place(s, x, y, x0, y0):
+    sw, sh = s.size
+    return (x - 1) * T + T // 2 - sw // 2 - (x0 - 1) * T, y * T - sh - (y0 - 1) * T
+
+
+def render_original(m, x0, y0, w, h):
+    cor = corners_original(m)
+    img = np.zeros((h * T, w * T, 3), np.float32)
+    for s, x, y in draw_list(m, x0, y0, w, h):
+        left, top = place(s, x, y, x0, y0)
+        a = np.asarray(s, np.float32) / 255
+        cy, cx = min(max(y - m["ymin"], 0), cor.shape[0] - 1), min(max(x - m["xmin"], 0), cor.shape[1] - 1)
+        rgb = a[..., :3] * tint(s.size, cor[cy, cx])
+        _paste(img, rgb, a[..., 3:], left, top)
+    return img
+
+
+def lights_mejorada(m, x0, y0, w, h):
+    """AOLighting2DV283.BuildMapLights + UpdateGlobal (mazmorra: baseLight x (0,85; 0,9; 1,1)); caída como la vista
+    aprobada (preview_luces.light_propuesta, que es la que se copió al juego), sin el núcleo de brillo ni el bloom."""
+    base = m["env"].get("baseLight", 0)
+    d = decode(base) if base else np.array([.24, .30, .50], np.float32)
+    amb = np.array([d[0] * .85, d[1] * .9, min(1, d[2] * 1.1)], np.float32) if base else d
+    H, W = h * T, w * T
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    L = np.tile(amb, (H, W, 1))
+    for l in m["lights"]:
+        rng = l["range"] - 99 if l["range"] >= 100 else l["range"]
+        cx, cy = (l["x"] - x0) * T + T // 2, (l["y"] - y0) * T + T // 2
+        r = (max(2.5, rng * 1.25) if l["range"] >= 100 else max(3.5, rng * 1.6)) * T
+        if cx < -r or cy < -r or cx > W + r or cy > H + r:
+            continue
+        col = decode(l["color"])
+        warm = col.min() > .85
+        moon = not warm and col[2] - col[0] >= .1 and col.max() - col.min() < .25   # AOLighting2DV283: luna suave
+        if warm:
+            col = np.array([1.0, .74, .46], np.float32)
+        dist = np.sqrt((xx - cx) ** 2 + (yy - cy) ** 2) / r
+        L += col * (np.clip(1 - dist, 0, 1) ** 2)[..., None] * (.55 if moon else 1.05)
+        L += col * (np.clip(1 - dist / 1.8, 0, 1) ** 3)[..., None] * .22
+    return L
+
+
+def render_mejorada(m, x0, y0, w, h):
+    img = np.zeros((h * T, w * T, 3), np.float32)
+    for s, x, y in draw_list(m, x0, y0, w, h):
+        left, top = place(s, x, y, x0, y0)
+        a = np.asarray(s, np.float32) / 255
+        _paste(img, a[..., :3], a[..., 3:], left, top)
+    rgb = img * lights_mejorada(m, x0, y0, w, h)
+    H, W, _ = rgb.shape
+    yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
+    u, v = (xx / W) * 2 - 1, (yy / H) * 2 - 1
+    dark = 1 - np.clip(1 - 0.42 * (u * u + v * v) ** 1.2, 0.35, 1)       # AOLighting2DV283.VignetteSprite
+    return rgb * (1 - dark[..., None])
+
+
+def _paste(img, rgb, a, left, top):
+    H, W, _ = img.shape
+    h, w = a.shape[:2]
+    x1, y1, x2, y2 = max(0, left), max(0, top), min(W, left + w), min(H, top + h)
+    if x1 >= x2 or y1 >= y2:
+        return
+    sa = a[y1 - top:y2 - top, x1 - left:x2 - left]
+    img[y1:y2, x1:x2] = img[y1:y2, x1:x2] * (1 - sa) + rgb[y1 - top:y2 - top, x1 - left:x2 - left] * sa
+
+
+def to_img(arr):
+    return Image.fromarray((np.clip(arr, 0, 1) * 255).astype(np.uint8))
+
+
+def main():
+    ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    ap.add_argument("salida", type=Path)
+    ap.add_argument("--mapa", type=int, default=1011)
+    ap.add_argument("--mapa-json", type=Path)
+    ap.add_argument("--nombre", default="p1")
+    ap.add_argument("--ventana", type=int, nargs=4, default=[14, 22, 26, 22], metavar=("X", "Y", "W", "H"))
+    args = ap.parse_args()
+    pl.S, pl.HD, pl.T = K, True, T
+    m = pl.load(args.mapa)
+    if args.mapa_json:
+        env = m["env"]
+        m = json.loads(args.mapa_json.read_text("utf-8"))
+        m["env"] = env
+    x0, y0, w, h = args.ventana
+    orig = to_img(render_original(m, x0, y0, w, h))
+    mej = to_img(render_mejorada(m, x0, y0, w, h))
+    args.salida.mkdir(parents=True, exist_ok=True)
+    ref = Image.open(REF).convert("RGB")
+    size = ref.size if (x0, y0, w, h) == (14, 22, 26, 22) else (w * 52, h * 52)
+    a, b = orig.resize(size, Image.LANCZOS), mej.resize(size, Image.LANCZOS)
+    a.save(args.salida / f"{args.nombre}_original.jpg", quality=90)
+    b.save(args.salida / f"{args.nombre}_mejorada.jpg", quality=90)
+    panels = [a, b] + ([ref] if size == ref.size else [])
+    sheet = Image.new("RGB", (sum(p.width for p in panels) + 12 * (len(panels) - 1), size[1]), (20, 20, 20))
+    xx = 0
+    for p in panels:
+        sheet.paste(p, (xx, 0))
+        xx += p.width + 12
+    sheet.thumbnail((2400, 2400), Image.LANCZOS)
+    sheet.save(args.salida / f"{args.nombre}_luces.jpg", quality=88)
+    print(f"-> {args.salida / (args.nombre + '_luces.jpg')} (Original | Mejorada{' | su imagen' if len(panels) == 3 else ''})")
+
+
+if __name__ == "__main__":
+    main()

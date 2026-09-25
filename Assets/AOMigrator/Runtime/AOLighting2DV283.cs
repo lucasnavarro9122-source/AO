@@ -203,13 +203,17 @@ public class AOLighting2DV283 : MonoBehaviour
             float radius = (placement.range >= 100 ? Mathf.Max(2.5f, range * 1.25f) : Mathf.Max(3.5f, range * 1.6f)) * 1.3f;
 
             Color color = Decode(placement.color);
-            bool warm = Mathf.Min(color.r, Mathf.Min(color.g, color.b)) > 0.85f;
+            float min = Mathf.Min(color.r, Mathf.Min(color.g, color.b));
+            bool warm = min > 0.85f;
             if (warm) color = WarmLight;
+            // Fría y casi blanca (la luz de luna de los haces del dungeon, nube 25/09): relleno suave, no foco.
+            // Solo si el azul supera al rojo: las grises de los mapas originales y las cálidas de la arena no cambian.
+            bool moon = !warm && color.b - color.r >= 0.1f && color.maxColorComponent - min < 0.25f;
 
             Light2D light = NewLight("Luz " + placement.x + "," + placement.y, Light2D.LightType.Point, lightsRoot);
             light.transform.position = new Vector3(placement.x - 0.5f, -placement.y + 0.5f, 0f);
             light.color = color;
-            light.intensity = 1.05f;
+            light.intensity = moon ? 0.55f : 1.05f;
             light.pointLightInnerRadius = 0f;
             light.pointLightOuterRadius = radius;
             light.falloffIntensity = 0.55f;

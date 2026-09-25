@@ -21,19 +21,51 @@ Lucas pidió igualar su imagen (`referencias/p1_objetivo_lucas.webp`) hasta en l
   - la silueta y el tamaño son los originales.
 - **Decoración (`tex_90002`, 512x512 a 1x):**
   - y 0: 6 escombros de 64x64, con la piedra de sus paredes;
-  - y 64: 3 nieblas de 128x64;
-  - y 128: 2 haces de luz de luna de 128x256, en la capa 2 sobre piso libre (las paredes los tapan).
-- **`compensar_luz` 1,18:** su imagen es la pantalla final, y el P1 tiene luz base 0xA0A0A0.
+  - y 64: 3 jirones de niebla de 128x64;
+  - y 128: 2 haces de luz de luna de 128x256;
+  - x 256: halo celeste de 160 (brillos) y violeta de 224 (portal).
+- **`compensar_luz` 1,6:** el juego (luz Original) dibuja textura x luz con tope 1, y el P1 tiene luz base 0xA0A0A0 (0,627). Con x1,6, lo que no tiene luz se ve como su imagen y bajo la luz de luna llega a su brillo.
 
-Reglas de ubicación (hoy en `dungeon_vista_p1.py`; el builder las tiene que copiar):
-- variante por bloque de 4x4 con bordes compatibles, 35 % la base;
-- escombros en el 24 % de las casillas junto a pared;
-- niebla en el 14 %, apoyada una casilla más abajo;
-- haces de luz cada ~5x7 casillas, solo si toda su huella de 4x8 es piso libre.
+## Luces del P1 (ronda 1 de luces, 25/09)
+Cómo dibuja la luz el juego (estudiado en el código):
+- **Original** (por defecto): `AOMapLighting` + `AOMapVertexLit`.
+  - Cada sprite = textura x la luz de las 4 esquinas de la casilla donde se apoya, estirada sobre todo el sprite; tope 1.
+  - Una luz de color multiplica (el azul puro oscurece) y tiñe entera cada pieza de pared alta que se apoye cerca: se ve un rectángulo.
+- **Mejorada:** `AOLighting2DV283`, luces 2D sumadas por píxel más la viñeta.
+  - El bloom está apagado (`PostProcessing = false`, por el bug de la cámara recortada).
 
-Costo de la ronda 5: 0 créditos (usa lo generado en la ronda 4). Total P1: ~52,5 créditos.
+Qué se hizo:
+- **Brillos azules (`FLOOR_GLOW`):**
+  - celeste 0x5A96FF, radio 1, dos casillas lejos de la pared (antes: azul puro al pie, teñía el friso);
+  - el resplandor lo da un halo celeste pintado.
+- **Haces de luna:**
+  - 38 al azar, fijos por mapa y separados entre sí;
+  - cada uno con una luz de luna 0xC8D2F5 donde cae al piso, así en Original el haz entero se ilumina;
+  - radio 1, o sin luz, si cerca se apoya una pared alta.
+- **Portal:** halo violeta grande.
+- **Luz Mejorada:** las luces frías y casi blancas (azul > rojo en 0,1 o más, saturación < 0,25) van a intensidad 0,55 en vez de 1,05.
+  - Si no, varias juntas se queman.
+  - En todo el juego eso son solo las 32 de luna del P1 y una violeta suave del mapa 370.
+  - Copiado en `preview_luces.py` y `dungeon_vista_p1.py`.
+- **Vista:** `dungeon_vista_p1.py` ahora dibuja como el juego en los dos modos, con el mapa armado y las texturas instaladas. Antes multiplicaba x1,35 de más.
 
-### Falta para que se vea en el juego
-- Builder: GRH propios de la demo para `tex_90001` (variantes) y `tex_90002` (decoración), con las reglas de arriba.
-- `importar P1 ... --aplicar`, con `.meta` iguales a los HD existentes (Point, sin mipmaps, sin compresión).
-- Reconstruir mapas y catálogo, pruebas, paquete para CEREBRO.
+Todo lo arma el builder (op `hd_remaster` de `demo_art_specs.HD_REMASTER`, función `demo_map_builder.hd_remaster`):
+- variantes con bordes compatibles (35 % la base);
+- escombros en el 24 % de las casillas al pie de pared;
+- niebla en el 14 %;
+- haces y halos.
+
+Sprites propios con id desde 900000 en la lista del mapa. Sin las texturas instaladas, no hace nada.
+
+Instalado:
+- `tex_5095`, `tex_90001` y `tex_90002` en `Resources/AOMigratorHD`;
+- `tex_90001` y `tex_90002` a 1x en `Resources/AOMigrator`;
+- `map_1011` reconstruido.
+
+Los `.meta` los genera Unity (`AOHDTextureImportV279` y `AOMapTextureImport`).
+
+`tex_5095` HD también la usan los Newbie Dungeon originales (37, 167, 168, 264; luz 0,56). En las costas 78 y 80 solo se usan los cristales, que no cambiaron.
+
+### Falta (PC)
+- Compilar en Unity (se cambió `AOLighting2DV283.cs`; en la nube no hay proyecto auxiliar), importar las texturas nuevas y probar el P1 en Play con las dos luces.
+- Paquete para CEREBRO (con OK de Lucas).

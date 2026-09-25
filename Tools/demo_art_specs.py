@@ -332,7 +332,19 @@ TELEPORT = 49488          # teleport original (objeto tipo 19)
 CRYPT_DOOR = DUNGEON_DOOR
 FLOOR_IDS = {"P1": 1011, "P2": 1012, "P3": 1013, "P4": 1014, "P5": 1015, "P6": 1016, "P7": 1017}
 OUTDOOR = set()           # todos los pisos son bajo tierra (reglas-y-recorrido.md, regla 3); el cementerio es la entrada 1010
-FLOOR_GLOW = {"P1": 0x3C78FF}   # brillos azules al pie de las paredes (remaster de hielo del P1, pedido de Lucas 25/09)
+# Brillos azules al pie de las paredes (remaster del P1, pedido de Lucas 25/09). Celeste claro y no azul puro: la luz
+# Original multiplica la textura, y un azul puro (0x3C78FF) la oscurecía en vez de iluminarla.
+FLOOR_GLOW = {"P1": 0x5A96FF}
+MOON_LIGHT = 0xC8D2F5   # luz de luna bajo los haces (fría; < 0xD9 para que la luz Mejorada no la lea como antorcha)
+# Remaster HD (Tools/hd_remake/dungeon_hd.py + demo_map_builder.hd_remaster): variantes del piso y decoración.
+HD_REMASTER = {
+    "P1": {"op": "hd_remaster",
+           "piso": {"tex": 5095, "sx": 512, "sy": 288},             # el juego de 4x4 del piso original
+           "variantes": {"tex": 90001, "n": 8, "base": 35},          # 35 % la variante 0 (la del atlas)
+           "decor": {"tex": 90002, "escombros": 24, "niebla": 14,     # % de las casillas al pie de una pared
+                     "haces": {"uno_de": 12, "lejos": [6, 9], "luz": MOON_LIGHT},
+                     "halos": [[0x5A96FF, "halo"], [0xB47CFF, "halo_grande"]]}},   # brillos (celeste) y portal (violeta)
+}
 
 
 def _walkable_source(source_id: int):
@@ -388,7 +400,11 @@ def spec_floor(map_id: int):
         for y in range(y0 + 1, y1 + 1):
             for x in range(x0, x1 + 1):
                 if walk((x, y)) and not walk((x, y - 1)) and (x * 7 + y * 13) % 17 == 0:
-                    lights.append(light(x, y, glow, 2))
+                    # Dos casillas más abajo y radio 1: en la luz Original cada pieza de pared toma la luz de la casilla
+                    # donde se apoya (la fila de piso de abajo) en toda su altura, y con la luz al pie de la pared se
+                    # teñía un rectángulo azul. El resplandor lo da el halo del builder.
+                    if walk((x, y + 1)) and walk((x, y + 2)):
+                        lights.append(light(x, y + 2, glow, 1))
     entry = m["entrada"]
     signs = [sign(entry["x"] + 2, entry["y"] + 1, "cartel del piso (zona segura)", FLOOR_SIGNS[floor["id"]])]
     if floor["id"] in FLOOR_EXTRA_SIGNS:
@@ -402,6 +418,8 @@ def spec_floor(map_id: int):
     for grh in sorted(set(layer3.values())):
         ops.append(paint(3, [c for c, g in layer3.items() if g == grh], grh=grh))
     ops += lights
+    if floor["id"] in HD_REMASTER:
+        ops.append(HD_REMASTER[floor["id"]])
     return {
         "map": map_id,
         "autor": "Arte",

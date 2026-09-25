@@ -10,7 +10,8 @@ Uso (desde la raíz del proyecto):
   python Tools/demo_map_builder.py --show 264 [x0 y0 x1 y1]   dibuja en texto la caminabilidad de un mapa
 
 Especificaciones: Tools/demo_maps/{id}.json (Programación: base y estructura) y
-Tools/demo_maps/{id}.art.json (Arte: {"ops": [stamp | paint | erase | light]}). Orden: base -> Arte -> estructura.
+Tools/demo_maps/{id}.art.json (Arte: {"ops": [stamp | paint | erase | light | hd_remaster]}). Orden: base -> Arte ->
+estructura; hd_remaster (variantes del piso y decoración HD de la demo) va al final, sobre el mapa ya armado.
 Datos del dungeon: docs/claude/demo/dungeon-npcs.json (Contenido). Diseño: docs/claude/demo/arquitectura.md §2.
 Nunca escribe mapas < 1000. No cambia stats de NPC: salen de npcs.dat.
 """
@@ -369,7 +370,141 @@ def op_clip(model: MapModel, op: dict, sources: Sources):
 
 OPS = {"stamp": op_stamp, "paint": op_paint, "erase": op_erase, "block": op_block, "unblock": op_unblock,
        "trigger": op_trigger, "exit": op_exit, "clip": op_clip, "npc": op_npc, "light": op_light}
-ART_OPS = {"stamp", "paint", "erase", "light"}
+ART_OPS = {"stamp", "paint", "erase", "light", "hd_remaster"}
+
+
+# ---------------------------------------------------------------- remaster HD de la demo (Arte, nube 25/09)
+# Texturas propias de la demo (Tools/hd_remake/dungeon_hd.py): variantes del piso (tex_90001) y decoración (tex_90002).
+# Sus sprites no están en graficos.ini: van en la lista de sprites del mapa con ids desde DEMO_SPRITE_BASE (el
+# cliente dibuja desde esa lista). El GRH de la celda queda el original.
+DEMO_SPRITE_BASE = 900000
+# Rectángulos a 1x de tex_90002 (dungeon_hd.decoracion): si cambia uno, cambiar el otro.
+DEMO_DECOR = {
+    "escombro": [(k * 64, 0, 64, 64) for k in range(6)],
+    "niebla": [(k * 128, 64, 128, 64) for k in range(3)],
+    "haz": [(k * 128, 128, 128, 256) for k in range(2)],
+    "halo": (256, 128, 160, 160),            # celeste (brillos)
+    "halo_grande": (256, 288, 224, 224),     # violeta (portal)
+}
+# Centro de cada haz (x en px dentro del sprite de 128) arriba y abajo: dungeon_hd.haces (0,66/0,34 y 0,56/0,44).
+HAZ_CENTRO = [(84.5, 43.5), (71.7, 56.3)]
+
+
+def _hash(*parts) -> int:
+    return int(hashlib.md5(repr(parts).encode()).hexdigest(), 16)
+
+
+def demo_sprite(model: MapModel, file_num: int, sx: int, sy: int, w: int, h: int) -> int:
+    cache = model.__dict__.setdefault("demo_sprites", {})
+    key = (file_num, sx, sy, w, h)
+    if key not in cache:
+        sid = DEMO_SPRITE_BASE + 1 + len(cache)
+        cache[key] = sid
+        model.sprite_pool[sid] = {"id": sid, "fileNum": file_num, "sx": sx, "sy": sy, "width": w, "height": h,
+                                  "key": f"f{file_num}_{sx}_{sy}_{w}_{h}"}
+    return cache[key]
+
+
+def hd_remaster(model: MapModel, op: dict, sources: Sources, map_id: int) -> list[str]:
+    """Piso con variantes que encajan, y escombros, niebla, haces de luna (con su luz) y halos bajo las luces de color.
+    Va al final (después de sellar salidas): mira el mapa ya armado. Sin las texturas instaladas no hace nada."""
+    var, dec = op["variantes"], op["decor"]
+    for tex in (var["tex"], dec["tex"]):
+        if not (TEXTURES_DIR / f"tex_{tex}.png").exists():
+            model.hd_notes = f"remaster HD: falta tex_{tex}.png (dungeon_hd.py importar --aplicar); queda el piso original"
+            return []
+    # 1. Piso: cada bloque de 4x4 del juego original toma una variante. Bordes (dungeon_hd.bordes_piso): la variante k
+    #    tiene borde izquierdo k % 2 y derecho (k // 2) % 2; a la derecha de un borde t va un borde izquierdo t.
+    fl = op["piso"]
+    floor_cells = {}
+    for (x, y, layer), (grh, sid) in model.cells.items():
+        if layer != 1:
+            continue
+        fr = sources.sprite(sid, model.sprite_pool)
+        if (fr and fr["fileNum"] == fl["tex"] and fr["width"] == 32 and fr["height"] == 32
+                and fl["sx"] <= fr["sx"] < fl["sx"] + 128 and fl["sy"] <= fr["sy"] < fl["sy"] + 128):
+            col, row = (fr["sx"] - fl["sx"]) // 32, (fr["sy"] - fl["sy"]) // 32
+            floor_cells[(x, y)] = (grh, col, row, ((x - col) // 4, (y - row) // 4))
+    pick = {}
+    n = var["n"]
+    for bx, by in sorted({v[3] for v in floor_cells.values()}, key=lambda b: (b[1], b[0])):
+        need = (pick[(bx - 1, by)] // 2) % 2 if (bx - 1, by) in pick else None
+        cand = [k for k in range(n) if need is None or k % 2 == need]
+        if 0 in cand and _hash(map_id, "p", bx, by) % 100 < var.get("base", 35):
+            pick[(bx, by)] = 0
+        else:
+            pick[(bx, by)] = cand[_hash(map_id, "q", bx, by) % len(cand)]
+    for (x, y), (grh, col, row, b) in floor_cells.items():
+        k = pick[b]
+        model.cells[(x, y, 1)] = (grh, demo_sprite(model, var["tex"], (k % 4) * 128 + col * 32, (k // 4) * 128 + row * 32, 32, 32))
+    # 2. Decoración en la capa 2 (una por casilla; lo que ya hay en la capa 2 no se toca).
+    floor = {(x, y) for (x, y) in floor_cells if model.walkable(x, y)}
+    used = {(x, y) for (x, y, layer) in model.cells if layer == 2} | set(model.exits)
+    decal = lambda x, y, rect: model.cells.__setitem__((x, y, 2), (0, demo_sprite(model, dec["tex"], *rect)))  # noqa: E731
+    counts = Counter()
+    lit = {(l["x"], l["y"]) for l in model.lights}
+    # Halos bajo las luces de color (portal, brillos): el blanco toma el color de la luz y se ve como resplandor.
+    halo_of = {color: kind for color, kind in dec.get("halos", [])}
+    for l in list(model.lights):
+        if l["color"] not in halo_of or l["range"] < 100:
+            continue
+        big = halo_of[l["color"]] == "halo_grande"
+        rect = DEMO_DECOR[halo_of[l["color"]]]
+        ax, ay = l["x"], l["y"] + (3 if big else 2)                 # centro del sprite sobre la casilla de la luz
+        if (ax, ay) in used:   # (a 2 casillas el halo ya casi no pinta: no mancha el vacío)
+            continue
+        decal(ax, ay, rect)
+        used.add((ax, ay))
+        counts["halo"] += 1
+    # Haces de luna: uno cada tanto, con toda su huella (4x8 casillas) sobre piso libre, y luz de luna debajo.
+    hz = dec["haces"]
+    tall = set()   # casillas donde se apoya una pieza de pared más alta que una casilla (capas 2 y 3)
+    for (x, y, layer), (grh, sid) in model.cells.items():
+        fr = sources.sprite(sid, model.sprite_pool) if layer in (2, 3) and sid < DEMO_SPRITE_BASE else None
+        if fr and fr["height"] > 32:
+            tall.add((x, y))
+    shafts = []   # al azar (fijo por mapa), sin columnas regulares: uno de cada `uno_de` y lejos de los otros
+    for (x, y) in sorted(floor, key=lambda c: _hash(map_id, "haz", *c)):
+        if _hash(map_id, "hz", x, y) % hz["uno_de"] or (x, y) in used:
+            continue
+        if any(abs(x - sx) < hz["lejos"][0] and abs(y - sy) < hz["lejos"][1] for sx, sy in shafts):
+            continue
+        if not all((x + dx, y - dy) in floor for dx in range(-2, 2) for dy in range(8)):
+            continue
+        shafts.append((x, y))
+        k = _hash(map_id, "hk", x, y) % 2
+        decal(x, y, DEMO_DECOR["haz"][k])
+        used.add((x, y))
+        counts["haz"] += 1
+        top, bottom = HAZ_CENTRO[k]
+        # Una luz de luna donde el haz cae al piso (en la luz Mejorada varias juntas se queman). En la Original el haz
+        # entero toma la luz de su casilla de apoyo: con la luz ahí, se ve. Radio 2, o 1 si cerca se apoya una pieza de
+        # pared alta (la teñiría entera: un rectángulo claro).
+        dy = 1
+        px = (x - 3) * 32 + 16 + bottom + (top - bottom) * (dy + 0.5) / 8   # borde izquierdo del sprite + centro
+        lx, ly = int(px // 32) + 1, y - dy
+        radius = next((r for r in (2, 1) if not any((lx + i, ly + j) in tall for i in range(-r, r + 1)
+                                                     for j in range(-r, r + 1))), 0)
+        if radius and (lx, ly) not in lit:
+            model.lights.append({"x": lx, "y": ly, "color": hz["luz"], "range": 99 + radius})
+            lit.add((lx, ly))
+    # Niebla y escombros al pie de las paredes.
+    for (x, y) in sorted(floor):
+        if not any((x + dx, y + dy) not in floor for dx, dy in ((0, -1), (-1, 0), (1, 0))):
+            continue
+        r = _hash(map_id, "d", x, y) % 100
+        if r < dec["escombros"]:
+            if (x, y) not in used:
+                decal(x, y, DEMO_DECOR["escombro"][r % 6])
+                used.add((x, y))
+                counts["escombro"] += 1
+        elif r < dec["escombros"] + dec["niebla"] and (x, y + 1) in floor and (x, y + 1) not in used:
+            decal(x, y + 1, DEMO_DECOR["niebla"][r % 3])                # una casilla más abajo: sobre el piso
+            used.add((x, y + 1))
+            counts["niebla"] += 1
+    model.hd_notes = (f"remaster HD: {len(floor_cells)} casillas de piso en {len(pick)} bloques, "
+                      + ", ".join(f"{v} {k}" for k, v in sorted(counts.items())))
+    return []
 
 
 # ---------------------------------------------------------------- dungeon floors (Contenido)
@@ -618,9 +753,13 @@ def build_one(spec: dict, sources: Sources) -> tuple[MapModel, list[str]]:
             setattr(model, key, [])
         elif key == "triggers":
             model.triggers = {}
+    hd_ops = []
     for op in spec.get("_art", []):
         if op.get("op") not in ART_OPS:
-            problems.append(f"{spec['id']}.art.json: la op '{op.get('op')}' no es de arte (solo stamp, paint, erase, light)")
+            problems.append(f"{spec['id']}.art.json: la op '{op.get('op')}' no es de arte (solo stamp, paint, erase, light, hd_remaster)")
+            continue
+        if op["op"] == "hd_remaster":   # va al final: mira el mapa ya armado
+            hd_ops.append(op)
             continue
         OPS[op["op"]](model, op, sources)
     for op in spec.get("structure", []):
@@ -628,6 +767,8 @@ def build_one(spec: dict, sources: Sources) -> tuple[MapModel, list[str]]:
     for x, y in spec.get("_artBlock", []):
         model.blocks[(x, y)] = model.blocks.get((x, y), 0) | FLAG_SIDES
     model.dead_exit_notes = seal_dead_exits(model, spec, sources)
+    for op in hd_ops:
+        problems.extend(hd_remaster(model, op, sources, spec["id"]))
     add_signs(model, spec, sources, problems)
     for ring in spec.get("rings", []):
         for p in rect_cells((ring["x"], ring["y"], RING_W, RING_H)):
@@ -844,6 +985,8 @@ def main() -> int:
               f"{len(data['exits'])} salidas, {len(data['sprites'])} sprites, {len(data.get('arenaRings', []))} rings")
         for issue in issues:
             print(f"        - {issue}")
+        if getattr(models[map_id], "hd_notes", None):
+            print(f"        {models[map_id].hd_notes}")
     if args.check:
         differ = [m for m, data in outputs.items()
                   if not (MAPS_DIR / f"map_{m}.json").exists()
