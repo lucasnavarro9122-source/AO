@@ -120,7 +120,7 @@ Entradas de Contenido: `dungeon-npcs.json` (tabla de EXP, 7 pisos, NPC con stats
 | D-06 | Economía | Con `OroMult` ×2 (decisión 2), el oro por hora alcanza para las pociones de cada tramo y cualquier clase puede equiparse. |
 | D-07 | Configuración | Multiplicadores de EXP por tramo (decisión 1) y `OroMult`: los mismos valores en el servidor, el cliente y `dungeon-npcs.json`. |
 | D-10 | Calibración contra Unity | Un bot en Play aislado pelea K NPC por piso con un fixture de clase y nivel fijos, y mide tiempo por kill y vida perdida. Tiene que dar ±20 % del modelo. |
-| D-20 | Auditoría de los pisos | Todo piso se alcanza desde el hub y toda salida tiene su vuelta. El punto de aparición de cada piso es `mapa.llegadaDesdeArriba` (no `entrada`, que es la escalera de subida): tiene que ser caminable y no estar sobre una salida. Los spawns de NPC son caminables y están en su zona, y el respawn funciona (estilo `AOMapFullAudit`). |
+| D-20 | Auditoría de los pisos | Todo piso se alcanza desde el hub y toda salida tiene su vuelta. El punto de aparición de cada piso es `mapa.llegadaDesdeArriba` (no `entrada`, que es la escalera de subida): tiene que ser caminable y no estar sobre una salida. Los spawns de NPC son caminables y están en su zona, y el respawn funciona (estilo `AOMapFullAudit`). Automático (pisos, salidas, huecos y entradas falsas): `python Tools/test_demo_maps.py`. |
 | D-21 | `npcLayoutVersion` | Cambiar la lista de NPC de un piso sube la versión y el servidor reinicia esos NPC en vez de enlazarlos mal (`arquitectura.md` §2.5). |
 
 **D-10 y las diferencias conocidas (decisión 17).** El juego hoy:
