@@ -36,26 +36,29 @@ PISOS = {
     "P1": {
         "mapa": 1011, "texturas": [5095], "piso": {"tex": 5095, "sx": 512, "sy": 288}, "textura_nueva": 90001,
         "omitir": [[5095, 4, 3]],   # franja de piso (sale de las variantes) y sombras semitransparentes (sin detalle)
-        "apagar": {"paredes": [0.85, 0.95, 0.95], "piso": [0.75, 0.9, 0.9]},   # saturación, contraste, brillo
+        "apagar": {"paredes": [0.92, 0.97, 1.0], "piso": [0.9, 0.95, 0.97]},   # la referencia ya es apagada
         "vacio_transparente": True,  # el negro del vacío dentro de las paredes sigue el degradé del original (queda negro)
-        # Ronda 2 (Lucas 25/09): fiel al estilo de sus referencias, diseño libre de piso y paredes, oscuridad de
-        # dungeon y el vacío siempre negro (nada de abismo azul).
-        "referencias": ["ref4_bosque_azul_cristales.webp", "ref1_ullathorpe_noche.webp"],
-        "tema": ("a dark FROZEN DUNGEON, in the exact rendering style of the reference images (dense souls-like HD pixel "
-                 "art, rich hand-placed detail, crisp pixels, painterly shading): ancient dark slate and granite masonry "
-                 "dusted with snow and hoarfrost, snow caps on every top edge, icicles hanging from ledges, rails and "
-                 "capitals, cracked weathered stone, and here and there a small embedded glowing blue ice crystal. "
-                 "Dungeon darkness: low-key, deep shadows, muted and desaturated colors; the only saturated accents are the "
-                 "small blue crystal glows. Areas that are black in the source stay PURE BLACK (the void): never mist, "
-                 "fog or blue."),
-        "piso_diseno": ("REDESIGN the floor freely: dark irregular frozen flagstones of varied sizes (NOT a regular brick "
-                        "grid), with snow and hoarfrost packed in the cracks"),
-        "variantes": ["clean flagstones with hoarfrost",
-                      "a thin drift of snow crossing part of the block",
-                      "a patch of dark clear ice over the stones",
-                      "cracked flagstones with frozen pebbles and small rubble",
-                      "two or three tiny glowing blue ice crystals growing from a crack",
-                      "a frozen puddle and scattered frost crystals"],
+        # Ronda 3 (Lucas 25/09): su referencia es este mismo mapa remasterizado (p1_objetivo_lucas.webp): igual a eso y
+        # con todavía más detalle. Vacío siempre negro.
+        "referencias": ["p1_objetivo_lucas.webp"],
+        "colores": 64,
+        "variantes_descartar": [6],   # ronda 3: el bloque 6 dibujó un bloque de piedra en 3D
+        "piso_grilla": True,          # ladrillos en grilla regular: se corta sobre las juntas (ver corte_por_juntas)
+        "tema": ("the SAME dungeon shown in the reference image, remastered exactly in its look: cold blue-grey carved "
+                 "marble and stone walls with cracks, darker veins and worn chipped edges, finely detailed fluted pillars "
+                 "and balustrades, small rubble and pebbles at the foot of the walls; add even MORE micro-detail than the "
+                 "reference (hairline cracks, chips, dust, tiny pebbles, a subtle cold sparkle in the stone). Dungeon "
+                 "darkness with a muted cold palette. Areas that are black in the source stay PURE BLACK (the void): "
+                 "never mist, fog or color."),
+        "piso_diseno": ("redraw the floor exactly like the floor of the reference image: large dark blue-grey slate "
+                        "bricks in a regular running bond, fine cracks, chipped corners and a subtle speckle; keep the "
+                        "brick joints on a regular grid"),
+        "variantes": ["clean bricks",
+                      "a few cracked bricks and small chips",
+                      "scattered pebbles and dust along some joints",
+                      "one worn darker brick and a network of hairline cracks",
+                      "a faint cold frost sparkle in the joints",
+                      "a couple of loose stones and a broken corner"],
         "abismo": None,
     },
 }
@@ -285,6 +288,40 @@ def parche_rediseno(img: Image.Image, umbral: float = 85, inset: int = 8):
     return x0 + ((x1 - x0) - 3 * side) // 2, y0 + ((y1 - y0) - 2 * side) // 2, side
 
 
+def corte_por_juntas(cells: list, periods: int = 2):
+    """Piso de ladrillos en grilla regular (aparejo corrido, ladrillo 2:1): mide la hilada, ubica las juntas y corta cada
+    bloque justo sobre ellas con un número entero de períodos. Así repite solo y todas las variantes encajan, sin fundidos."""
+    def fold(profile, P):
+        n = len(profile) // P
+        f = np.array([profile[ph:ph + n * P:P].mean() for ph in range(P)])
+        return int(f.argmin()), float(profile.mean() - f.min())
+    g = [np.asarray(c.convert("L"), np.float32) for c in cells]
+    H = min(a.shape[0] for a in g)
+    contrast = {P: np.mean([fold(a.mean(1), P)[1] for a in g]) for P in range(H // 8, H // 4)}
+    top = max(contrast.values())
+    py = min(P for P, c in contrast.items() if c >= 0.85 * top)            # el menor período bien marcado = una hilada
+    px = 2 * py                                                            # ladrillo 2:1 (las juntas verticales son tenues)
+    out = []
+    for c, a in zip(cells, g):
+        y0 = fold(a.mean(1), py)[0]
+        x0 = fold(a[y0 + py // 4:y0 + py - py // 4].mean(0), px)[0]
+        w, h = periods * px, periods * 2 * py
+        if x0 + w > a.shape[1]: x0 -= px
+        if y0 + h > a.shape[0]: y0 -= 2 * py
+        out.append(c.crop((max(0, x0), max(0, y0), max(0, x0) + w, max(0, y0) + h)))
+    return out, px, py
+
+
+def aplanar_luz(arr: np.ndarray, frac: float = 0.08) -> np.ndarray:
+    """Saca el degradé de luz de fondo que trae un bloque generado (conserva el detalle): divide por su versión muy
+    desenfocada, calculada sobre el bloque repetido 3x3 para que el borde no cambie al repetirlo."""
+    h, w = arr.shape[:2]
+    big = Image.fromarray(np.tile(arr, (3, 3, 1)))
+    low = np.asarray(big.filter(ImageFilter.GaussianBlur(max(h, w) * frac)), np.float32)[h:2 * h, w:2 * w]
+    f = arr.astype(np.float32) / (low + 1) * low.reshape(-1, 3).mean(0)
+    return np.clip(f, 0, 255).astype(np.uint8)
+
+
 def bloquear_bordes(var: np.ndarray, base: np.ndarray, band: int) -> np.ndarray:
     """Los bordes de una variante pasan a ser los de la base (con fundido): cualquier combinación encaja."""
     n = var.shape[0]
@@ -296,6 +333,7 @@ def bloquear_bordes(var: np.ndarray, base: np.ndarray, band: int) -> np.ndarray:
 
 def importar(nombre: str, out: Path, generadas: Path, aplicar: bool, pixel: int = 2, colores: int = 48):
     piso = PISOS[nombre]
+    colores = piso.get("colores", colores)
     man = json.loads((out / "manifest.json").read_text("utf-8"))
     B = BLOCK * SCALE
     res_dir = out / "resultado"
@@ -357,18 +395,39 @@ def importar(nombre: str, out: Path, generadas: Path, aplicar: bool, pixel: int 
         blocks = [np.asarray(raw.crop((x0 + (k % 3) * side, y0 + (k // 3) * side, x0 + (k % 3 + 1) * side,
                                        y0 + (k // 3 + 1) * side)).resize((B, B), Image.LANCZOS)) for k in range(6)]
         print(f"piso: rectángulo rediseñado en ({x0},{y0}), 6 cuadrados de {side} px")
-    else:
-        var = raw.resize((3 * B, 2 * B), Image.LANCZOS)
-        blocks = [np.asarray(var.crop(((k % 3) * B, (k // 3) * B, (k % 3 + 1) * B, (k // 3 + 1) * B))) for k in range(6)]
+    else:   # grilla 3x2; se deja afuera un margen chico por las líneas que el modelo a veces traza entre bloques
+        bw, bh = raw.width / 3, raw.height / 2
+        m = int(min(bw, bh) * 0.015)
+        cells = [raw.crop((int((k % 3) * bw) + m, int((k // 3) * bh) + m, int((k % 3 + 1) * bw) - m,
+                           int((k // 3 + 1) * bh) - m)) for k in range(6)]
+        if piso.get("piso_grilla"):
+            n0 = man["variantes"]
+            cut, px, py = corte_por_juntas(cells[:n0])
+            cells[:n0] = cut
+            print(f"piso: ladrillo de {px}x{py} px; cada bloque = 2x2 períodos, cortado sobre las juntas")
+        blocks = [np.asarray(c.resize((B, B), Image.LANCZOS)) for c in cells]
     n = man["variantes"]
+    drop = [k - 1 for k in piso.get("variantes_descartar", [])]   # variantes que salieron mal (1 = la primera)
+    if drop:
+        blocks = [b for k, b in enumerate(blocks[:n]) if k not in drop] + blocks[n:]
+        n -= len(drop)
     if piso.get("color_piso"):
         cp = piso["color_piso"]
         ref = Image.open(REFS / cp["ref"]).convert("RGB").crop(tuple(cp["box"]))
         blocks[:n] = [np.asarray(up.match_color(Image.fromarray(b), ref.convert("RGBA"))) for b in blocks[:n]]
     if piso.get("apagar"):
         blocks[:n] = [apagar(b, *piso["apagar"]["piso"]) for b in blocks[:n]]
-    base = up.make_tileable(blocks[0], "xy")
-    floors = [base] + [bloquear_bordes(blocks[k], base, B // 10) for k in range(1, n)]
+    if piso.get("piso_grilla"):   # ya repiten solos (cortados sobre las juntas): sin fundidos
+        floors = [aplanar_luz(np.ascontiguousarray(b)) for b in blocks[:n]]
+        ref = floors[0].astype(np.float32).reshape(-1, 3)
+        rm, rs = ref.mean(0), ref.std(0) + 1e-6
+        for k in range(1, n):   # mismo tono que la base: si no, cada bloque de 4x4 se nota como un cuadrado
+            f = floors[k].astype(np.float32)
+            fm, fs = f.reshape(-1, 3).mean(0), f.reshape(-1, 3).std(0) + 1e-6
+            floors[k] = np.clip((f - fm) / fs * rs + rm, 0, 255).astype(np.uint8)
+    else:
+        base = up.make_tileable(blocks[0], "xy")
+        floors = [base] + [bloquear_bordes(blocks[k], base, B // 10) for k in range(1, n)]
     abysses = []
     if man.get("abismos"):
         # Un abismo tiene que ser oscuro: si el modelo mezcló piso en uno, se usa el otro espejado.
