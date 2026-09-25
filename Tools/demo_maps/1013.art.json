@@ -3,7 +3,7 @@
  "autor": "Arte",
  "base": "copy 392",
  "nombre": "P3 Mausoleo",
- "notas": "Copia del mapa original (datos de Contenido en dungeon-npcs.json). Afuera del recorte: negro de vacío (GRH 1) sin capas, como el borde de los dungeons originales. Escaleras: hueco oscuro 57950 (como las salidas originales) con dos antorchas; el final del dungeon es el teleport original (49488).",
+ "notas": "Copia del mapa original (datos de Contenido en dungeon-npcs.json). Afuera del recorte: negro de vacío (GRH 1) sin capas, como el borde de los dungeons originales. Escaleras y final del dungeon: el teleport original (49488) con luz violeta y dos antorchas con luz.",
  "ops": [
   {
    "op": "erase",
@@ -171,8 +171,8 @@
   },
   {
    "op": "paint",
-   "layer": 2,
-   "grh": 57950,
+   "layer": 3,
+   "grh": 49488,
    "cells": [
     [
      29,
@@ -206,6 +206,48 @@
      79
     ]
    ]
+  },
+  {
+   "op": "light",
+   "x": 80,
+   "y": 80,
+   "color": 11828479,
+   "range": 103
+  },
+  {
+   "op": "light",
+   "x": 79,
+   "y": 79,
+   "color": 16757850,
+   "range": 102
+  },
+  {
+   "op": "light",
+   "x": 81,
+   "y": 79,
+   "color": 16757850,
+   "range": 102
+  },
+  {
+   "op": "light",
+   "x": 29,
+   "y": 22,
+   "color": 11828479,
+   "range": 103
+  },
+  {
+   "op": "light",
+   "x": 28,
+   "y": 21,
+   "color": 16757850,
+   "range": 102
+  },
+  {
+   "op": "light",
+   "x": 30,
+   "y": 21,
+   "color": 16757850,
+   "range": 102
   }
  ],
  "carteles": [

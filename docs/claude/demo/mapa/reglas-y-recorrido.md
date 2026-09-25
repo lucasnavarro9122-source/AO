@@ -72,13 +72,30 @@ Primero se propuso reordenar solo los gráficos. Así, las arañas quedaban en u
 
 Queda en `map_environment.json` y en `textos-hub.md` §6.
 
+## Salidas: portal con luz (pedido de Lucas, 25/09 tarde)
+Ninguna salida es un punto negro. Antes las 14 escaleras de los pisos eran el hueco negro 57950 y ninguna salida tenía luz.
+- **Portal:** toda salida usa el teleport original 49488, el portal violeta animado de 8 cuadros. Va en la capa 3 y se puede pisar.
+- **Luz:**
+  - halo violeta `B47CFF` de radio 4 sobre el portal;
+  - antorchas a los costados con luz cálida `FFB45A` de radio 3;
+  - frente a las puertas, luz cálida de radio 4.
+- **Dónde:**
+  - hub: portal doble al norte, en el camino a las arenas, y la puerta del dungeon iluminada;
+  - arenas: la vuelta al hub;
+  - cementerio: la vuelta al hub, en el camino norte, y la puerta de la capilla;
+  - pisos P1–P7: todas las bajadas y los atajos al hub, incluido el portal del P7.
+- **Luces del motor:** las luces usan `range` 100 o más, que es un halo redondo que se apaga hacia el borde (radio = `range` − 99). Con menos de 100, `AOMapLighting` pinta un cuadrado de color plano.
+- El catálogo del servidor no cambia, porque las luces y los gráficos no van en él.
+
+![portales](portales_antes_despues.jpg)
+
 ## Hub y arenas (reglas 1, 9 y 10)
 Ya cumplían las reglas, así que no se tocaron:
 - En el hub, las Arenas quedan al norte y el Dungeon al sur. Solo cambia la llegada al 1010.
 - En las arenas hay 4 rings con tema (bosque, desierto, nieve y mazmorra), una plaza central y carteles "Arena I–IV".
 
 ## Pendiente
-- **Probar en Unity:** recorrer 1000 → 1010 → P1…P7 → portal (QA D-20). Mirar la luz nueva y los carteles.
+- **Probar en Unity:** recorrer 1000 → 1010 → P1…P7 → portal (QA D-20). Mirar la luz nueva, los carteles y los portales: que se animen, que brillen y que se vean bien con "Luz: Mejorada".
 - **Servidor:** el catálogo cambió en 9 mapas y cambió su `npcLayoutVersion`, así que el servidor reinicia los NPC de esos mapas (como está diseñado). Publicar servidor y cliente juntos.
 - **Contenido:** revisar los tiempos de subida (`modelo_progresion.py`). Los NPC y el respawn son los mismos, pero cambian las distancias; la más larga es la Tumba del desierto.
 

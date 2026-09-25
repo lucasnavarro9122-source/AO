@@ -2,7 +2,7 @@
  "map": 1010,
  "autor": "Arte",
  "base": "copy 4",
- "notas": "Cementerio de Nix al aire libre (entrada del dungeon). Los cortes del recorte se cierran con pinos; la bajada es la puerta original de la capilla y el camino norte vuelve a la plaza de la demo.",
+ "notas": "Cementerio de Nix al aire libre (entrada del dungeon). Los cortes del recorte se cierran con pinos; la bajada es la puerta original de la capilla (con luz) y el camino norte vuelve a la plaza de la demo por el portal original (49488) con luz y antorchas.",
  "ops": [
   {
    "op": "paint",
@@ -1174,6 +1174,67 @@
      91
     ]
    ]
+  },
+  {
+   "op": "paint",
+   "layer": 3,
+   "grh": 49488,
+   "cells": [
+    [
+     46,
+     11
+    ]
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 3,
+   "grh": 55254,
+   "cells": [
+    [
+     43,
+     11
+    ],
+    [
+     49,
+     11
+    ]
+   ]
+  },
+  {
+   "op": "light",
+   "x": 46,
+   "y": 11,
+   "color": 11828479,
+   "range": 103
+  },
+  {
+   "op": "light",
+   "x": 43,
+   "y": 11,
+   "color": 16757850,
+   "range": 102
+  },
+  {
+   "op": "light",
+   "x": 49,
+   "y": 11,
+   "color": 16757850,
+   "range": 102
+  },
+  {
+   "op": "light",
+   "x": 20,
+   "y": 44,
+   "color": 16757850,
+   "range": 103
+  },
+  {
+   "op": "light",
+   "x": 21,
+   "y": 44,
+   "color": 11828479,
+   "range": 102
   }
  ],
  "carteles": [

@@ -10,7 +10,7 @@ Uso (desde la raíz del proyecto):
   python Tools/demo_map_builder.py --show 264 [x0 y0 x1 y1]   dibuja en texto la caminabilidad de un mapa
 
 Especificaciones: Tools/demo_maps/{id}.json (Programación: base y estructura) y
-Tools/demo_maps/{id}.art.json (Arte: {"ops": [stamp | paint | erase]}). Orden: base -> Arte -> estructura.
+Tools/demo_maps/{id}.art.json (Arte: {"ops": [stamp | paint | erase | light]}). Orden: base -> Arte -> estructura.
 Datos del dungeon: docs/claude/demo/dungeon-npcs.json (Contenido). Diseño: docs/claude/demo/arquitectura.md §2.
 Nunca escribe mapas < 1000. No cambia stats de NPC: salen de npcs.dat.
 """
@@ -311,6 +311,12 @@ def op_erase(model: MapModel, op: dict, sources: Sources):
         model.cells.pop((x, y, op["layer"]), None)
 
 
+def op_light(model: MapModel, op: dict, sources: Sources):
+    """A map light (the engine's point light): replaces any light already on that tile."""
+    model.lights = [l for l in model.lights if (l["x"], l["y"]) != (op["x"], op["y"])]
+    model.lights.append({"x": op["x"], "y": op["y"], "color": op["color"], "range": op["range"]})
+
+
 def op_cells(op: dict):
     return [tuple(c) for c in op["cells"]] if "cells" in op else list(rect_cells(op["rect"]))
 
@@ -361,8 +367,8 @@ def op_clip(model: MapModel, op: dict, sources: Sources):
 
 
 OPS = {"stamp": op_stamp, "paint": op_paint, "erase": op_erase, "block": op_block, "unblock": op_unblock,
-       "trigger": op_trigger, "exit": op_exit, "clip": op_clip, "npc": op_npc}
-ART_OPS = {"stamp", "paint", "erase"}
+       "trigger": op_trigger, "exit": op_exit, "clip": op_clip, "npc": op_npc, "light": op_light}
+ART_OPS = {"stamp", "paint", "erase", "light"}
 
 
 # ---------------------------------------------------------------- dungeon floors (Contenido)
@@ -541,7 +547,7 @@ def build_one(spec: dict, sources: Sources) -> tuple[MapModel, list[str]]:
             model.triggers = {}
     for op in spec.get("_art", []):
         if op.get("op") not in ART_OPS:
-            problems.append(f"{spec['id']}.art.json: la op '{op.get('op')}' no es de arte (solo stamp, paint, erase)")
+            problems.append(f"{spec['id']}.art.json: la op '{op.get('op')}' no es de arte (solo stamp, paint, erase, light)")
             continue
         OPS[op["op"]](model, op, sources)
     for op in spec.get("structure", []):

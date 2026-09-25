@@ -3581,6 +3581,17 @@
   {
    "op": "paint",
    "layer": 3,
+   "grh": 49488,
+   "cells": [
+    [
+     50,
+     71
+    ]
+   ]
+  },
+  {
+   "op": "paint",
+   "layer": 3,
    "grh": 55254,
    "cells": [
     [
@@ -3686,6 +3697,27 @@
      82
     ]
    ]
+  },
+  {
+   "op": "light",
+   "x": 50,
+   "y": 71,
+   "color": 11828479,
+   "range": 103
+  },
+  {
+   "op": "light",
+   "x": 48,
+   "y": 71,
+   "color": 16757850,
+   "range": 102
+  },
+  {
+   "op": "light",
+   "x": 52,
+   "y": 71,
+   "color": 16757850,
+   "range": 102
   }
  ],
  "decorBloqueante": [

@@ -137,11 +137,14 @@ def spec_1001():
     for side in ((exit_x - 2, exit_y), (exit_x + 2, exit_y)):
         layer3[side] = TORCH
         blocking.append(side)
+    layer3[(exit_x, exit_y)] = PORTAL                  # la salida se ve: portal original con luz
     blocking.append(((px0 + px1) // 2, (py0 + py1) // 2))
     for grh in sorted(set(layer2.values())):
         ops.append(paint(2, [c for c, g in layer2.items() if g == grh], grh=grh))
     for grh in sorted(set(layer3.values())):
         ops.append(paint(3, [c for c, g in layer3.items() if g == grh], grh=grh))
+    ops += [light(exit_x, exit_y, PORTAL_LIGHT, 4),
+            light(exit_x - 2, exit_y, TORCH_LIGHT, 3), light(exit_x + 2, exit_y, TORCH_LIGHT, 3)]
     return {
         "map": 1001,
         "autor": "Arte",
@@ -162,6 +165,15 @@ ROAD = {  # camino de tierra vertical de 4 de ancho (Ullathorpe x51-54), por fil
 GRASS = 6000
 PINE = 12160
 DUNGEON_DOOR = 1493      # "Puerta cerrada con llave Catas Ullathorpe" (96x96)
+PORTAL = 49488           # teleport original (objeto tipo 19, 8 cuadros): toda salida de la demo lo usa (pedido de Lucas, 25/09)
+PORTAL_LIGHT = 0xB47CFF  # luz violeta del portal (RRGGBB, como las luces de los mapas)
+TORCH_LIGHT = 0xFFB45A   # luz cálida de antorchas y puertas
+
+
+def light(x, y, color, radius):
+    """Luz redonda del mapa, con radio en casillas. En AOMapLighting, range >= 100 es un halo que se
+    apaga hacia el borde (radio = range - 99); range < 100 pinta un cuadrado de color plano."""
+    return {"op": "light", "x": x, "y": y, "color": color, "range": 99 + radius}
 
 
 def spec_1000():
@@ -187,7 +199,8 @@ def spec_1000():
         row = ROAD[(y - offset_y) % 4]
         for i in range(4):
             road[(road_x + i, y)] = row[i]
-    layer3 = {(road_x - 1, north_end): TORCH, (road_x + 4, north_end): TORCH}
+    layer3 = {(road_x - 1, north_end): TORCH, (road_x + 4, north_end): TORCH,
+              (road_x + 1, north_end): PORTAL, (road_x + 2, north_end): PORTAL}   # portal doble al ancho de la calle
     signs = [sign(road_x - 2, north_end + 2, "salida norte a las Arenas", ARENA_SIGNS[0][1])]
     south = sy1 + offset_y + 1                                # primera fila bajo el recorte
     layer3[(road_x + 2, south + 2)] = DUNGEON_DOOR
@@ -211,6 +224,10 @@ def spec_1000():
         ops.append(paint(1, [c for c, g in road.items() if g == grh], grh=grh))
     for grh in sorted(set(layer3.values())):
         ops.append(paint(3, [c for c, g in layer3.items() if g == grh], grh=grh))
+    ops += [light(road_x + 1, north_end, PORTAL_LIGHT, 4), light(road_x + 2, north_end, PORTAL_LIGHT, 4),
+            light(road_x - 1, north_end, TORCH_LIGHT, 3), light(road_x + 4, north_end, TORCH_LIGHT, 3),
+            light(road_x + 2, south + 1, TORCH_LIGHT, 4),                                  # frente a la puerta del dungeon
+            light(road_x - 1, south + 2, TORCH_LIGHT, 3), light(road_x + 4, south + 2, TORCH_LIGHT, 3)]
     return {
         "map": 1000,
         "autor": "Arte",
@@ -221,7 +238,8 @@ def spec_1000():
                  f"calle sur x{road_x}-{road_x + 3}, y{south}-{south + 2} (puerta del dungeon en x{road_x + 2}, y{south + 2}: "
                  f"la salida va en la fila de la puerta o la de arriba). Pinos alrededor como borde.",
         "ops": ops,
-        "decorBloqueante": [list(c) for c in sorted(layer3, key=lambda c: (c[1], c[0]))],
+        # Portals are walked into (the exit): never blocking.
+        "decorBloqueante": [list(c) for c in sorted(layer3, key=lambda c: (c[1], c[0])) if layer3[c] != PORTAL],
         "carteles": signs,
     }
 
@@ -252,7 +270,7 @@ def spec_floor(map_id: int):
     x0, y0, x1, y1 = r["x"], r["y"], r["x"] + r["ancho"] - 1, r["y"] + r["alto"] - 1
     inside = lambda c: x0 <= c[0] <= x1 and y0 <= c[1] <= y1   # noqa: E731
     walk = _walkable_source(m["fuente"])
-    ops, layer2, layer3 = [], {}, {}
+    ops, layer2, layer3, lights = [], {}, {}, []
     if floor["id"] in OUTDOOR:
         gaps = set()
         for x in range(x0, x1 + 1):
@@ -276,13 +294,13 @@ def spec_floor(map_id: int):
         if not stair:
             continue
         x, y = stair["x"], stair["y"]
-        if stair.get("destMap") == 1000:
-            layer3[(x, y)] = TELEPORT                       # fin del dungeon: portal de regreso al hub
-        else:
-            layer2[(x, y)] = HOLE
+        # Toda escalera es el portal original (antes: el hueco negro 57950), con luz violeta y antorchas con luz.
+        layer3[(x, y)] = TELEPORT
+        lights.append(light(x, y, PORTAL_LIGHT, 4))
         for side in ((x - 1, y - 1), (x + 1, y - 1)):
             if inside(side) and side not in layer3:
                 layer3[side] = TORCH
+                lights.append(light(side[0], side[1], TORCH_LIGHT, 3))
     entry = m["entrada"]
     signs = [sign(entry["x"] + 2, entry["y"] + 1, "cartel del piso (zona segura)", FLOOR_SIGNS[floor["id"]])]
     if floor["id"] in FLOOR_EXTRA_SIGNS:
@@ -295,6 +313,7 @@ def spec_floor(map_id: int):
         ops.append(paint(2, [c for c, g in layer2.items() if g == grh], grh=grh))
     for grh in sorted(set(layer3.values())):
         ops.append(paint(3, [c for c, g in layer3.items() if g == grh], grh=grh))
+    ops += lights
     return {
         "map": map_id,
         "autor": "Arte",
@@ -303,8 +322,7 @@ def spec_floor(map_id: int):
         "notas": "Copia del mapa original (datos de Contenido en dungeon-npcs.json). "
                  + ("Afuera del recorte queda el cementerio; los cortes del recorte se cierran con pinos. " if floor["id"] in OUTDOOR
                     else "Afuera del recorte: negro de vacío (GRH 1) sin capas, como el borde de los dungeons originales. ")
-                 + "Escaleras: hueco oscuro 57950 (como las salidas originales) con dos antorchas; "
-                   "el final del dungeon es el teleport original (49488).",
+                 + "Escaleras y final del dungeon: el teleport original (49488) con luz violeta y dos antorchas con luz.",
         "ops": ops,
         "carteles": signs,
     }
@@ -325,9 +343,14 @@ def spec_1010():
                     if not inside(o) and walk(o) and not (44 <= o[0] <= 48 and o[1] == y0 - 1):   # el camino norte queda abierto
                         gaps.add(o)
     ops = [paint(3, sorted(gaps), grh=PINE)] if gaps else []
+    # El camino norte (salida a la plaza, x44-48, y11) lleva el portal original al centro; la capilla, luz en la puerta.
+    ops += [paint(3, [(46, 11)], grh=PORTAL), paint(3, [(43, 11), (49, 11)], grh=TORCH),
+            light(46, 11, PORTAL_LIGHT, 4), light(43, 11, TORCH_LIGHT, 3), light(49, 11, TORCH_LIGHT, 3),
+            light(20, 44, TORCH_LIGHT, 4), light(21, 44, PORTAL_LIGHT, 3)]
     return {"map": 1010, "autor": "Arte", "base": "copy 4",
             "notas": "Cementerio de Nix al aire libre (entrada del dungeon). Los cortes del recorte se cierran con pinos; "
-                     "la bajada es la puerta original de la capilla y el camino norte vuelve a la plaza de la demo.",
+                     "la bajada es la puerta original de la capilla (con luz) y el camino norte vuelve a la plaza de la demo "
+                     "por el portal original (49488) con luz y antorchas.",
             "ops": ops,
             "carteles": [sign(23, 47, "entrada del dungeon (capilla)", NEWBIE_SIGN), sign(49, 12, "camino a la plaza", EMPTY_SIGN)]}
 

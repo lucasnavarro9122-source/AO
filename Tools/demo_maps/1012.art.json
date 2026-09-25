@@ -3,7 +3,7 @@
  "autor": "Arte",
  "base": "copy 40",
  "nombre": "P2 Catacumbas",
- "notas": "Copia del mapa original (datos de Contenido en dungeon-npcs.json). Afuera del recorte: negro de vacío (GRH 1) sin capas, como el borde de los dungeons originales. Escaleras: hueco oscuro 57950 (como las salidas originales) con dos antorchas; el final del dungeon es el teleport original (49488).",
+ "notas": "Copia del mapa original (datos de Contenido en dungeon-npcs.json). Afuera del recorte: negro de vacío (GRH 1) sin capas, como el borde de los dungeons originales. Escaleras y final del dungeon: el teleport original (49488) con luz violeta y dos antorchas con luz.",
  "ops": [
   {
    "op": "erase",
@@ -171,8 +171,8 @@
   },
   {
    "op": "paint",
-   "layer": 2,
-   "grh": 57950,
+   "layer": 3,
+   "grh": 49488,
    "cells": [
     [
      46,
@@ -206,6 +206,48 @@
      89
     ]
    ]
+  },
+  {
+   "op": "light",
+   "x": 46,
+   "y": 13,
+   "color": 11828479,
+   "range": 103
+  },
+  {
+   "op": "light",
+   "x": 45,
+   "y": 12,
+   "color": 16757850,
+   "range": 102
+  },
+  {
+   "op": "light",
+   "x": 47,
+   "y": 12,
+   "color": 16757850,
+   "range": 102
+  },
+  {
+   "op": "light",
+   "x": 46,
+   "y": 90,
+   "color": 11828479,
+   "range": 103
+  },
+  {
+   "op": "light",
+   "x": 45,
+   "y": 89,
+   "color": 16757850,
+   "range": 102
+  },
+  {
+   "op": "light",
+   "x": 47,
+   "y": 89,
+   "color": 16757850,
+   "range": 102
   }
  ],
  "carteles": [
