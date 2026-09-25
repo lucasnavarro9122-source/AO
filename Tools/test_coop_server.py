@@ -28,7 +28,7 @@ def fixture():
                      respawnMinSeconds=300,respawnMaxSeconds=300,inventoryDrops=[dict(itemIndex=500,amount=1)])]),
                 spells=[dict(id=1,raiseHp=1,minHp=5,maxHp=5),dict(id=2,raiseHp=2,minHp=5,maxHp=5)],
                 summons=dict(summons=[]), npcMagic=dict(npcs=[]),
-                shops=dict(npcs=[dict(npcIndex=200,trades=True,itemType=100,stock=[dict(itemIndex=501,amount=1,infinite=False)])]),
+                shops=dict(npcs=[dict(npcIndex=200,trades=True,itemType=100,stock=[dict(itemIndex=501,amount=1,infinite=False),dict(itemIndex=500,amount=1,infinite=False)])]),
                 quests=[dict(id=7,rewardGold=40,repeatable=False),dict(id=8,rewardGold=5,repeatable=True)])
 
 
@@ -136,7 +136,10 @@ def run():
             time.sleep(.04);result=a.action('buy',id=200,item=501,amount=1);assert result['ok'],result;a.events(result['events'])
             assert a.save['combat']['gold']==85
             time.sleep(.04);assert not b.action('buy',id=200,item=501,amount=1)['ok']
-            time.sleep(.04);result=a.action('sell',id=200,item=501,amount=1);assert result['ok'],result;a.events(result['events']);assert a.save['combat']['gold']==95
+            # Original (QuitarNpcInvItem → CargarInvent): a merchant left with nothing reloads its whole inventory.
+            time.sleep(.04);result=a.action('buy',id=200,item=500,amount=1);assert result['ok'],result;a.events(result['events'])
+            time.sleep(.04);result=b.action('buy',id=200,item=501,amount=1);assert result['ok'],result;b.events(result['events'])
+            time.sleep(.04);result=a.action('sell',id=200,item=501,amount=1);assert result['ok'],result;a.events(result['events']);assert a.save['combat']['gold']==80
             time.sleep(.04);assert a.action('door',x=49,y=51)['ok']
             assert b.until(lambda m:m['type']=='state' and any(d['open'] for d in m['doors']))
             time.sleep(.04);assert not a.action('cast',spell=2,id=b.id,x=50,y=51)['ok']
@@ -211,7 +214,7 @@ def run():
             assert ledger()==book and a.save['combat']['gold']==a.wallet==before+50
             assert list(root.glob('saves/ledger.jsonl.torn-*'))
             assert a.state()['npcs'][0]['npc']==101
-            print('PASS: shared NPC death, split XP, unique loot, idempotent pickup, transfer, finite shop, gold, doors, ally healing, no PvP, skill shot cooldown, meditation/cast sync, restart, replay, 11-player cap, '
+            print('PASS: shared NPC death, split XP, unique loot, idempotent pickup, transfer, finite shop, gold, doors, ally healing, no PvP, skill shot cooldown, meditation/cast sync, restart, replay, 11-player cap, merchant reload when empty, '
                   'server gold (A-07), bank, quest gold, ledger invariant, torn ledger line, protocol 2 rejected, NPC layout reset.')
         finally:
             for peer in peers:
@@ -315,4 +318,32 @@ def run_ranged():
             process.terminate();process.wait(5);log.close()
 
 
-if __name__=='__main__':run();run_demo();run_ranged()
+def run_loot_expiry():
+    """Review #4: floor loot vanishes after 10 minutes (scaled by --test-time-scale 0.01 → 6 s)."""
+    with tempfile.TemporaryDirectory(prefix='ao-loot-test-') as temp:
+        root=pathlib.Path(temp);key=secrets.token_hex(18)
+        (root/'key').write_text(key);(root/'catalog.json').write_text(json.dumps(fixture()))
+        with socket.socket() as reservation:
+            reservation.bind(('127.0.0.1',0));port=reservation.getsockname()[1]
+        log=(root/'server.log').open('w')
+        process=subprocess.Popen(['dotnet',str(DLL),'--port',str(port),'--key-file',str(root/'key'),'--catalog',str(root/'catalog.json'),
+                                  '--data',str(root/'saves'),'--test','--test-time-scale','0.01'],stdout=log,stderr=log)
+        peer=None
+        try:
+            for _ in range(60):
+                try:probe=socket.create_connection(('127.0.0.1',port),timeout=.1);probe.close();break
+                except OSError:time.sleep(.1)
+            save=snapshot('Olvido');save['inventory']['itemIndices'][0]=500;save['inventory']['amounts'][0]=1
+            peer=Peer(port,key,'Olvido',save=save)
+            result=peer.action('drop',item=500,amount=1);assert result['ok'],result;peer.events(result['events'])
+            dropped=time.monotonic()
+            peer.until(lambda m:m['type']=='state' and any(x['item']==500 for x in m['loot']))
+            peer.until(lambda m:m['type']=='state' and not any(x['item']==500 for x in m['loot']) or time.monotonic()-dropped>9)
+            assert 4<time.monotonic()-dropped<9,time.monotonic()-dropped
+            print('PASS: floor loot expires (10 min, scaled).')
+        finally:
+            if peer:peer.close()
+            process.terminate();process.wait(5);log.close()
+
+
+if __name__=='__main__':run();run_demo();run_ranged();run_loot_expiry()

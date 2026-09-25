@@ -211,6 +211,7 @@ public partial class AOInterfaceV0101 : MonoBehaviour
         UpdateCameraViewport();
         UpdateDuel();
         UpdateGameCursor();
+        ApplySavedLightingOnce();
     }
 
     void FindReferences()
@@ -417,6 +418,9 @@ public partial class AOInterfaceV0101 : MonoBehaviour
                 0.92f);
 
         chatStyle.wordWrap = false;
+
+        // Los mensajes de otros jugadores se muestran tal cual: sin <size>, <color> ni otras etiquetas.
+        chatStyle.richText = false;
 
         chatStyle.alignment =
             TextAnchor.LowerLeft;

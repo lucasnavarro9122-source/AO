@@ -80,12 +80,20 @@ def win_round(a, b, round_no, *watchers):
     next_to(a, (spawn['x'], spawn['y']))
     for _ in range(20):
         result = a.act('attack', id=b.id); text = result.get('text') or ''
+        # QA R-2: the pushes (duelRoundEnd) reach the attacker before the reply that carries the journal (duelEnd).
+        if any(e['type'] == 'duelEnd' for e in result['events']):
+            assert any(m['type'] == 'duelRoundEnd' and m['duel']['round'] == round_no for m in a.log), 'duelEnd antes que duelRoundEnd'
         # A kill starts the next countdown (or ends the duel) right away.
         if 'conteo' in text or 'reto' in text or any(m['type'] == 'duelRoundEnd' for m in a.log): break
         assert result['ok'] or 'atacar' in text, result
         drain(b, *watchers); time.sleep(.6)
     end = a.push('duelRoundEnd', round=round_no)
     assert end['duel']['winner'] == 0 and end['duel']['result'] == 'victoria', end
+    # QA R-08: the killing duelHurt reaches the victim with the next state, after the next round started; it carries
+    # its round so the client can drop it (before, the loser started the next round down).
+    hurts = [e for e in b.journal + b.act('sync')['events'] if e['type'] == 'duelHurt' and e['hp'] == 0]
+    assert hurts and all((e.get('duel') or {}).get('round') for e in hurts), hurts
+    assert any(e['duel']['round'] == round_no and e['duel']['id'] == end['duel']['id'] for e in hurts), hurts
 
 
 def run():

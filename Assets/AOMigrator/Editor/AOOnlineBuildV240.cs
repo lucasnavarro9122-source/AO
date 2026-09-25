@@ -19,11 +19,23 @@ public static class AOOnlineBuildV240
             string restart = Path.Combine(root, "Temp", "restart_online_editor");
             if (File.Exists(restart))
             {
+                // Never save on someone's behalf: restart only when no open scene has unsaved changes.
                 File.Delete(restart);
-                bool saved = UnityEditor.SceneManagement.EditorSceneManager.SaveOpenScenes();
-                AssetDatabase.SaveAssets();
-                File.WriteAllText(Path.Combine(root, "Temp", "restart_online_editor_result.txt"), saved ? "Saved" : "Save failed");
-                if (saved) EditorApplication.Exit(0);
+                var dirty = new System.Collections.Generic.List<string>();
+                for (int i = 0; i < UnityEditor.SceneManagement.EditorSceneManager.sceneCount; i++)
+                {
+                    var scene = UnityEditor.SceneManagement.EditorSceneManager.GetSceneAt(i);
+                    if (scene.isDirty) dirty.Add(string.IsNullOrEmpty(scene.path) ? scene.name : scene.path);
+                }
+                string resultPath = Path.Combine(root, "Temp", "restart_online_editor_result.txt");
+                if (dirty.Count > 0)
+                {
+                    File.WriteAllText(resultPath, "Not restarted: unsaved scene changes in " + string.Join(", ", dirty));
+                    Debug.LogWarning("AO: no reinicio Unity; hay escenas con cambios sin guardar: " + string.Join(", ", dirty));
+                    return;
+                }
+                File.WriteAllText(resultPath, "Restarting");
+                EditorApplication.Exit(0);
                 return;
             }
             string refresh = Path.Combine(root, "Temp", "refresh_online_client");

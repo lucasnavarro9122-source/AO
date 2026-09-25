@@ -6,10 +6,10 @@ Enviada por el chat Higgsfield (local) a los 7 chats del grupo AO DUELS. Crédit
 |---|---|---|
 | CEREBRO | contestó | Piloto HD primero. Tope de créditos: lo pregunta a Lucas; hasta entonces no generar nada. Carpeta y sección del tablero: OK. |
 | Arte y Animación | contestó | 1) piloto de tiles, 2) meditación 115–120, 3) FX de hechizos PvP. 8 direcciones: más adelante. |
-| Programación | esperando | |
+| Programación | contestó | Nada: sus sistemas usan gráficos/textos originales. La flecha en vuelo del arco es de Arte (gráfico original). |
 | Servidor y Multiplayer | contestó | Nada por ahora. Sin cambios de protocolo ni de catálogo. |
 | Contenido y Fidelidad AO | contestó | Solo upscale 4× del original; los huecos conocidos no se generan. Hace el control de fidelidad. Demo: 7 pisos + ring f5067 + 34 NPC. |
-| Interfaz y Controles | esperando | |
+| Interfaz y Controles | contestó | HUD principal y ventana de retos en 4× exacto (se reemplaza sin tocar código). Sin cursores HD. |
 | QA y Releases | contestó | Nada para la 0.26. Demo/0.27: ícono del .exe y banner/capturas para LEEME. Hace la puerta `Tools/hd_asset_gate.py`. |
 
 ## Reglas que salen de las respuestas
@@ -67,6 +67,22 @@ Enviada por el chat Higgsfield (local) a los 7 chats del grupo AO DUELS. Crédit
 - Reglas: solo upscale del gráfico original (frames, orden, duración, pivot/offset, ×4, silueta, paleta). Nunca diseño nuevo si existe el original. No tocar IDs de GRH, datos ni stats. Lo que no tenga original va aparte, marcado "no original", y solo con OK de Lucas.
 - Control: revisa original vs. HD lado a lado (Spell Tester) antes de integrar.
 - Prioridad demo: sets de los 7 pisos (mapas fuente 264, 4, 392, 564, 291, 142, 391) + ring f5067 de la arena 1001; después los cuerpos de los 34 NPC de `docs/claude/demo/dungeon-npcs.json`; después el resto del mundo. Todo dentro del plan de ~110 créditos (`demo/arte.md` §5).
+
+### Interfaz y Controles
+- La UI dibuja cada textura en un rectángulo fijo (`R()` sobre 1024×768, escalado): **un 4× exacto se reemplaza sin tocar código**.
+- 1) HUD principal, `Resources/AOMigrator/InterfaceV0101/`: `hud_frame` 1024×768; `panel_inventory`/`panel_spells` 247×325; `panel_stats`/`panel_info` 266×245; `btn_inventory|spells_{default,over,off}` 122×28; barras `bar_hp`/`bar_mana` 216×16, `bar_exp` 236×16, `bar_stamina` 89×9, `bar_hunger` 32×8, `bar_thirst` 32×9.
+- 2) Retos, `ClassicUI/Retos/` (del original `interface/es_*.bmp`): `ventanaretos` 291×490, `campo-retar` 112×27, `campo-corto` 69×27, botones retar/aceptar/rechazar/cancelar/cerrar/sm-mas/menos (default/over/off), `check-amarillo` 17×17.
+- Después: `ClassicUI` (`frame` 214×184, `leather_black` 636×469, `button_*` 155×32, `character_select` 1024×1024, íconos 40×40) y `EntryUI` (`logo` 1024×1024, `eac_splash_art` 800×450).
+- Los íconos de la hotbar son GRH de hechizos/objetos → remaster de Arte, no de UI.
+- NO tocar: 4× exacto con el mismo encuadre píxel a píxel, posiciones, **texto horneado** (palabras, tipografía y lugar: "RETOS", "Equipo 1", "Oro"), los 3 estados de cada botón con la misma silueta, fuente Cardo. Sin adornos nuevos.
+- Descartado: cursores HD (el cursor de Windows es 32×32; `E_ARROW`/`E_CAST` ya se ven bien). Outpaint 16:9 solo para fondos de pantalla completa (menú, carga), **nunca** el marco del HUD (las franjas negras son a propósito).
+- Nota: Interfaz lo marcó "demo", pero Lucas decidió que el HD no va en la demo → queda para una ronda posterior.
+
+### Programación
+- Casi nada necesita arte nuevo; prioridad: fidelidad. Sin placeholders pendientes.
+- La flecha en vuelo del arco hoy no se ve (solo el golpe): tiene que ser el proyectil original de AO; lo integra Arte, **no se genera**.
+- Caída de objetos al morir, regeneración ("Has sanado." + número verde), respawn y penalidad de EXP: gráficos/textos originales, no necesitan nada.
+- Proyectiles e impactos de skill shots (V267): son de Arte.
 
 ### QA y Releases
 - 0.26: nada (el ZIP queda en protocolo 2, no se recompila).

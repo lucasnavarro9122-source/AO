@@ -13,6 +13,60 @@ public partial class AOWorldManagerV07 : MonoBehaviour
     const string TextureResourceRoot =
         "AOMigrator/WorldV07/Textures/tex_";
 
+    // Remaster HD (Tools/hd_remake): el mismo atlas a 4x en un árbol espejo.
+    // Si existe, se usa con el mismo tamaño en el mundo (rect y pixelsPerUnit x4).
+    const string HDTextureResourceRoot =
+        "AOMigratorHD/WorldV07/Textures/tex_";
+    const int HDScale = 4;
+    public static bool UseHDTextures = true;
+
+    // Raised after SetHDTextures rebuilt the map (synchronous: the change is done when the call returns).
+    public static event Action HDTexturesApplied;
+
+    // Remaster HD on/off without reloading the map (Interfaz: Ajustes > Video; QA). Same tiles and world size;
+    // the grid, the player, the NPCs and the save are not touched. Map cells change at once; map objects keep
+    // their sprite until the next map load. An HD sprite has pixelsPerUnit 128 (32 x 4).
+    public static void SetHDTextures(bool on)
+    {
+        UseHDTextures = on;
+        AOWorldManagerV07 world = UnityEngine.Object.FindFirstObjectByType<AOWorldManagerV07>();
+        if (world != null)
+            world.RebuildMapGraphics();
+        HDTexturesApplied?.Invoke();
+    }
+
+    // How many atlases of the loaded map come from AOMigratorHD.
+    public int HDTextureCount
+    {
+        get
+        {
+            int n = 0;
+            foreach (KeyValuePair<int, int> kv in textureScale)
+                if (kv.Value > 1) n++;
+            return n;
+        }
+    }
+
+    void RebuildMapGraphics()
+    {
+        textureCache.Clear();
+        textureScale.Clear();
+        spriteCache.Clear();
+        if (currentMap == null || loading || mapRoot == null)
+            return;
+        for (int layer = 1; layer <= 4; layer++)
+        {
+            foreach (SpriteRenderer renderer in mapRendererPool[layer])
+                if (renderer != null)
+                    renderer.gameObject.SetActive(false);
+            mapRendererUse[layer] = 0;
+        }
+        ResetRoofGroups(currentMap);
+        ResetTreeVisuals();
+        BuildVisuals(currentMap);
+        UpdateRoofVisibility();
+    }
+
     [Serializable] public class FrameSpec
     {
         public int fileNum;
@@ -64,6 +118,8 @@ public partial class AOWorldManagerV07 : MonoBehaviour
         public int attackRange;
         public int preferredRange;
         public int visionRange;
+        public int visionRangeX;
+        public int visionRangeY;
         public int moveIntervalMs;
         public bool waterValid;
         public bool landInvalid;
@@ -177,6 +233,7 @@ public partial class AOWorldManagerV07 : MonoBehaviour
         public ObjectEntry[] objects;
         public AOMapParticlePlacement[] particles;
         public AOMapLightPlacement[] lights;
+        public bool dropOnDeath;   // demo dungeon floors (demo_map_builder): original death drop
     }
 
     [SerializeField] AOTestPlayer player;
@@ -232,6 +289,8 @@ public partial class AOWorldManagerV07 : MonoBehaviour
 
     readonly Dictionary<int, Texture2D> textureCache =
         new Dictionary<int, Texture2D>();
+    readonly Dictionary<int, int> textureScale =
+        new Dictionary<int, int>();
     readonly Dictionary<string, Sprite> spriteCache =
         new Dictionary<string, Sprite>();
     readonly Dictionary<long, Exit> exitByTile =
@@ -273,6 +332,7 @@ public partial class AOWorldManagerV07 : MonoBehaviour
         };
 
     public int CurrentMapNumber => currentMapNumber;
+    public bool CurrentMapDropsOnDeath => currentMap != null && currentMap.dropOnDeath;
     public string CurrentMapName =>
         currentMap == null ? "" : currentMap.mapName;
     public string CurrentTerrain =>
@@ -464,8 +524,15 @@ public partial class AOWorldManagerV07 : MonoBehaviour
         initialY = startY;
     }
 
+    void OnDestroy()
+    {
+        AOLighting2DV283.ModeChanged -= OnLightingModeChanged;
+    }
+
     void Start()
     {
+        AOLighting2DV283.ModeChanged -= OnLightingModeChanged;
+        AOLighting2DV283.ModeChanged += OnLightingModeChanged;
         if (!loadOnStart)
             return;
 
@@ -989,9 +1056,21 @@ public partial class AOWorldManagerV07 : MonoBehaviour
         }
     }
 
+    // Lights of the loaded map (Arte: AOLighting2DV283 reads them without parsing the JSON again).
+    public AOMapLightPlacement[] CurrentMapLights => currentMap == null ? null : currentMap.lights;
+
+    void OnLightingModeChanged() => RefreshMapLighting();
+
     void ApplyMapLight(SpriteRenderer renderer, Cell cell)
     {
         renderer.color = Color.white;
+        // "Mejorada" (Arte): the floor takes the URP 2D lit material and the Light2D do the lighting.
+        if (AOLighting2DV283.Enhanced)
+        {
+            renderer.sharedMaterial = AOLighting2DV283.LitMaterial;
+            renderer.SetPropertyBlock(null);
+            return;
+        }
         if (mapLighting == null || mapLightingWidth <= 0) return;
         int index = ((cell.y - mapLightingYMin) * mapLightingWidth +
                      cell.x - mapLightingXMin) * 4;
@@ -1458,6 +1537,10 @@ public partial class AOWorldManagerV07 : MonoBehaviour
             npc.lavaValid,
             route);
 
+        ai.SetVisionAxes(
+            npc.visionRangeX,
+            npc.visionRangeY);
+
         if (showNPCNames && npc.showName)
             CreateNameLabel(
                 go.transform,
@@ -1634,6 +1717,17 @@ public partial class AOWorldManagerV07 : MonoBehaviour
         Texture2D texture =
             LoadTexture(fileNum);
 
+        int scale =
+            textureScale.TryGetValue(
+                fileNum, out int s)
+            ? s
+            : 1;
+
+        sx *= scale;
+        sy *= scale;
+        width *= scale;
+        height *= scale;
+
         int unityY =
             texture.height - sy - height;
 
@@ -1659,7 +1753,7 @@ public partial class AOWorldManagerV07 : MonoBehaviour
                     sx, unityY,
                     width, height),
                 new Vector2(0.5f, 0f),
-                32f,
+                32f * scale,
                 0,
                 SpriteMeshType.FullRect);
 
@@ -1675,8 +1769,20 @@ public partial class AOWorldManagerV07 : MonoBehaviour
             return cached;
 
         Texture2D texture =
-            Resources.Load<Texture2D>(
-                TextureResourceRoot + fileNum);
+            UseHDTextures
+            ? Resources.Load<Texture2D>(
+                HDTextureResourceRoot + fileNum)
+            : null;
+
+        textureScale[fileNum] =
+            texture != null
+            ? HDScale
+            : 1;
+
+        if (texture == null)
+            texture =
+                Resources.Load<Texture2D>(
+                    TextureResourceRoot + fileNum);
 
         if (texture == null)
             throw new Exception(

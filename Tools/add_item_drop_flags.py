@@ -17,15 +17,9 @@ FLAGS = (("noDrop", "noseCae"), ("cantThrow", "intirable"))
 
 
 def obj_dat(path: Path) -> dict[int, dict[str, str]]:
-    result, current = {}, None
-    for line in path.read_text("cp1252").splitlines():
-        match = re.match(r"\s*\[OBJ(\d+)\]", line, re.IGNORECASE)
-        if match:
-            current = result.setdefault(int(match.group(1)), {})
-        elif current is not None and "=" in line and not line.lstrip().startswith("'"):
-            key, value = line.split("=", 1)
-            current[key.strip().lower()] = value.split("'", 1)[0].strip()
-    return result
+    # Como el servidor original (clsIniManager): ver ao_ini_original.py.
+    import ao_ini_original
+    return ao_ini_original.read_numbered(path, "OBJ")
 
 
 def run() -> int:

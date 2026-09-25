@@ -288,10 +288,16 @@ public static class AODuelUI
     // winnerTeam: 0 = equipo A, 1 = equipo B, -1 = ronda nula (decisión 10).
     public static void ReceiveRoundEnd(int round, int winnerTeam, int scoreA, int scoreB)
     {
+        // La ronda final puede llegar después de duelEnd. Como en el original (ProcesarRondaGanada pasa
+        // directo a FinalizarReto), la última ronda no se anuncia ni tapa el cartel del resultado.
+        if (!InDuel) return;
         ScoreA = scoreA;
         ScoreB = scoreB;
         Phase = AODuelPhase.BetweenRounds;
         Down = false;
+        // Ronda que define el reto (alguien llegó a 2 al mejor de 3): el cartel es el de duelEnd.
+        if ((winnerTeam == 0 || winnerTeam == 1) && Mathf.Max(scoreA, scoreB) >= 2)
+            return;
         if (winnerTeam == 0 || winnerTeam == 1)
         {
             string names = Names(winnerTeam == 0 ? TeamA : TeamB);

@@ -82,15 +82,28 @@ sealed partial class CoopRoom
             return backup;
         }
     }
-    public void Save()
+    // Never throws (review #3): a world.json locked by OneDrive, the antivirus or a backup is logged, stays dirty and is
+    // retried by the tick. Gold never depends on it (the ledger is written on its own).
+    long lastSaveError;
+    public bool Save()
     {
-        string temp = statePath + ".tmp";
-        byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(store, Json);
-        using (var file = new FileStream(temp, FileMode.Create, FileAccess.Write, FileShare.None))
-        { file.Write(bytes); file.Flush(true); }
-        if (File.Exists(statePath)) File.Replace(temp, statePath, statePath + ".bak", true);
-        else File.Move(temp, statePath);
-        lastSave = Now; dirty = false;
+        try
+        {
+            string temp = statePath + ".tmp";
+            byte[] bytes = JsonSerializer.SerializeToUtf8Bytes(store, Json);
+            using (var file = new FileStream(temp, FileMode.Create, FileAccess.Write, FileShare.None))
+            { file.Write(bytes); file.Flush(true); }
+            if (File.Exists(statePath)) File.Replace(temp, statePath, statePath + ".bak", true);
+            else File.Move(temp, statePath);
+            lastSave = Now; dirty = false;
+            return true;
+        }
+        catch (Exception e) when (e is IOException or UnauthorizedAccessException)
+        {
+            dirty = true; lastSave = Now;
+            if (Now - lastSaveError > 10000) { lastSaveError = Now; Console.Error.WriteLine("No se pudo guardar world.json (¿OneDrive o antivirus?); se reintenta: " + e.Message); }
+            return false;
+        }
     }
     public Session Join(AOCoopMessage hello)
     {
@@ -100,25 +113,55 @@ sealed partial class CoopRoom
             throw new InvalidOperationException("Identidad de personaje inválida.");
         if (sessions.Values.Any(s => s.CharacterId == hello.characterId)) throw new InvalidOperationException("Ese personaje ya está conectado.");
         string hash = Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(hello.token)));
-        if (!store.characters.TryGetValue(hello.characterId, out CharacterRecord? record))
+        bool isNew = !store.characters.TryGetValue(hello.characterId, out CharacterRecord? record);
+        if (isNew)
         {
             JsonObject data = ValidateSnapshot(hello.snapshot);
             string name = Text(data["character"], "name").Trim();
-            if (store.characters.Values.Any(r => string.Equals(r.name, name, StringComparison.OrdinalIgnoreCase)))
+            if (!NamePattern.IsMatch(name)) throw new InvalidOperationException("Nombre inválido: de 3 a 18 letras (A a Z) y espacios simples.");
+            if (store.characters.Values.Any(r => NameSkeleton(r.name) == NameSkeleton(name)))
                 throw new InvalidOperationException("Ese nombre ya pertenece a otro personaje en esta sala.");
+            // Review #6: with the key alone nobody can fill world.json or book every friend's name.
+            if (store.characters.Count >= MaxCharacters) throw new InvalidOperationException($"La sala ya tiene {MaxCharacters} personajes guardados.");
             record = new CharacterRecord { name = name, tokenHash = hash, snapshot = hello.snapshot };
-            store.characters.Add(hello.characterId, record);
-            OpenAccounts(hello.characterId, record);
-            Save();
         }
-        else if (!CryptographicOperations.FixedTimeEquals(Encoding.ASCII.GetBytes(hash), Encoding.ASCII.GetBytes(record.tokenHash)))
+        else if (!CryptographicOperations.FixedTimeEquals(Encoding.ASCII.GetBytes(hash), Encoding.ASCII.GetBytes(record!.tokenHash)))
             throw new InvalidOperationException("La identidad local no corresponde a ese personaje.");
-        var session = new Session(++nextSession, hello.characterId, record);
+        // Validate everything before registering (nube: servidor-sesion-fantasma): an unreadable save used to leave a
+        // ghost session on map 0 that stopped the whole room on the next tick.
+        var session = new Session(nextSession + 1, hello.characterId, record!);
+        try { RefreshPlayer(session, hello.player, JsonNode.Parse(record!.snapshot)!.AsObject()); Map(session.State.map); }
+        catch (Exception e) when (e is not InvalidOperationException) { throw new InvalidOperationException("Guardado inválido."); }
+        if (isNew)
+        {
+            store.characters.Add(hello.characterId, record!); OpenAccounts(hello.characterId, record!); Save();
+            Console.WriteLine($"Personaje nuevo en la sala: {record!.name} ({store.characters.Count}/{MaxCharacters}).");
+        }
+        nextSession++;
         sessions.Add(session.Id, session);
-        RefreshPlayer(session, hello.player, JsonNode.Parse(record.snapshot)!.AsObject());
-        Map(session.State.map);
         DuelResume(session);
         return session;
+    }
+    // Review #9 (Cerebro: alpha among friends): movement speed is only logged, never cut, because warps and "back home"
+    // are legitimate jumps. More than 2 tiles + 1 per 100 ms on the same map counts as suspicious (once a minute per player).
+    void NoteSpeed(Session s, int map, int x, int y)
+    {
+        long now = Now, elapsed = Math.Max(1, now - s.LastMove); s.LastMove = now;
+        if (map != s.State.map || Distance(s.State.x, s.State.y, x, y) <= 2 + elapsed / 100 || now - s.LastSpeedLog < 60000) return;
+        s.LastSpeedLog = now;
+        Console.WriteLine($"Aviso: {s.State.name} se movió {Distance(s.State.x, s.State.y, x, y)} casillas en {elapsed} ms (mapa {map}).");
+    }
+    // Review #11 (Interfaz): new names follow the original ValidarNombre (General.bas): 3 to 18 characters, only A–Z and
+    // single spaces. They are also unique by their skeleton (no accents, lower case), so "Аlpha" (Cyrillic А), "Álpha"
+    // or "ALPHA" cannot pose as "Alpha". Existing characters are not touched.
+    static readonly System.Text.RegularExpressions.Regex NamePattern = new(@"^(?=.{3,18}$)[A-Za-z]+( [A-Za-z]+)*$");
+    static string NameSkeleton(string name)
+    {
+        var skeleton = new StringBuilder();
+        foreach (char c in name.Normalize(NormalizationForm.FormD))
+            if (System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.NonSpacingMark)
+                skeleton.Append(char.ToLowerInvariant(c));
+        return skeleton.ToString();
     }
     public AOCoopMessage Welcome(Session s) => new() { type = "welcome", id = s.Id, version = AOCoopMessage.Protocol,
         snapshot = WithServerGold(s, JsonNode.Parse(s.Record.snapshot)!.AsObject()), ack = s.Record.ack, events = s.Record.events.ToArray(),
@@ -133,7 +176,10 @@ sealed partial class CoopRoom
             {
                 int before = s.State.map;
                 if (DuelPositionAllowed(s, m.player.map, m.player.x, m.player.y))
-                { s.State.map = m.player.map; s.State.x = m.player.x; s.State.y = m.player.y; s.State.heading = Math.Clamp(m.player.heading, 1, 4); }
+                {
+                    NoteSpeed(s, m.player.map, m.player.x, m.player.y);
+                    s.State.map = m.player.map; s.State.x = m.player.x; s.State.y = m.player.y; s.State.heading = Math.Clamp(m.player.heading, 1, 4);
+                }
                 if (s.State.map != before) PushRingsFor(s);
                 s.State.meditationFx = s.State.dead ? 0 : Math.Clamp(m.player.meditationFx, 0, 1000);
                 if (m.player.castSeq != s.State.castSeq && (m.player.castSpell == 0 || spells.ContainsKey(m.player.castSpell)))
@@ -150,6 +196,8 @@ sealed partial class CoopRoom
             else
             {
                 if (Now - s.LastAction < 20) throw new InvalidOperationException("Esperá un instante.");
+                // A client that stops acking cannot keep playing (review #12): its journal only grows.
+                if (s.Record.events.Count > 1024) throw new InvalidOperationException("Demasiados eventos sin confirmar; reconectá.");
                 s.LastAction = Now;
                 var map = Map(s.State.map);
                 // ModRetos + red.md §1: no trading, dropping, picking up or pets while in a started duel.
@@ -176,7 +224,8 @@ sealed partial class CoopRoom
                     case "testLedger": reply.text = TestLedger(); break;
                     default: throw new InvalidOperationException("Acción desconocida.");
                 }
-                Save();
+                // Items and gold are saved at once; everything else rides on the tick's save every second (review #5).
+                if (m.type is "pickup" or "drop" or "buy" or "sell" or "bank" or "questReward" or "use") Save(); else dirty = true;
             }
         }
         catch (InvalidOperationException e) { reply.ok = false; reply.text = e.Message; }
@@ -194,10 +243,13 @@ sealed partial class CoopRoom
         if (m.ack < s.Record.ack || m.ack > s.Record.nextEvent) throw new InvalidOperationException("Guardado fuera de secuencia; reconectá.");
         var data = ValidateSnapshot(m.snapshot);
         if (Text(data["character"], "name") != s.Record.name) throw new InvalidOperationException("Nombre de personaje diferente.");
+        // Read the state first: a save that cannot be read is never stored (it would break the next join).
+        try { RefreshPlayer(s, m.player, data); }
+        catch (Exception e) when (e is not InvalidOperationException) { throw new InvalidOperationException("Guardado inválido."); }
         // Gold in the client's snapshot is ignored (A-07): the stored copy always carries the ledger's balances.
         s.Record.snapshot = WithServerGold(s, data); s.Record.ack = m.ack;
         s.Record.events.RemoveAll(e => e.seq <= m.ack);
-        RefreshPlayer(s, m.player, data); dirty = true;
+        dirty = true;
     }
     void RefreshPlayer(Session s, AOCoopPlayer? reported, JsonObject data)
     {
@@ -297,12 +349,13 @@ sealed partial class CoopRoom
     }
     void PetHit(Session s, MapRecord map, AOCoopMessage m)
     {
-        Alive(s); var pet=s.State.pets?.FirstOrDefault(p=>p.id==m.item);
-        if(pet==null || !summons.TryGetValue(pet.npc,out var def)) throw new InvalidOperationException("Mascota inexistente.");
-        if(s.PetCooldown.TryGetValue(pet.id,out long next) && Now<next) return;
-        var n=Target(map,m.target);
+        Alive(s); var pets=s.State.pets??Array.Empty<AOCoopPet>(); int slot=Array.FindIndex(pets,p=>p.id==m.item);
+        if(slot<0 || !summons.TryGetValue(pets[slot].npc,out var def)) throw new InvalidOperationException("Mascota inexistente.");
+        // Cooldown per pet slot (at most 3), not per the id the client sends: new ids cannot skip it (review #10).
+        if(s.PetCooldown.TryGetValue(slot,out long next) && Now<next) return;
+        var pet=pets[slot]; var n=Target(map,m.target);
         if(Distance(pet.x,pet.y,n.state.x,n.state.y)>2) return;
-        s.PetCooldown[pet.id]=Now+400; Hit(s,map,n,Math.Max(1,Roll(Int(def,"minHit"),Int(def,"maxHit"))-Int(n.source,"defense")));
+        s.PetCooldown[slot]=Now+400; Hit(s,map,n,Math.Max(1,Roll(Int(def,"minHit"),Int(def,"maxHit"))-Int(n.source,"defense")));
     }
     const int MaxSkillShotFlightMs = 1500;
     void Cast(Session s, MapRecord map, AOCoopMessage m)
@@ -338,6 +391,8 @@ sealed partial class CoopRoom
                 foreach(var ally in sessions.Values.Where(a=>a.State.map==map.id&&Distance(a.State.x,a.State.y,m.x,m.y)<=radius)) Event(ally,new AOCoopEvent{type="spell",spell=m.spell});
             var targets=radius>0 ? map.npcs.Where(n=>!n.state.dead&&Distance(n.state.x,n.state.y,m.x,m.y)<=radius).ToArray()
                                 : new[]{Target(map,m.target,false)};
+            // Range from the creature's real position, not from the tile the client reports (review #9).
+            if(radius==0&&Distance(s.State.x,s.State.y,targets[0].state.x,targets[0].state.y)>12)throw new InvalidOperationException("Objetivo fuera de alcance.");
             bool affected=radius>0;
             foreach(var n in targets)
             {
@@ -408,7 +463,7 @@ sealed partial class CoopRoom
             Options.Demo?(int)Math.Min(int.MaxValue,AODemoRates.ApplyGold(Int(def,"giveGold"))):Int(def,"giveGold"),n.state.x,n.state.y);
         if(def["randomDrops"] is JsonArray choices&&choices.Count>0&&Roll(1,Math.Max(1,Int(def,"randomDropDenominator")))==1)
         {var d=choices[random.Next(choices.Count)]!;AddLoot(map,Int(d,"itemIndex"),Int(d,"amount"),n.state.x,n.state.y);}
-        Save();
+        dirty=true;
     }
     void Pickup(Session s,MapRecord map,AOCoopMessage m)
     {
@@ -419,7 +474,7 @@ sealed partial class CoopRoom
         if(item.item==Int(catalog["loot"],"goldItemIndex"))
             ledger.Transfer("pickup:"+item.id,Ledger.World,Ledger.Wallet(s.CharacterId),item.amount,"botín");
         Event(s,new AOCoopEvent {type="item",item=item.item,amount=item.amount});
-        map.loot.Remove(item);
+        map.loot.Remove(item); map.lootBorn.Remove(item.id);
     }
     void Drop(Session s,MapRecord map,AOCoopMessage m)
     {
@@ -460,7 +515,15 @@ sealed partial class CoopRoom
             RoomForEvent(s);
             ledger.Transfer("buy:"+RequestKey(m),Ledger.Wallet(s.CharacterId),Ledger.World,cost,"compra "+m.item);
             Event(s,new AOCoopEvent{type="buy",item=m.item,amount=m.amount,gold=-cost});
-            if(!Bool(entry,"infinite"))store.stocks[key]=stock-m.amount;
+            if(!Bool(entry,"infinite"))
+            {
+                store.stocks[key]=stock-m.amount;
+                // Original (QuitarNpcInvItem → CargarInvent): a merchant left with nothing to sell reloads its whole
+                // inventory. Crucial (infinite) items never run out, so a merchant with any of them never empties.
+                var goods=merchant["stock"]!.AsArray();
+                if(goods.All(e=>!Bool(e,"infinite")&&store.stocks.GetValueOrDefault(m.id+":"+Int(e,"itemIndex"),Int(e,"amount"))<=0))
+                    foreach(var e in goods)store.stocks.Remove(m.id+":"+Int(e,"itemIndex"));
+            }
         }
         else
         {
@@ -492,12 +555,29 @@ sealed partial class CoopRoom
         if(item<=0||amount<=0||!items.TryGetValue(item,out var def))return;
         var existing=map.loot.FirstOrDefault(l=>l.item==item&&l.x==x&&l.y==y);
         if(existing!=null)existing.amount=(int)Math.Min(int.MaxValue,(long)existing.amount+amount);
-        else map.loot.Add(new AOCoopLoot{id=++store.nextLoot,item=item,amount=amount,x=x,y=y,name=Text(def,"name")});
+        else
+        {
+            var loot=new AOCoopLoot{id=++store.nextLoot,item=item,amount=amount,x=x,y=y,name=Text(def,"name")};
+            map.loot.Add(loot);map.lootBorn[loot.id]=Now;
+            // Review #4: at most 200 objects per map; the oldest one goes first.
+            if(map.loot.Count>MaxLootPerMap){var oldest=map.loot.OrderBy(l=>map.lootBorn.GetValueOrDefault(l.id)).First();map.loot.Remove(oldest);map.lootBorn.Remove(oldest.id);}
+        }
         dirty=true;
+    }
+    const int MaxLootPerMap=200, MaxCharacters=30;
+    const long LootLifetimeMs=10*60*1000;   // review #4: floor loot vanishes after 10 minutes
+    void ExpireLoot(MapRecord map)
+    {
+        if(map.loot.Count==0)return;
+        long lifetime=(long)(LootLifetimeMs*(Options.Test?Options.TimeScale:1));   // --test-time-scale speeds it up in tests
+        foreach(var l in map.loot.Where(l=>Now-map.lootBorn.GetValueOrDefault(l.id,Now)>lifetime).ToList())
+        {map.loot.Remove(l);map.lootBorn.Remove(l.id);dirty=true;}
     }
     void TickMap(MapRecord map)
     {
-        var present=sessions.Values.Where(p=>p.Record.events.Count<240&&p.State.map==map.id&&!p.State.dead).ToArray();
+        ExpireLoot(map);
+        // Everybody on the map is a target, also a client that never acks its events (review #12: it used to be invulnerable).
+        var present=sessions.Values.Where(p=>p.State.map==map.id&&!p.State.dead).ToArray();
         foreach(var n in map.npcs)
         {
             if(n.state.dead)
@@ -512,8 +592,11 @@ sealed partial class CoopRoom
             if(n.state.dead||Now<n.nextMove)continue;
             n.nextMove=Now+Math.Clamp(Int(n.source,"moveIntervalMs"),250,4000);
             bool hostile=Bool(n.source,"hostile")||n.provoked>0;
-            int vision=Math.Clamp(Int(n.source,"visionRange"),4,15);
-            var target=hostile?present.Where(p=>Distance(p.State.x,p.State.y,n.state.x,n.state.y)<=vision)
+            // Original vision per axis (15 x 13); older catalogs only carry visionRange (nube: npc-vision-15x13-servidor).
+            int visionX=Int(n.source,"visionRangeX"),visionY=Int(n.source,"visionRangeY");
+            if(visionX<=0||visionY<=0)visionX=visionY=Math.Clamp(Int(n.source,"visionRange"),4,15);
+            visionX=Math.Clamp(visionX,1,30);visionY=Math.Clamp(visionY,1,30);
+            var target=hostile?present.Where(p=>Math.Abs(p.State.x-n.state.x)<=visionX&&Math.Abs(p.State.y-n.state.y)<=visionY)
                 .OrderBy(p=>Distance(p.State.x,p.State.y,n.state.x,n.state.y)).FirstOrDefault():null;
             n.state.target=target?.Id??0;
             if(Now<n.paralyzedUntil)continue;
@@ -527,7 +610,7 @@ sealed partial class CoopRoom
                     if(random.Next(1,101)<=Math.Clamp(50+(Int(n.source,"attackPower")-target.State.evasion)*.4,10,90))
                     {
                         int damage=Math.Max(0,Roll(Int(n.source,"minHit"),Int(n.source,"maxHit"))-target.State.defense-EquipmentDefense(target.State));
-                        Event(target,new AOCoopEvent{type="hurt",damage=damage,text=Text(n.source,"name")});
+                        Event(target,new AOCoopEvent{type="hurt",damage=damage,text=Text(n.source,"name")},true);
                         target.State.hp=Math.Max(0,target.State.hp-damage); target.State.dead=target.State.hp<=0;
                     }
                 }
@@ -607,6 +690,8 @@ sealed partial class CoopRoom
     {
         map.source=templates[map.id];
         CheckNpcLayout(map);
+        // Loot saved by older servers has no time: its 10 minutes start now.
+        foreach(var l in map.loot)map.lootBorn.TryAdd(l.id,Now);
         foreach(var n in map.npcs)
         {
             n.source=map.source["npcs"]![n.state.id-1]!.AsObject();
@@ -645,7 +730,9 @@ sealed partial class CoopRoom
     }
     public bool ValidPosition(int map,int x,int y)=>templates.TryGetValue(map,out var t)&&x>=Int(t,"xmin")&&x<=Int(t,"xmax")&&y>=Int(t,"ymin")&&y<=Int(t,"ymax");
     static void Alive(Session s){if(s.State.dead)throw new InvalidOperationException("No podés hacer eso muerto.");}
-    static bool Harmful(JsonNode s)=>Int(s,"hostileEffect")!=0||Int(s,"raiseHp")==2||Int(s,"paralyze")!=0||Int(s,"immobilize")!=0||Int(s,"poison")!=0||Int(s,"incinerate")!=0||Int(s,"curse")!=0||Int(s,"blindness")!=0||Int(s,"dumb")!=0||Int(s,"raiseMana")==2||Int(s,"raiseStamina")==2||Int(s,"raiseStrength")==2||Int(s,"raiseAgility")==2||Int(s,"stealBuff")!=0;
+    // Anything that can hurt a friend (review #8): damage, harmful EOT (hostileEffect from the export), states and
+    // negative hunger, thirst, charisma, stamina, strength, agility or mana. Only the rest can target an ally.
+    static bool Harmful(JsonNode s)=>Int(s,"hostileEffect")!=0||Int(s,"raiseHunger")==2||Int(s,"raiseThirst")==2||Int(s,"raiseCharisma")==2||Int(s,"raiseHp")==2||Int(s,"paralyze")!=0||Int(s,"immobilize")!=0||Int(s,"poison")!=0||Int(s,"incinerate")!=0||Int(s,"curse")!=0||Int(s,"blindness")!=0||Int(s,"dumb")!=0||Int(s,"raiseMana")==2||Int(s,"raiseStamina")==2||Int(s,"raiseStrength")==2||Int(s,"raiseAgility")==2||Int(s,"stealBuff")!=0;
     static int CountItem(JsonNode inv,int item){long total=0;var ids=inv["itemIndices"]!.AsArray();var amounts=inv["amounts"]!.AsArray();for(int i=0;i<ids.Count;i++)if(ids[i]?.GetValue<int>()==item)total+=amounts[i]?.GetValue<int>()??0;return (int)Math.Min(int.MaxValue,total);}
     static int Heading(int dx,int dy)=>Math.Abs(dx)>=Math.Abs(dy)&&dx!=0?(dx>0?2:4):(dy>0?3:1);
     static int Distance(int x,int y,int tx,int ty)=>Math.Max(Math.Abs(x-tx),Math.Abs(y-ty));
@@ -661,7 +748,7 @@ sealed partial class CoopRoom
 sealed class Session(int id,string characterId,CharacterRecord record)
 {
     public readonly int Id=id; public readonly string CharacterId=characterId; public readonly CharacterRecord Record=record;
-    public AOCoopPlayer State=new(); public long LastAction,NextAttack,NextCast;
+    public AOCoopPlayer State=new(); public long LastAction,NextAttack,NextCast,LastMove,LastSpeedLog;
     public Dictionary<int,long> SpellCooldown=new(),PetCooldown=new();
     public Dictionary<string,AOCoopMessage> Replies=new();
 }
@@ -675,6 +762,7 @@ sealed class CharacterRecord
 sealed class MapRecord
 {
     public int id; public string npcLayoutVersion=""; public List<NpcRecord> npcs=new(); public List<AOCoopLoot> loot=new(); public List<AOCoopDoor> doors=new();
+    public Dictionary<int,long> lootBorn=new();   // loot id → when it fell (expiry)
     [JsonIgnore] public JsonObject source=new();
     [JsonIgnore] public Dictionary<int,int> flags=new(),triggers=new();
     [JsonIgnore] public HashSet<int> exits=new();

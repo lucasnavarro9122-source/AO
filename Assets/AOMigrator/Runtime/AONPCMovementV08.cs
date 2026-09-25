@@ -21,6 +21,7 @@ public class AONPCMovementV08 : MonoBehaviour
     const int SCRIPTED_WALK = 20;
 
     AOGridMap grid;
+    public AOGridMap Grid => grid;
     AOTestPlayer player;
     AOWorldManagerV07 world;
     AONPCMetadata metadata;
@@ -37,6 +38,8 @@ public class AONPCMovementV08 : MonoBehaviour
     int attackRange;
     int preferredRange;
     int visionRange;
+    int visionX;
+    int visionY;
     int moveIntervalMs;
     bool waterValid;
     bool landInvalid;
@@ -75,6 +78,16 @@ public class AONPCMovementV08 : MonoBehaviour
     {
         ActiveControllers =
             Mathf.Max(0, ActiveControllers - 1);
+    }
+
+    // Visión del original, por eje (15 x 13 por defecto). Sin estos datos
+    // (mapas viejos) se sigue usando visionRange como radio cuadrado.
+    public void SetVisionAxes(
+        int x,
+        int y)
+    {
+        visionX = Mathf.Max(0, x);
+        visionY = Mathf.Max(0, y);
     }
 
     public void Configure(
@@ -344,7 +357,13 @@ public class AONPCMovementV08 : MonoBehaviour
                     Mathf.Abs(dx),
                     Mathf.Abs(dy));
 
-            if (distance <= visionRange)
+            bool inVision =
+                visionX > 0 && visionY > 0
+                ? Mathf.Abs(dx) <= visionX &&
+                  Mathf.Abs(dy) <= visionY
+                : distance <= visionRange;
+
+            if (inVision)
             {
                 ThinkHostileAgainstPlayer(
                     dx,

@@ -155,6 +155,9 @@ public class AODeathRespawnV160 : MonoBehaviour
         if (inventory != null)
             inventory.UnequipAllForDeath();
 
+        // Decision 18: original death drop on demo dungeon floors (offline; online the server does it).
+        AODeathDrop.OnPlayerDeath(gameObject);
+
         if (magic != null)
             magic.ResetRuntimeForLoad();
 

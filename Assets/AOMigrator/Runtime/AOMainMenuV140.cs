@@ -439,7 +439,7 @@ public class AOMainMenuV140 : MonoBehaviour
                     "SALIR", entranceSecondary)))
                 exitNextFrame = true;
             GUI.Label(new Rect(305, 698, 414, 24),
-                "Sala privada: hasta 10 jugadores.", selectionHint);
+                "Sala privada: hasta 11 jugadores (anfitrión + 10).", selectionHint);
         }
 
         GUI.enabled = oldEnabled;

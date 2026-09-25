@@ -99,6 +99,8 @@ public partial class AOInterfaceV0101
         {
             if (current.keyCode == KeyCode.Escape)
                 settingsStatus = "Cambio cancelado.";
+            else if (current.type == EventType.MouseDown && !bindingRect.Contains(current.mousePosition))
+                settingsStatus = "Cambio cancelado (clic fuera del recuadro).";
             else if (AOPlayerSettingsV230.SetKey(bindingAction.Value,
                          current.type == EventType.MouseDown ? KeyCode.Mouse0 + current.button : current.keyCode,
                          out string error))
@@ -284,6 +286,16 @@ public partial class AOInterfaceV0101
             change(value);
     }
 
+    bool lightingApplied;
+
+    // Aplica la luz guardada una vez por escena (AOLighting2DV283 la cambia al instante).
+    void ApplySavedLightingOnce()
+    {
+        if (lightingApplied) return;
+        lightingApplied = true;
+        AOLighting2DV283.SetEnhanced(AOPlayerSettingsV230.EnhancedLighting);
+    }
+
     void DrawVideoSettings()
     {
         bool fullscreen = GUI.Toggle(R(208, 226, 545, 38),
@@ -301,7 +313,23 @@ public partial class AOInterfaceV0101
         if (fps != AOPlayerSettingsV230.ShowFps)
             AOPlayerSettingsV230.ShowFps = fps;
 
-        GUI.Label(R(208, 437, 570, 70),
+        bool light = GUI.Toggle(R(208, 397, 545, 38),
+            AOPlayerSettingsV230.EnhancedLighting, "Luz mejorada (no original: noche, antorchas y brillo)");
+        if (light != AOPlayerSettingsV230.EnhancedLighting)
+        {
+            AOPlayerSettingsV230.EnhancedLighting = light;
+            AOLighting2DV283.SetEnhanced(light);
+        }
+
+        bool hd = GUI.Toggle(R(208, 454, 545, 38),
+            AOPlayerSettingsV230.HDTextures, "Gráficos HD (remaster; apagado = original)");
+        if (hd != AOPlayerSettingsV230.HDTextures)
+        {
+            AOPlayerSettingsV230.HDTextures = hd;
+            AOWorldManagerV07.SetHDTextures(hd);
+        }
+
+        GUI.Label(R(208, 508, 570, 50),
             "En el editor, pantalla completa queda guardada\n" +
             "para el ejecutable del juego.");
     }

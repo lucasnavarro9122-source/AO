@@ -1016,6 +1016,14 @@ public class AOInventoryV10 : MonoBehaviour
 
     bool TryUseSelectedConsumable()
     {
+        // Duel: potions are used on the server (duel HP and the potion limit are its business); it sends "remove".
+        if (AODuelUI.InDuel &&
+            selectedSlot >= 0 &&
+            selectedSlot < slots.Length &&
+            slots[selectedSlot] != null &&
+            slots[selectedSlot].amount > 0)
+            return AOOnlineClientV240.UseInDuel(slots[selectedSlot].itemIndex);
+
         if (selectedSlot < 0 ||
             selectedSlot >= slots.Length)
             return false;

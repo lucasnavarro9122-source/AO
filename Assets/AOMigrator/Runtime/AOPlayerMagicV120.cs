@@ -286,7 +286,9 @@ public class AOPlayerMagicV120 : MonoBehaviour
         if(!InRange(tx,ty)){AOInterfaceV0101.PushMessage("Objetivo fuera del rango de visión.");return;}
         if(s.RequiresLand&&grid.IsDeepWater(tx,ty)){AOInterfaceV0101.PushMessage("Este hechizo requiere un objetivo sobre tierra.");return;}
         bool ok=false;string targetName="";
-        if(AOOnlineClientV240.Requested && (s.target==1||s.target==3) && AOOnlineClientV240.PlayerAt(tx,ty)>0){ok=AOOnlineClientV240.CastAlly(s.id,tx,ty);targetName="compañero";}
+        int duelTarget=AODuelUI.InDuel&&(s.target==1||s.target==3)?AOOnlineClientV240.PlayerAt(tx,ty):0;
+        if(duelTarget>0&&AODuelClient.IsEnemy(duelTarget)){ok=AOOnlineClientV240.CastPlayer(s.id,duelTarget,tx,ty);targetName="rival";}
+        else if(AOOnlineClientV240.Requested && (s.target==1||s.target==3) && AOOnlineClientV240.PlayerAt(tx,ty)>0){ok=AOOnlineClientV240.CastAlly(s.id,tx,ty);targetName="compañero";}
         else if(s.target==4){ok=ApplyToTerrain(s,tx,ty);targetName=tx+","+ty;}
         else if(s.target==1||s.target==3){
             if(tx==player.TileX&&ty==player.TileY){ok=ApplyToPlayer(s);targetName="vos";}
@@ -296,6 +298,14 @@ public class AOPlayerMagicV120 : MonoBehaviour
         targeting=false;StopMeditation();FinishCast(s,grid.TileToWorld(tx,ty),targetName);
     }
 
+    // 4 direcciones como el original. Cerca de 45° conserva la actual (histéresis de 10°) para que no parpadee.
+    static int AimHeading(Vector2 d,int current){
+        float aim=Mathf.Atan2(d.y,d.x)*Mathf.Rad2Deg; // 0 = este, 90 = norte (en el mundo, y hacia arriba es norte)
+        float facing=current==AOGridMap.EAST?0f:current==AOGridMap.NORTH?90f:current==AOGridMap.WEST?180f:-90f;
+        if(Mathf.Abs(Mathf.DeltaAngle(aim,facing))<=55f)return current;
+        if(Mathf.Abs(d.x)>=Mathf.Abs(d.y))return d.x>=0f?AOGridMap.EAST:AOGridMap.WEST;
+        return d.y>=0f?AOGridMap.NORTH:AOGridMap.SOUTH;
+    }
     void TryLaunchSkillShotMouse(AOSpellDatabaseV120.SpellDef s)
     {
         FindReferences();
@@ -316,6 +326,7 @@ public class AOPlayerMagicV120 : MonoBehaviour
         targetInputFrame=Time.frameCount;targeting=false;StopMeditation();
         if(!string.IsNullOrWhiteSpace(s.magicWords))AOInterfaceV0101.PushMessage(s.magicWords);
         AOInterfaceV0101.PushMessage("Lanzaste "+s.name+" como skill shot.");
+        player.FaceHeading(AimHeading(direction,player.Heading));
         AOCastAnimationRuntimeV268.PlayPlayer(gameObject,s);AOOnlineClientV240.NotifyLocalCast(s.id);
         AOSpellFXV120.PlayCastSound(s);
         AOSkillShotProjectileV267.Launch(this,s,player.CurrentGrid,transform.position,direction.normalized);
@@ -330,7 +341,10 @@ public class AOPlayerMagicV120 : MonoBehaviour
     }
 
     bool ValidateSpell(AOSpellDatabaseV120.SpellDef s,bool cooldown,out string error){
-        error="";if(s==null){error="No hay hechizo seleccionado.";return false;}if(!s.supportedLocal){error=s.name+" es una habilidad física/especial y no forma parte del núcleo mágico local.";return false;}
+        error="";if(s==null){error="No hay hechizo seleccionado.";return false;}
+        // Duel: nothing during the countdown or while down; no summons or invisibility (original ModRetos).
+        if(AODuelClient.Frozen){error="Todavía no podés lanzar hechizos en este reto.";return false;}
+        if(AODuelClient.Blocks&&(s.summonNpc>0||s.summonMode>0||s.invisibility!=0)){error=AODuelClient.BlockedMessage;return false;}if(!s.supportedLocal){error=s.name+" es una habilidad física/especial y no forma parte del núcleo mágico local.";return false;}
         if(combat!=null&&combat.IsDead){error="No podés lanzar hechizos muerto.";return false;}if(status!=null&&!status.CanCast){error="No podés castear mientras estás paralizado.";return false;}
         if(rpg==null){error="No encuentro AOPlayerRPGV11.";return false;}
         if(rpg.GetSkill(1)<s.minSkill){error="Requiere Magia "+s.minSkill+". Tenés "+rpg.GetSkill(1)+".";return false;}

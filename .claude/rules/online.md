@@ -23,5 +23,5 @@ paths:
 ## Build y empaquetado
 - Menú **AO Migrator > Build private room client** → `../AO_Online/Release/Client/ArgentumOnline.exe`.
 - `python Tools/package_online_client.py` → `../AO_Online/Cliente-para-amigos.zip`, verifica CRC. Guardar copia del ZIP anterior.
-- `AOOnlineBuildV240.cs` reconoce marcadores en `Temp`: `refresh_online_client`, `build_online_client`, `restart_online_editor` (este último guarda escenas/assets y cierra Unity). No dejar marcadores olvidados ni pedirlos durante una partida del usuario.
+- `AOOnlineBuildV240.cs` reconoce marcadores en `Temp`: `refresh_online_client`, `build_online_client`, `restart_online_editor` (reinicia Unity **sin guardar**; si hay escenas con cambios sin guardar no reinicia y lo informa en el resultado). No dejar marcadores olvidados ni pedirlos durante una partida del usuario.
 - Tras un build válido: registrar en qué commit/revisión se basa.

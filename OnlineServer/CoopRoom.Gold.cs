@@ -54,9 +54,11 @@ sealed partial class CoopRoom
         var map = Map(s.State.map); int x = s.State.x, y = s.State.y;
         if (!AODeathDropRules.DropsOnTile(Bool(map.source, "dropOnDeath"), map.triggers.GetValueOrDefault(y * 101 + x))) return;
         int death = ++s.Record.deaths;
+        var drops = new List<(int item, int amount)>();
         long gold = AODeathDropRules.GoldToDrop(WalletOf(s), s.State.level);
         if (gold > 0 && ledger.Transfer($"death:{s.CharacterId}:{death}", Ledger.Wallet(s.CharacterId), Ledger.World, gold, "muerte"))
-            AddLoot(map, Int(catalog["loot"], "goldItemIndex"), (int)Math.Min(int.MaxValue, gold), x, y);
+            drops.Add((Int(catalog["loot"], "goldItemIndex"), (int)Math.Min(int.MaxValue, gold)));
+        var lost = new List<AOCoopItem>();
         var inv = data["inventory"]!; var ids = inv["itemIndices"]!.AsArray(); var amounts = inv["amounts"]!.AsArray();
         for (int i = 0; i < ids.Count; i++)
         {
@@ -65,8 +67,31 @@ sealed partial class CoopRoom
             var flags = AODeathDropRules.FlagsFrom(Bool(def, "noSeCae"), Bool(def, "intirable"), Bool(def, "destroyOnSell"), Bool(def, "untransferable"), Bool(def, "newbie"));
             if (!AODeathDropRules.ItemFalls(Int(def, "objType"), flags, s.State.level)) continue;
             Event(s, new AOCoopEvent { type = "remove", item = item, amount = amount }, true);
-            AddLoot(map, item, amount, x, y);
+            drops.Add((item, amount)); lost.Add(new AOCoopItem { item = item, amount = amount });
         }
+        // TirarItemAlPiso: each stack on its own free tile; with no room nearby it is lost, as in the original.
+        foreach (var (item, amount) in drops)
+            if (FreeTileNear(map, x, y, out int tx, out int ty)) AddLoot(map, item, amount, tx, ty);
+        if (drops.Count > 0) Event(s, new AOCoopEvent { type = "deathDrop", gold = gold, items = lost.ToArray() }, true);
+    }
+    // Tilelibre: rings around the dead player, top-left first; the first tile where something can lie.
+    bool FreeTileNear(MapRecord map, int x, int y, out int fx, out int fy)
+    {
+        for (int r = 1; r <= 10; r++)
+            for (int ty = y - r; ty <= y + r; ty++)
+                for (int tx = x - r; tx <= x + r; tx++)
+                    if ((Math.Abs(tx - x) == r || Math.Abs(ty - y) == r) && CanDropAt(map, tx, ty)) { fx = tx; fy = ty; return true; }
+        fx = fy = 0; return false;
+    }
+    // Walkable land, no exit, nobody standing and nothing already lying there (nube: muerte-online, CanDropAt).
+    bool CanDropAt(MapRecord map, int x, int y)
+    {
+        if (!ValidPosition(map.id, x, y) || map.exits.Contains(y * 101 + x)) return false;
+        int flags = map.flags.GetValueOrDefault(y * 101 + x), trigger = map.triggers.GetValueOrDefault(y * 101 + x);
+        if ((flags & 15) != 0 || trigger is 3 or 13 or 201) return false;
+        if ((flags & 32) != 0 && (flags & 128) == 0 && trigger != 17) return false;
+        return !map.loot.Any(l => l.x == x && l.y == y) && !map.npcs.Any(n => !n.state.dead && n.state.x == x && n.state.y == y) &&
+               !sessions.Values.Any(p => p.State.map == map.id && p.State.x == x && p.State.y == y);
     }
 
     // --test only: balances per account plus the invariant (all accounts add up to 0).

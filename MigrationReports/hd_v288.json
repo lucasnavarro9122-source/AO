@@ -1,0 +1,22 @@
+{
+    "passed": true,
+    "step": 15,
+    "message": "",
+    "failures": [],
+    "notes": [
+        "QA: Jugador en 25,45; HD inicial True; luz inicial Original",
+        "Original: 11025 sprites en Layer_1..4",
+        "HD: 9 atlas HD; 9170/11025 sprites de capa en HD"
+    ],
+    "errors": [],
+    "shots": [
+        "hd_off_luz_original.png",
+        "hd_off_luz_mejorada.png",
+        "hd_on_luz_original.png",
+        "hd_on_luz_mejorada.png"
+    ],
+    "vx": 187.34225463867188,
+    "vy": 96.78375244140625,
+    "vw": 467.8971252441406,
+    "vh": 386.1355285644531
+}

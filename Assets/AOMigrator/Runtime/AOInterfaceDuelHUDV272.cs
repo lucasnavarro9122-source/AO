@@ -322,14 +322,9 @@ public partial class AOInterfaceV0101
             duelFormError = error;
     }
 
-    static bool ValidDuelName(string name)
-    {
-        if (name.Length > 30) return false;
-        foreach (char c in name)
-            if (!char.IsLetter(c) && c != ' ')
-                return false;
-        return true;
-    }
+    // Igual que frmRetos: ValidarNombre del original (3–18, solo A–Z y espacios simples; sin homoglifos).
+    static bool ValidDuelName(string name) =>
+        AOCharacterCreationV170.ValidateName(name, out _, out _);
 
     // ---------- Aviso de invitación o de reto enviado (arriba a la derecha del viewport) ----------
 

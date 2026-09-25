@@ -498,7 +498,7 @@ public class AOPlayerCombatV09 : MonoBehaviour
     // "Usar" on the equipped projectile weapon (WorkRequestTarget Proyectiles): next left click shoots.
     public void BeginRangedTargeting()
     {
-        if (dead)
+        if (dead || AODuelClient.Frozen)
             return;
 
         if (inventoryV10 == null)
@@ -593,9 +593,9 @@ public class AOPlayerCombatV09 : MonoBehaviour
         if (weapon == null || weapon.projectile <= 0)
             return;
 
+        AOItemDatabaseV10.ItemDef ammo = weapon.munition > 0 ? inventoryV10.GetMunition() : null;
         if (weapon.munition > 0)
         {
-            AOItemDatabaseV10.ItemDef ammo = inventoryV10.GetMunition();
             if (ammo == null ||
                 ammo.objType != AOInventoryV10.ObjTypeMunition ||
                 ammo.subType != weapon.munition ||
@@ -617,6 +617,15 @@ public class AOPlayerCombatV09 : MonoBehaviour
             rpgV11.TrySpendStamina(UnityEngine.Random.Range(1, 11));
         }
 
+        if (AODuelUI.InDuel && AODuelClient.IsEnemy(AOOnlineClientV240.PlayerAt(tx, ty)) && AODuelClient.CanFight)
+            SpawnArrow(weapon, ammo, player.CurrentGrid.TileToWorld(tx, ty));
+
+        if (AODuelUI.InDuel && TryAttackDuelPlayer(tx, ty))
+        {
+            nextAttackAt = Time.time + AttackIntervalSeconds();
+            return;
+        }
+
         AONPCCombatV09 target = FindNpcAt(tx, ty);
         if (target == null || !target.IsAlive)
             return;   // empty tile: no shot, no ammo spent
@@ -627,24 +636,47 @@ public class AOPlayerCombatV09 : MonoBehaviour
             return;
         }
 
-        if (AOOnlineClientV240.Requested)
-        {
-            // Pending: the server resolves ranged attacks and consumes the ammo (request sent to Servidor).
-            Flash("El disparo a distancia en línea todavía no está disponible.");
-            return;
-        }
-
         nextAttackAt = Time.time + AttackIntervalSeconds();
 
         if (characterVisual == null)
             characterVisual = GetComponentInChildren<AOCharacterRenderer>(true);
         AOCombatFeedbackV113.PlayAttack(characterVisual, player.Heading, weapon.weaponType);
+        SpawnArrow(weapon, ammo, target.transform.position);
 
+        if (AOOnlineClientV240.Requested)
+        {
+            // The server sees the projectile weapon, checks range and the equipped ammo (inventory.munition travels
+            // in the snapshot of every request), rolls the hit and spends 1 unit with a "remove" event.
+            AOOnlineClientV240.Attack(target);
+            return;
+        }
         ResolveAttackOnNpc(target, true);
 
         // One unit per attack, hit or miss.
         if (weapon.munition > 0)
             inventoryV10.ConsumeMunition();
+    }
+
+    // A player on that tile during a duel: rivals are attacked (melee or ranged: the server knows the weapon).
+    bool TryAttackDuelPlayer(int tx, int ty)
+    {
+        int playerId = AOOnlineClientV240.PlayerAt(tx, ty);
+        if (playerId <= 0)
+            return false;
+        if (!AODuelClient.IsEnemy(playerId))
+            Flash("No podés atacar a tu compañero.");
+        else if (AODuelClient.CanFight)
+            AOOnlineClientV240.AttackPlayer(playerId);
+        return true;
+    }
+
+    // Arrow in flight (Arte, AOProjectileVisualV282: ProjectileDef.dat). Only visual: the hit is already decided.
+    void SpawnArrow(AOItemDatabaseV10.ItemDef weapon, AOItemDatabaseV10.ItemDef ammo, Vector3 to)
+    {
+        int type = AOProjectileVisualV282.TypeForObject(ammo != null ? ammo.index : 0);
+        if (type == 0) type = AOProjectileVisualV282.TypeForObject(weapon.index);
+        if (type == 0) type = 1;
+        AOProjectileVisualV282.Spawn(transform.position, to, type);
     }
 
     static AONPCCombatV09 FindNpcAt(int tx, int ty)
@@ -668,6 +700,9 @@ public class AOPlayerCombatV09 : MonoBehaviour
 
     void TryAttack()
     {
+        if (AODuelClient.Frozen)
+            return;
+
         AOPlayerMagicStatusV120 magicStatus =
             GetComponent<AOPlayerMagicStatusV120>();
 
@@ -731,6 +766,9 @@ public class AOPlayerCombatV09 : MonoBehaviour
         else if (player.Heading == AOGridMap.EAST) x++;
         else if (player.Heading == AOGridMap.SOUTH) y++;
         else if (player.Heading == AOGridMap.WEST) x--;
+
+        if (AODuelUI.InDuel && TryAttackDuelPlayer(x, y))
+            return;
 
         AOInteractable interactable =
             AOInteractionRegistry.FindFirst(x, y);
@@ -876,8 +914,58 @@ public class AOPlayerCombatV09 : MonoBehaviour
         return Vector3.down;
     }
 
+    // ---- Duel (docs/claude/demo/arquitectura.md §4.4): the server owns HP. Going down is not the normal death:
+    // no DeathRoutine, no unequip, no ghost banner, no /HOGAR. Revive at each round; previous HP at the end.
+    bool duelDown;
+    public bool DuelDown => duelDown;
+
+    public void SetDuelHp(int serverHp) => hp = Mathf.Clamp(serverHp, 0, MaxHP);
+
+    public void ApplyDuelHurt(int serverHp)
+    {
+        int before = hp;
+        SetDuelHp(serverHp);
+        if (characterVisual == null)
+            characterVisual = GetComponentInChildren<AOCharacterRenderer>(true);
+        if (hp < before)
+            AOCombatFeedbackV113.PlayHit(characterVisual, before - hp);
+        if (hp <= 0 && !duelDown)
+        {
+            duelDown = true;
+            GetComponent<AOPlayerMagicV120>()?.InterruptMeditation();
+            SetGhostVisual(true);
+        }
+    }
+
+    public void DuelRevive(int serverHp)
+    {
+        duelDown = false;
+        SetGhostVisual(false);
+        hp = serverHp > 0 ? Mathf.Clamp(serverHp, 1, MaxHP) : MaxHP;
+        AOPlayerMagicStatusV120 status = GetComponent<AOPlayerMagicStatusV120>();
+        if (status != null)
+        {
+            status.CurePoison();
+            status.RemoveParalysis();
+        }
+    }
+
+    public void EndDuel(int previousHp)
+    {
+        duelDown = false;
+        SetGhostVisual(false);
+        if (previousHp > 0)
+            hp = Mathf.Clamp(previousHp, 1, MaxHP);
+    }
+
     void TryPickup()
     {
+        if (AODuelClient.Blocks)
+        {
+            Flash(AODuelClient.BlockedMessage);
+            return;
+        }
+
         AOLootPickupV09 loot =
             AOLootPickupV09.FindAt(
                 player.TileX,
@@ -915,7 +1003,7 @@ public class AOPlayerCombatV09 : MonoBehaviour
 
     public void ReceiveOnlineDamage(int damage)
     {
-        if (dead || damage <= 0) return;
+        if (dead || damage <= 0 || AODuelUI.InDuel) return;
         hp = Mathf.Max(0, hp - damage);
         AOCombatFeedbackV113.PlayHit(characterVisual, damage);
         if (hp <= 0) StartCoroutine(DeathRoutine());
@@ -926,7 +1014,8 @@ public class AOPlayerCombatV09 : MonoBehaviour
         string sourceName)
     {
         if (dead ||
-            damage <= 0)
+            damage <= 0 ||
+            AODuelUI.InDuel)
             return;
 
         AOMagicEffectRuntimeV129 effects =
@@ -960,7 +1049,7 @@ public class AOPlayerCombatV09 : MonoBehaviour
         int rawDamage,
         int npcAttackPower)
     {
-        if (dead)
+        if (dead || AODuelUI.InDuel)
             return;
 
         lastNpcAttackAt = Time.time;   // IntervaloEnCombate: set even if the attack misses

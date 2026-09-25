@@ -150,16 +150,10 @@ def resolve_grh(grh: int, definitions: dict[int, tuple],
 
 
 def npc_dat(path: Path) -> dict[int, dict[str, str]]:
-    result = {}
-    current = None
-    for line in path.read_text("cp1252").splitlines():
-        match = re.match(r"\s*\[NPC(\d+)\]", line, re.IGNORECASE)
-        if match:
-            current = result.setdefault(int(match.group(1)), {})
-        elif current is not None and "=" in line and not line.lstrip().startswith("'"):
-            key, value = line.split("=", 1)
-            current[key.strip().lower()] = value.split("'", 1)[0].strip()
-    return result
+    """npcs.dat leído como el servidor original (clsIniManager): ver ao_ini_original.py.
+    Con claves repetidas en una sección no vale "la última" ni "la primera"."""
+    import ao_ini_original
+    return ao_ini_original.read_numbered(path, "NPC")
 
 
 def npc_entry(index: int, x: int, y: int, raw: dict[str, str],

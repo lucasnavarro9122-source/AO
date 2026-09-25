@@ -31,36 +31,21 @@ def serialize(data: dict) -> bytes:
 
 
 def obj_flags() -> tuple[dict[int, dict[str, bool]], list[str]]:
-    result: dict[int, dict[str, bool]] = {}
-    conflicts = []
-    current = None
-    for line in OBJ.read_text("cp1252").splitlines():
-        match = re.match(r"\s*\[OBJ(\d+)\]", line, re.IGNORECASE)
-        if match:
-            current = result.setdefault(int(match.group(1)), {})
-            continue
-        if current is None or "=" not in line or line.lstrip().startswith("'"):
-            continue
-        key, value = line.split("=", 1)
-        key = key.strip().lower()
-        if key in NUMBERS:
+    """Flags y números de obj.dat leídos como el servidor original (clsIniManager, ver ao_ini_original.py)."""
+    import ao_ini_original
+    result: dict[int, dict] = {}
+    for index, raw in ao_ini_original.read_numbered(OBJ, "OBJ").items():
+        current = result.setdefault(index, {})
+        for key, value in raw.items():
             try:
-                current.setdefault(NUMBERS[key], int(float(value.split("'", 1)[0].strip() or 0)))
+                number = int(float(value or 0))
             except ValueError:
-                pass
-            continue
-        if key not in FLAGS:
-            continue
-        try:
-            flag = int(float(value.split("'", 1)[0].strip() or 0)) != 0
-        except ValueError:
-            flag = False
-        name = FLAGS[key]
-        if name in current and current[name] != flag:
-            conflicts.append(f"OBJ con {name} repetido y distinto")
-            continue  # como FindKey: vale la primera aparicion
-        current.setdefault(name, flag)
-    return result, conflicts
+                number = 0
+            if key in NUMBERS:
+                current[NUMBERS[key]] = number
+            elif key in FLAGS:
+                current[FLAGS[key]] = number != 0
+    return result, []
 
 
 def with_flags(item: dict, flags: dict[str, bool]) -> dict:

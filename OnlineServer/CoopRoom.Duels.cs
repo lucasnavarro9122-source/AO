@@ -535,7 +535,14 @@ sealed partial class CoopRoom
         target.Hp = Math.Max(0, target.Hp - amount);
         var victim = Online(target.Char);
         // "duelHurt", not "hurt": duel life belongs to the server and must never be subtracted from the character's own life.
-        if (victim != null) { SyncVitals(victim, target); Event(victim, new AOCoopEvent { type = "duelHurt", damage = amount, hp = target.Hp, text = attacker.State.name }, true); }
+        // Journal events reach the victim with the next state, i.e. after the immediate duelRoundEnd/duelRoundStart: the
+        // round lets the client drop a hurt from a round that is already over (QA R-08: the loser started the next round down).
+        if (victim != null)
+        {
+            SyncVitals(victim, target);
+            Event(victim, new AOCoopEvent { type = "duelHurt", damage = amount, hp = target.Hp, text = attacker.State.name,
+                                            duel = new AOCoopDuel { id = d.Id, round = d.Round, winner = -1 } }, true);
+        }
         Fx(d, kind, attacker, target, amount, spell);
         if (target.Hp > 0) return;
         Fx(d, "death", attacker, target, 0, 0);

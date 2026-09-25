@@ -61,6 +61,7 @@ public class AOOnlineClientV240 : MonoBehaviour
     string address, roomKey, status = "", pendingRequest;
     int myId, generation, cachedMap;
     long acknowledged, wallet, bank, serverOffset;
+    int duelRound;
     readonly HashSet<string> duelRequests = new HashSet<string>();
     float nextPosition, nextCheckpoint, transactionAt;
     AOCoopPlayer[] players = new AOCoopPlayer[0];
@@ -117,7 +118,8 @@ public class AOOnlineClientV240 : MonoBehaviour
     }
     public static bool Checkpoint(bool notify)
     {
-        if (!Connected || instance.world == null || instance.world.IsLoading) return false;
+        // save/player can already be destroyed when leaving Play or closing (QA: MissingReferenceException in OnDestroy).
+        if (!Connected || instance.world == null || instance.world.IsLoading || instance.save == null || instance.player == null) return false;
         instance.SendSnapshot(new AOCoopMessage { type = "sync" });
         if (notify) AOInterfaceV0101.PushMessage("Guardado enviado al anfitrión.");
         return true;
@@ -235,6 +237,7 @@ public class AOOnlineClientV240 : MonoBehaviour
                 break;
             case "duelStart": AODuelUI.ReceiveStart(d.sala, Names(d.teamA), Names(d.teamB), Gold(d.bet), (int)Math.Max(0, (d.endsAt - d.serverTime) / 1000)); break;
             case "duelRoundStart":
+                duelRound = d.round;
                 AODuelUI.ReceiveDown(false);
                 AODuelUI.ReceiveRoundStart(d.round, Mathf.CeilToInt(Mathf.Max(0, d.startsAt - d.serverTime) / 1000f), d.serverTime);
                 break;
@@ -330,6 +333,7 @@ public class AOOnlineClientV240 : MonoBehaviour
     }
     void SendSnapshot(AOCoopMessage message)
     {
+        if (save == null || player == null) return;   // scene being torn down
         message.snapshot = save.CaptureOnline(); message.ack = acknowledged; message.player = CapturePlayer(); Send(message);
     }
     AOCoopPlayer CapturePlayer()
@@ -429,8 +433,19 @@ public class AOOnlineClientV240 : MonoBehaviour
             else if (e.type == "hurt") combat.ReceiveOnlineDamage(e.damage);
             else if (e.type == "spell") player.GetComponent<AOPlayerMagicV120>().ApplyOnlineSpell(e.spell);
             // Duel journal (it survives a disconnection): the life shown in a duel is the server's (e.hp).
-            else if (e.type == "duelHurt") { if (e.hp <= 0) AODuelUI.ReceiveDown(true); DuelEvent?.Invoke(e); }
+            // A hurt reaches us with the next state, possibly after the next round already started (QA R-08): only the
+            // current round's hurts count; an older one is dropped (the life comes back with duelRoundStart anyway).
+            else if (e.type == "duelHurt")
+            {
+                if (e.duel != null && e.duel.round == duelRound) { if (e.hp <= 0) AODuelUI.ReceiveDown(true); DuelEvent?.Invoke(e); }
+            }
             else if (e.type == "warp") DuelEvent?.Invoke(e);
+            // Death in the demo dungeon: the items already left with "remove" events and the gold with the wallet; this only tells.
+            else if (e.type == "deathDrop")
+            {
+                int lost = e.items == null ? 0 : e.items.Length;
+                AOInterfaceV0101.PushMessage("Al morir se te cayeron " + lost + " objeto(s) y " + e.gold + " monedas de oro.");
+            }
             else if (e.type == "duelEnd") { AODuelUI.ReceiveEnd(e.duel?.result ?? "", Gold(e.duel?.prize ?? 0), Gold(e.duel?.tax ?? 0)); DuelEvent?.Invoke(e); }
             acknowledged = e.seq;
         }

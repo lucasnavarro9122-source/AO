@@ -11,10 +11,22 @@ New-Item -ItemType Directory -Force $dst | Out-Null
 
 $local = Join-Path $env:USERPROFILE "AppData\LocalLow\DefaultCompany\My project (1)"
 $server = Join-Path $aod "AO_Online\Release\Server\Saves"
+$serverDemo = Join-Path $aod "AO_Online\Release\Server\SavesDemo"
 
 if (Test-Path $local) { Copy-Item $local (Join-Path $dst "LocalLow") -Recurse }
 if (Test-Path $server) { Copy-Item $server (Join-Path $dst "ServerSaves") -Recurse }
-reg export "HKCU\Software\DefaultCompany\My project (1)" (Join-Path $dst "PlayerPrefs.reg") /y | Out-Null
+if (Test-Path $serverDemo) { Copy-Item $serverDemo (Join-Path $dst "ServerSavesDemo") -Recurse }
+
+# PlayerPrefs del juego compilado y del editor (Unity guarda las del editor en otra clave).
+$prefs = @(
+    @("PlayerPrefs.reg", "HKCU\Software\DefaultCompany\My project (1)"),
+    @("PlayerPrefs_Editor.reg", "HKCU\Software\Unity\UnityEditor\DefaultCompany\My project (1)")
+)
+foreach ($p in $prefs) {
+    $out = Join-Path $dst $p[0]
+    & reg export $p[1] $out /y | Out-Null
+    if (-not (Test-Path $out)) { Write-Warning "No se pudo exportar $($p[1])" }
+}
 
 $files = Get-ChildItem $dst -Recurse -File
 $manifest = $files | ForEach-Object {

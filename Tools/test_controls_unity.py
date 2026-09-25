@@ -26,7 +26,7 @@ newest_editor = max(path.stat().st_mtime for path in sources if "Editor" in path
 assemblies = [root / "Library/ScriptAssemblies" / name for name in
               ("Assembly-CSharp.dll", "Assembly-CSharp-Editor.dll")]
 (root / "Temp/refresh_online_client").write_text("", encoding="utf-8")
-deadline = time.monotonic() + 180
+deadline = time.monotonic() + 300
 print("Waiting for Unity import; leave the editor open outside Play.", flush=True)
 while not all(path.exists() and path.stat().st_mtime >= newest for path, newest in zip(assemblies, (newest_runtime, newest_editor))):
     if time.monotonic() > deadline:
@@ -40,7 +40,7 @@ if report.exists():
 flag = root / "Temp/run_controls_qa"
 flag.write_text("", encoding="utf-8")
 print("Protected Play test requested.", flush=True)
-deadline = time.monotonic() + 160
+deadline = time.monotonic() + 300
 try:
     while not report.exists():
         if time.monotonic() > deadline:

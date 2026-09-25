@@ -25,6 +25,16 @@ Es el mismo ejecutable con otras reglas y otros datos, así que nunca toca las p
   `New-NetFirewallRule -DisplayName "AO BATTLESERVER demo 7778" -Direction Inbound -Protocol TCP -LocalPort 7778 -RemoteAddress 100.64.0.0/10 -Action Allow`
 - Tailscale no necesita nada más: los amigos usan la misma IP de Tailscale del anfitrión, con el puerto 7778.
 
+## Seguridad y límites
+
+- `--bind auto` (por defecto): escucha solo en 127.0.0.1 y en las IP de Tailscale de la PC (100.64.0.0/10). Si no encuentra Tailscale, escucha en todas las interfaces y lo avisa en la consola. `--bind any` escucha en todas; `--bind ip1,ip2`, en esas.
+- El saludo (`hello`) tiene 5 s de plazo. Como mucho 4 conexiones sin saludar por dirección y 32 en total.
+- Como mucho 30 personajes guardados por sala; cada alta queda anotada en la consola.
+- El botín del piso desaparece a los 10 minutos, con un tope de 200 objetos por mapa (se va el más viejo).
+- El stock limitado de los comerciantes vuelve 30 minutos después de la primera compra.
+- `world.json` se guarda al instante solo en compra, venta, recoger, soltar, banco, misiones y pociones; el resto, cada segundo. Si OneDrive o el antivirus lo bloquean, se registra y se reintenta, sin cortar a nadie. El oro nunca depende de `world.json`: va en el libro.
+- Un error dentro del mundo se registra y la sala sigue.
+
 ## Modo prueba
 
 - `--test`: escucha solo en 127.0.0.1 y habilita `testLedger` (saldos e invariante del libro). Nunca se usa en la sala real.

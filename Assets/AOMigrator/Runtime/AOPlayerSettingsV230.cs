@@ -35,6 +35,8 @@ public static partial class AOPlayerSettingsV230
     static bool music = true;
     static bool arrowMovement = true;
     static bool showFps;
+    static bool enhancedLight;
+    static bool hdTextures = true;
     static bool fullscreen;
     static bool vSync;
     static bool showSpeech = true;
@@ -55,6 +57,8 @@ public static partial class AOPlayerSettingsV230
     {
         initialized = false;
         Ensure();
+        // El mundo carga el primer mapa con la preferencia de gráficos guardada.
+        AOWorldManagerV07.UseHDTextures = hdTextures;
     }
 
     static void Ensure()
@@ -67,6 +71,8 @@ public static partial class AOPlayerSettingsV230
         music = PlayerPrefs.GetInt(Prefix + "music", 1) != 0;
         arrowMovement = PlayerPrefs.GetInt(Prefix + "arrows", 1) != 0;
         showFps = PlayerPrefs.GetInt(Prefix + "fps", 0) != 0;
+        enhancedLight = PlayerPrefs.GetInt(Prefix + "light", 0) != 0;
+        hdTextures = PlayerPrefs.GetInt(Prefix + "hd", 1) != 0;
         vSync = PlayerPrefs.GetInt(Prefix + "vsync", 0) != 0;
         showSpeech = PlayerPrefs.GetInt(Prefix + "speech", 1) != 0;
         centeredMinimap = PlayerPrefs.GetInt(Prefix + "centeredMinimap", 0) != 0;
@@ -103,6 +109,14 @@ public static partial class AOPlayerSettingsV230
     } }
     public static bool ShowFps { get { Ensure(); return showFps; } set {
         Ensure(); showFps = value; SaveBool("fps", showFps);
+    } }
+    // "Luz: Original / Mejorada" (Arte, AOLighting2DV283). Por defecto Original, la fiel al AO20.
+    public static bool EnhancedLighting { get { Ensure(); return enhancedLight; } set {
+        Ensure(); enhancedLight = value; SaveBool("light", enhancedLight);
+    } }
+    // "Gráficos: Original / HD" (remaster de Higgsfield). Por defecto HD, como AOWorldManagerV07.UseHDTextures.
+    public static bool HDTextures { get { Ensure(); return hdTextures; } set {
+        Ensure(); hdTextures = value; SaveBool("hd", hdTextures);
     } }
     public static bool VSync { get { Ensure(); return vSync; } set {
         Ensure(); vSync = value; SaveBool("vsync", vSync);

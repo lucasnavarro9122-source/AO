@@ -127,6 +127,24 @@ def check(palette: dict, grh: dict) -> list[str]:
     return errors
 
 
+def frames_for(palette: dict, grh: dict) -> list:
+    """Recorte del primer frame de cada GRH que usa la paleta (el cliente no tiene graficos.ini)."""
+    used = set()
+    for theme in palette["temas"].values():
+        for kind, entry in theme.get("kinds", {}).items():
+            if kind == "Pool":
+                used.update(entry["base"] + i for i in range(PATTERN_SIZE[entry["patron"]]))
+            else:
+                used.update(entry.get("grh", []))
+    rows = []
+    for index in sorted(used):
+        frame = first_frame(grh, index)
+        if frame:
+            file_num, sx, sy, w, h = frame
+            rows.append({"grh": index, "fileNum": file_num, "sx": sx, "sy": sy, "w": w, "h": h})
+    return rows
+
+
 def preview(palette: dict, grh: dict, folder: Path) -> None:
     """Arena de 23x19 de muestra (misma posición para todos los temas, espejada)."""
     from PIL import Image
@@ -204,6 +222,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--palette", type=Path, default=PALETTE)
     parser.add_argument("--preview", type=Path)
+    parser.add_argument("--frames-out", type=Path, help="escribe la paleta con 'frames' (recorte de cada GRH) para el cliente")
     args = parser.parse_args()
     palette = json.loads(args.palette.read_text(encoding="utf-8"))
     grh = load_grh()
@@ -212,6 +231,11 @@ def main() -> int:
         print("ERROR", error)
     ranges = ", ".join(f"{n} {t['densidad']['min']}-{t['densidad']['max']}%" for n, t in palette["temas"].items())
     print(f"Paleta v{palette.get('version')}: {'FALLA' if errors else 'OK'} | densidad: {ranges}")
+    if args.frames_out and not errors:
+        palette["frames"] = frames_for(palette, grh)
+        text = json.dumps(palette, ensure_ascii=False, indent=2) + "\n"
+        args.frames_out.write_text(text, encoding="utf-8", newline="\n")
+        print(f"Paleta con {len(palette['frames'])} recortes en {args.frames_out}")
     if args.preview:
         preview(palette, grh, args.preview)
         print(f"Vista previa en {args.preview}")

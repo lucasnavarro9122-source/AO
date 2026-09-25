@@ -8,12 +8,12 @@ import tempfile
 import time
 import uuid
 
-from test_coop_server import DLL, Peer, fixture, snapshot
+from test_coop_server import DLL, PROTOCOL, Peer, fixture, snapshot
 
 
 def hello(port, key, save):
     with socket.create_connection(('127.0.0.1', port), timeout=5) as sock:
-        sock.sendall((json.dumps(dict(type='hello', version=2, key=key, characterId=uuid.uuid4().hex,
+        sock.sendall((json.dumps(dict(type='hello', version=PROTOCOL, key=key, characterId=uuid.uuid4().hex,
                                       token=secrets.token_hex(32), snapshot=json.dumps(save),
                                       player=dict(save['world']))) + '\n').encode())
         reply = json.loads(sock.makefile('r', encoding='utf-8').readline() or '{}')
@@ -48,13 +48,36 @@ def run():
             again = Peer(port, key, 'Alpha', identity=a.identity); peers.append(again)
             assert again.save['rpg']['raceId'] == 1, 'se guardó el snapshot ilegible'
             assert process.poll() is None
-            print('PASS: un hello o guardado ilegible se rechaza, la sala sigue y el personaje no queda roto.')
+            # Revisión #2: a lo sumo 4 conexiones sin saludar por dirección; la 5.ª se cierra al instante,
+            # y un saludo trabado se corta a los ~5 s (antes: 60 s por byte).
+            idle = [socket.create_connection(('127.0.0.1', port)) for _ in range(5)]
+            try:
+                idle[4].settimeout(3)
+                try: assert idle[4].recv(1) == b''
+                except ConnectionResetError: pass
+                start = time.monotonic(); idle[0].settimeout(15)
+                try:
+                    while idle[0].recv(4096): pass
+                except ConnectionResetError: pass
+                assert 3 < time.monotonic() - start < 13, time.monotonic() - start
+            finally:
+                for s in idle: s.close()
+            time.sleep(.3); late = Peer(port, key, 'Tarde'); peers.append(late)
+            # Revisión #11: nombres nuevos como ValidarNombre (3 a 18, A–Z y espacios); nadie se hace pasar por Alpha.
+            for fake in ('Аlpha', 'Álpha', 'ALPHA', 'Alpha2', 'Al  pha', 'Nombrelarguisimoxxx', 'Ñandu'):
+                try: Peer(port, key, fake)
+                except RuntimeError: pass
+                else: raise AssertionError('nombre aceptado: %r' % fake)
+            peers.append(Peer(port, key, 'Al pha'))
+            print('PASS: un hello o guardado ilegible se rechaza, la sala sigue y el personaje no queda roto; '
+                  'saludo con plazo y tope de conexiones sin saludar por dirección.')
         finally:
             for p in peers: p.close()
             if process.poll() is None:
                 process.terminate(); process.wait(5)
             else:
                 print((root/'server.log').read_text()[-1000:])
+            log.close()  # Windows cannot delete the temp folder while the log is open
 
 
 if __name__ == '__main__':

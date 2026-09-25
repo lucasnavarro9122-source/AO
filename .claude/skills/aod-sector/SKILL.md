@@ -18,8 +18,12 @@ description: Protocolo de trabajo por sectores de AoDuels (Programación, Arte y
 - Módulo nuevo: tomá "Próxima versión libre" del tablero, subila en 1 en el mismo momento y seguí `aod-modulo-nuevo`.
 
 ## Unity (un solo editor para todos)
-- Antes de Play, de pruebas en Unity o de un build: si "Unity en uso por" dice `libre`, cambialo a `<Sector> · hh:mm · motivo`. Si no, esperá o avisá a Cerebro.
-- Al terminar, volvé a dejar `libre`. Nunca entres en Play si Lucas está jugando: preguntá.
+- **Candado real y atómico:** `Tools/aod_unity_lock.ps1`.
+  - Antes de escribir en `Assets/`, entrar en Play, correr pruebas en Unity o hacer un build: `... take -Sector "<Sector>" -Motivo "<qué>"`.
+  - **Exit 1 = OCUPADO: abortar todo**, también en los scripts automáticos.
+  - Al terminar: `... release -Sector "<Sector>"`.
+  - Respetar la "Cola de Unity" del tablero y, al liberar, avisarle al siguiente. La línea "Unity en uso por" del tablero es solo informativa.
+  - Nunca entres en Play si Lucas está jugando: preguntá.
 - Respaldo antes de probar: skill `aod-respaldo`.
 
 ## Al terminar una tarea

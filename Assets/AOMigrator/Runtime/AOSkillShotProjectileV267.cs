@@ -80,6 +80,13 @@ public class AOSkillShotProjectileV267 : MonoBehaviour
             return;
         }
 
+        // Duel: rivals along the segment (tile check; the server validates the line with SegmentClear).
+        if(AODuelUI.InDuel&&TryHitDuelRival(previousLogicalPosition,logicalPosition,out int rival,out int rx,out int ry,out hitPoint))
+        {
+            FinishDuelRival(rival,rx,ry,hitPoint);
+            return;
+        }
+
         AONPCCombatV09 npc=FindNpcHit(previousLogicalPosition,logicalPosition,out hitPoint);
         if(npc!=null)
         {
@@ -132,8 +139,10 @@ public class AOSkillShotProjectileV267 : MonoBehaviour
         float bestT=float.MaxValue;
         foreach(AONPCCombatV09 npc in NpcsThisFrame())
         {
-            // Non-attackable NPCs (bankers, merchants) must not absorb the shot.
+            // Non-attackable NPCs (bankers, merchants) must not absorb the shot; only NPCs of this projectile's map.
             if(npc==null||!npc.IsAlive||!npc.Attackable)continue;
+            AONPCMovementV08 movement=npc.GetComponent<AONPCMovementV08>();
+            if(movement!=null&&movement.Grid!=null&&movement.Grid!=grid)continue;
             Vector2 center=new Vector2(npc.transform.position.x,npc.transform.position.y);
             float t=ClosestSegmentT(from,to,center);
             Vector2 closest=Vector2.Lerp(from,to,t);
@@ -170,6 +179,29 @@ public class AOSkillShotProjectileV267 : MonoBehaviour
         // Online: the server counts the cooldown from launch, not from impact.
         AOOnlineClientV240.SetSkillShotFlight(Time.time-launchedAt);
         owner.ResolveSkillShotHit(spell,npc,world);
+        Destroy(gameObject);
+    }
+
+    static bool TryHitDuelRival(Vector2 from,Vector2 to,out int rival,out int tx,out int ty,out Vector2 hit)
+    {
+        rival=0;tx=ty=0;hit=to;
+        int samples=Mathf.Max(1,Mathf.CeilToInt(Vector2.Distance(from,to)/.12f));
+        for(int i=1;i<=samples;i++)
+        {
+            Vector2 p=Vector2.Lerp(from,to,i/(float)samples);
+            int x=Mathf.RoundToInt(p.x+.5f),y=Mathf.RoundToInt(-p.y);
+            int id=AOOnlineClientV240.PlayerAt(x,y);
+            if(id>0&&AODuelClient.IsEnemy(id)){rival=id;tx=x;ty=y;hit=p;return true;}
+        }
+        return false;
+    }
+
+    void FinishDuelRival(int rival,int tx,int ty,Vector2 hit)
+    {
+        if(finished)return;finished=true;
+        AOOnlineClientV240.SetSkillShotFlight(Time.time-launchedAt);
+        AOOnlineClientV240.CastPlayer(spell.id,rival,tx,ty);
+        AOSpellFXV120.PlayImpact(spell,new Vector3(hit.x,hit.y,transform.position.z),false);
         Destroy(gameObject);
     }
 
