@@ -89,6 +89,17 @@ Ninguna salida es un punto negro. Antes las 14 escaleras de los pisos eran el hu
 
 ![portales](portales_antes_despues.jpg)
 
+### Entradas falsas (25/09, tarde)
+Las escaleras y los pasajes del mapa original que la demo no usa quedaban dentro de los pisos. Se podían pisar y no llevaban a ningún lado. Ahora el builder los resuelve solo (`seal_dead_exits` en `demo_map_builder.py`), así que vale también para pisos futuros:
+- **Pegados a un portal de la demo** (3 casillas o menos): pasan a ser parte de esa salida, con el mismo destino.
+  - Son la escalera de entrada y la de bajada del P2, la puerta de la pirámide del P4 y la entrada y la bajada del P6.
+- **Lejos de un portal:** se bloquean y se tapan con un derrumbe (roca original 17144).
+  - Un túnel en la pared conserva su dibujo, porque tapa el vacío, y el derrumbe va delante de la boca.
+- **Teletransportador original en medio del piso** (P1, el azul 11902): se borra con su base y las casillas del marco quedan libres, así no hay paredes invisibles.
+- **Bordes abiertos del mapa original:** son líneas largas de suelo común hacia el mismo mapa, como el desierto alrededor de la tumba. No se tocan.
+
+![entradas falsas](entradas_falsas.jpg)
+
 ## Hub y arenas (reglas 1, 9 y 10)
 - En el hub, las Arenas quedan al norte y el Dungeon al sur. Solo cambia la llegada al 1010.
 - En las arenas hay 4 rings con tema (bosque, desierto, nieve y mazmorra), una plaza central y carteles "Arena I–IV".

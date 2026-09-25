@@ -39,6 +39,9 @@ Queda abierto de entonces:
 **Mapa demo** (`docs/claude/nube/reporte-mapa-demo.md`):
 - se cambiaron `Tools/demo_maps/1010.json` (entrada en el Cementerio de Nix, mapa 4), los carteles de 1011–1017 y `oneWayExits` del 1017;
 - `demo_map_builder.py` tiene un op nuevo, `light`, que Arte usa para poner luces del mapa desde los `.art.json`;
+- **Entradas falsas** (pedido de Lucas; ver `reglas-y-recorrido.md` § Entradas falsas): `demo_map_builder.py` suma `seal_dead_exits`.
+  - Las escaleras y los pasajes originales que no usa la demo se suman al portal vecino o se cierran con un derrumbe; el teletransportador azul del P1 se borra.
+  - Cambian 1011–1017 y el catálogo, porque hay salidas nuevas en P2, P4 y P6.
 - `Tools/demo_maps/1001.json` (arena):
   - las gradas son más anchas (los `unblock` de cada ring ahora van de 35×31);
   - hay dos vendedores: Therona `<Tabernera>` (100) en (44,45) e Igor `<Provisiones>` (9) en (56,45);
@@ -132,6 +135,7 @@ Queda abierto de entonces:
   - retos con parálisis;
   - skill shot visible;
   - portales con luz en todas las salidas;
+  - ninguna escalera ni pasaje que lleve a la nada;
   - arena: comprar agua y comida a los vendedores, y que los retos sigan igual.
 - **Antes de cada prueba:** `aod-respaldo`, y nunca con personajes de Lucas.
 - **Release 0.27:** cliente y servidor juntos, porque cambian el catálogo y los mapas de la demo.

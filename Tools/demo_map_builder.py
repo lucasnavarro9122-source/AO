@@ -22,6 +22,7 @@ import hashlib
 import json
 import re
 import sys
+from collections import Counter
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -420,6 +421,78 @@ def expand_dungeon(spec: dict, sources: Sources) -> dict:
     return merged
 
 
+DEAD_EXIT_JOIN = 3                 # an original passage this close to a demo exit becomes part of it
+DEAD_EXIT_EDGE = 6                 # lines of more than twice this are the open border of the original map
+RUBBLE = {564: 19140}              # per source map (broken pillar in the tomb); default mossy rock, readable on dark floors
+RUBBLE_DEFAULT = 17144
+TELEPORT_LIKE = {11902}            # original teleport objects (P1's blue one): erased, not walled up
+
+
+def seal_dead_exits(model: MapModel, spec: dict, sources: Sources) -> list[str]:
+    """Original stairs and passages the demo no longer uses ("entradas falsas", Lucas 25/09).
+    The ones next to a demo exit join it (same destination); the others get blocked and covered with rubble,
+    so nothing in a floor looks like a way out that leads nowhere."""
+    base = spec["base"]
+    if "copy" not in base or "exits" not in spec.get("remove", []):
+        return []
+    demo = {(e["x"], e["y"]): e for e in model.pending_exits}
+    dest = {(e["x"], e["y"]): e["destMap"] for e in sources.map(base["copy"]).get("exits", [])}
+    dead = sorted((p for p in set(dest) - set(demo) if model.walkable(*p)), key=lambda p: (p[1], p[0]))
+    # A long line of exits to the same map is the open border of the original (plain ground, e.g. the desert
+    # around the tomb): left alone unless it touches a demo exit. Short runs are doorways and stairs.
+    row = Counter((p[1], dest[p]) for p in dead)
+    col = Counter((p[0], dest[p]) for p in dead)
+    border = {p for p in dead if max(row[(p[1], dest[p])], col[(p[0], dest[p])]) > DEAD_EXIT_EDGE * 2}
+    notes, seen = [], set()
+    one_way = spec.setdefault("oneWayExits", [])
+    for start in dead:
+        if start in seen:
+            continue
+        cluster, todo = [], [start]
+        seen.add(start)
+        while todo:
+            x, y = todo.pop()
+            cluster.append((x, y))
+            for q in ((x + dx, y + dy) for dx in (-1, 0, 1) for dy in (-1, 0, 1)):
+                if q in dead and q not in seen:
+                    seen.add(q)
+                    todo.append(q)
+        near = min(((max(abs(px - ex), abs(py - ey)), (ex, ey)) for px, py in cluster for ex, ey in demo),
+                   default=(99, None))
+        if near[0] > DEAD_EXIT_JOIN and all(p in border for p in cluster):
+            continue
+        if near[0] <= DEAD_EXIT_JOIN:
+            target = demo[near[1]]
+            for x, y in cluster:
+                model.pending_exits.append({"x": x, "y": y, "destMap": target["destMap"], "dest": target["dest"]})
+                if list(near[1]) in one_way:
+                    one_way.append([x, y])
+            notes.append(f"{len(cluster)} casillas se suman a la salida {near[1]}")
+        elif any(model.cells.get((x, y, 3), (0,))[0] in TELEPORT_LIKE for x, y in cluster):
+            for x, y in cluster:   # an original teleport standing on open floor: erased with its glowing base
+                if model.cells.get((x, y, 3), (0,))[0] in TELEPORT_LIKE:
+                    model.cells.pop((x, y, 3))
+                    model.cells.pop((x, y + 1, 2), None)
+                    for q in ((x + dx, y + dy) for dx in (-1, 0, 1) for dy in (-2, -1, 0, 1)):
+                        if not any(k in model.cells for k in ((*q, 2), (*q, 3))):   # its frame: no invisible walls
+                            model.blocks.pop(q, None)
+            notes.append(f"teletransportador original borrado en {cluster[0]}")
+        else:
+            rubble = RUBBLE.get(base["copy"], RUBBLE_DEFAULT)
+            spots = set()
+            for x, y in cluster:
+                model.blocks[(x, y)] = model.blocks.get((x, y), 0) | FLAG_SIDES
+                if (x, y, 3) not in model.cells:
+                    spots.add((x, y))
+                elif model.walkable(x, y + 1) and (x, y + 1, 3) not in model.cells:
+                    spots.add((x, y + 1))   # a tunnel mouth keeps its graphic (it hides the void): rubble in front
+            for x, y in spots:
+                model.blocks[(x, y)] = model.blocks.get((x, y), 0) | FLAG_SIDES
+                op_paint(model, {"op": "paint", "layer": 3, "cells": [[x, y]], "grh": rubble}, sources)
+            notes.append(f"{len(cluster)} casillas cerradas con derrumbe en {cluster[0]}")
+    return notes
+
+
 def add_signs(model: MapModel, spec: dict, sources: Sources, problems: list[str]):
     """Clickable signs (ObjType 8): original ones keep their obj.dat text, new ones use spec["signTexts"]["x,y"]."""
     texts = spec.get("signTexts", {})
@@ -554,6 +627,7 @@ def build_one(spec: dict, sources: Sources) -> tuple[MapModel, list[str]]:
         OPS[op["op"]](model, op, sources)
     for x, y in spec.get("_artBlock", []):
         model.blocks[(x, y)] = model.blocks.get((x, y), 0) | FLAG_SIDES
+    model.dead_exit_notes = seal_dead_exits(model, spec, sources)
     add_signs(model, spec, sources, problems)
     for ring in spec.get("rings", []):
         for p in rect_cells((ring["x"], ring["y"], RING_W, RING_H)):

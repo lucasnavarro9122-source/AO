@@ -33,6 +33,11 @@ Rama `claude/nifty-thompson-r3ulpf`, sobre el trabajo de la PC `edcd99d5`. Para 
      - el portal al hub está en (50,70) y la llegada en (50,68);
      - que los retos sigan igual: rings, cuerdas y carteles.
      - Imágenes: `arena_viva.jpg` y `arena_viva_cerca.jpg`.
+   - **Entradas falsas:** ninguna escalera ni pasaje lleva a la nada.
+     - Las del P2, el P4 y el P6 que están junto a un portal funcionan como ese portal.
+     - Las demás están cerradas con un derrumbe.
+     - El teletransportador azul del P1 ya no está, y donde estaba no quedan paredes invisibles.
+     - Imagen: `entradas_falsas.jpg`.
    - **Portales:** ninguna salida es un punto negro. Cada una es el portal violeta animado (49488) con halo de luz y antorchas cálidas. Revisar que se animen, que brillen con la luz clásica y con "Luz: Mejorada", y que se pueda pisar el portal para pasar de mapa. Imagen: `portales_antes_despues.jpg`.
 3. **IA mágica de NPC** (`npc-magia.md`):
    - Sin conexión: Esqueleto Mágico (P3), Mago Malvado y Medusa (P6), dragones y Vytaiz (P7).
