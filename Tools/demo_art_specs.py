@@ -342,8 +342,20 @@ HD_REMASTER = {
            "piso": {"tex": 5095, "sx": 512, "sy": 288},             # el juego de 4x4 del piso original
            "variantes": {"tex": 90001, "n": 8, "base": 35},          # 35 % la variante 0 (la del atlas)
            "decor": {"tex": 90002, "escombros": 24, "niebla": 14,     # % de las casillas al pie de una pared
-                     "haces": {"uno_de": 12, "lejos": [6, 9], "luz": MOON_LIGHT},
-                     "halos": [[0x5A96FF, "halo"], [0xB47CFF, "halo_grande"]]}},   # brillos (celeste) y portal (violeta)
+                     "haces": {"uno_de": 18, "lejos": [8, 11], "luz": MOON_LIGHT},
+                     # Partículas propias de la demo (particle_migration.DEMO_PARTICLES): 9001 chispas violetas del
+                     # portal, 9002 polvo de luna (1 de cada 2 haces), 9003 chispas en la llama de la antorcha.
+                     # Descartadas del original: 52 (explosión: fija se quema en blanco), 245 (puffs grandes), 246 (su
+                     # llama cae fuera de esta antorcha) y 199 (motas en 22 casillas: caen sobre el vacío negro).
+                     "particulas": {"luces": [[PORTAL_LIGHT, 9001], [TORCH_LIGHT, 9003]], "haz": 9002, "haz_uno_de": 2},
+                     "halos": [[0x5A96FF, "halo"], [0xB47CFF, "halo_grande"]]},    # brillos (celeste) y portal (violeta)
+           # Adornos remasterizados (dungeon_hd.py adornos): textura original, recorte a 1x -> lugares en tex_90003.
+           "reemplazos": {"tex": 90003, "items": [
+               [5034, 0, 0, 128, 64, [[0, 0]]],                    # altar
+               [5034, 160, 32, 32, 96, [[128, 0]]],                # estandarte
+               [105, 96, 32, 32, 32, [[160, 0]]],                  # antorcha
+               [5066, 960, 576, 64, 64, [[0, 96], [64, 96]]],      # rocas de las salidas selladas (dos versiones)
+               [5041, 512, 1280, 256, 128, [[0, 160]]]]}},         # mancha de escombros
 }
 
 

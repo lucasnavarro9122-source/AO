@@ -437,6 +437,17 @@ def hd_remaster(model: MapModel, op: dict, sources: Sources, map_id: int) -> lis
     for (x, y), (grh, col, row, b) in floor_cells.items():
         k = pick[b]
         model.cells[(x, y, 1)] = (grh, demo_sprite(model, var["tex"], (k % 4) * 128 + col * 32, (k // 4) * 128 + row * 32, 32, 32))
+    # 1b. Adornos remasterizados propios de la demo (tex_90003): mismo tamaño y lugar, otro sprite; si hay varias
+    #     versiones (las rocas), se alternan.
+    rep = op.get("reemplazos")
+    if rep and (TEXTURES_DIR / f"tex_{rep['tex']}.png").exists():
+        table = {tuple(r[:5]): r[5] for r in rep["items"]}
+        for (x, y, layer), (grh, sid) in list(model.cells.items()):
+            fr = sources.sprite(sid, model.sprite_pool) if sid < DEMO_SPRITE_BASE else None
+            key = fr and (fr["fileNum"], fr["sx"], fr["sy"], fr["width"], fr["height"])
+            if key in table:
+                dx, dy = table[key][_hash(map_id, "r", x, y) % len(table[key])]
+                model.cells[(x, y, layer)] = (grh, demo_sprite(model, rep["tex"], dx, dy, key[3], key[4]))
     # 2. Decoración en la capa 2 (una por casilla; lo que ya hay en la capa 2 no se toca).
     floor = {(x, y) for (x, y) in floor_cells if model.walkable(x, y)}
     used = {(x, y) for (x, y, layer) in model.cells if layer == 2} | set(model.exits)
@@ -477,6 +488,12 @@ def hd_remaster(model: MapModel, op: dict, sources: Sources, map_id: int) -> lis
         used.add((x, y))
         counts["haz"] += 1
         top, bottom = HAZ_CENTRO[k]
+        part = dec.get("particulas", {})
+        if part.get("haz") and _hash(map_id, "hp", x, y) % part.get("haz_uno_de", 3) == 0:
+            # Polvo de luna que cae por el haz: el emisor va al pie (su recorrido sube 7 casillas), sobre el centro.
+            px = (x - 3) * 32 + 16 + bottom + (top - bottom) * 3.5 / 8
+            model.particles.append({"x": int(px // 32) + 1, "y": y, "particle": part["haz"]})
+            counts["partícula"] += 1
         # Una luz de luna donde el haz cae al piso (en la luz Mejorada varias juntas se queman). En la Original el haz
         # entero toma la luz de su casilla de apoyo: con la luz ahí, se ve. Radio 2, o 1 si cerca se apoya una pieza de
         # pared alta (la teñiría entera: un rectángulo claro).
@@ -502,6 +519,20 @@ def hd_remaster(model: MapModel, op: dict, sources: Sources, map_id: int) -> lis
             decal(x, y + 1, DEMO_DECOR["niebla"][r % 3])                # una casilla más abajo: sobre el piso
             used.add((x, y + 1))
             counts["niebla"] += 1
+    # Partículas (sistema original del AO, aditivas: brillan igual con las dos luces).
+    part = dec.get("particulas", {})
+    by_color = {c: pid for c, pid in part.get("luces", [])}
+    for l in model.lights:
+        if l["color"] in by_color:
+            model.particles.append({"x": l["x"], "y": l["y"], "particle": by_color[l["color"]]})
+            counts["partícula"] += 1
+    if part.get("ambiente"):   # motas azules que suben, en un área amplia: una cada tanto, sobre un haz
+        spots = []
+        for sx, sy in shafts:
+            if all(abs(sx - ax) >= part["ambiente_lejos"] or abs(sy - ay) >= part["ambiente_lejos"] for ax, ay in spots):
+                spots.append((sx, sy))
+                model.particles.append({"x": sx, "y": sy - 3, "particle": part["ambiente"]})
+                counts["partícula"] += 1
     model.hd_notes = (f"remaster HD: {len(floor_cells)} casillas de piso en {len(pick)} bloques, "
                       + ", ".join(f"{v} {k}" for k, v in sorted(counts.items())))
     return []

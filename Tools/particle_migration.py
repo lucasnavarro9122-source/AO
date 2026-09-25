@@ -81,6 +81,37 @@ def decode(path: Path) -> list[dict]:
     return result
 
 
+# Partículas propias de la demo (nube, 25/09): parten del punto de luz de la antorcha original (183) y cambian solo
+# cantidad, recorrido, vida, tamaño y color. Colores en BGR, como los del original.
+DEMO_BASE = 183
+DEMO_PARTICLES = [
+    {"id": 9001, "name": "Demo: chispas violetas del portal", "count": 12, "origin": [-18, -44, 18, -8],
+     "velocity": [-4, 4, -18, -8], "life": [10, 30], "friction": 8, "moveX": True, "moveY": False,
+     "moveBounds": [-6, 6, 0, 0], "resize": True, "resizeX": 14, "resizeY": 14,
+     "colors": [[255, 120, 200], [255, 190, 230], [255, 150, 170], [255, 210, 245]]},
+    {"id": 9002, "name": "Demo: polvo de luna en el haz", "count": 10, "origin": [-22, -220, 22, -30],
+     "velocity": [-3, 3, 4, 10], "life": [30, 90], "friction": 8, "moveX": True, "moveY": False,
+     "moveBounds": [-3, 3, 0, 0], "resize": True, "resizeX": 10, "resizeY": 10,
+     "colors": [[255, 225, 200], [255, 240, 225], [255, 210, 180], [255, 235, 215]]},
+    # La antorcha de pared (GRH 55254) tiene la llama arriba a la derecha: (+8, -28) desde el pie; el emisor suma -16.
+    {"id": 9003, "name": "Demo: chispas de antorcha", "count": 6, "origin": [22, -14, 26, -10],
+     "velocity": [-2, 2, -14, -6], "life": [5, 15], "friction": 8, "moveX": True, "moveY": False,
+     "moveBounds": [-3, 3, 0, 0], "resize": True, "resizeX": 12, "resizeY": 12,
+     "colors": [[60, 140, 255], [90, 190, 255], [40, 110, 255], [120, 210, 255]]},
+]
+
+
+def demo_definitions(base: dict) -> list[dict]:
+    out = []
+    for extra in DEMO_PARTICLES:
+        entry = {**json.loads(json.dumps(base)), **extra, "gravity": False, "spin": False, "angle": 0,
+                 "lifeCounter": -1, "alphaBlend": True, "speed": 0.5}
+        entry["cornerColors"] = [channel for bgr in entry["colors"] for channel in bgr]
+        entry["tint"] = [sum(rgb[channel] for rgb in entry["colors"]) // 4 for channel in (2, 1, 0)]
+        out.append(entry)
+    return out
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--apply", action="store_true")
@@ -94,8 +125,9 @@ def main() -> None:
             data = json.loads(path.read_text("utf-8"))
             used.update(row["particle"] for row in data.get("particles", []))
     map_used = set(used)
-    # IDs from the original client's Particula_Nieve and Particula_Lluvia.
-    used.update((57, 58))
+    # IDs from the original client's Particula_Nieve and Particula_Lluvia; 183 is the base of DEMO_PARTICLES.
+    used.update((57, 58, DEMO_BASE))
+    used -= {p["id"] for p in DEMO_PARTICLES}
 
     textures: set[int] = set()
     unresolved: set[int] = set()
@@ -120,6 +152,8 @@ def main() -> None:
         entry["tint"] = [sum(rgb[channel] for rgb in entry["colors"]) // 4
                          for channel in (2, 1, 0)]
         resolved.append(entry)
+
+    resolved += demo_definitions(next(e for e in resolved if e["id"] == DEMO_BASE))
 
     fog_sprites = []
     for grh_id in (32014, 32015):

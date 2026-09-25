@@ -8,6 +8,7 @@
 - Mejorada (AOLighting2DV283): textura x (luz global + luces 2D sumadas, por píxel) y la viñeta propia. Sin bloom:
   el posproceso está apagado en el juego (PostProcessing = false).
 Usa las texturas HD instaladas (Resources/AOMigratorHD) y el mapa armado (Assets o --mapa-json).
+Las partículas del mapa (aditivas, no las toca la luz) van como foto fija aproximada: en el juego se mueven.
 Escribe NOMBRE_luces.jpg (Original | Mejorada | su imagen) y NOMBRE_original.jpg / NOMBRE_mejorada.jpg a tamaño real."""
 import argparse
 import json
@@ -106,7 +107,7 @@ def render_original(m, x0, y0, w, h):
         cy, cx = min(max(y - m["ymin"], 0), cor.shape[0] - 1), min(max(x - m["xmin"], 0), cor.shape[1] - 1)
         rgb = a[..., :3] * tint(s.size, cor[cy, cx])
         _paste(img, rgb, a[..., 3:], left, top)
-    return img
+    return particulas(img, m, x0, y0, w, h)
 
 
 def lights_mejorada(m, x0, y0, w, h):
@@ -141,12 +142,61 @@ def render_mejorada(m, x0, y0, w, h):
         left, top = place(s, x, y, x0, y0)
         a = np.asarray(s, np.float32) / 255
         _paste(img, a[..., :3], a[..., 3:], left, top)
-    rgb = img * lights_mejorada(m, x0, y0, w, h)
+    rgb = particulas(img * lights_mejorada(m, x0, y0, w, h), m, x0, y0, w, h)
     H, W, _ = rgb.shape
     yy, xx = np.mgrid[0:H, 0:W].astype(np.float32)
     u, v = (xx / W) * 2 - 1, (yy / H) * 2 - 1
     dark = 1 - np.clip(1 - 0.42 * (u * u + v * v) ** 1.2, 0.35, 1)       # AOLighting2DV283.VignetteSprite
     return rgb * (1 - dark[..., None])
+
+
+def particulas(img, m, x0, y0, w, h, seed=7):
+    """Foto fija aproximada de las partículas del mapa (AOMapParticleGroup): cada partícula en un momento al azar de
+    su vida, sprite gris x color de sus esquinas (vienen en BGR), sumado (aditivo)."""
+    defs = {d["id"]: d for d in json.loads((pl.WORLD / "particle_defs.json").read_text("utf-8-sig"))["definitions"]}
+    rng = np.random.default_rng(seed)
+    H, W, _ = img.shape
+    for p in m.get("particles", []):
+        d = defs.get(p["particle"])
+        if not d or not (x0 - 12 <= p["x"] < x0 + w + 12 and y0 - 12 <= p["y"] < y0 + h + 12):
+            continue
+        cc = d.get("cornerColors") or [255] * 12
+        color = np.array([np.mean(cc[2::3][:4]), np.mean(cc[1::3][:4]), np.mean(cc[0::3][:4])], np.float32) / 255
+        fr = max(1, d.get("friction", 1))
+        for _ in range(min(d["count"], 200)):
+            opt = d["sprites"][rng.integers(len(d["sprites"]))]["frames"][0]
+            s = pl.crop(opt)
+            if s is None:
+                continue
+            if d.get("resize") and d.get("resizeX", 0) > 0:
+                s = s.resize((d["resizeX"] * K, d["resizeY"] * K), Image.LANCZOS)
+            o, v = d["origin"], d["velocity"]
+            t = rng.integers(0, max(2, max(d["life"])))
+            x = rng.integers(min(o[0], o[2]), max(o[0], o[2]) + 1) - 16.0
+            y = rng.integers(min(o[1], o[3]), max(o[1], o[3]) + 1) - 16.0
+            vx = rng.integers(min(v[0], v[1]), max(v[0], v[1]) + 1)
+            vy = rng.integers(min(v[2], v[3]), max(v[2], v[3]) + 1)
+            for _ in range(t):
+                if d.get("gravity"):
+                    vy += d.get("gravityStrength", 0)
+                    if y > 0:
+                        vy = d.get("bounceStrength", 0)
+                mb = d.get("moveBounds") or [0, 0, 0, 0]
+                if d.get("moveX"):
+                    vx = rng.integers(min(mb[0], mb[1]), max(mb[0], mb[1]) + 1)
+                if d.get("moveY"):
+                    vy = rng.integers(min(mb[2], mb[3]), max(mb[2], mb[3]) + 1)
+                x += int(vx / fr)
+                y += int(vy / fr)
+            a = np.asarray(s, np.float32) / 255
+            glow = a[..., :3] * a[..., 3:] * color
+            cx = ((p["x"] - x0) * 32 + 16 + x) * K
+            by = ((p["y"] - y0 + 1) * 32 + y) * K
+            left, top = int(cx - s.width / 2), int(by - s.height)
+            x1, y1, x2, y2 = max(0, left), max(0, top), min(W, left + s.width), min(H, top + s.height)
+            if x1 < x2 and y1 < y2:
+                img[y1:y2, x1:x2] += glow[y1 - top:y2 - top, x1 - left:x2 - left]
+    return img
 
 
 def _paste(img, rgb, a, left, top):

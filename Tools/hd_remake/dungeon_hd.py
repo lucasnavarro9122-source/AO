@@ -67,6 +67,20 @@ PISOS = {
         # textura x luz, con tope 1: con la base del P1 (0xA0A0A0 = 0,627) la textura va x1/0,627 = 1,6 para que lo
         # que no tiene luz se vea igual a su imagen, y bajo los haces (luz de luna ~1) llegue a su brillo.
         "compensar_luz": 1.6,
+        # Adornos del P1 (el resto del piso, pedido de Lucas 25/09): remaster propio de la demo en tex_90003, sin tocar
+        # sus texturas originales (se usan en muchos mapas). El builder cambia los sprites solo en el P1.
+        "adornos": {"textura": 90003, "items": [
+            # nombre, textura original, sx, sy, ancho, alto (a 1x), espejo, destino en tex_90003 (x, y a 1x)
+            ["altar", 5034, 0, 0, 128, 64, False, [0, 0]],
+            ["estandarte", 5034, 160, 32, 32, 96, False, [128, 0]],
+            ["antorcha", 105, 96, 32, 32, 32, False, [160, 0]],
+            ["roca_a", 5066, 960, 576, 64, 64, False, [0, 96]],
+            ["roca_b", 5066, 960, 576, 64, 64, True, [64, 96]]],
+            # la mancha de escombros (semitransparente: sobre fucsia se ensucia) se recolorea con la paleta del piso
+            "mancha": [5041, 512, 1280, 256, 128, [0, 160]], "tamano": [256, 288],
+            # La hoja generada (con las paredes HD de referencia) ya sale al brillo de las paredes instaladas
+            # (luminancia ~100 contra 105): x1,05, no el x1,6 de lo sacado de su imagen.
+            "compensar": 1.05},
         "tema": ("the SAME dungeon shown in the reference image, remastered exactly in its look: cold blue-grey carved "
                  "marble and stone walls with cracks, darker veins and worn chipped edges, finely detailed fluted pillars "
                  "and balustrades, small rubble and pebbles at the foot of the walls; add even MORE micro-detail than the "
@@ -1044,6 +1058,76 @@ def decoracion(generadas: Path, dest_hd: Path, dest_1x: Path, color: dict | None
     print(f"decoración: {len(rub)} escombros, {len(mist)} nieblas, {len(rays)} haces de luz y 2 halos en tex_{DECOR_ID}")
 
 
+def preparar_adornos(nombre: str, out: Path):
+    """Hoja 3x2 (1536x1024) con cada adorno ampliado sobre fucsia; lo semitransparente queda fucsia."""
+    cfg = PISOS[nombre]["adornos"]
+    sheet = Image.new("RGBA", (1536, 1024), MAGENTA)
+    man = []
+    for k, (name, tex, sx, sy, w, h, flip, dst) in enumerate(cfg["items"]):
+        im = Image.open(up.TEX / f"tex_{tex}.png").convert("RGBA").crop((sx, sy, sx + w, sy + h))
+        if flip:
+            im = im.transpose(Image.FLIP_LEFT_RIGHT)
+        esc = min(8.0, 440 / max(w, h))
+        W, H = round(w * esc), round(h * esc)
+        big = im.resize((W, H), Image.NEAREST)
+        x0, y0 = (k % 3) * 512 + 256 - W // 2, (k // 3) * 512 + 256 - H // 2
+        cell = Image.new("RGBA", (W, H), MAGENTA)
+        cell.alpha_composite(big)
+        sheet.paste(cell.convert("RGB"), (x0, y0), big.split()[3].point(lambda v: 255 if v >= 128 else 0))
+        man.append({"nombre": name, "x0": x0, "y0": y0, "W": W, "H": H})
+    out.mkdir(parents=True, exist_ok=True)
+    sheet.convert("RGB").save(out / "adornos_entrada.png")
+    (out / "adornos_manifest.json").write_text(json.dumps(man, indent=1), "utf-8")
+    print(f"{nombre}: hoja de adornos -> {out / 'adornos_entrada.png'} (1 hoja, ~{CREDITS_PER_SHEET} créditos)")
+
+
+def importar_adornos(nombre: str, out: Path, generada: Path, aplicar: bool, pixel: int = 2):
+    """Cada adorno generado con la silueta del original (a 4x), compensado por la luz del piso, en tex_NNNNN."""
+    piso = PISOS[nombre]
+    cfg = piso["adornos"]
+    k_luz = cfg.get("compensar", piso.get("compensar_luz", 1.0))
+    colores = piso.get("colores", 64)
+    man = {m["nombre"]: m for m in json.loads((out / "adornos_manifest.json").read_text("utf-8"))}
+    gen = Image.open(generada).convert("RGB")
+    fx, fy = gen.width / 1536, gen.height / 1024
+    W1, H1 = cfg["tamano"]
+    hd = Image.new("RGBA", (W1 * SCALE, H1 * SCALE), (0, 0, 0, 0))
+    for name, tex, sx, sy, w, h, flip, dst in cfg["items"]:
+        m = man[name]
+        orig = Image.open(up.TEX / f"tex_{tex}.png").convert("RGBA").crop((sx, sy, sx + w, sy + h))
+        if flip:
+            orig = orig.transpose(Image.FLIP_LEFT_RIGHT)
+        size = (w * SCALE, h * SCALE)
+        piece = gen.crop((round(m["x0"] * fx), round(m["y0"] * fy), round((m["x0"] + m["W"]) * fx),
+                          round((m["y0"] + m["H"]) * fy))).resize(size, Image.LANCZOS)
+        big = orig.resize(size, Image.NEAREST)
+        alpha = np.asarray(big.split()[3])
+        arr, pink = quitar_magenta(np.asarray(piece), np.asarray(big.convert("RGB")), alpha >= 128)
+        arr = np.clip(arr.astype(np.float32) * k_luz, 0, 255).astype(np.uint8)
+        rgb = np.asarray(up.pixelize(Image.fromarray(arr), pixel, colores).convert("RGB")).copy()
+        semi = alpha < 128                      # sombras semitransparentes: en la hoja eran fucsia; van las del original
+        rgb[semi] = np.asarray(big.convert("RGB"))[semi]
+        rgb = Image.fromarray(np.dstack([rgb, alpha]), "RGBA")
+        hd.paste(rgb, (dst[0] * SCALE, dst[1] * SCALE))
+        print(f"  {name}: {w}x{h} -> tex_{cfg['textura']} ({dst[0]},{dst[1]}); fucsia dentro de la silueta {pink * 100:.1f} %")
+    if cfg.get("mancha"):   # suciedad: el brillo del original con la paleta fría del piso, ampliada suave
+        tex, sx, sy, w, h, dst = cfg["mancha"]
+        orig = np.asarray(Image.open(up.TEX / f"tex_{tex}.png").convert("RGBA").crop((sx, sy, sx + w, sy + h)), np.float32)
+        lum = orig[..., :3].mean(2, keepdims=True) / 255
+        cold = np.array([70, 80, 112], np.float32) * piso.get("compensar_luz", 1.0) * (0.55 + 0.9 * lum)
+        stain = np.dstack([np.clip(cold, 0, 255), orig[..., 3:]]).astype(np.uint8)
+        stain = Image.fromarray(stain, "RGBA").resize((w * SCALE, h * SCALE), Image.LANCZOS)
+        hd.paste(stain, (dst[0] * SCALE, dst[1] * SCALE))
+        print(f"  mancha: {w}x{h} recoloreada -> tex_{cfg['textura']} ({dst[0]},{dst[1]})")
+    dest_hd = up.HD_TEX if aplicar else out / "resultado/hd"
+    dest_1x = up.TEX if aplicar else out / "resultado/1x"
+    dest_hd.mkdir(parents=True, exist_ok=True)
+    dest_1x.mkdir(parents=True, exist_ok=True)
+    hd.save(dest_hd / f"tex_{cfg['textura']}.png")
+    hd.resize((W1, H1), Image.LANCZOS).save(dest_1x / f"tex_{cfg['textura']}.png")
+    print(f"{nombre}: adornos en tex_{cfg['textura']} -> {dest_hd}" + ("" if aplicar else " (simulación)"))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -1057,8 +1141,18 @@ def main():
     i.add_argument("generadas", type=Path)
     i.add_argument("--salida", type=Path, default=ROOT.parent / "AO_HD/dungeon")
     i.add_argument("--aplicar", action="store_true", help="instalar en Assets (atlas HD y textura nueva de la demo)")
+    pa = sub.add_parser("adornos", help="preparar o importar los adornos propios del piso (tex_9000N)")
+    pa.add_argument("piso", choices=sorted(PISOS))
+    pa.add_argument("--generada", type=Path, help="la hoja generada (sin esto, prepara la hoja de entrada)")
+    pa.add_argument("--salida", type=Path, default=ROOT.parent / "AO_HD/dungeon")
+    pa.add_argument("--aplicar", action="store_true")
     a = ap.parse_args()
-    if a.cmd == "preparar":
+    if a.cmd == "adornos":
+        if a.generada:
+            importar_adornos(a.piso, a.salida / a.piso, a.generada, a.aplicar)
+        else:
+            preparar_adornos(a.piso, a.salida / a.piso)
+    elif a.cmd == "preparar":
         preparar(a.piso, a.salida / a.piso)
     elif a.cmd == "importar":
         importar(a.piso, a.salida / a.piso, a.generadas, a.aplicar)

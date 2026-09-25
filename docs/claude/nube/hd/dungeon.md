@@ -66,6 +66,27 @@ Los `.meta` los genera Unity (`AOHDTextureImportV279` y `AOMapTextureImport`).
 
 `tex_5095` HD también la usan los Newbie Dungeon originales (37, 167, 168, 264; luz 0,56). En las costas 78 y 80 solo se usan los cristales, que no cambiaron.
 
+## El resto del P1: adornos y efectos (25/09, noche)
+- **Adornos (`dungeon_hd.py adornos P1`):** altar, estandarte, antorcha y rocas de las salidas selladas (dos versiones), remasterizados con Higgsfield.
+  - 1 hoja, 2,5 créditos; job `a816ae67`.
+  - Misma silueta y tamaño que el original; sombras originales.
+  - Brillo x1,05, porque la hoja ya sale al nivel de las paredes HD.
+  - La mancha marrón de escombros se recoloreó con la paleta fría del piso.
+  - Van en `tex_90003`, propia de la demo: las texturas originales (5034, 105, 5066, 5041) se usan en muchos mapas y no cambian.
+  - El builder cambia los sprites solo en el P1 (`reemplazos` de `HD_REMASTER`).
+- **Partículas** (aditivas: brillan igual con las dos luces). Son propias de la demo, en `particle_migration.DEMO_PARTICLES`, y ya están agregadas a `particle_defs.json`:
+  - 9001: chispas violetas del portal;
+  - 9002: polvo de luna que cae por los haces (1 de cada 2);
+  - 9003: chispas en la llama de la antorcha.
+
+  Se descartaron las del original:
+  - 52: explosión de portal; fija se quema en blanco;
+  - 245: puffs grandes;
+  - 246: su llama cae fuera de esta antorcha;
+  - 199: motas en un área de 22 casillas, que caen sobre el vacío negro.
+- **Haces:** 24 en vez de 38, más separados (de lejos parecían lluvia).
+- **Vista:** `dungeon_vista_p1.py` suma las partículas como foto fija aproximada; en el juego se mueven.
+
 ### Falta (PC)
-- Compilar en Unity (se cambió `AOLighting2DV283.cs`; en la nube no hay proyecto auxiliar), importar las texturas nuevas y probar el P1 en Play con las dos luces.
+- Compilar en Unity (se cambió `AOLighting2DV283.cs`; en la nube no hay proyecto auxiliar), importar las texturas nuevas (`tex_5095` HD, `tex_90001`, `tex_90002`, `tex_90003`) y probar el P1 en Play con las dos luces: altar, portal (chispas), antorchas y haces (polvo de luna).
 - Paquete para CEREBRO (con OK de Lucas).
