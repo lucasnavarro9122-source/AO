@@ -21,6 +21,7 @@ jobs:
           # Solo lo necesario: evita bajar las texturas y mapas de Assets.
           sparse-checkout: |
             /OnlineServer/
+            /Assets/AOMigrator/Runtime/
             /Tools/
             *.py
             *.json
