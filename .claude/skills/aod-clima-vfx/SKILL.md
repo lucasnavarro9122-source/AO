@@ -11,6 +11,8 @@ Prioridad: **estabilidad > rendimiento > gameplay legible > coherencia artístic
 | Pieza | Dónde | Qué hace |
 |---|---|---|
 | Motor de clima | `Runtime/AOMapWeather.cs` (1 por mapa, lo crea `AOWorldManagerV07.BuildMapWeather`) | lluvia, nieve, niebla; es el "WeatherManager": se extiende, no se reemplaza |
+| Clima V290 | `AOMapWeatherRoofsV290` (agua en techos, `roof_flow.json` de `Tools/roof_flow.py`), `AOWindV290` (viento global), `AOEffectsQualityV290` (Low–Ultra), `AOWorldManagerWeatherV290` (techo del jugador), `AOAudioWeatherV290` (volumen de lluvia) | capas con parallax, salpicaduras, niebla de suelo, tinte que multiplica (`AOWeatherMultiply.shader`); detalle en `docs/claude/nube/clima-vfx/paquete1.md` |
+| Depuración | Editor `AOWeatherDebugV290`: **AO Migrator > Clima (depuración)** | presets, intensidad, viento, niebla, calidad y contadores; nada queda guardado |
 | Permisos por mapa | `Resources/AOMigrator/WorldV07/map_environment.json` | `rain`, `snow`, `fog`, `baseLight` |
 | Disparo | `AOWorldManagerV07.ApplyRainToggle / ApplySnowToggle / ApplyFogToggle / SetWeather` | entradas del AO original; **hoy solo las llama QA del Editor** |
 | Hora | `SyncWorldTime` → `SetWorldHour` → `AOMapLighting.DayColor` | **dormida**: la hora queda en 13:00 |
@@ -20,7 +22,7 @@ Prioridad: **estabilidad > rendimiento > gameplay legible > coherencia artístic
 | Luz | `AOMapLighting` (Original, por casilla) y `AOLighting2DV283` (Mejorada, Light2D) | ver "Luz" abajo |
 | Efectos de hechizo | `AOSpellFXV120` (singleton) | ahí va el pooling de efectos por evento |
 | Sonido | `AOAudioV190.SetWeather` (loop 194, cierre 195) | 42 de los 299 sonidos del AO migrados |
-| Ajustes | `AOPlayerSettingsV230` | HD, luz, vsync; ahí va la calidad de efectos |
+| Ajustes | `AOPlayerSettingsV230` | HD, luz, vsync; calidad de efectos: `EffectsQuality` (falta la opción en el menú) |
 
 Diagnóstico completo: `docs/claude/nube/clima-vfx/auditoria.md`.
 
