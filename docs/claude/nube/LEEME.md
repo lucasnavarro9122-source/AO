@@ -27,6 +27,7 @@ Rama `claude/nifty-thompson-r3ulpf`, basada en `384fe18`. **No incluye** lo que 
 | `AOSkillShotProjectileV267.LaunchVisual` + `castX/castY` | Programación + Servidor | **Skill shot visible** para los compañeros (solo visual) |
 | `estado-qa-2509.md` | QA | Qué se verificó en la nube y qué falta probar en Unity |
 | **`actualizacion-sectores-2509.md`** | **CEREBRO → todos** | **Todo lo de la nube, por sector, con la receta de integración. Es lo que CEREBRO reparte.** |
+| **`actualizacion-sectores-2609.md`** | **CEREBRO → todos** | **Paquete 3 (26/09): clima V290 (lluvia en capas, agua en techos, niebla de suelo, calidad de efectos, ventana de depuración), auditoría de clima, VFX y rendimiento, y skills `aod-clima-vfx` / `aod-rendimiento`. Falta compilar en Unity y probar en Play.** |
 
 ## Cómo integrar (Cerebro, en la PC)
 1. Subir lo de la PC a una rama (`pc/noche-2509`) y mergear esta rama encima.
