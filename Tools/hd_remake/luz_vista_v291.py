@@ -47,9 +47,9 @@ def sky(hour, coverage):
     to_light = np.array([math.cos(phi), -0.6 * math.sin(phi)])
     to_light /= np.linalg.norm(to_light)
     elevation = 6 + ((64 if day else 48) - 6) * math.sin(phi)
-    length = min(max(1 / math.tan(math.radians(elevation)), 0.35), 2.2)
+    length = min(max(1 / math.tan(math.radians(elevation)), 0.5), 1.3)
     direct = 1 - smooth(inv_lerp(0.6, 0.92, coverage))
-    alpha = max(sun * 0.55, moon * 0.28) * direct
+    alpha = max(sun * 0.45, moon * 0.25) * direct
     return dict(sun=sun, moon=moon, dir=-to_light, len=length, alpha=alpha)
 
 
@@ -85,15 +85,16 @@ def silhouette(npc):
     return None if im is None else np.asarray(im, np.float32)[..., 3] / 255
 
 
-def stamp_shadow(img, sil, feet_px, angle_deg, length, alpha):
+def stamp_shadow(img, sil, feet_px, angle_deg, length, alpha, width=0.9):
     """Silueta negra apoyada en los pies, estirada según el largo y girada hacia donde cae (como el C#)."""
     h, w = sil.shape
     sh = max(1, int(round(h * length)))
+    w = max(1, int(round(w * width)))
     s = Image.fromarray((sil * 255).astype(np.uint8), 'L').resize((w, sh), Image.BILINEAR)
     size = 2 * max(w, sh) + 4
     canvas = Image.new('L', (size, size), 0)
     canvas.paste(s, (size // 2 - w // 2, size // 2 - sh))          # pie del sprite en el centro
-    canvas = canvas.rotate(angle_deg, Image.BILINEAR)                 # antihorario, como el eje z de Unity
+    canvas = canvas.rotate(round(angle_deg / 5) * 5, Image.BILINEAR)     # pasos de 5° como el C#                 # antihorario, como el eje z de Unity
     a = np.asarray(canvas, np.float32) / 255 * alpha
     left, top = int(feet_px[0] - size // 2), int(feet_px[1] - size // 2)
     H, W = img.shape[:2]
@@ -164,9 +165,9 @@ def render(m, x0, y0, W, H, hour, coverage, cloud_offset):
             wgt = power * (1 - dist / radius) ** 2 * min(max(1.15 - ambient, 0), 1)
             if wgt > best:
                 best, bp, bd = wgt, pos, dist
-        pa = min(best * 1.3, 1) * 0.55
+        pa = min(best * 1.3, 1) * 0.5
         if pa > al and bd > 0.2:
-            d, ln, al = (feet - bp) / bd, min(max(0.3 + bd * 0.28, 0.3), 1.6), pa
+            d, ln, al = (feet - bp) / bd, min(max(0.45 + bd * 0.2, 0.45), 1.1), pa
         angle = math.degrees(math.atan2(-d[0], d[1]))
         fp = to_px(*feet)
         pending[(n['x'], n['y'])] = (lambda sil=sil, fp=fp, angle=angle, ln=ln, al=al:
