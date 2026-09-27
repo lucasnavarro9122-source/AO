@@ -103,3 +103,11 @@ Detalle en `clima-vfx/luz-v291.md`. Entra con el mismo merge de la rama. QA: de 
 - **QA:** con Lluvia y "Mojar ya", mirar charcos y reflejo junto a un charco; lluvia sobre un bosque (árboles tipo 4); FPS.
 - Detalle en `clima-vfx/paquete1.md` (sección 27/09, V293). Entra con el mismo merge de la rama. Próxima versión libre: V294.
 
+## Agregado 3: charcos realistas (V294)
+- `AOMapWeatherPuddlesV294` + `Tools/puddle_spots.py` → `puddle_spots.json`.
+- Charcos en caminos, con tierra húmeda, agua transparente, borde de cielo y brillos.
+- Reflejo de personajes y faroles.
+- Al pisarlos: ondas, el agua se corre y vuelve, el reflejo se desarma y se vuelve a formar.
+
+Detalle en `clima-vfx/paquete1.md` (V294). QA: en Ullathorpe con Lluvia y "Mojar ya", cruzar el charco del camino (28,15) y quedarse encima; mirar de noche el reflejo de un farol. Próxima versión libre: V295.
+

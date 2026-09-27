@@ -207,12 +207,17 @@ public class AOCharacterShadowsV291 : MonoBehaviour
         Mirror(e.litHelmet, e.sourceHelmet, wash);
 
         // Reflejo en los charcos: el personaje dado vuelta bajo sus pies, visible solo dentro del charco (máscara).
-        bool reflect = AOEffectsQualityV290.Level >= AOEffectsQuality.High && AOMapWeather.PuddleNear(feet, 1.2f);
-        var mirrorColor = new Color(0.62f, 0.68f, 0.8f, reflect ? 0.42f * AOMapWeather.Wetness : 0f);
+        // Si el charco está agitado (alguien lo pisó), el reflejo se ondula y se desarma hasta que el agua se calma.
+        float disturb = AOEffectsQualityV290.Level >= AOEffectsQuality.High ? AOMapWeather.DisturbanceAt(feet, 1.2f) : -1f;
+        bool reflect = disturb >= 0f;
+        var mirrorColor = new Color(0.62f, 0.68f, 0.8f, reflect ? 0.55f * AOMapWeather.Wetness * (1f - 0.55f * disturb) : 0f);
         if (e.reflectRoot.gameObject.activeSelf != reflect) e.reflectRoot.gameObject.SetActive(reflect);
         if (reflect)
         {
-            e.reflectRoot.position = feetPosition;
+            float t = Time.time;
+            e.reflectRoot.position = feetPosition + new Vector3(Mathf.Sin(t * 16f) * 0.06f * disturb, 0f, 0f);
+            e.reflectRoot.localScale = new Vector3(1f + 0.08f * disturb * Mathf.Sin(t * 11f),
+                                                   1f - 0.2f * disturb * Mathf.Abs(Mathf.Sin(t * 7f)), 1f);
             Reflect(e.reflectBody, e.sourceBody, mirrorColor);
             Reflect(e.reflectHead, e.sourceHead, mirrorColor);
             Reflect(e.reflectHelmet, e.sourceHelmet, mirrorColor);

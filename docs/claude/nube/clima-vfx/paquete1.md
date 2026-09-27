@@ -114,3 +114,25 @@ Todos nuevos, salvo `AOMapWeather.cs`. No se tocaron archivos de otros sectores:
 - **Ventana de depuración:** muestra la cantidad de charcos y lo mojado del suelo, y trae el botón "Mojar ya".
 - **Vista previa:** `python Tools/hd_remake/video_bosque_v293.py SALIDA.mp4` (bosque, mapa 6). La vista previa anterior no dibujaba los árboles del AO, que son objetos del mapa; esta sí.
 
+## 27/09: charcos realistas que viven con el entorno (V294, `Runtime/AOMapWeatherPuddlesV294.cs`)
+- **Referencias:** Sébastien Lagarde, ["Water drop 3b – Physically based wet surfaces"](https://seblagarde.wordpress.com/2013/04/14/water-drop-3b-physically-based-wet-surfaces/) y ["Observe rainy world"](https://seblagarde.wordpress.com/2012/12/10/observe-rainy-world/); [fxguide, entornos mojados](https://www.fxguide.com/fxfeatured/game-environments-partc/); [shader de agua para pixel art](https://injuly.in/blog/water-shader/index.html).
+- **Dónde:** en caminos de tierra y piedra, no en el pasto.
+  - `Tools/puddle_spots.py` lee el color real del piso de cada casilla caminable sin techo y elige ~10 % de las casillas de camino rodeadas de camino.
+  - Genera `puddle_spots.json`: 172 mapas con lluvia al aire libre, 88 charcos en Ullathorpe, 320 KB.
+  - Mapas que no están en el archivo: reparto por hash.
+- **Capas, todas a ras del piso** (debajo de árboles, objetos y personajes):
+  - tierra húmeda alrededor: más oscura y un poco más saturada, no azul;
+  - agua casi transparente vista desde arriba: se ve la textura del piso;
+  - borde de cielo más fuerte en el borde lejano (efecto Fresnel);
+  - brillos que titilan (más con lluvia o al pisarlo);
+  - 3 formas de borde irregular.
+- **Reflejos** (calidad Alta y Ultra), solo dentro del agua (SpriteMask):
+  - el personaje que está encima o al lado, dado vuelta desde los pies;
+  - de noche, los faroles cercanos: mancha cálida que parpadea.
+- **Al pisarlo:**
+  - ondas grandes desde los pies en cada paso;
+  - el agua se corre hacia donde va el paso y vuelve como un resorte (~1 s);
+  - el reflejo se ondula y se desarma, y vuelve a tomar forma cuando el agua se calma (~1,6 s).
+- **Vista previa:** `python Tools/hd_remake/video_charcos_v294.py SALIDA.mp4` (Ullathorpe, charco del camino, de cerca).
+- **Aviso:** en el video anterior (`video_bosque_v293.py`) los charcos se dibujaban encima de los árboles. Era un error de la vista previa: en el juego van debajo.
+
