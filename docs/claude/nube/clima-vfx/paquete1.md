@@ -73,3 +73,25 @@ Todos nuevos, salvo `AOMapWeather.cs`. No se tocaron archivos de otros sectores:
 - **Arreglos de rendimiento chicos y seguros:**
   - tope de FPS;
   - sacar el escaneo de `AOTerrainHDStyleManager`.
+
+## 27/09: lluvia proporcional, vertical y que rebota en el personaje (pedido de Lucas)
+- **Tamaño:** proporcional al personaje del AO (~52 px = 1,6 casillas, `AOMapWeather.CharacterHeight`).
+  - Trazos: fondo 13 %, medio 22 %, frente 32 % de su altura; 1 a 2 px de ancho.
+  - Antes la capa de adelante medía más que el personaje.
+  - Salpicaduras: 0,12 a 0,4 casillas de ancho.
+  - Copos: como mucho el tamaño del original.
+  - Sube un poco la opacidad para que no parezca llovizna con la misma cantidad del AO.
+- **Caída:** vertical, de arriba hacia abajo, en lluvia y en tormenta. El viento solo mueve nieve y niebla.
+- **Rebote en la armadura** (`Runtime/AOMapWeatherCharacterV290.cs`):
+  - Unos 12 golpes por segundo con la lluvia del AO; más en tormenta y menos en calidad Media.
+  - Cada golpe cae en la cabeza o el casco (45 %) o en un hombro (55 %). La altura sale del personaje real (`AOCharacterRenderer.SpeechAnchor`).
+  - Hace un destello corto y 3 o 4 gotitas que saltan hacia afuera y arriba, frenan y caen.
+  - No pasa bajo techo, con nieve ni en calidad Baja.
+  - Pool `AOEffectsQualityV290.BouncePool`: 0 / 12 / 24 / 36.
+  - La ventana de depuración muestra "Rebotes en el jugador".
+- **Vistas previas:**
+  - `lluvia_v290.jpg`;
+  - `lluvia_rebote_v290.jpg`, ampliada sobre un personaje, con la lluvia al doble.
+
+  Las arma `python Tools/hd_remake/clima_vista_v290.py SALIDA.gif --x 22 --y 11 --zoom`.
+- **Solo el jugador:** los otros personajes (NPC y compañeros) no reciben rebotes. Se puede sumar con el mismo pool si Lucas lo pide.

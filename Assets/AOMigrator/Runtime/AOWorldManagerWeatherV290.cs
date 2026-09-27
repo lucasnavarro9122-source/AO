@@ -18,6 +18,9 @@ public partial class AOWorldManagerV07
 
     public bool PlayerUnderRoof => PlayerRoofTrigger != 0;
 
+    // Personaje del jugador (para que la lluvia rebote en su armadura).
+    public Transform PlayerTransform => player != null ? player.transform : null;
+
     // Disparador de la casilla que contiene un punto del mundo (mundo = (px/32, -py/32); casilla x = piso(x) + 1).
     public int TriggerAtWorld(Vector2 position)
     {

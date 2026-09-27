@@ -97,7 +97,7 @@ public class AOWeatherDebugV290 : EditorWindow
             windStrength = EditorGUILayout.Slider(windStrength, 0f, 1f);
         AOWindV290.DebugStrength = overrideWind ? windStrength : -1f;
 
-        overrideAngle = EditorGUILayout.ToggleLeft("Ángulo del viento (grados; negativo = izquierda)", overrideAngle);
+        overrideAngle = EditorGUILayout.ToggleLeft("Ángulo del viento (nieve y niebla; la lluvia cae vertical)", overrideAngle);
         using (new EditorGUI.DisabledScope(!overrideAngle))
             windAngle = EditorGUILayout.Slider(windAngle, -55f, 55f);
         AOWindV290.DebugAngle = overrideAngle ? windAngle : float.NaN;
@@ -121,6 +121,7 @@ public class AOWeatherDebugV290 : EditorWindow
         EditorGUILayout.LabelField("Salpicaduras", weather.ActiveSplashes.ToString());
         EditorGUILayout.LabelField("Agua en techos", weather.ActiveRoofWater +
                                    (weather.HasRoofData ? "" : "  (este mapa no tiene datos de techos)"));
+        EditorGUILayout.LabelField("Rebotes en el jugador", weather.ActiveBounces.ToString());
         EditorGUILayout.LabelField("Niebla (mosaicos)", weather.ActiveFogTiles.ToString());
         EditorGUILayout.LabelField("Cielo abierto", weather.OpenSky.ToString("0.00") +
                                    (world.PlayerUnderRoof ? "  (bajo techo)" : ""));

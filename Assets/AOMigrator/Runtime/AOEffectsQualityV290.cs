@@ -84,5 +84,7 @@ public static class AOEffectsQualityV290
     public static bool Details => Level >= AOEffectsQuality.Medium;
     public static int SplashPool => Level == AOEffectsQuality.Low ? 0 : Level == AOEffectsQuality.Medium ? 14 : Level == AOEffectsQuality.High ? 26 : 36;
     public static int RoofPool => Level == AOEffectsQuality.Low ? 0 : Level == AOEffectsQuality.Medium ? 12 : Level == AOEffectsQuality.High ? 24 : 32;
+    // Gotitas que rebotan en la armadura del jugador.
+    public static int BouncePool => Level == AOEffectsQuality.Low ? 0 : Level == AOEffectsQuality.Medium ? 12 : Level == AOEffectsQuality.High ? 24 : 36;
     public static int FogLayers => Level == AOEffectsQuality.Low ? 1 : 2;
 }

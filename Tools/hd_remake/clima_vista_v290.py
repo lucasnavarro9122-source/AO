@@ -16,10 +16,11 @@ import preview_luces as pl
 ROOT = Path(__file__).resolve().parents[2]
 S = 48                        # px por casilla en la salida
 FPS, SECONDS = 12, 2.5
-RAIN = [  # share, scale, length, alpha, speedMin, speedMax, parallax, landMin, landMax, lands  (AOMapWeather.RainLayers)
-    (.45, .55, .6, .22, 7, 9, .8, 1.5, 5, False),
-    (.40, .85, 1.0, .42, 11, 14, 1.0, 1.2, 6, True),
-    (.15, 1.4, 1.9, .26, 17, 22, 1.25, 99, 99, False),
+H = 1.6                       # AOMapWeather.CharacterHeight: un personaje del AO mide ~52 px = 1,6 casillas
+RAIN = [  # share, ancho, largo (unidades), alpha, speedMin, speedMax, parallax, landMin, landMax, lands  (RainLayers)
+    (.45, .5, H * .13, .3, 7, 9, .8, 1.5, 5, False),
+    (.40, .75, H * .22, .55, 11, 14, 1.0, 1.2, 6, True),
+    (.15, 1.0, H * .32, .42, 16, 20, 1.2, 99, 99, False),
 ]
 MARGIN = 1.5
 
@@ -33,6 +34,15 @@ def streak():
             across = 1 - abs((x + .5) / w * 2 - 1)
             a[y, x] = (220 / 255, 232 / 255, 1, across ** 1.6 * (1 - along) ** .7 * min(1, along * 8 + .3))
     return a
+
+
+def droplet():
+    yy, xx = np.mgrid[0:8, 0:8]
+    a = np.clip(1 - np.hypot((xx + .5) / 8 * 2 - 1, (yy + .5) / 8 * 2 - 1), 0, 1) ** 2
+    out = np.ones((8, 8, 4), np.float32)
+    out[..., :3] = (235 / 255, 242 / 255, 1)
+    out[..., 3] = a
+    return out
 
 
 def ring():
@@ -68,6 +78,7 @@ def main():
     ap.add_argument('--mapa', type=int, default=1)
     ap.add_argument('--x', type=int, default=60)
     ap.add_argument('--y', type=int, default=19)
+    ap.add_argument('--zoom', action='store_true', help='también un GIF ampliado alrededor del personaje')
     args = ap.parse_args()
     pl.S, pl.HD, pl.T = v.K, True, v.T
     m = pl.load(args.mapa)
@@ -79,15 +90,15 @@ def main():
     tint = 1 + (np.array([.42, .48, .6]) - 1) * .2   # AOMapWeather.UpdateTint (multiplica)
     roofs = load_roofs(args.mapa)
     rng = np.random.default_rng(7)
-    STREAK, RING = streak(), ring()
+    STREAK, RING, DROP = streak(), ring(), droplet()
     cache = {}
 
     def sprite(key, spr, sx, sy, angle):
         k = (key, round(sx, 2), round(sy, 2), round(angle))
         if k not in cache:
             im = Image.fromarray((spr * 255).astype(np.uint8), 'RGBA')
-            w, h = max(1, round(im.width / 64 * S * sx if key == 's' else im.width / 32 * S * sx)), \
-                   max(1, round(im.height / 64 * S * sy if key == 's' else im.height / 32 * S * sy))
+            ppu = 64 if key in ('s', 'd') else 32
+            w, h = max(1, round(im.width / ppu * S * sx)), max(1, round(im.height / ppu * S * sy))
             im = im.resize((w, h), Image.BILINEAR)
             if angle:
                 im = im.rotate(angle, Image.BILINEAR, expand=True)
@@ -106,7 +117,12 @@ def main():
     # Mundo: x = casillas desde la izquierda del mapa, y negativa hacia abajo (como Unity).
     half_w, half_h = VW / 2, VH / 2
     cam0 = np.array([args.x - 1 + half_w, -(args.y - 1) - half_h])
-    wind = -14 * (.35 + 1.1 * .3)
+    # El "jugador" de la vista: el primer NPC dentro del cuadro (sus pies en la casilla, su altura real).
+    npc = next((n for n in m['npcs'] if args.x + 2 <= n['x'] < args.x + VW - 1 and args.y + 2 <= n['y'] < args.y + VH), None)
+    hero = None
+    if npc is not None:
+        h1 = pl.npc_img(npc).height / v.T                # la vista dibuja a 4x: T = 128 px por casilla
+        hero = dict(feet=np.array([npc['x'] - .5, -npc['y']]), h=h1 if .8 < h1 < 3 else H, name=npc['name'])
     n = 200
     layers = []
     acc = [0, 0, 0]
@@ -121,15 +137,13 @@ def main():
         x = rng.uniform(-half_w - MARGIN, half_w + MARGIN)
         y = rng.uniform(-half_h, half_h + MARGIN) if anywhere or L[9] else half_h + rng.uniform(0, MARGIN)
         speed = rng.uniform(L[4], L[5])
-        ang = wind * (.85 + .3 * L[6])
-        rad = math.radians(ang)
-        size = L[1] * rng.uniform(.85, 1.15)
-        return dict(p=origin + (x, y), v=np.array([math.sin(rad), -math.cos(rad)]) * speed, age=0.0,
+        return dict(p=origin + (x, y), v=np.array([0, -1.0]) * speed, age=0.0,        # vertical
                     life=rng.uniform(L[7], L[8]) / speed, alpha=L[3] * rng.uniform(.75, 1.1),
-                    sx=size, sy=size * L[2] * speed / 12, ang=ang)
+                    sx=L[1] * rng.uniform(.85, 1.15), sy=L[2] * rng.uniform(.85, 1.15), ang=0)
 
     drops = [respawn(i, cam0, True) for i in range(n)]
-    splashes, rivers = [], []
+    splashes, rivers, bounces = [], [], []
+    hit_debt = 0.0
 
     def roof_at(p):
         if roofs is None:
@@ -143,7 +157,7 @@ def main():
             return
         splashes.append(dict(p=np.array(p, float), age=0.0, st=strength))
 
-    frames = []
+    frames, zoom_frames = [], []
     dt = 1 / FPS
     for f in range(int(FPS * SECONDS)):
         cam = cam0 + (PAN * f / (FPS * SECONDS), 0)
@@ -207,16 +221,65 @@ def main():
             k = s['age'] / .28
             if k >= 1:
                 s['dead'] = True; continue
-            sc = (.25 + k * .55) * (.7 + .3 * s['st'])
+            sc = (.12 + k * .28) * (.7 + .3 * s['st'])
             x, y = to_px(s['p'])
             stamp(img, sprite('r', RING, sc, sc, 0), x, y, .38 * s['st'] * (1 - k), (.85, .9, 1))
         splashes[:] = [s for s in splashes if not s.get('dead')]
+        # Rebote en la armadura (AOMapWeatherCharacterV290): 12 golpes/s con la lluvia del AO.
+        if hero is not None:
+            hit_debt += 12 * dt
+            while hit_debt >= 1:
+                hit_debt -= 1
+                feet, hh = hero['feet'], hero['h']
+                top = feet[1] + hh
+                side = -1 if rng.random() < .5 else 1
+                if rng.random() < .45:
+                    hit = np.array([feet[0] + rng.uniform(-.16, .16), top - rng.uniform(.02, .14)])
+                else:
+                    hit = np.array([feet[0] + side * rng.uniform(.12, .3), feet[1] + hh * rng.uniform(.6, .7)])
+                bounces.append(dict(p=hit.copy(), v=np.zeros(2), age=0.0, life=.09, sc=1.2, glint=True))
+                for d in range(4 if rng.random() < .4 else 3):
+                    out_ = (side if d == 0 else (-side if rng.random() < .5 else side)) * rng.uniform(.5, 1.6)
+                    bounces.append(dict(p=hit.copy(), v=np.array([out_, rng.uniform(1.2, 2.3)]), age=0.0,
+                                        life=rng.uniform(.3, .45), sc=rng.uniform(.4, .55), glint=False))
+            for b in bounces:
+                b['age'] += dt
+                k = b['age'] / b['life']
+                if k >= 1:
+                    b['dead'] = True; continue
+                if b['glint']:
+                    sc, alpha = b['sc'] * (1 - .5 * k), .85 * (1 - k)
+                else:
+                    b['v'][1] -= 11 * dt
+                    b['p'] = b['p'] + b['v'] * dt
+                    sc, alpha = b['sc'], .9 * (1 - k * k)
+                x, y = to_px(b['p'])
+                if b['glint']:
+                    stamp(img, sprite('d', DROP, sc, sc, 0), x, y, alpha, (.9, .95, 1))
+                else:
+                    ang = math.degrees(math.atan2(b['v'][0], -b['v'][1]))
+                    stamp(img, sprite('s', STREAK, sc, .14, round(ang / 15) * 15), x, y, alpha, (.9, .95, 1))
+            bounces[:] = [b for b in bounces if not b.get('dead')]
+            hero['px'] = to_px(hero['feet'] + (0, hero['h'] / 2))
+        zoom_frames.append(hero['px'] if hero is not None else None)
         frames.append(Image.fromarray((np.clip(img, 0, 1) * 255).astype(np.uint8)))
     out = Path(args.salida)
     frames[len(frames) // 2].save(out.with_suffix('.jpg'), quality=90)
     pal = [fr.quantize(128, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.NONE) for fr in frames]
     pal[0].save(out, save_all=True, append_images=pal[1:], duration=int(1000 / FPS), loop=0, optimize=True)
-    print(out, frames[0].size, f'{out.stat().st_size / 1e6:.1f} MB')
+    print(out, frames[0].size, f'{out.stat().st_size / 1e6:.1f} MB', 'personaje:', hero and hero['name'])
+    if args.zoom and hero is not None:
+        cw, ch = int(3.5 * S), int(3 * S)                 # 3,5 x 3 casillas alrededor del personaje, al doble
+        zf = []
+        for fr, c in zip(frames, zoom_frames):
+            cx, cy = int(c[0]), int(c[1])
+            box = (cx - cw // 2, cy - ch // 2, cx - cw // 2 + cw, cy - ch // 2 + ch)
+            zf.append(fr.crop(box).resize((cw * 2, ch * 2), Image.LANCZOS))
+        zout = out.with_name(out.stem + '_zoom.gif')
+        zf[len(zf) // 2].save(zout.with_suffix('.jpg'), quality=92)
+        zp = [fr.quantize(192, method=Image.Quantize.MEDIANCUT, dither=Image.Dither.FLOYDSTEINBERG) for fr in zf]
+        zp[0].save(zout, save_all=True, append_images=zp[1:], duration=int(1000 / FPS), loop=0, optimize=True)
+        print(zout, zf[0].size, f'{zout.stat().st_size / 1e6:.1f} MB')
 
 
 if __name__ == '__main__':

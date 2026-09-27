@@ -5,7 +5,9 @@ using UnityEngine;
 // AO (particle_defs 57/58, fogSprites, map_environment), con:
 // - gotas y copos en el MUNDO (no pegados a la pantalla), en 3 capas de profundidad con parallax, repartiendo la
 //   misma cantidad del AO (200 gotas / 90 copos) x calidad;
-// - trazos de lluvia orientados por el viento global (AOWindV290), velocidades y tamaños por capa;
+// - trazos de lluvia verticales y proporcionales al personaje (27/09: como mucho 1/3 de su altura), con velocidad
+//   y tamaño por capa; la nieve y la niebla sí las lleva el viento global (AOWindV290);
+// - gotas que rebotan en la cabeza y los hombros del jugador (AOMapWeatherCharacterV290);
 // - salpicaduras donde "aterriza" cada gota de la capa del medio (pool), y agua que escurre por los techos
 //   (AOMapWeatherRoofsV290);
 // - las dos capas de niebla del AO ancladas al mundo, más niebla de suelo en bancos (debajo de objetos y techos);
@@ -24,22 +26,28 @@ public partial class AOMapWeather : MonoBehaviour
 
     struct Layer
     {
+        // scale: ancho (lluvia) o tamaño (nieve); length: largo del trazo en unidades de mundo (solo lluvia).
         public float share, scale, length, alpha, speedMin, speedMax, parallax, landMin, landMax, sway;
         public bool lands;
     }
 
-    // Capas: fondo (chico, lento, tenue), medio (normal; aterriza y salpica), frente (grande, rápido, pocas).
+    // Tamaños proporcionales al personaje (Lucas, 27/09): un personaje del AO mide ~52 px = 1,6 casillas.
+    // El trazo más largo (capa de adelante) mide ~1/3 del personaje y 2 px de ancho; la lluvia cae vertical.
+    public const float CharacterHeight = 1.6f;
+
+    // Capas: fondo (chico, lento, tenue), medio (normal; aterriza y salpica), frente (más grande y rápida, pocas).
     static readonly Layer[] RainLayers =
     {
-        new Layer { share = .45f, scale = .55f, length = .6f, alpha = .22f, speedMin = 7f, speedMax = 9f, parallax = .8f, landMin = 1.5f, landMax = 5f },
-        new Layer { share = .40f, scale = .85f, length = 1f, alpha = .42f, speedMin = 11f, speedMax = 14f, parallax = 1f, landMin = 1.2f, landMax = 6f, lands = true },
-        new Layer { share = .15f, scale = 1.4f, length = 1.9f, alpha = .26f, speedMin = 17f, speedMax = 22f, parallax = 1.25f, landMin = 99f, landMax = 99f },
+        new Layer { share = .45f, scale = .5f, length = CharacterHeight * .13f, alpha = .3f, speedMin = 7f, speedMax = 9f, parallax = .8f, landMin = 1.5f, landMax = 5f },
+        new Layer { share = .40f, scale = .75f, length = CharacterHeight * .22f, alpha = .55f, speedMin = 11f, speedMax = 14f, parallax = 1f, landMin = 1.2f, landMax = 6f, lands = true },
+        new Layer { share = .15f, scale = 1f, length = CharacterHeight * .32f, alpha = .42f, speedMin = 16f, speedMax = 20f, parallax = 1.2f, landMin = 99f, landMax = 99f },
     };
+    // Copo del AO (16 px): como mucho su tamaño original en la capa de adelante.
     static readonly Layer[] SnowLayers =
     {
         new Layer { share = .45f, scale = .45f, length = 1f, alpha = .5f, speedMin = .7f, speedMax = 1.1f, parallax = .8f, landMin = 3f, landMax = 7f, sway = .25f },
-        new Layer { share = .40f, scale = .8f, length = 1f, alpha = .8f, speedMin = 1.2f, speedMax = 1.9f, parallax = 1f, landMin = 3f, landMax = 8f, sway = .4f, lands = true },
-        new Layer { share = .15f, scale = 1.35f, length = 1f, alpha = .6f, speedMin = 2.1f, speedMax = 2.9f, parallax = 1.2f, landMin = 99f, landMax = 99f, sway = .6f },
+        new Layer { share = .40f, scale = .7f, length = 1f, alpha = .8f, speedMin = 1.2f, speedMax = 1.9f, parallax = 1f, landMin = 3f, landMax = 8f, sway = .4f, lands = true },
+        new Layer { share = .15f, scale = 1f, length = 1f, alpha = .6f, speedMin = 2.1f, speedMax = 2.9f, parallax = 1.15f, landMin = 99f, landMax = 99f, sway = .6f },
     };
 
     const float TransitionSeconds = 4f;
@@ -172,6 +180,7 @@ public partial class AOMapWeather : MonoBehaviour
             UpdateDrops(deltaTime, cam, halfWidth, halfHeight);
         UpdateSplashes(deltaTime);
         UpdateRoofWater(deltaTime);
+        UpdateCharacterRain(deltaTime);
         UpdateFog(deltaTime, cam, halfWidth, halfHeight);
         UpdateTint(halfWidth, halfHeight);
     }
@@ -333,18 +342,24 @@ public partial class AOMapWeather : MonoBehaviour
         dropPos[i] = origin + new Vector2(x, y);
         bool snow = active == Precipitation.Snow;
         float speed = Random.Range(spec.speedMin, spec.speedMax);
-        float angle = AOWindV290.Angle * (snow ? 1.6f : 1f) * (0.85f + 0.3f * spec.parallax);
-        float radians = angle * Mathf.Deg2Rad;
-        dropVel[i] = new Vector2(Mathf.Sin(radians), -Mathf.Cos(radians)) * speed;
+        if (snow)
+        {
+            // La nieve sí la lleva el viento.
+            float radians = AOWindV290.Angle * 1.6f * (0.85f + 0.3f * spec.parallax) * Mathf.Deg2Rad;
+            dropVel[i] = new Vector2(Mathf.Sin(radians), -Mathf.Cos(radians)) * speed;
+        }
+        else
+            dropVel[i] = new Vector2(0f, -speed);      // lluvia y tormenta: de arriba hacia abajo (pedido de Lucas)
         dropAge[i] = 0f;
         dropLife[i] = Random.Range(spec.landMin, spec.landMax) / speed;
         dropPhase[i] = Random.Range(0f, 6.2832f);
         dropAlpha[i] = spec.alpha * Random.Range(0.75f, 1.1f);
         Transform t = dropTransforms[i];
         float size = spec.scale * Random.Range(0.85f, 1.15f);
+        // Trazo: 64 px = 1 unidad de largo; el largo sale de la capa (proporcional al personaje).
         t.localScale = snow ? new Vector3(size, size, 1f)
-                            : new Vector3(size, size * spec.length * (speed / 12f), 1f);
-        t.localRotation = snow ? Quaternion.identity : Quaternion.Euler(0f, 0f, angle);
+                            : new Vector3(size, spec.length * Random.Range(0.85f, 1.15f), 1f);
+        t.localRotation = Quaternion.identity;
     }
 
     // Menos visible bajo techo (se ve por la ventana) y al empezar o terminar de llover.
@@ -422,7 +437,7 @@ public partial class AOMapWeather : MonoBehaviour
         splashAge[i] = 0f;
         splashStrength[i] = strength;
         splashPos[i] = worldPosition;
-        splashTransforms[i].localScale = new Vector3(0.25f, 0.25f, 1f);
+        splashTransforms[i].localScale = new Vector3(0.12f, 0.12f, 1f);
         splashTransforms[i].position = new Vector3(worldPosition.x, worldPosition.y, 0f);
         splashes[i].color = new Color(0.85f, 0.9f, 1f, 0f);
         splashes[i].enabled = true;
@@ -473,7 +488,8 @@ public partial class AOMapWeather : MonoBehaviour
                 continue;
             }
             ActiveSplashes++;
-            float s = (0.25f + k * 0.55f) * (0.7f + 0.3f * splashStrength[i]);
+            // Corona chica: de 0,12 a 0,4 unidades de ancho (un cuarto del personaje como mucho).
+            float s = (0.12f + k * 0.28f) * (0.7f + 0.3f * splashStrength[i]);
             splashTransforms[i].localScale = new Vector3(s, s, 1f);
             // El pool cuelga de la cámara: se reubica en el mundo cada cuadro.
             splashTransforms[i].position = new Vector3(splashPos[i].x, splashPos[i].y, 0f);
