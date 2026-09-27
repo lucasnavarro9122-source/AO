@@ -38,7 +38,15 @@ public partial class AOLivingLightV292 : MonoBehaviour
     // Luces a la vista (para que las luciérnagas las eviten), llenado en UpdateGlows.
     readonly Vector2[] lampPos = new Vector2[MaxGlows];
     readonly float[] lampRadius = new float[MaxGlows];
+    readonly Color[] lampColor = new Color[MaxGlows];
+    readonly int[] lampSeed = new int[MaxGlows];
     int lampCount;
+
+    // Luces a la vista, para que la lluvia se ilumine cerca de ellas (V295).
+    public static int LampCount => Instance != null ? Instance.lampCount : 0;
+    public static Vector2 LampPosition(int i) => Instance.lampPos[i];
+    public static float LampRadius(int i) => Instance.lampRadius[i];
+    public static Color LampLight(int i) => Instance.lampColor[i] * Flicker(Instance.lampSeed[i]);
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void ResetStatics()
@@ -124,6 +132,8 @@ public partial class AOLivingLightV292 : MonoBehaviour
                 if (r <= 0 || Mathf.Abs(p.x - center.x) > halfWidth + 6f || Mathf.Abs(p.y - center.y) > halfHeight + 6f) continue;
                 lampPos[lampCount] = p;
                 lampRadius[lampCount] = r + 0.5f;
+                lampColor[lampCount] = LightColor(lights[i]);
+                lampSeed[lampCount] = Seed(lights[i]);
                 lampCount++;
             }
         float strength = Darkness * (AOLighting2DV283.Enhanced ? 0.45f : 1f);   // la Mejorada ya ilumina el piso

@@ -111,3 +111,13 @@ Detalle en `clima-vfx/luz-v291.md`. Entra con el mismo merge de la rama. QA: de 
 
 Detalle en `clima-vfx/paquete1.md` (V294). QA: en Ullathorpe con Lluvia y "Mojar ya", cruzar el charco del camino (28,15) y quedarse encima; mirar de noche el reflejo de un farol. Próxima versión libre: V295.
 
+## Agregado 4: gotas de mejor calidad (V295)
+`AOMapWeatherDropsV295`:
+- trazos con brillos de oscilación;
+- lluvia que brilla a contraluz de los faroles y casi desaparece en lo oscuro;
+- relámpago que enciende las gotas;
+- cortinas de lluvia;
+- coronas en el piso y ondas en los charcos.
+
+`AOLivingLightV292` expone las luces a la vista. Detalle en `clima-vfx/paquete1.md` (V295). Próxima versión libre: V296.
+

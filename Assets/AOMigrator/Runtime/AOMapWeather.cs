@@ -276,10 +276,10 @@ public partial class AOMapWeather : MonoBehaviour
             if (pick == 0) acc0 += 1f; else if (pick == 1) acc1 += 1f; else acc2 += 1f;
             dropLayer[i] = (byte)pick;
         }
-        Sprite sprite = active == Precipitation.Snow ? snowSprite : Streak();
+        bool snowing = active == Precipitation.Snow;
         for (int i = 0; i < poolCount; i++)
         {
-            drops[i].sprite = sprite;
+            drops[i].sprite = snowing ? snowSprite : RainStreak(i);          // 4 trazos distintos (mismo atlas)
             if (i < activeCount)
                 Respawn(i, cam, halfWidth, halfHeight, true);
         }
@@ -361,6 +361,8 @@ public partial class AOMapWeather : MonoBehaviour
         t.localScale = snow ? new Vector3(size, size, 1f)
                             : new Vector3(size, spec.length * Random.Range(0.85f, 1.15f), 1f);
         t.localRotation = Quaternion.identity;
+        if (!snow)
+            drops[i].sprite = RainStreak(Random.Range(0, 4));
     }
 
     // Menos visible bajo techo (se ve por la ventana) y al empezar o terminar de llover.
@@ -411,7 +413,8 @@ public partial class AOMapWeather : MonoBehaviour
                 alpha *= Mathf.Clamp01((dropLife[i] - dropAge[i]) * 2f);
             if (hideUnderRoof && IsUnderPlayerRoof(cam + local))
                 alpha = 0f;
-            drops[i].color = new Color(1f, 1f, 1f, alpha);
+            // Lluvia: el color y el brillo salen de la luz que la toca (faroles, noche, relámpago, cortinas).
+            drops[i].color = snow ? new Color(1f, 1f, 1f, alpha) : LitDrop(cam + local, alpha, time);
         }
     }
 
@@ -457,6 +460,8 @@ public partial class AOMapWeather : MonoBehaviour
         splashTransforms[i].localScale = new Vector3(0.12f, 0.12f, 1f);
         splashTransforms[i].position = new Vector3(worldPosition.x, worldPosition.y, 0f);
         splashes[i].color = new Color(0.85f, 0.9f, 1f, 0f);
+        // En el agua de un charco, ondas finas; en el piso, corona con puntitas.
+        splashes[i].sprite = strength >= 1.4f ? RippleSprite() : CrownSprite();
         splashes[i].enabled = true;
     }
 
@@ -507,10 +512,15 @@ public partial class AOMapWeather : MonoBehaviour
             ActiveSplashes++;
             // Corona chica: de 0,12 a 0,4 unidades de ancho (un cuarto del personaje como mucho).
             float s = (0.12f + k * 0.28f) * (0.7f + 0.3f * splashStrength[i]);
+            bool ripple = splashStrength[i] >= 1.4f;
+            if (ripple) s *= 1.25f;                          // las ondas en el agua se abren más
             splashTransforms[i].localScale = new Vector3(s, s, 1f);
             // El pool cuelga de la cámara: se reubica en el mundo cada cuadro.
             splashTransforms[i].position = new Vector3(splashPos[i].x, splashPos[i].y, 0f);
-            splashes[i].color = new Color(0.85f, 0.9f, 1f, 0.38f * splashStrength[i] * (1f - k) * alphaScale);
+            // Destello de impacto al principio (corona), después se abre y se apaga; iluminada como la lluvia.
+            float impact = !ripple && k < 0.15f ? 1.5f : 1f;
+            splashes[i].color = LitDrop(splashPos[i], 0.38f * Mathf.Min(splashStrength[i], 1.2f) * (1f - k) * alphaScale * impact,
+                                        Time.time);
         }
     }
 

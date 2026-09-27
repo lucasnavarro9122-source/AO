@@ -136,3 +136,18 @@ Todos nuevos, salvo `AOMapWeather.cs`. No se tocaron archivos de otros sectores:
 - **Vista previa:** `python Tools/hd_remake/video_charcos_v294.py SALIDA.mp4` (Ullathorpe, charco del camino, de cerca).
 - **Aviso:** en el video anterior (`video_bosque_v293.py`) los charcos se dibujaban encima de los árboles. Era un error de la vista previa: en el juego van debajo.
 
+## 27/09: gotas de mejor calidad (V295, `Runtime/AOMapWeatherDropsV295.cs`)
+- **Referencias:** [Garg y Nayar, "Photorealistic Rendering of Rain Streaks"](https://cave.cs.columbia.edu/old/publications/pdfs/Garg_TOG06.pdf) y [Tatarchuk, "Artist-Directable Real-Time Rain Rendering"](https://www.researchgate.net/publication/221314835_Artist-Directable_Real-Time_Rain_Rendering_in_City_Environments).
+- **Trazos:** 4 distintos en un mismo atlas, así que siguen agrupados en 1 draw call. Cada uno lleva 2–3 brillos corridos por la oscilación de la gota y algún puntito; ya no es una línea pareja. Cada gota toma uno al azar al nacer.
+- **Luz:**
+  - de noche la lluvia casi no se ve en lo oscuro;
+  - a contraluz de faroles y antorchas brilla fuerte, con el color de la llama y parpadeando con ella;
+  - el relámpago enciende todas las gotas un instante.
+- **Cortinas de lluvia:** franjas anchas que se desplazan despacio, con la misma cantidad de gotas.
+- **Salpicaduras:**
+  - en el piso, corona con puntitas y un destello de impacto;
+  - en un charco, ondas finas concéntricas;
+  - las dos iluminadas igual que la lluvia.
+- **Costo:** por cada gota se compara con los faroles a la vista (máximo 24), sin memoria nueva.
+- **Vista previa:** `python Tools/hd_remake/video_gotas_v295.py SALIDA.mp4` (Ullathorpe: noche con faroles, relámpago y día).
+
