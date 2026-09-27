@@ -36,8 +36,8 @@ public class AOSkyV291 : MonoBehaviour
 
     const float CloudSpacing = 7f;      // unidades entre manchas de nube
     const float CloudSize = 13f;        // tamaño de cada mancha (se superponen: sin costuras)
-    const float SunShadowAlpha = 0.55f;
-    const float MoonShadowAlpha = 0.28f;
+    const float SunShadowAlpha = 0.45f;
+    const float MoonShadowAlpha = 0.25f;
     const int RayCount = 3;
 
     AOWorldManagerV07 world;
@@ -81,6 +81,7 @@ public class AOSkyV291 : MonoBehaviour
         DontDestroyOnLoad(go);
         go.AddComponent<AOSkyV291>();
         go.AddComponent<AOCharacterShadowsV291>();
+        go.AddComponent<AOLivingLightV292>();
     }
 
     void Awake()
@@ -160,7 +161,8 @@ public class AOSkyV291 : MonoBehaviour
         Vector2 toLight = new Vector2(Mathf.Cos(phi), -0.6f * Mathf.Sin(phi)).normalized;
         float elevation = Mathf.Lerp(6f, day ? 64f : 48f, Mathf.Sin(phi));
         ShadowDirection = -toLight;
-        ShadowLength = Mathf.Clamp(1f / Mathf.Tan(elevation * Mathf.Deg2Rad), 0.35f, 2.2f);
+        // Proporcional al cuerpo: de 0,5 (mediodía) a 1,3 veces la altura del personaje (amanecer y atardecer).
+        ShadowLength = Mathf.Clamp(1f / Mathf.Tan(elevation * Mathf.Deg2Rad), 0.5f, 1.3f);
 
         // Cobertura: despejado con nubes sueltas; con lluvia, nieve o niebla se cubre (de a poco).
         float target = 0.35f;

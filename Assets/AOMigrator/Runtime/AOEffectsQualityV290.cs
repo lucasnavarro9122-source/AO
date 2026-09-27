@@ -91,5 +91,9 @@ public static class AOEffectsQualityV290
     public static bool SkyRays => Level >= AOEffectsQuality.High;
     // Sombras de personajes: en Low solo el jugador; desde Medium, todos los que se ven (hasta este tope).
     public static int CharacterShadows => Level == AOEffectsQuality.Low ? 1 : Level == AOEffectsQuality.Medium ? 16 : Level == AOEffectsQuality.High ? 32 : 48;
+    // Luz viva (V292): halos de faroles y luz sobre los personajes desde Medium; luciérnagas desde High.
+    public static bool LightGlows => Level >= AOEffectsQuality.Medium;
+    public static bool CharacterLight => Level >= AOEffectsQuality.Medium;
+    public static bool Fireflies => Level >= AOEffectsQuality.High;
     public static int FogLayers => Level == AOEffectsQuality.Low ? 1 : 2;
 }

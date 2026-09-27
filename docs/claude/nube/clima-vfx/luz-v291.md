@@ -84,3 +84,25 @@ Vista previa sin Unity, con los mismos números del código: `luz_v291.jpg` (`To
 - Una sombra por cada luz cercana (hasta 2), como en la referencia, y la punta que se abre con un shader.
 - Activar el día y la noche en el juego. Antes hay que arreglar el pico al re-iluminar el mapa (auditoría §6).
 - Relámpagos que iluminen de golpe y proyecten sombras largas.
+
+## Ronda 2 (27/09): sombras proporcionales y luz viva (V292), pedido de Lucas
+**Sombras más proporcionales y al estilo del juego:**
+- Largo entre 0,5 y 1,3 veces la altura del personaje (antes llegaban a 2,2). Con faroles, entre 0,45 y 1,1.
+- Un 10 % más angostas que el cuerpo.
+- Opacidad: sol 45 %, luna 25 %, faroles 50 %.
+- Giro en pasos de 5° para que el pixel art no tiemble. La mancha de contacto mide el ancho real del cuerpo.
+- Arreglos de la revisión: ya no busca el mundo en cada cuadro, y la sombra no queda flotando cuando se destruye una mascota o invocación.
+
+**Luz viva** (`Runtime/AOLivingLightV292.cs`, creado junto al cielo):
+- **Faroles y antorchas del AO** con halo en el piso que respira y parpadea. Se notan más cuanto más oscuro está (noche o dungeon); en Luz Mejorada, a la mitad.
+- **Luz sobre los personajes** (`AOCharacterShadowsV291`): quien está cerca de un farol se tiñe de su color y parpadea al mismo ritmo (misma semilla). El blanco puro del AO se lleva a un cálido de farol. Es una copia aditiva encima, así que no toca los colores del personaje (invisibilidad y mímesis siguen iguales).
+- **Relámpagos** en tormenta (lluvia con intensidad 1,2 o más; "Tormenta" y "Lluvia fuerte" en la ventana):
+  - doble destello frío cada 6–16 s;
+  - los personajes al aire libre se iluminan y proyectan una sombra dura desde el rayo;
+  - botón "Relámpago ahora" en la ventana.
+  - **Falta el trueno:** no hay un sonido de trueno migrado. Contenido tiene que buscar su id en el AO.
+- **Luciérnagas de noche** al aire libre, sin lluvia: 16 que vuelan lento y se prenden y apagan (calidad Alta y Ultra).
+- **Calidad:** Baja no tiene halos, luz sobre personajes ni luciérnagas; los relámpagos van en todas.
+- **Costo:** hasta 24 halos y 16 luciérnagas, 1 quad de destello (solo durante el relámpago) y 3 sprites más por personaje visible para la luz.
+- **Pendiente:** no hay vista previa nueva (se ahorró cupo de nube); se ve en Play con **AO Migrator > Clima (depuración)**.
+

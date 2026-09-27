@@ -21,8 +21,9 @@ public class AOCharacterShadowsV291 : MonoBehaviour
     class Entry
     {
         public AOCharacterRenderer visual;
-        public Transform root;
+        public Transform root, litRoot;
         public SpriteRenderer body, head, helmet, contact;
+        public SpriteRenderer litBody, litHead, litHelmet;     // luz del farol o del relámpago sobre el personaje
         public SpriteRenderer sourceBody, sourceHead, sourceHelmet;
         public float angle, length = 0.5f, alpha;
         public bool shown, hasSources;
@@ -34,13 +35,15 @@ public class AOCharacterShadowsV291 : MonoBehaviour
 
     readonly List<Entry> entries = new List<Entry>();
     readonly HashSet<AOCharacterRenderer> known = new HashSet<AOCharacterRenderer>();
-    float scanAt;
+    float scanAt, worldRetryAt;
     AOWorldManagerV07 world;
     Transform playerTransform;
 
     readonly Vector2[] lightPos = new Vector2[MaxLights];
     readonly float[] lightRadius = new float[MaxLights];
     readonly float[] lightPower = new float[MaxLights];
+    readonly int[] lightSeed = new int[MaxLights];
+    readonly Color[] lightColor = new Color[MaxLights];
     int lightCount;
 
     public static int ActiveShadows { get; private set; }
@@ -49,6 +52,8 @@ public class AOCharacterShadowsV291 : MonoBehaviour
     {
         if (world == null)
         {
+            if (Time.unscaledTime < worldRetryAt) return;
+            worldRetryAt = Time.unscaledTime + 1f;
             world = UnityEngine.Object.FindFirstObjectByType<AOWorldManagerV07>();
             if (world == null) return;
         }
@@ -82,7 +87,12 @@ public class AOCharacterShadowsV291 : MonoBehaviour
             for (int i = 0; i < entries.Count; i++)
             {
                 Entry e = entries[i];
-                if (e.visual == null) continue;
+                if (e.visual == null)
+                {
+                    // Destruido entre dos búsquedas (mascota, invocación): la sombra no queda flotando.
+                    if (pass == 0) Show(e, false);
+                    continue;
+                }
                 bool isPlayer = playerTransform != null && e.visual.transform.IsChildOf(playerTransform);
                 if (isPlayer != (pass == 0)) continue;
                 Vector2 feet = e.visual.transform.position;
@@ -117,6 +127,7 @@ public class AOCharacterShadowsV291 : MonoBehaviour
 
         // Luces del mapa: pesan más cuanto más oscuro está el ambiente.
         float bestWeight = 0f;
+        int bestLight = -1;
         Vector2 bestPos = Vector2.zero;
         float bestDistance = 0f;
         for (int l = 0; l < lightCount; l++)
@@ -126,14 +137,23 @@ public class AOCharacterShadowsV291 : MonoBehaviour
             if (distance >= lightRadius[l]) continue;
             float falloff = 1f - distance / lightRadius[l];
             float weight = lightPower[l] * falloff * falloff * Mathf.Clamp01(1.15f - ambient);
-            if (weight > bestWeight) { bestWeight = weight; bestPos = lightPos[l]; bestDistance = distance; }
+            if (weight > bestWeight) { bestWeight = weight; bestPos = lightPos[l]; bestDistance = distance; bestLight = l; }
         }
-        float pointAlpha = Mathf.Clamp01(bestWeight * 1.3f) * 0.55f;
+        float pointAlpha = Mathf.Clamp01(bestWeight * 1.3f) * 0.5f;
         if (pointAlpha > alpha && bestDistance > 0.2f)
         {
             direction = (feet - bestPos) / bestDistance;
-            length = Mathf.Clamp(0.3f + bestDistance * 0.28f, 0.3f, 1.6f);
+            length = Mathf.Clamp(0.45f + bestDistance * 0.2f, 0.45f, 1.1f);
             alpha = pointAlpha;
+        }
+
+        // Relámpago: sombra corta y dura desde el rayo mientras dura el destello (al aire libre, sin techo encima).
+        float flash = AOSkyV291.Outdoor && !IsUnderRoof(e) ? AOLivingLightV292.FlashStrength : 0f;
+        if (flash * 0.7f > alpha)
+        {
+            direction = AOLivingLightV292.FlashShadowDirection;
+            length = 0.8f;
+            alpha = flash * 0.7f;
         }
 
         // Personaje transparente (fantasma, invisibilidad): sombra en proporción.
@@ -148,13 +168,42 @@ public class AOCharacterShadowsV291 : MonoBehaviour
         var feetPosition = new Vector3(feet.x, feet.y, 0f);
         e.root.position = feetPosition;
         e.contact.transform.position = feetPosition;
-        e.root.rotation = Quaternion.Euler(0f, 0f, e.angle);
-        e.root.localScale = new Vector3(1f, e.length, 1f);
+        e.litRoot.position = feetPosition;
+        // Pixel art: el giro va en pasos de 5° (sin temblor de píxeles) y la sombra es un poco más angosta que el
+        // cuerpo (es su proyección en el piso).
+        e.root.rotation = Quaternion.Euler(0f, 0f, Mathf.Round(e.angle / 5f) * 5f);
+        e.root.localScale = new Vector3(0.9f, e.length, 1f);
         var shade = new Color(0f, 0f, 0f, e.alpha);
         Mirror(e.body, e.sourceBody, shade);
         Mirror(e.head, e.sourceHead, shade);
         Mirror(e.helmet, e.sourceHelmet, shade);
         e.contact.color = new Color(0f, 0f, 0f, ContactAlpha * (e.sourceBody != null ? e.sourceBody.color.a : 1f));
+
+        // Luz sobre el personaje: el color del farol que lo ilumina, parpadeando con él (más de noche), o el
+        // blanco frío del relámpago.
+        Color wash = new Color(0f, 0f, 0f, 0f);
+        if (AOEffectsQualityV290.CharacterLight)
+        {
+            if (bestLight >= 0)
+            {
+                float amount = Mathf.Clamp01(bestWeight * 1.6f) * 0.32f * AOLivingLightV292.Flicker(lightSeed[bestLight]);
+                Color c = lightColor[bestLight];
+                wash = new Color(c.r, c.g, c.b, amount);
+            }
+            if (flash * 0.55f > wash.a)
+                wash = new Color(0.78f, 0.86f, 1f, flash * 0.55f);
+            wash.a *= e.sourceBody != null ? e.sourceBody.color.a : 1f;
+        }
+        Mirror(e.litBody, e.sourceBody, wash);
+        Mirror(e.litHead, e.sourceHead, wash);
+        Mirror(e.litHelmet, e.sourceHelmet, wash);
+        // Mancha de contacto del ancho real del cuerpo (enanos, gigantes, monturas).
+        if (e.sourceBody.sprite != null)
+        {
+            float width = Mathf.Clamp(e.sourceBody.sprite.bounds.size.x * 0.85f, 0.4f, 2.5f);
+            if (Mathf.Abs(e.contact.transform.localScale.x - width) > 0.01f)
+                e.contact.transform.localScale = new Vector3(width, width, 1f);
+        }
 
         // Una por debajo de la parte más baja del personaje (el orden cambia al moverse de fila).
         int order = e.sourceBody.sortingOrder;
@@ -172,7 +221,24 @@ public class AOCharacterShadowsV291 : MonoBehaviour
             e.head.sortingOrder = order;
             e.helmet.sortingOrder = order;
             e.contact.sortingOrder = order;
+            // La luz va encima de la parte más alta del personaje (cuerpo, cabeza y casco).
+            int top = Mathf.Max(e.sourceBody.sortingOrder,
+                                Mathf.Max(e.sourceHead != null ? e.sourceHead.sortingOrder : 0,
+                                          e.sourceHelmet != null ? e.sourceHelmet.sortingOrder : 0)) + 1;
+            e.litBody.sortingLayerID = layer;
+            e.litHead.sortingLayerID = layer;
+            e.litHelmet.sortingLayerID = layer;
+            e.litBody.sortingOrder = top;
+            e.litHead.sortingOrder = top;
+            e.litHelmet.sortingOrder = top;
         }
+    }
+
+    bool IsUnderRoof(Entry e)
+    {
+        if (playerTransform != null && e.visual.transform.IsChildOf(playerTransform))
+            return world.PlayerUnderRoof;
+        return world.IsRoofAt(e.visual.transform.position);
     }
 
     static void Mirror(SpriteRenderer shadow, SpriteRenderer source, Color shade)
@@ -216,6 +282,8 @@ public class AOCharacterShadowsV291 : MonoBehaviour
             lightPos[lightCount] = position;
             lightRadius[lightCount] = range + 0.5f;
             lightPower[lightCount] = Mathf.Clamp01(luminance * 1.2f);
+            lightSeed[lightCount] = AOLivingLightV292.Seed(light);
+            lightColor[lightCount] = AOLivingLightV292.LightColor(light);
             lightCount++;
         }
     }
@@ -229,6 +297,7 @@ public class AOCharacterShadowsV291 : MonoBehaviour
             if (entries[i].visual != null) continue;
             if (entries[i].root != null) Destroy(entries[i].root.gameObject);
             if (entries[i].contact != null) Destroy(entries[i].contact.gameObject);
+            if (entries[i].litRoot != null) Destroy(entries[i].litRoot.gameObject);
             entries.RemoveAt(i);
         }
         known.RemoveWhere(v => v == null);
@@ -250,6 +319,20 @@ public class AOCharacterShadowsV291 : MonoBehaviour
         e.body = Part(e.root, "Cuerpo");
         e.head = Part(e.root, "Cabeza");
         e.helmet = Part(e.root, "Casco");
+        var light = new GameObject("Luz sobre " + visual.name);
+        light.transform.SetParent(e.root.parent, false);
+        light.SetActive(false);
+        e.litRoot = light.transform;
+        e.litBody = Part(light.transform, "Cuerpo");
+        e.litHead = Part(light.transform, "Cabeza");
+        e.litHelmet = Part(light.transform, "Casco");
+        Material glow = AOLivingLightV292.Additive();
+        if (glow != null)
+        {
+            e.litBody.sharedMaterial = glow;
+            e.litHead.sharedMaterial = glow;
+            e.litHelmet.sharedMaterial = glow;
+        }
         var contact = new GameObject("Sombra (contacto) " + visual.name);
         contact.transform.SetParent(transform, false);
         contact.transform.localScale = new Vector3(0.72f, 0.72f, 1f);
@@ -304,6 +387,7 @@ public class AOCharacterShadowsV291 : MonoBehaviour
         e.shown = on;
         if (e.root != null) e.root.gameObject.SetActive(on);
         if (e.contact != null) e.contact.gameObject.SetActive(on);
+        if (e.litRoot != null) e.litRoot.gameObject.SetActive(on);
     }
 
     void HideAll()

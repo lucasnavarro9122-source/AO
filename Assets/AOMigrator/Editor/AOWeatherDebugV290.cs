@@ -147,6 +147,8 @@ public class AOWeatherDebugV290 : EditorWindow
         if (GUILayout.Button("Atardecer 17:30")) SetHour(world, 17.5f);
         if (GUILayout.Button("Noche 23 h")) SetHour(world, 23f);
         EditorGUILayout.EndHorizontal();
+        if (GUILayout.Button(new GUIContent("Relámpago ahora", "Solo se ve al aire libre; en tormenta caen solos cada 6-16 s")))
+            AOLivingLightV292.DebugStrikeNow = true;
         EditorGUILayout.BeginHorizontal();
         // Cambiar la hora re-ilumina el mapa entero: se aplica con el botón, no mientras se arrastra.
         hour = EditorGUILayout.Slider("Hora", hour, 0f, 24f);
@@ -165,6 +167,11 @@ public class AOWeatherDebugV290 : EditorWindow
                                    (sky != null ? ", sombras " + sky.ActiveClouds + ", luna " + sky.ActiveMoonPatches : ""));
         EditorGUILayout.LabelField("Sombras", AOCharacterShadowsV291.ActiveShadows + " personajes, opacidad del sol/luna " +
                                    AOSkyV291.KeyShadowAlpha.ToString("0.00") + ", largo " + AOSkyV291.ShadowLength.ToString("0.0"));
+        AOLivingLightV292 living = AOLivingLightV292.Instance;
+        if (living != null)
+            EditorGUILayout.LabelField("Luz viva", "oscuridad " + AOLivingLightV292.Darkness.ToString("0.00") + ", halos " +
+                                       living.ActiveGlows + ", luciérnagas " + living.ActiveFireflies +
+                                       ", relámpago " + AOLivingLightV292.FlashStrength.ToString("0.00"));
         EditorGUILayout.Space();
     }
 
