@@ -13,6 +13,8 @@ Prioridad: **estabilidad > rendimiento > gameplay legible > coherencia artístic
 | Motor de clima | `Runtime/AOMapWeather.cs` (1 por mapa, lo crea `AOWorldManagerV07.BuildMapWeather`) | lluvia, nieve, niebla; es el "WeatherManager": se extiende, no se reemplaza |
 | Clima V290 | `AOMapWeatherRoofsV290` (agua en techos, `roof_flow.json` de `Tools/roof_flow.py`), `AOWindV290` (viento global), `AOEffectsQualityV290` (Low–Ultra), `AOWorldManagerWeatherV290` (techo del jugador), `AOAudioWeatherV290` (volumen de lluvia) | capas con parallax, salpicaduras, niebla de suelo, tinte que multiplica (`AOWeatherMultiply.shader`); detalle en `docs/claude/nube/clima-vfx/paquete1.md` |
 | Luz V291 | `AOSkyV291` (sol y luna por hora, nubes con viento, sombras de nubes, noche Purkinje, luz de luna en los claros, rayos) y `AOCharacterShadowsV291` (sombra de cada personaje opuesta a la luz dominante) | detalle en `docs/claude/nube/clima-vfx/luz-v291.md` |
+| Luz viva V292 | `AOLivingLightV292` (halos de faroles que parpadean, relámpagos, luces a la vista) y `AOFirefliesV292` (luciérnagas con mente colmena) | detalle en `luz-v291.md` |
+| Lluvia V293–V295 | `AOMapWeatherNatureV293` (agua en árboles, suelo mojado), `AOMapWeatherPuddlesV294` (charcos, datos de `Tools/puddle_spots.py`), `AOMapWeatherDropsV295` (calidad de gotas), `AOMapWeatherCharacterV290` (rebote en armadura) | detalle en `paquete1.md` |
 | Depuración | Editor `AOWeatherDebugV290`: **AO Migrator > Clima (depuración)** | presets, intensidad, viento, niebla, calidad y contadores; nada queda guardado |
 | Permisos por mapa | `Resources/AOMigrator/WorldV07/map_environment.json` | `rain`, `snow`, `fog`, `baseLight` |
 | Disparo | `AOWorldManagerV07.ApplyRainToggle / ApplySnowToggle / ApplyFogToggle / SetWeather` | entradas del AO original; **hoy solo las llama QA del Editor** |
@@ -57,6 +59,43 @@ Diagnóstico completo: `docs/claude/nube/clima-vfx/auditoria.md`.
 | Grupo de partículas del AO | `count` (≤ 200) GameObjects | ~1 por partícula (hoy usan PropertyBlock) | según sprite | se apaga fuera de vista |
 
 Si un efecto nuevo supera eso, justificar el costo o recortar.
+
+## Conocimientos (lo que funcionó, con referencias)
+- **Sombras 2D isométricas:** silueta del personaje en negro, apoyada en los pies, girada al lado opuesto de la luz dominante y estirada según elevación o distancia ([Psychic Software](https://www.psychicsoftware.com/2017/faking-shadows-and-lights-in-a-2d-game/)).
+  - Largo: 0,5–1,3 veces la altura.
+  - Giro en pasos de 5°, para que el pixel art no tiemble.
+  - Orden: justo debajo del personaje en su fila, no a nivel del piso. Los arbustos de la capa 3 la tapan.
+  - Nunca como hija del personaje: cambia el área de clic de los NPC.
+- **Luna realista (Purkinje):**
+  - de noche bajan los rojos y el aire se enfría, más azul lejos (arriba de la pantalla);
+  - la luz de luna solo toca el piso donde se abren las nubes;
+  - multiplicar, así el negro sigue negro.
+- **Nubes:** un campo de ruido anclado al mundo que se mueve con el viento y enmascara al sol y la luna ([Mirza Beig](https://mirzabeig.substack.com/p/unity-tutorial-fake-cloud-shadows)). Con cielo cubierto la luz es pareja, sin sombras marcadas.
+- **Enjambres (luciérnagas):**
+  - reglas de bandada: cohesión suave, separación amplia, alineación y evitar;
+  - la colmena elige un rumbo común y hay alarma compartida ante personajes, con respuesta casi instantánea (`1 - exp(-9·dt)`);
+  - escapadas individuales cortas;
+  - parpadeo con fases acopladas entre vecinas.
+- **Charcos** ([Lagarde, "Water drop"](https://seblagarde.wordpress.com/2013/04/14/water-drop-3b-physically-based-wet-surfaces/)):
+  - **Aspecto:**
+    - el suelo mojado se oscurece y satura, no se pone azul;
+    - visto desde arriba el agua casi no refleja y deja ver el piso;
+    - el reflejo crece hacia el borde lejano (Fresnel), con brillos que titilan.
+  - **Ubicación:** van donde se junta el agua, en caminos de tierra y piedra; se decide por el color del piso.
+  - **Reflejos:** SpriteMask más una copia dada vuelta desde los pies.
+  - **Al pisarlo:** ondas, un resorte que corre el agua y un reflejo que se desarma.
+- **Gotas** ([Garg y Nayar](https://cave.cs.columbia.edu/old/publications/pdfs/Garg_TOG06.pdf), [Tatarchuk](https://www.researchgate.net/publication/221314835_Artist-Directable_Real-Time_Rain_Rendering_in_City_Environments)):
+  - **Trazo:** no es una línea pareja; tiene brillos de oscilación. Van varios trazos en un mismo atlas, para no romper el batching.
+  - **Luz:**
+    - brillan a contraluz de las luces: cerca de un farol, con su color;
+    - en la oscuridad casi no se ven;
+    - con el relámpago se encienden todas.
+  - **Salpicaduras:** corona en el piso y ondas en el agua.
+  - **Escala:** proporcionales al personaje (≤ 1/3 de su altura), verticales.
+- **Vistas previas sin Unity:**
+  - `Tools/hd_remake/video_*.py` genera MP4 con imageio-ffmpeg (`pip install imageio imageio-ffmpeg`).
+  - Los árboles del AO son **objetos** del mapa, no casillas: hay que agregarlos (`video_bosque_v293.with_trees`).
+  - Dibujar los efectos de piso **antes** de la capa de arriba.
 
 ## Checklist antes de dar un efecto por terminado
 - [ ] ¿Existía algo equivalente (tabla de arriba, `particles.ind` con 325 definiciones)? Reusar.

@@ -121,3 +121,38 @@ Detalle en `clima-vfx/paquete1.md` (V294). QA: en Ullathorpe con Lluvia y "Mojar
 
 `AOLivingLightV292` expone las luces a la vista. Detalle en `clima-vfx/paquete1.md` (V295). Próxima versión libre: V296.
 
+## Paquete 5 (27/09, noche): resumen para repartir
+Commits `c4f51f2` … el del mensaje. Detalle arriba (agregados 1 a 4), en `clima-vfx/paquete1.md` y en `clima-vfx/luz-v291.md`.
+
+**Arte**
+- **Luciérnagas con mente colmena** (`AOFirefliesV292`): recorren lo oscuro, se abren al instante ante personajes, escapadas individuales, en ciudad solo sueltas.
+- **Lluvia:**
+  - agua que baja por las hojas de los árboles y gotea (V293);
+  - charcos realistas en caminos con reflejo que se desarma al pisarlos (V294);
+  - gotas con brillos de oscilación, iluminadas por faroles y relámpagos, cortinas, coronas y ondas (V295).
+- **Qué revisar:** el aspecto en Play con Luz Original y Mejorada.
+
+**QA**
+- **Prueba en Play** (ventana de depuración):
+  - Lluvia y "Mojar ya": charcos en el camino de Ullathorpe (28,15); cruzarlo y quedarse encima;
+  - de noche, reflejo de faroles y lluvia brillando junto a ellos;
+  - "Relámpago ahora";
+  - un bosque con lluvia: gotas en las hojas;
+  - de noche en el campo, sin lluvia: pasar por el enjambre;
+  - calidad Baja y Alta.
+- **Rendimiento:** FPS.
+- **Regresión:** `test_modules_unity.py` y el Editor.log.
+
+**Programación**
+- **Archivos nuevos:** `AOFirefliesV292`, `AOMapWeatherNatureV293`, `AOMapWeatherPuddlesV294`, `AOMapWeatherDropsV295` y `AOWorldManagerRainV293` (parcial de solo lectura: árboles del mapa y suelo apto para charcos).
+- **Datos:** `puddle_spots.json`, de `Tools/puddle_spots.py`. Se regenera si cambian los mapas.
+- **Versión:** próxima libre, V296.
+
+**Interfaz**
+- Nada nuevo en pantalla. La opción "Calidad de efectos" ahora también controla luciérnagas, charcos, reflejos y rebotes.
+
+**Contenido**
+- Sigue pendiente el sonido de trueno.
+
+**Todos: conocimientos nuevos.** La skill `aod-clima-vfx` tiene una sección "Conocimientos" con lo que funcionó y sus referencias: sombras isométricas, luna Purkinje, nubes, enjambres, charcos, gotas y cómo hacer videos de vista previa sin Unity. Cualquier sector que toque efectos visuales la lee primero.
+
