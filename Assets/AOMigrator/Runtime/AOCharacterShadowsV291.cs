@@ -21,7 +21,8 @@ public class AOCharacterShadowsV291 : MonoBehaviour
     class Entry
     {
         public AOCharacterRenderer visual;
-        public Transform root, litRoot;
+        public Transform root, litRoot, reflectRoot;
+        public SpriteRenderer reflectBody, reflectHead, reflectHelmet;   // reflejo en los charcos (V293)
         public SpriteRenderer body, head, helmet, contact;
         public SpriteRenderer litBody, litHead, litHelmet;     // luz del farol o del relámpago sobre el personaje
         public SpriteRenderer sourceBody, sourceHead, sourceHelmet;
@@ -204,6 +205,18 @@ public class AOCharacterShadowsV291 : MonoBehaviour
         Mirror(e.litBody, e.sourceBody, wash);
         Mirror(e.litHead, e.sourceHead, wash);
         Mirror(e.litHelmet, e.sourceHelmet, wash);
+
+        // Reflejo en los charcos: el personaje dado vuelta bajo sus pies, visible solo dentro del charco (máscara).
+        bool reflect = AOEffectsQualityV290.Level >= AOEffectsQuality.High && AOMapWeather.PuddleNear(feet, 1.2f);
+        var mirrorColor = new Color(0.62f, 0.68f, 0.8f, reflect ? 0.42f * AOMapWeather.Wetness : 0f);
+        if (e.reflectRoot.gameObject.activeSelf != reflect) e.reflectRoot.gameObject.SetActive(reflect);
+        if (reflect)
+        {
+            e.reflectRoot.position = feetPosition;
+            Reflect(e.reflectBody, e.sourceBody, mirrorColor);
+            Reflect(e.reflectHead, e.sourceHead, mirrorColor);
+            Reflect(e.reflectHelmet, e.sourceHelmet, mirrorColor);
+        }
         // Mancha de contacto del ancho real del cuerpo (enanos, gigantes, monturas).
         if (e.sourceBody.sprite != null)
         {
@@ -239,6 +252,19 @@ public class AOCharacterShadowsV291 : MonoBehaviour
             e.litHead.sortingOrder = top;
             e.litHelmet.sortingOrder = top;
         }
+    }
+
+    static void Reflect(SpriteRenderer reflection, SpriteRenderer source, Color color)
+    {
+        bool on = source != null && source.enabled && source.sprite != null && source.gameObject.activeInHierarchy;
+        if (reflection.enabled != on) reflection.enabled = on;
+        if (!on) return;
+        if (reflection.sprite != source.sprite) reflection.sprite = source.sprite;
+        reflection.flipX = source.flipX;
+        reflection.flipY = !source.flipY;                       // dado vuelta desde los pies
+        Vector3 local = source.transform.localPosition;
+        reflection.transform.localPosition = new Vector3(local.x, -local.y, 0f);
+        reflection.color = new Color(color.r, color.g, color.b, color.a * source.color.a);
     }
 
     bool IsUnderRoof(Entry e)
@@ -305,6 +331,7 @@ public class AOCharacterShadowsV291 : MonoBehaviour
             if (entries[i].root != null) Destroy(entries[i].root.gameObject);
             if (entries[i].contact != null) Destroy(entries[i].contact.gameObject);
             if (entries[i].litRoot != null) Destroy(entries[i].litRoot.gameObject);
+            if (entries[i].reflectRoot != null) Destroy(entries[i].reflectRoot.gameObject);
             entries.RemoveAt(i);
         }
         known.RemoveWhere(v => v == null);
@@ -326,6 +353,18 @@ public class AOCharacterShadowsV291 : MonoBehaviour
         e.body = Part(e.root, "Cuerpo");
         e.head = Part(e.root, "Cabeza");
         e.helmet = Part(e.root, "Casco");
+        var mirror = new GameObject("Reflejo de " + visual.name);
+        mirror.transform.SetParent(e.root.parent, false);
+        mirror.SetActive(false);
+        e.reflectRoot = mirror.transform;
+        e.reflectBody = Part(mirror.transform, "Cuerpo");
+        e.reflectHead = Part(mirror.transform, "Cabeza");
+        e.reflectHelmet = Part(mirror.transform, "Casco");
+        foreach (SpriteRenderer part in new[] { e.reflectBody, e.reflectHead, e.reflectHelmet })
+        {
+            part.maskInteraction = SpriteMaskInteraction.VisibleInsideMask;
+            part.sortingOrder = -18940;                          // sobre el charco, bajo todo lo demás
+        }
         var light = new GameObject("Luz sobre " + visual.name);
         light.transform.SetParent(e.root.parent, false);
         light.SetActive(false);
@@ -395,6 +434,7 @@ public class AOCharacterShadowsV291 : MonoBehaviour
         if (e.root != null) e.root.gameObject.SetActive(on);
         if (e.contact != null) e.contact.gameObject.SetActive(on);
         if (e.litRoot != null) e.litRoot.gameObject.SetActive(on);
+        if (!on && e.reflectRoot != null) e.reflectRoot.gameObject.SetActive(false);
     }
 
     void HideAll()

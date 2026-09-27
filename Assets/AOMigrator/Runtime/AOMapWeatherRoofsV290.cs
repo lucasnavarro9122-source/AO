@@ -155,6 +155,31 @@ public partial class AOMapWeather
         return true;
     }
 
+    // Gota que cae sobre una copa: se desliza entre las hojas hasta "bottom" (borde de abajo de la copa).
+    void SpawnLeafDrop(Vector2 position, float bottom, int size)
+    {
+        EnsureRivulets(size);
+        int i = -1;
+        for (int n = 0; n < size; n++)
+        {
+            int candidate = (rivuletNext + n) % size;
+            if (rivuletState[candidate] == 0) { i = candidate; break; }
+        }
+        if (i < 0) return;
+        rivuletNext = (i + 1) % size;
+        rivuletState[i] = 1;
+        rivuletRoof[i] = -1;                      // negativo = árbol
+        rivuletPos[i] = position;
+        rivuletVel[i] = Vector2.zero;
+        rivuletAge[i] = 0f;
+        rivuletLife[i] = UnityEngine.Random.Range(1.5f, 3f);
+        rivuletFloor[i] = bottom;
+        Transform t = rivuletTransforms[i];
+        t.localRotation = Quaternion.identity;
+        t.localScale = new Vector3(0.6f, 0.2f, 1f);
+        rivulets[i].enabled = true;
+    }
+
     void EnsureRivulets(int size)
     {
         if (rivulets != null && rivulets.Length >= size)
@@ -203,7 +228,29 @@ public partial class AOMapWeather
                 continue;
             Vector2 p = rivuletPos[i];
             float alpha;
-            if (rivuletState[i] == 1)
+            if (rivuletState[i] == 1 && rivuletRoof[i] < 0)
+            {
+                // Gota entre las hojas: baja con un vaivén y gotea desde el borde de abajo de la copa.
+                rivuletAge[i] += deltaTime;
+                p += new Vector2(Mathf.Sin(rivuletAge[i] * 9f + i) * 0.35f, -0.9f) * deltaTime;
+                if (p.y <= rivuletFloor[i])
+                {
+                    rivuletState[i] = 2;
+                    rivuletVel[i] = new Vector2(0f, -0.4f);
+                    rivuletFloor[i] = p.y - UnityEngine.Random.Range(0.4f, 1.3f);
+                    rivuletTransforms[i].localRotation = Quaternion.identity;
+                    alpha = 0.6f;
+                }
+                else if (rivuletAge[i] >= rivuletLife[i])
+                {
+                    FreeRivulet(i);
+                    continue;
+                }
+                else
+                    alpha = 0.55f * Mathf.Clamp01(rivuletAge[i] * 8f) *
+                            (0.6f + 0.4f * Mathf.Abs(Mathf.Sin(rivuletAge[i] * 14f + i)));   // brillo en las hojas
+            }
+            else if (rivuletState[i] == 1)
             {
                 int roof = rivuletRoof[i];
                 if (roofInfo == null || roof <= 0 || roof > roofInfo.Length || IsPlayerRoof(roof))

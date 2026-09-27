@@ -128,6 +128,10 @@ public class AOWeatherDebugV290 : EditorWindow
         EditorGUILayout.LabelField("Agua en techos", weather.ActiveRoofWater +
                                    (weather.HasRoofData ? "" : "  (este mapa no tiene datos de techos)"));
         EditorGUILayout.LabelField("Rebotes en el jugador", weather.ActiveBounces.ToString());
+        EditorGUILayout.BeginHorizontal();
+        EditorGUILayout.LabelField("Charcos", weather.ActivePuddles + " (suelo mojado " + AOMapWeather.Wetness.ToString("0.00") + ")");
+        if (GUILayout.Button("Mojar ya", GUILayout.Width(80f))) AOMapWeather.DebugSoakNow = true;
+        EditorGUILayout.EndHorizontal();
         EditorGUILayout.LabelField("Niebla (mosaicos)", weather.ActiveFogTiles.ToString());
         EditorGUILayout.LabelField("Cielo abierto", weather.OpenSky.ToString("0.00") +
                                    (world.PlayerUnderRoof ? "  (bajo techo)" : ""));

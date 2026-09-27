@@ -181,6 +181,7 @@ public partial class AOMapWeather : MonoBehaviour
         UpdateSplashes(deltaTime);
         UpdateRoofWater(deltaTime);
         UpdateCharacterRain(deltaTime);
+        UpdateNature(deltaTime, cam, halfWidth, halfHeight);
         UpdateFog(deltaTime, cam, halfWidth, halfHeight);
         UpdateTint(halfWidth, halfHeight);
     }
@@ -402,7 +403,10 @@ public partial class AOMapWeather : MonoBehaviour
             dropTransforms[i].localPosition = local;
 
             // Aparecen sin "saltar" y los copos se apagan al posarse (vista cenital) en vez de cortarse.
-            float alpha = dropAlpha[i] * alphaScale * Mathf.Clamp01(dropAge[i] * (snow ? 3f : 20f));
+            // Fluidez: aparecen en 0,06 s y las que aterrizan se funden en los últimos 0,04 s (sin cortes).
+            float alpha = dropAlpha[i] * alphaScale * Mathf.Clamp01(dropAge[i] * (snow ? 3f : 16f));
+            if (!snow && spec.lands)
+                alpha *= Mathf.Clamp01((dropLife[i] - dropAge[i]) * 25f);
             if (snow)
                 alpha *= Mathf.Clamp01((dropLife[i] - dropAge[i]) * 2f);
             if (hideUnderRoof && IsUnderPlayerRoof(cam + local))
@@ -418,7 +422,20 @@ public partial class AOMapWeather : MonoBehaviour
             return;
         if (TryRoofWater(worldPosition))
             return;
+        if (TryTreeWater(worldPosition))
+            return;
+        if (InPuddle(worldPosition))
+        {
+            Splash(worldPosition, 1.5f);                 // onda más grande en el agua del charco
+            return;
+        }
         Splash(worldPosition, 1f);
+        // Salpicadura con 1-2 gotitas que saltan (calidad Alta y Ultra).
+        int size = AOEffectsQualityV290.BouncePool;
+        if (size >= 24 && Random.value < 0.35f)
+            for (int d = Random.value < 0.5f ? 1 : 2; d > 0; d--)
+                SpawnBounce(size, worldPosition, new Vector2(Random.Range(-0.6f, 0.6f), Random.Range(0.5f, 1f)),
+                            Random.Range(0.18f, 0.28f), 0.35f, false);
     }
 
     // ------------------------------------------------------------------ salpicaduras
