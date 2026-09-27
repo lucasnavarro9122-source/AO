@@ -91,3 +91,15 @@ Nada por ahora. Si se activa el día/noche, la hora va por `SyncWorldTime` y el 
 
 Detalle en `clima-vfx/luz-v291.md`. Entra con el mismo merge de la rama. QA: de noche en un mapa de campo, pasar caminando por el enjambre.
 
+## Agregado 2: mente colmena y lluvia con árboles y charcos (V293)
+- **Luciérnagas** (`AOFirefliesV292`, V292):
+  - 22 que recorren lo oscuro con rumbo común;
+  - reacción casi instantánea con alarma de todo el enjambre;
+  - escapadas individuales breves.
+- **Lluvia** (`AOMapWeatherNatureV293`, parcial de `AOWorldManagerRainV293`):
+  - gotas que se deslizan por las hojas y gotean de la copa;
+  - charcos que crecen y se secan, con ondas y reflejo de personajes (SpriteMask);
+  - gotas más fluidas.
+- **QA:** con Lluvia y "Mojar ya", mirar charcos y reflejo junto a un charco; lluvia sobre un bosque (árboles tipo 4); FPS.
+- Detalle en `clima-vfx/paquete1.md` (sección 27/09, V293). Entra con el mismo merge de la rama. Próxima versión libre: V294.
+

@@ -95,3 +95,22 @@ Todos nuevos, salvo `AOMapWeather.cs`. No se tocaron archivos de otros sectores:
 
   Las arma `python Tools/hd_remake/clima_vista_v290.py SALIDA.gif --x 22 --y 11 --zoom`.
 - **Solo el jugador:** los otros personajes (NPC y compañeros) no reciben rebotes. Se puede sumar con el mismo pool si Lucas lo pide.
+
+## 27/09: lluvia con árboles, charcos y gotas más fluidas (V293, `Runtime/AOMapWeatherNatureV293.cs`)
+- **Árboles** (objetos tipo 4 del AO):
+  - La gota que cae en la copa se desliza entre las hojas: un brillo que baja con vaivén.
+  - Después gotea desde el borde de abajo de la copa y salpica.
+  - Debajo llueve menos: no hay salpicaduras directas, solo goteo.
+  - Si el árbol está transparente (jugador debajo), no recibe agua.
+- **Charcos:**
+  - **Formación:** con lluvia el suelo se moja en unos 45 s y se seca en unos 2 min. Salen en tierra caminable sin techo (~6 % de las casillas), siempre en los mismos lugares del mapa.
+  - **Aspecto:** piso más oscuro y frío, con brillo de cielo.
+  - **Ondas:** las gotas que caen adentro hacen ondas más grandes.
+  - **Reflejo** (calidad Alta y Ultra): el personaje cerca aparece dado vuelta bajo sus pies, solo dentro del charco (SpriteMask).
+  - **Calidad:** charcos desde Media.
+- **Fluidez:**
+  - las gotas aparecen en 0,06 s y se funden al aterrizar;
+  - en calidad Alta, las salpicaduras sueltan 1 o 2 gotitas que saltan.
+- **Ventana de depuración:** muestra la cantidad de charcos y lo mojado del suelo, y trae el botón "Mojar ya".
+- **Vista previa:** `python Tools/hd_remake/video_bosque_v293.py SALIDA.mp4` (bosque, mapa 6). La vista previa anterior no dibujaba los árboles del AO, que son objetos del mapa; esta sí.
+
