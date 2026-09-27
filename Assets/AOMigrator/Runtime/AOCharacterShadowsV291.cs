@@ -48,6 +48,10 @@ public class AOCharacterShadowsV291 : MonoBehaviour
 
     public static int ActiveShadows { get; private set; }
 
+    // Pies de los personajes a la vista (las luciérnagas se apartan de ellos). Se llena cada cuadro.
+    public static readonly Vector2[] VisibleFeet = new Vector2[64];
+    public static int VisibleCount { get; private set; }
+
     void LateUpdate()
     {
         if (world == null)
@@ -80,6 +84,7 @@ public class AOCharacterShadowsV291 : MonoBehaviour
         float blend = 1f - Mathf.Exp(-8f * deltaTime);
         int budget = AOEffectsQualityV290.CharacterShadows;
         int used = 0;
+        VisibleCount = 0;
 
         // Primero el jugador (siempre tiene sombra), después el resto hasta el tope de la calidad.
         for (int pass = 0; pass < 2; pass++)
@@ -98,6 +103,8 @@ public class AOCharacterShadowsV291 : MonoBehaviour
                 Vector2 feet = e.visual.transform.position;
                 bool inView = Mathf.Abs(feet.x - center.x) < halfWidth && Mathf.Abs(feet.y - center.y) < halfHeight &&
                               e.visual.isActiveAndEnabled;
+                if (inView && VisibleCount < VisibleFeet.Length)
+                    VisibleFeet[VisibleCount++] = feet;
                 if (!inView || used >= budget)
                 {
                     Show(e, false);

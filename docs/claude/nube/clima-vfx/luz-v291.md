@@ -106,3 +106,14 @@ Vista previa sin Unity, con los mismos números del código: `luz_v291.jpg` (`To
 - **Costo:** hasta 24 halos y 16 luciérnagas, 1 quad de destello (solo durante el relámpago) y 3 sprites más por personaje visible para la luz.
 - **Pendiente:** no hay vista previa nueva (se ahorró cupo de nube); se ve en Play con **AO Migrator > Clima (depuración)**.
 
+## Luciérnagas con carácter (27/09, pedido de Lucas; `Runtime/AOFirefliesV292.cs`)
+- Enjambre que se comporta como el agua (reglas de bandada: cohesión, separación, evitar y deambular):
+  - se junta entre ellas y busca el rincón más oscuro a la vista para iluminarlo, con un resplandor verdoso tenue en el piso;
+  - se abre y se escurre alrededor de personajes, jugadores, NPC, faroles y antorchas, y se vuelve a juntar del otro lado.
+- Cada 8 a 20 s una sale a explorar y después vuelve.
+- **Ciudad:** no hay enjambre. Cada 25 a 60 s aparece alguna suelta, deambula y se pierde (se apaga sola). En el campo también aparece alguna suelta.
+- **Parpadeo:** cada una a su ritmo, pero las vecinas se sincronizan de a poco, como las de verdad.
+- **Cuándo:** solo de noche al aire libre, sin lluvia, en calidad Alta y Ultra.
+- **Costo:** 16 sprites y 1 de resplandor; hasta 16×16 comparaciones por cuadro, sin memoria nueva.
+- **Vista previa:** `python Tools/hd_remake/video_luciernagas_v292.py SALIDA.mp4`, en un bosque (mapa 6) de noche.
+

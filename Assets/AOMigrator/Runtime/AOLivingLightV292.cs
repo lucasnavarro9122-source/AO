@@ -5,13 +5,14 @@ using UnityEngine;
 // - Faroles y antorchas del mapa (las mismas luces del AO) con halo en el piso que respira y parpadea; cuanto más
 //   oscuro (noche o dungeon), más se notan. Los personajes cerca se tiñen del color de esa luz y parpadean con ella
 //   (AOCharacterShadowsV291 usa Flicker y LightColor con la misma semilla por luz).
-// - Luciérnagas de noche al aire libre, sin lluvia (calidad Alta y Ultra).
+// - Luciérnagas de noche al aire libre, sin lluvia (calidad Alta y Ultra): enjambre que busca lo oscuro
+//   (AOFirefliesV292).
 // - Relámpagos en tormenta (lluvia con intensidad >= 1,2): doble destello frío sobre todo el mundo; durante el
 //   destello los personajes se iluminan y proyectan una sombra corta y dura desde el rayo.
 // No re-ilumina el mapa (regla del clima): halos y destello son sprites aditivos con pool fijo.
 // Orden de dibujo: piso < halos -18900 < objetos y personajes < ... < luciérnagas 30430 < destello 31500 < gotas.
 [DefaultExecutionOrder(1003)]
-public class AOLivingLightV292 : MonoBehaviour
+public partial class AOLivingLightV292 : MonoBehaviour
 {
     public static AOLivingLightV292 Instance { get; private set; }
 
@@ -25,19 +26,19 @@ public class AOLivingLightV292 : MonoBehaviour
     public static bool DebugStrikeNow;
 
     const int MaxGlows = 24;
-    const int FireflyCount = 16;
 
     AOWorldManagerV07 world;
     float worldRetryAt;
     SpriteRenderer[] glows;
     SpriteRenderer flash;
-    SpriteRenderer[] fireflies;
-    Vector2[] fireflyPos;
-    float[] fireflyPhase;
     float nextStrike = 8f, strikeAt = -10f, strikePower;
 
     public int ActiveGlows { get; private set; }
-    public int ActiveFireflies { get; private set; }
+
+    // Luces a la vista (para que las luciérnagas las eviten), llenado en UpdateGlows.
+    readonly Vector2[] lampPos = new Vector2[MaxGlows];
+    readonly float[] lampRadius = new float[MaxGlows];
+    int lampCount;
 
     [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
     static void ResetStatics()
@@ -114,6 +115,17 @@ public class AOLivingLightV292 : MonoBehaviour
     {
         int used = 0;
         AOMapLightPlacement[] lights = world.CurrentMapLights;
+        lampCount = 0;
+        if (lights != null)
+            for (int i = 0; i < lights.Length && lampCount < MaxGlows; i++)
+            {
+                int r = lights[i].range >= 100 ? lights[i].range - 99 : lights[i].range;
+                var p = new Vector2(lights[i].x - 0.5f, -lights[i].y + 0.5f);
+                if (r <= 0 || Mathf.Abs(p.x - center.x) > halfWidth + 6f || Mathf.Abs(p.y - center.y) > halfHeight + 6f) continue;
+                lampPos[lampCount] = p;
+                lampRadius[lampCount] = r + 0.5f;
+                lampCount++;
+            }
         float strength = Darkness * (AOLighting2DV283.Enhanced ? 0.45f : 1f);   // la Mejorada ya ilumina el piso
         if (AOEffectsQualityV290.LightGlows && lights != null && strength > 0.05f)
         {
@@ -191,74 +203,15 @@ public class AOLivingLightV292 : MonoBehaviour
         flash.sprite = FlatSprite();
     }
 
-    // ------------------------------------------------------------------ luciérnagas
-
-    void UpdateFireflies(Vector2 center, float halfWidth, float halfHeight, float deltaTime)
-    {
-        AOMapWeather weather = world.CurrentWeather;
-        bool raining = weather != null && weather.ActivePrecipitation != AOMapWeather.Precipitation.None;
-        bool on = AOEffectsQualityV290.Fireflies && AOSkyV291.Outdoor && AOSkyV291.Night && !raining &&
-                  AOSkyV291.Coverage < 0.8f;
-        float fade = Mathf.Clamp01((1f - AOSkyV291.Daylight - 0.5f) * 2f);
-        if (!on || fade <= 0f)
-        {
-            if (fireflies != null)
-                for (int i = 0; i < fireflies.Length; i++)
-                    if (fireflies[i].enabled) fireflies[i].enabled = false;
-            ActiveFireflies = 0;
-            return;
-        }
-        if (fireflies == null)
-        {
-            fireflies = new SpriteRenderer[FireflyCount];
-            fireflyPos = new Vector2[FireflyCount];
-            fireflyPhase = new float[FireflyCount];
-            for (int i = 0; i < FireflyCount; i++)
-            {
-                fireflies[i] = MakeRenderer("Firefly_" + i, 30430);
-                fireflyPos[i] = center + new Vector2(Random.Range(-halfWidth, halfWidth), Random.Range(-halfHeight, halfHeight));
-                fireflyPhase[i] = Random.Range(0f, 100f);
-            }
-        }
-        float time = Time.time;
-        int lit = 0;
-        for (int i = 0; i < FireflyCount; i++)
-        {
-            float phase = fireflyPhase[i];
-            // Vuelo lento y errático (ruido coherente), con la deriva del viento.
-            var drift = new Vector2(Mathf.PerlinNoise(time * 0.35f, phase) - 0.5f,
-                                    Mathf.PerlinNoise(phase, time * 0.35f) - 0.5f) * 1.4f;
-            drift.x += AOWindV290.Drift * 0.15f;
-            Vector2 p = fireflyPos[i] + drift * deltaTime;
-            if (Mathf.Abs(p.x - center.x) > halfWidth + 1f || Mathf.Abs(p.y - center.y) > halfHeight + 1f)
-                p = center + new Vector2(Random.Range(-halfWidth, halfWidth), Random.Range(-halfHeight, halfHeight));
-            fireflyPos[i] = p;
-            // Se prenden y se apagan de a poco, cada una a su ritmo.
-            float blink = Mathf.PerlinNoise(time * 0.9f + phase, phase * 0.5f);
-            float alpha = Mathf.Clamp01((blink - 0.45f) * 3f) * 0.9f * fade;
-            SpriteRenderer f = fireflies[i];
-            bool visible = alpha > 0.02f;
-            if (f.enabled != visible) f.enabled = visible;
-            if (!visible) continue;
-            f.transform.position = new Vector3(p.x, p.y, 0f);
-            float size = 0.28f + 0.08f * blink;
-            f.transform.localScale = new Vector3(size, size, 1f);
-            f.color = new Color(0.8f, 1f, 0.45f, alpha);
-            lit++;
-        }
-        ActiveFireflies = lit;
-    }
-
     // ------------------------------------------------------------------ utilidades
 
     void HideAll()
     {
         if (glows != null) for (int i = 0; i < glows.Length; i++) if (glows[i].enabled) glows[i].enabled = false;
-        if (fireflies != null) for (int i = 0; i < fireflies.Length; i++) if (fireflies[i].enabled) fireflies[i].enabled = false;
+        HideFireflies();
         if (flash != null && flash.enabled) flash.enabled = false;
         FlashStrength = 0f;
         ActiveGlows = 0;
-        ActiveFireflies = 0;
     }
 
     SpriteRenderer MakeRenderer(string name, int order)

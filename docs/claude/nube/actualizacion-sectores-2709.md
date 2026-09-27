@@ -81,3 +81,13 @@ Nada por ahora. Si se activa el día/noche, la hora va por `SyncWorldTime` y el 
 - **Sonido de trueno:** buscar en el AO original su id para los relámpagos. Hoy no hay ninguno entre los migrados.
 - **Nieve:** confirmar si suena en el AO (pedido anterior).
 - **Faroles:** la luz blanca del AO se tiñe a un cálido de farol solo en el halo y en la luz sobre personajes; la luz del mapa no cambia.
+
+## Agregado después del envío: luciérnagas con carácter
+`AOFirefliesV292`, parcial de `AOLivingLightV292`:
+- enjambre que busca lo oscuro, se junta como el agua y se aparta de personajes y luces;
+- una sale a explorar cada tanto;
+- en la ciudad solo aparece alguna suelta que se pierde;
+- parpadeo sincronizado.
+
+Detalle en `clima-vfx/luz-v291.md`. Entra con el mismo merge de la rama. QA: de noche en un mapa de campo, pasar caminando por el enjambre.
+
