@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 
 // AOWeatherDebugV290 (nube, 26/09): ventana del Editor para probar el clima en Play sin servidor.
+// 27/09: también el cielo (hora, nubes, sol y luna) y las sombras de los personajes (V291).
 // Menú "AO Migrator/Clima (depuración)". Solo Editor: el jugador no la ve y no hay teclas nuevas.
 // Nada queda guardado: la calidad y los valores de depuración se reinician al salir de Play (no toca PlayerPrefs).
 public class AOWeatherDebugV290 : EditorWindow
@@ -16,6 +17,9 @@ public class AOWeatherDebugV290 : EditorWindow
     int fogAlpha = 90;
     float fps;
     double lastRepaint;
+    float hour = 13f;
+    bool overrideCoverage;
+    float coverage = 0.35f;
     Vector2 scroll;
 
     static readonly string[] QualityNames = { "Del jugador", "Low", "Medium", "High", "Ultra" };
@@ -53,6 +57,8 @@ public class AOWeatherDebugV290 : EditorWindow
         }
 
         AOWorldManagerV07 world = UnityEngine.Object.FindFirstObjectByType<AOWorldManagerV07>();
+        if (world != null)
+            DrawSky(world);
         AOMapWeather weather = world != null ? world.CurrentWeather : null;
         if (weather == null)
         {
@@ -129,6 +135,43 @@ public class AOWeatherDebugV290 : EditorWindow
                                    ", ángulo " + AOWindV290.Angle.ToString("0") + "°, ráfaga " + AOWindV290.Gust.ToString("0.00"));
         EditorGUILayout.LabelField("Cuadro", fps.ToString("0") + " FPS  (" + (fps > 0f ? 1000f / fps : 0f).ToString("0.0") + " ms)");
         EditorGUILayout.EndScrollView();
+    }
+
+    // Cielo y sombras (V291): hora del mundo, nubes y contadores.
+    void DrawSky(AOWorldManagerV07 world)
+    {
+        EditorGUILayout.LabelField("Cielo y sombras", EditorStyles.boldLabel);
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Amanecer 7 h")) SetHour(world, 7f);
+        if (GUILayout.Button("Mediodía 13 h")) SetHour(world, 13f);
+        if (GUILayout.Button("Atardecer 17:30")) SetHour(world, 17.5f);
+        if (GUILayout.Button("Noche 23 h")) SetHour(world, 23f);
+        EditorGUILayout.EndHorizontal();
+        EditorGUILayout.BeginHorizontal();
+        // Cambiar la hora re-ilumina el mapa entero: se aplica con el botón, no mientras se arrastra.
+        hour = EditorGUILayout.Slider("Hora", hour, 0f, 24f);
+        if (GUILayout.Button("Aplicar", GUILayout.Width(70f))) SetHour(world, hour);
+        EditorGUILayout.EndHorizontal();
+
+        overrideCoverage = EditorGUILayout.ToggleLeft("Nubes (0 = despejado, 1 = cubierto)", overrideCoverage);
+        using (new EditorGUI.DisabledScope(!overrideCoverage))
+            coverage = EditorGUILayout.Slider(coverage, 0f, 1f);
+        AOSkyV291.DebugCoverage = overrideCoverage ? coverage : -1f;
+
+        EditorGUILayout.LabelField("Hora del mundo", world.CurrentWorldHour.ToString("0.0") +
+                                   (AOSkyV291.Outdoor ? (AOSkyV291.Night ? "  (noche, luna)" : "  (día, sol)") : "  (sin cielo: dungeon o luz fija)"));
+        AOSkyV291 sky = AOSkyV291.Instance;
+        EditorGUILayout.LabelField("Nubes", "cobertura " + AOSkyV291.Coverage.ToString("0.00") +
+                                   (sky != null ? ", sombras " + sky.ActiveClouds + ", luna " + sky.ActiveMoonPatches : ""));
+        EditorGUILayout.LabelField("Sombras", AOCharacterShadowsV291.ActiveShadows + " personajes, opacidad del sol/luna " +
+                                   AOSkyV291.KeyShadowAlpha.ToString("0.00") + ", largo " + AOSkyV291.ShadowLength.ToString("0.0"));
+        EditorGUILayout.Space();
+    }
+
+    void SetHour(AOWorldManagerV07 world, float value)
+    {
+        hour = value;
+        world.SetWorldHour(value);
     }
 
     void Preset(AOWorldManagerV07 world, AOMapWeather weather, AOMapWeather.Precipitation precipitation,

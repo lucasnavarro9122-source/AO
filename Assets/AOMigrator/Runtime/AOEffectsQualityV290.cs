@@ -86,5 +86,10 @@ public static class AOEffectsQualityV290
     public static int RoofPool => Level == AOEffectsQuality.Low ? 0 : Level == AOEffectsQuality.Medium ? 12 : Level == AOEffectsQuality.High ? 24 : 32;
     // Gotitas que rebotan en la armadura del jugador.
     public static int BouncePool => Level == AOEffectsQuality.Low ? 0 : Level == AOEffectsQuality.Medium ? 12 : Level == AOEffectsQuality.High ? 24 : 36;
+    // Cielo (V291): sombras de nubes y manchas de luna desde Medium; rayos entre nubes desde High.
+    public static bool CloudShadows => Level >= AOEffectsQuality.Medium;
+    public static bool SkyRays => Level >= AOEffectsQuality.High;
+    // Sombras de personajes: en Low solo el jugador; desde Medium, todos los que se ven (hasta este tope).
+    public static int CharacterShadows => Level == AOEffectsQuality.Low ? 1 : Level == AOEffectsQuality.Medium ? 16 : Level == AOEffectsQuality.High ? 32 : 48;
     public static int FogLayers => Level == AOEffectsQuality.Low ? 1 : 2;
 }

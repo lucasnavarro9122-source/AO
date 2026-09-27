@@ -12,6 +12,7 @@ Prioridad: **estabilidad > rendimiento > gameplay legible > coherencia artístic
 |---|---|---|
 | Motor de clima | `Runtime/AOMapWeather.cs` (1 por mapa, lo crea `AOWorldManagerV07.BuildMapWeather`) | lluvia, nieve, niebla; es el "WeatherManager": se extiende, no se reemplaza |
 | Clima V290 | `AOMapWeatherRoofsV290` (agua en techos, `roof_flow.json` de `Tools/roof_flow.py`), `AOWindV290` (viento global), `AOEffectsQualityV290` (Low–Ultra), `AOWorldManagerWeatherV290` (techo del jugador), `AOAudioWeatherV290` (volumen de lluvia) | capas con parallax, salpicaduras, niebla de suelo, tinte que multiplica (`AOWeatherMultiply.shader`); detalle en `docs/claude/nube/clima-vfx/paquete1.md` |
+| Luz V291 | `AOSkyV291` (sol y luna por hora, nubes con viento, sombras de nubes, noche Purkinje, luz de luna en los claros, rayos) y `AOCharacterShadowsV291` (sombra de cada personaje opuesta a la luz dominante) | detalle en `docs/claude/nube/clima-vfx/luz-v291.md` |
 | Depuración | Editor `AOWeatherDebugV290`: **AO Migrator > Clima (depuración)** | presets, intensidad, viento, niebla, calidad y contadores; nada queda guardado |
 | Permisos por mapa | `Resources/AOMigrator/WorldV07/map_environment.json` | `rain`, `snow`, `fog`, `baseLight` |
 | Disparo | `AOWorldManagerV07.ApplyRainToggle / ApplySnowToggle / ApplyFogToggle / SetWeather` | entradas del AO original; **hoy solo las llama QA del Editor** |
